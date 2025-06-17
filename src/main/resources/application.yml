@@ -4,24 +4,24 @@ spring:
 
   datasource:
     driver-class-name: 'com.mysql.cj.jdbc.Driver'
-    url: 'jdbc:mysql://mysql:3306/hrms'
+    url: 'jdbc:mysql://fullmoon1219.iptime.org:3306/hrms'
     username: 'wip'
     password: '123456'
 
   servlet:
     multipart:
       enabled: true
-      location: "/usr/local/jar/upload/"
+      location: "/usr/local/hrms/upload/"
       max-file-size: 100MB
       max-request-size: 100MB
 
   thymeleaf:
     cache: false
-    prefix: classpath:/templates/board/
+    prefix: classpath:/templates/hrms/
     suffix: .html
 
 mybatis:
-  mapper-locations: "mappers/mapper.xml"
+  mapper-locations: "mappers/**/*.xml"
   type-aliases-package: "org.wip.hrmatching.vo"
 
 server:
