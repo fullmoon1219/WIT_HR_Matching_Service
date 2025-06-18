@@ -1,9 +1,11 @@
 package org.wit.hrmatching.vo;
 
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 import java.time.LocalDateTime;
 
+@Alias("UserVO")
 @Data
 public class UserVO {
     private Long id;
