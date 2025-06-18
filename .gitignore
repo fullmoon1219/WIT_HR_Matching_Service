@@ -1,3 +1,5 @@
+src/main/resources/application.yml
+
 # === OS 별 불필요 파일 ===
 # macOS
 .DS_Store
