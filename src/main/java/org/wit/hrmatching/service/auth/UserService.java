@@ -1,14 +1,15 @@
-package org.wit.hrmatching.service;
+package org.wit.hrmatching.service.auth;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.wit.hrmatching.dto.login.UserLoginDTO;
 import org.wit.hrmatching.dto.login.UserRegisterDTO;
 import org.wit.hrmatching.enums.UserRole;
 import org.wit.hrmatching.mapper.UserMapper;
 import org.wit.hrmatching.vo.UserVO;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -30,17 +31,15 @@ public class UserService {
         userMapper.insertUser(user);
     }
 
-    public UserVO login(UserLoginDTO dto) {
-        UserVO user = userMapper.findByEmail(dto.getEmail());
-        if (user == null) {
-            throw new RuntimeException("이메일이 존재하지 않습니다");
-        }
+    public void saveOrUpdate(UserVO user) {
+        UserVO existing = userMapper.findByEmail(user.getEmail());
+        if (existing == null) {
 
-        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-            throw new RuntimeException("비밀번호가 일치하지 않습니다");
+            if (user.getPassword() != null && !user.getPassword().startsWith("$2a$")) {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
+            userMapper.insertUser(user);
         }
-
-        return user;
     }
 
 

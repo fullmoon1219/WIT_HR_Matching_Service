@@ -1,12 +1,18 @@
 package org.wit.hrmatching.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
 import java.time.LocalDateTime;
 
 @Alias("UserVO")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserVO {
     private Long id;
     private String email;
