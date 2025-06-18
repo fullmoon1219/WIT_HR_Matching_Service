@@ -22,7 +22,7 @@ spring:
 
 mybatis:
   mapper-locations: "mappers/**/*.xml"
-  type-aliases-package: "org.wip.hrmatching.vo"
+  type-aliases-package: "org.wit.hrmatching.vo"
 
 server:
   port: '8080'

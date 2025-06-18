@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+
+<form action="./resume_ok" method="post">
+	사용자 id <input type="text" name="userId" /><br />
+	학력 <input type="text" name="education" /><br />
+	경력 <input type="text" name="experience" /><br />
+	기술 스택 <input type="text" name="skills" /><br />
+	선호 지역 <input type="text" name="preferredLocation" /><br />
+	희망 연봉 <input type="text" name="salaryExpectation" /><br />
+	이력서 공개 여부 &nbsp;
+	공개 <input type="radio" name="isPublic" value="true" />
+	비공개 <input type="radio" name="isPublic" value="false" checked /><br />
+	제목 <input type="text" name="title" /><br />
+	기술 태그 목록 <input type="text" name="tags" /><br />
+	<input type="submit" value="이력서 등록">
+</form>
+
+<form action="./resume/photo" method="post" enctype="multipart/form-data">
+	<input type="file" name="photo" />
+	<input type="submit" value="사진 올림">
+</form>
+
+</body>
+</html>
