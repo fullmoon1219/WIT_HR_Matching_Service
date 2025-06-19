@@ -38,9 +38,4 @@ public class ResumeController {
 		return modelAndView;
 	}
 
-	@RequestMapping("/resume/photo")
-	public String uploadPhoto(@RequestParam("photo") MultipartFile file) {
-
-		return "redirect:/resume";
-	}
 }
