@@ -1,7 +1,6 @@
 package org.wit.hrmatching.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.wit.hrmatching.mapper.ResumeMapper;
 import org.wit.hrmatching.vo.ResumeVO;

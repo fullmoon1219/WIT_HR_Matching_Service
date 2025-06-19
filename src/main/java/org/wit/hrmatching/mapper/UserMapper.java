@@ -8,4 +8,5 @@ import org.wit.hrmatching.vo.UserVO;
 public interface UserMapper {
     void insertUser(UserVO user);
     boolean existsByEmail(@Param("email") String email);
+    UserVO findByEmail(@Param("email") String email);
 }
