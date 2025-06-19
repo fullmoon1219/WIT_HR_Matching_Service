@@ -69,13 +69,13 @@ public class UserPageController {
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-        // 세션 무효화 또는 다른 로그아웃 처리
         request.getSession().invalidate();
+
         return "redirect:/";
     }
 
     @GetMapping("/logout-success")
     public String logoutSuccessPage() {
-        return "index";  // 로그아웃 성공 후 보여줄 페이지
+        return "index";
     }
 }
