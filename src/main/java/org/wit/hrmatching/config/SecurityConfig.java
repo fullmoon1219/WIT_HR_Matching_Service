@@ -10,10 +10,9 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.wit.hrmatching.config.auth.CustomLogoutSuccessHandler;
 import org.wit.hrmatching.config.auth.CustomOAuth2FailureHandler;
 import org.wit.hrmatching.service.auth.CustomOAuth2UserService;
+import org.wit.hrmatching.service.auth.CustomUserDetailsService;
 
 @Configuration
 @RequiredArgsConstructor
@@ -21,8 +20,7 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService oAuth2UserService;
     private final PasswordEncoder passwordEncoder;
-    private final UserDetailsService userDetailsService;
-    private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -33,7 +31,7 @@ public class SecurityConfig {
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
-        provider.setUserDetailsService(userDetailsService);
+        provider.setUserDetailsService(customUserDetailsService);
         return provider;
     }
 
@@ -45,7 +43,7 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/users/login", "/users/register", "/users/register-success",
-                                "/users/logout-success", "/oauth2/**")
+                                "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**")
                         .permitAll()  // 로그인 없이 접근 허용
                         .anyRequest().authenticated()  // 그 외에는 인증 필요
                 )
@@ -61,7 +59,6 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/users/logout")  // 로그아웃 경로 설정
                         .logoutSuccessUrl("/users/logout-success")  // 로그아웃 후 이동할 페이지 설정
-                        .logoutSuccessHandler(customLogoutSuccessHandler)  // 로그아웃 후 처리 핸들러 설정
                         .invalidateHttpSession(true)  // 세션 무효화
                         .deleteCookies("JSESSIONID")  // 로그아웃 시 쿠키 삭제
                 )
