@@ -14,6 +14,7 @@ import org.wit.hrmatching.config.auth.CustomOAuth2FailureHandler;
 import org.wit.hrmatching.service.auth.CustomOAuth2UserService;
 import org.wit.hrmatching.service.auth.CustomUserDetailsService;
 
+// TEST 주석
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -43,7 +44,7 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/users/login", "/users/register", "/users/register-success",
-                                "/users/logout-success", "/oauth2/**")
+                                "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**")
                         .permitAll()  // 로그인 없이 접근 허용
                         .anyRequest().authenticated()  // 그 외에는 인증 필요
                 )

@@ -25,4 +25,7 @@ public class UserVO {
     private String profileImage;
     private boolean emailVerified;
     private LocalDateTime updatedAt;
+
+    private ApplicantProfilesVO applicantProfile;
+    private EmployerProfilesVO employerProfile;
 }
