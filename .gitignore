@@ -1,0 +1,65 @@
+
+
+# === OS 별 불필요 파일 ===
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# === 빌드 / 캐시 디렉토리 ===
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# === 테스트 / 로그 / 임시 파일 ===
+*.log
+*.tmp
+*.swp
+/test-results/
+/test-report/
+
+# === Gradle 설정 ===
+*.lock
+
+# === Spring Tool Suite (STS) ===
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+# === IntelliJ IDEA ===
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# IntelliJ workspace/caches
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# === NetBeans ===
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# === Visual Studio Code ===
+.vscode/
+
+# === 도움말 / 불필요 문서 ===
+HELP.md
