@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import org.wit.hrmatching.mapper.ResumeMapper;
 import org.wit.hrmatching.vo.ResumeVO;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class ResumeDAO {
@@ -21,5 +23,9 @@ public class ResumeDAO {
 		}
 
 		return flag;
+	}
+
+	public List<ResumeVO> selectResumeList(long userId) {
+		return resumeMapper.selectResumeList(userId);
 	}
 }

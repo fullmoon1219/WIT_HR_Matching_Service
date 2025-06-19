@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title>Title</title>
@@ -7,7 +7,7 @@
 <body>
 
 <form action="./resume_ok" method="post">
-	사용자 id <input type="text" name="userId" /><br />
+	<input type="hidden" name="userId" th:value="${userId}" /><br />
 	학력 <input type="text" name="education" /><br />
 	경력 <input type="text" name="experience" /><br />
 	기술 스택 <input type="text" name="skills" /><br />
