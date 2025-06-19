@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>공고문 작성</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 15px;
+            display: block;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+        }
+    </style>
+
+</head>
+<body>
+
+<h1>채용 공고 작성</h1>
+
+<form action="/jobpost/submit" method="post">
+    <label for="title">공고 제목</label>
+    <input type="text" id="title" name="title" required>
+
+    <label for="description">상세 설명</label>
+    <textarea id="description" name="description" rows="6" required></textarea>
+
+    <label for="required_skills">요구 기술</label>
+    <textarea id="required_skills" name="required_skills" rows="4"></textarea>
+
+    <label for="salary">연봉 (만원)</label>
+    <input type="text" id="salary" name="salary">
+
+    <label for="location">근무지</label>
+    <input type="text" id="location" name="location">
+
+    <label for="employment_type">고용 형태</label>
+    <select id="employment_type" name="employment_type">
+        <option value="FULLTIME">정규직</option>
+        <option value="PARTTIME">파트타임</option>
+        <option value="INTERN">인턴</option>
+        <option value="FREELANCE">프리랜서</option>
+    </select>
+
+    <label for="deadline">마감일</label>
+    <input type="date" id="deadline" name="deadline">
+
+
+    <label for="tags">태그 (쉼표로 구분)</label>
+    <input type="text" id="tags" name="tags" placeholder="예: Java, Spring, React">
+
+    <button type="submit">등록하기</button>
+</form>
+
+</body>
+</html>
