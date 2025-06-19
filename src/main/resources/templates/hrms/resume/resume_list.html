@@ -15,7 +15,9 @@
 <table border="1" cellspacing="0">
 
 	<tr th:each="resume : ${resumeList}">
-		<td th:text="${resume.title}">이력서 제목</td>
+		<td>
+			<a th:href="@{/resume/view(resumeId=${resume.id})}" th:text="${resume.title}">이력서 제목</a>
+		</td>
 		<td>
 			<form action="/resume/edit" method="get">
 				<input type="hidden" name="resumeId" th:value="${resume.id}">

@@ -32,6 +32,7 @@ public class ResumeController {
 	@RequestMapping("/resume/register_ok")
 	public ModelAndView registerResumeOk(@ModelAttribute ResumeVO resumeVO) {
 
+		// TODO: 등록 성공/실패에 따라 redirect 또는 에러 처리 분기
 		int flag = resumeService.registerResume(resumeVO);
 
 		ModelAndView modelAndView = new ModelAndView("resume/resume_register_ok");

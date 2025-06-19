@@ -15,6 +15,7 @@ public class ResumeDAO {
 
 	public int registerResume(ResumeVO resumeVO) {
 
+		// 등록 성공 시 flag = 0, 실패 시 flag = 1
 		int flag = 1;
 		int result = resumeMapper.registerResume(resumeVO);
 
