@@ -21,8 +21,7 @@ public class OAuth2UserInfoFactory {
                 .email((String) attr.get("email"))
                 .name((String) attr.get("name"))
                 .role("APPLICANT")
-                .status("ACTIVE")
-                .isActive(true)
+                .status("ACTIVE")  // 상태를 ACTIVE로 설정
                 .emailVerified(true)
                 .build();
     }
@@ -35,8 +34,7 @@ public class OAuth2UserInfoFactory {
                     .email((String) response.get("email"))
                     .name((String) response.get("name"))
                     .role("APPLICANT")
-                    .status("ACTIVE")
-                    .isActive(true)
+                    .status("ACTIVE")  // 상태를 ACTIVE로 설정
                     .emailVerified(true)
                     .build();
         }
@@ -48,4 +46,3 @@ public class OAuth2UserInfoFactory {
         return (Map<String, Object>) rawMap;
     }
 }
-

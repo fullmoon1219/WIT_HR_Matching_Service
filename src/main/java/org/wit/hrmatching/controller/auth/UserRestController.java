@@ -1,4 +1,4 @@
-package org.wit.hrmatching.controller;
+package org.wit.hrmatching.controller.auth;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
