@@ -43,7 +43,7 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/users/login", "/users/register", "/users/register-success",
-                                "/users/logout-success", "/oauth2/**")
+                                "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**")
                         .permitAll()  // 로그인 없이 접근 허용
                         .anyRequest().authenticated()  // 그 외에는 인증 필요
                 )

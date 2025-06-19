@@ -22,7 +22,6 @@ public class MainController {
             user = userService.getUserWithProfile(userDetails.getUser().getId());
         }
         model.addAttribute("userDetails", user);
-        //model.addAttribute("userDetails", userDetails);
 
         return "index";
     }
