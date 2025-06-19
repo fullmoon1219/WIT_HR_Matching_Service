@@ -10,5 +10,11 @@
         values (#{userId}, #{education}, #{experience}, #{skills}, #{preferredLocation},
                 #{salaryExpectation}, #{isPublic}, #{title}, #{tags})
     </insert>
+    
+    <select id="selectResumeList" resultType="resumeVO">
+        select id, title
+        from resumes
+        where user_id=#{userId} and deleted_at is null
+    </select>
 
 </mapper>
