@@ -14,6 +14,7 @@ import org.wit.hrmatching.config.auth.CustomOAuth2FailureHandler;
 import org.wit.hrmatching.service.auth.CustomOAuth2UserService;
 import org.wit.hrmatching.service.auth.CustomUserDetailsService;
 
+// TEST 주석
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {

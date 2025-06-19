@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.ApplicantProfileMapper">
+
+    <!-- 유저 ID로 지원자 프로필 정보 조회 -->
+    <select id="findByUserId" resultType="org.wit.hrmatching.vo.ApplicantProfilesVO">
+        SELECT
+        user_id,
+        age,
+        address,
+        phone_number,
+        gender,
+        portfolio_url,
+        self_intro,
+        job_type,
+        experience_years,
+        primary_resume_id
+        FROM
+        applicant_profiles
+        WHERE
+        user_id = #{userId}
+    </select>
+
+    <!-- 지원자 프로필 삽입 -->
+    <insert id="insertApplicantProfile" parameterType="org.wit.hrmatching.vo.ApplicantProfilesVO">
+        INSERT INTO applicant_profiles (user_id, age, address, phone_number, gender, portfolio_url,
+                                        self_intro, job_type, experience_years, primary_resume_id)
+        VALUES (#{userId}, #{age}, #{address}, #{phoneNumber}, #{gender}, #{portfolioUrl},
+                #{selfIntro}, #{jobType}, #{experienceYears}, #{primaryResumeId})
+    </insert>
+</mapper>
