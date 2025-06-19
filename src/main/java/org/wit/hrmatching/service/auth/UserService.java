@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.wit.hrmatching.dao.UserDAO;
 import org.wit.hrmatching.dto.login.UserRegisterDTO;
 import org.wit.hrmatching.enums.UserRole;
-import org.wit.hrmatching.mapper.UserMapper;
 import org.wit.hrmatching.vo.UserVO;
 
 @Slf4j
@@ -14,11 +14,11 @@ import org.wit.hrmatching.vo.UserVO;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserMapper userMapper;
+    private final UserDAO userDAO;
     private final PasswordEncoder passwordEncoder;
 
     public void registerUser(UserRegisterDTO dto) {
-        if (userMapper.existsByEmail(dto.getEmail())) {
+        if (userDAO.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("Email address already in use");
         }
 
@@ -28,19 +28,21 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setName(dto.getName());
         user.setRole(UserRole.valueOf(dto.getRole()).name());
-        userMapper.insertUser(user);
+        userDAO.insertUser(user);
     }
 
     public void saveOrUpdate(UserVO user) {
-        UserVO existing = userMapper.findByEmail(user.getEmail());
+        UserVO existing = userDAO.findByEmail(user.getEmail());
         if (existing == null) {
 
             if (user.getPassword() != null && !user.getPassword().startsWith("$2a$")) {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
             }
-            userMapper.insertUser(user);
+            userDAO.insertUser(user);
         }
     }
 
-
+    public UserVO findByEmail(String email) {
+        return userDAO.findByEmail(email);
+    }
 }
