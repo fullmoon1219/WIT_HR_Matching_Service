@@ -21,4 +21,8 @@ public class ResumeService {
 
 		return resumeDAO.selectResumeList(userId);
 	}
+
+	public ResumeVO viewResume(long resumeId) {
+		return resumeDAO.viewResume(resumeId);
+	}
 }

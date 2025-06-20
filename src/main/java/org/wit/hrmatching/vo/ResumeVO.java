@@ -17,7 +17,9 @@ public class ResumeVO {
 	private String createAt;
 	private boolean isPublic;
 	private String title;
-	private String tags;
-	private String updated_at;
-	private String deleted_at;
+	private String coreCompetency;
+	private String desiredPosition;
+	private String motivation;
+	private String updatedAt;
+	private String deletedAt;
 }

@@ -11,4 +11,6 @@ public interface ResumeMapper {
 	int registerResume(ResumeVO resumeVO);
 
 	List<ResumeVO> selectResumeList(long userId);
+
+	ResumeVO viewResume(long resumeId);
 }

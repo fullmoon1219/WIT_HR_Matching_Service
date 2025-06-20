@@ -29,4 +29,8 @@ public class ResumeDAO {
 	public List<ResumeVO> selectResumeList(long userId) {
 		return resumeMapper.selectResumeList(userId);
 	}
+
+	public ResumeVO viewResume(long resumeId) {
+		return resumeMapper.viewResume(resumeId);
+	}
 }

@@ -9,16 +9,23 @@
 <form action="/resume/register_ok" method="post">
 	<input type="hidden" name="userId" th:value="${userId}" />
 	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	제목 <input type="text" name="title" /><br />
+	<!-- 자유 기재 -->
 	학력 <input type="text" name="education" /><br />
+	<!-- 자유 기재 -->
 	경력 <input type="text" name="experience" /><br />
+	<!-- 기술 스택은 태그 선택으로 구성 -->
 	기술 스택 <input type="text" name="skills" /><br />
+	<!-- 선호 지역은 선택형 -->
 	선호 지역 <input type="text" name="preferredLocation" /><br />
 	희망 연봉 <input type="text" name="salaryExpectation" /><br />
 	이력서 공개 여부 &nbsp;
 	공개 <input type="radio" name="isPublic" value="true" />
 	비공개 <input type="radio" name="isPublic" value="false" checked /><br />
-	제목 <input type="text" name="title" /><br />
-	기술 태그 목록 <input type="text" name="tags" /><br />
+	<!-- 희망 직무는 선택형 -->
+	희망 직무 <input type="text" name="desiredPosition" /><br />
+	지원 동기 <input type="text" name="motivation" /><br />
+	핵심 역량 <input type="text" name="coreCompetency" />
 	<input type="submit" value="이력서 등록">
 </form>
 
