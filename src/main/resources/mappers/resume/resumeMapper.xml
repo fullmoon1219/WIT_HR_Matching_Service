@@ -5,16 +5,25 @@
 
     <insert id="registerResume" parameterType="resumeVO">
         insert into resumes
-        (user_id, education, experience, skills, preferred_location,
-         salary_expectation, is_public, title, tags)
-        values (#{userId}, #{education}, #{experience}, #{skills}, #{preferredLocation},
-                #{salaryExpectation}, #{isPublic}, #{title}, #{tags})
+        (user_id, education, experience, skills, preferred_location, salary_expectation,
+         is_public, title, core_competency, desired_position, motivation)
+        values (#{userId}, #{education}, #{experience}, #{skills}, #{preferredLocation}, #{salaryExpectation},
+                #{isPublic}, #{title}, #{coreCompetency}, #{desiredPosition}, #{motivation})
     </insert>
     
     <select id="selectResumeList" resultType="resumeVO">
         select id, title
         from resumes
         where user_id=#{userId} and deleted_at is null
+    </select>
+
+    <select id="viewResume" resultType="resumeVO">
+        select id, user_id as userId, education, experience, skills, preferred_location as preferredLocation,
+               salary_expectation as salaryExpectation, create_at as createAt, is_public as isPublic, title,
+               core_competency as coreCompetency, desired_position as desiredPosition, motivation,
+               updated_at as updatedAt
+        from resumes
+        where id=#{resumeId}
     </select>
 
 </mapper>
