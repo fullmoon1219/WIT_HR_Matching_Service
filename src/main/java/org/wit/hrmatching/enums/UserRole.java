@@ -2,5 +2,6 @@ package org.wit.hrmatching.enums;
 
 public enum UserRole {
     APPLICANT,
-    EMPLOYER
+    EMPLOYER,
+    ADMIN
 }

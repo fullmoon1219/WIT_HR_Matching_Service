@@ -15,7 +15,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final UserService userService;
+    private final AuthService authService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest request) {
@@ -28,7 +28,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // DB에 저장 (없으면 insert)
         user.setPassword("SOCIAL_LOGIN_USER");
-        userService.saveOrUpdate(user);
+        authService.saveOrUpdate(user);
 
         // 로그인 세션용 OAuth2User 리턴
         return new CustomOAuth2User(user, attributes);

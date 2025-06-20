@@ -2,10 +2,8 @@ package org.wit.hrmatching.service.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.wit.hrmatching.config.auth.CustomUserDetails;
 import org.wit.hrmatching.dao.ProfileDAO;
 import org.wit.hrmatching.dao.UserDAO;
 import org.wit.hrmatching.dto.login.UserRegisterDTO;
@@ -21,7 +19,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class AuthService {
 
     private final UserDAO userDAO;
     private final ProfileDAO profileDAO;

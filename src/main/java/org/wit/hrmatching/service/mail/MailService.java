@@ -5,6 +5,7 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -15,6 +16,7 @@ public class MailService {
 
     private final JavaMailSender mailSender;
 
+    @Async
     public void sendVerificationMail(String toEmail, String token) {
         String subject = "HR 매칭 서비스 이메일 인증";
         String verificationLink = "http://localhost:8080/users/verify?token=" + token;
@@ -34,6 +36,8 @@ public class MailService {
             helper.setText(content, true);
 
             mailSender.send(message);
+
+            System.out.println("메일 전송 완료: " + toEmail);
 
         } catch (MessagingException e) {
             throw new RuntimeException("이메일 전송 실패", e);

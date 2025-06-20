@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.wit.hrmatching.config.auth.CustomUserDetails;
 import org.wit.hrmatching.dto.login.UserRegisterDTO;
-import org.wit.hrmatching.service.auth.UserService;
+import org.wit.hrmatching.service.auth.AuthService;
 import org.wit.hrmatching.vo.UserVO;
 
 import java.time.LocalDateTime;
@@ -23,7 +24,8 @@ import java.time.LocalDateTime;
 @RequestMapping("/users")
 public class UserAuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
     public String loginPage(@RequestParam(required = false) String error,
@@ -63,7 +65,7 @@ public class UserAuthController {
 
         try {
             // 회원가입 처리
-            userService.registerUser(userRegisterDTO);
+            authService.registerUser(userRegisterDTO);
         } catch (IllegalArgumentException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "login/register";
@@ -91,7 +93,7 @@ public class UserAuthController {
 
     @GetMapping("/verify")
     public String verifyUserEmail(@RequestParam("token") String token, Model model) {
-        UserVO user = userService.findByVerificationToken(token);
+        UserVO user = authService.findByVerificationToken(token);
 
         if (user == null) {
             model.addAttribute("message", "유효하지 않은 인증 토큰입니다.");
@@ -108,23 +110,41 @@ public class UserAuthController {
         user.setEmailVerified(true);
         user.setVerificationToken(null);
         user.setTokenExpiration(null);
-        userService.updateUser(user);
+        authService.updateUser(user);
 
         model.addAttribute("message", "이메일 인증이 성공적으로 완료되었습니다!");
         return "login/mail-verity";
     }
 
+    @GetMapping("/delete")
+    public String showDeletePage() {
+        return "login/delete";
+    }
+
     @PostMapping("/delete")
     public String deleteAccount(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                @RequestParam("password") String password,
                                 RedirectAttributes redirectAttributes) {
-        Long userId = userDetails.getUser().getId();
-        userService.deleteUserAccount(userId);
 
-        // 로그아웃 처리
-        SecurityContextHolder.clearContext();
+        if (userDetails == null) {
+            redirectAttributes.addFlashAttribute("message", "로그인이 필요합니다.");
+
+            return "redirect:/users/login";
+        }
+
+        UserVO user = authService.findByEmail(userDetails.getEmail());
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            redirectAttributes.addFlashAttribute("message", "비밀번호가 일치하지 않습니다.");
+
+            return "redirect:/users/delete";
+        }
+
+        authService.deleteUserAccount(user.getId());
+        SecurityContextHolder.clearContext(); // 로그아웃 처리
 
         redirectAttributes.addFlashAttribute("message", "회원 탈퇴가 완료되었습니다.");
-        return "redirect:/login?logout";
+        return "redirect:/";
     }
 
 }
