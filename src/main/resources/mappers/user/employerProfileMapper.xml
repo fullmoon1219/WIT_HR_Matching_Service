@@ -28,4 +28,9 @@
         VALUES (#{userId}, #{companyName}, #{businessNumber}, #{address}, #{phoneNumber},
                 #{homepageUrl}, #{industry}, #{foundedYear}, #{companySize})
     </insert>
+
+    <delete id="deleteEmployerProfileByUserId" parameterType="long">
+        DELETE FROM employer_profiles WHERE user_id = #{userId}
+    </delete>
+
 </mapper>

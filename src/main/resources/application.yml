@@ -24,6 +24,18 @@ spring:
     resources:
       static-locations: classpath:/static/, classpath:/public/, classpath:/META-INF/resources/
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
   security:
     oauth2:
       client:
@@ -63,15 +75,18 @@ server:
   forward-headers-strategy: framework
   port: '8080'
 
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
-        web: DEBUG
-    wit:
-      hrmatching:
-        config:
-          auth:
-            CustomLogoutSuccessHandler: DEBUG
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security: DEBUG
+#        web: DEBUG
+#      boot:
+#        context:
+#          config: DEBUG
+#    wit:
+#      hrmatching:
+#        config:
+#          auth:
+#            CustomLogoutSuccessHandler: DEBUG
 

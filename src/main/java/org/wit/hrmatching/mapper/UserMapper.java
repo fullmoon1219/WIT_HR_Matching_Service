@@ -18,4 +18,13 @@ public interface UserMapper {
 
     // 유저 ID로 유저 정보 조회
     UserVO findByUserId(@Param("userId") Long userId);
+
+    // 토큰 검색
+    UserVO findByToken(String token);
+
+    // 이메일 인증 관련 정보 업데이트
+    void updateUser(UserVO user);
+
+    // 회원 탈퇴
+    void deleteUserById(Long id);
 }

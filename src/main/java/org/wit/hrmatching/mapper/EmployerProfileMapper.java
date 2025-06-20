@@ -12,4 +12,6 @@ public interface EmployerProfileMapper {
 
     // 기업 프로필 삽입
     void insertEmployerProfile(EmployerProfilesVO profile);
+
+    void deleteEmployerProfileByUserId(Long userId);
 }
