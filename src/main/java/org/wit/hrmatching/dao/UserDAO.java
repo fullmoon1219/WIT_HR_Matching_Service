@@ -25,7 +25,13 @@ public class UserDAO {
         return userMapper.findByEmail(email);
     }
 
+    public UserVO findUserById(Long id) {
+        return userMapper.findByUserId(id);
+    }
+
     public void insertUser(UserVO user) {
+        System.out.println("Token = " + user.getVerificationToken());
+
         userMapper.insertUser(user);
     }
 
@@ -48,4 +54,17 @@ public class UserDAO {
         }
         return user;
     }
+
+    public UserVO findByToken(String token) {
+        return userMapper.findByToken(token);
+    }
+
+    public void updateUser(UserVO user) {
+        userMapper.updateUser(user);
+    }
+
+    public void deleteUserById(Long id) {
+        userMapper.deleteUserById(id);
+    }
+
 }

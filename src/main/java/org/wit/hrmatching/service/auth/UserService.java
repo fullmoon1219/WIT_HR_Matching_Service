@@ -10,9 +10,13 @@ import org.wit.hrmatching.dao.ProfileDAO;
 import org.wit.hrmatching.dao.UserDAO;
 import org.wit.hrmatching.dto.login.UserRegisterDTO;
 import org.wit.hrmatching.enums.UserRole;
+import org.wit.hrmatching.service.mail.MailService;
 import org.wit.hrmatching.vo.ApplicantProfilesVO;
 import org.wit.hrmatching.vo.EmployerProfilesVO;
 import org.wit.hrmatching.vo.UserVO;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -22,11 +26,16 @@ public class UserService {
     private final UserDAO userDAO;
     private final ProfileDAO profileDAO;
     private final PasswordEncoder passwordEncoder;
+    private final MailService mailService;
 
     public void registerUser(UserRegisterDTO dto) {
         if (userDAO.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("Email address already in use");
         }
+
+        // 이메일 인증 토큰 및 만료시간 생성
+        String token = UUID.randomUUID().toString();
+        LocalDateTime expiration = LocalDateTime.now().plusMinutes(30);
 
         UserVO user = new UserVO();
 
@@ -34,12 +43,21 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setName(dto.getName());
         user.setRole(UserRole.valueOf(dto.getRole()).name());
+
+        // 이메일 인증 관련
+        user.setEmailVerified(false);
+        user.setVerificationToken(token);
+        user.setTokenExpiration(expiration);
+
         userDAO.insertUser(user);
 
         // 유저 ID가 할당되었는지 확인 (자동 증가된 ID가 정상적으로 할당되어야 함)
         if (user.getId() == null) {
             throw new IllegalStateException("User ID could not be set after insertion");
         }
+
+        // 이메일 전송
+        mailService.sendVerificationMail(user.getEmail(), token);
 
         // 역할에 따라 지원자 또는 기업 프로필 생성
         if ("APPLICANT".equals(dto.getRole())) {
@@ -105,5 +123,27 @@ public class UserService {
         profile.setFoundedYear(0);  // 기본값 설정
         profile.setCompanySize("");  // 기본값 설정
         profileDAO.createEmployerProfile(profile);  // 기업 프로필 삽입
+    }
+
+    public UserVO findByVerificationToken(String token) {
+        return userDAO.findByToken(token);
+    }
+
+    public void updateUser(UserVO user) {
+        userDAO.updateUser(user);  // emailVerified, token, tokenExpiration 업데이트
+    }
+
+    public void deleteUserAccount(Long userId) {
+        UserVO user = userDAO.findUserById(userId);
+
+        if (user == null) throw new RuntimeException("사용자 없음");
+
+        if ("APPLICANT".equals(user.getRole())) {
+            profileDAO.deleteApplicantProfileByUserId(userId);
+        } else if ("EMPLOYER".equals(user.getRole())) {
+            profileDAO.deleteEmployerProfileByUserId(userId);
+        }
+
+        userDAO.deleteUserById(userId);
     }
 }

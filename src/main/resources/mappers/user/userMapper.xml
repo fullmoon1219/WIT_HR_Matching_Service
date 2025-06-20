@@ -3,8 +3,11 @@
 
 <mapper namespace="org.wit.hrmatching.mapper.UserMapper">
     <insert id="insertUser" parameterType="UserVO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO users (email, password, name, role)
-        VALUES (#{email}, #{password}, #{name}, #{role})
+        INSERT INTO users (
+            email, password, name, role, email_verified, verification_token, token_expiration
+        ) VALUES (
+            #{email}, #{password}, #{name}, #{role}, #{emailVerified}, #{verificationToken}, #{tokenExpiration}
+        )
     </insert>
 
     <select id="existsByEmail" resultType="boolean">
@@ -18,7 +21,7 @@
     </select>
 
     <!-- 유저 ID로 유저 정보 조회 -->
-    <select id="findByUserId" resultType="org.wit.hrmatching.vo.UserVO">
+    <select id="findByUserId" resultType="UserVO">
         SELECT
             id,
             email,
@@ -28,9 +31,31 @@
             create_at,
             status,
             last_login,
-            profile_image
+            profile_image,
+            email_verified,
+            updated_at,
+            verification_token,
+            token_expiration
         FROM users
         WHERE id = #{userId}
     </select>
+
+    <select id="findByToken" parameterType="string" resultType="UserVO">
+        SELECT * FROM users WHERE verification_token = #{token}
+    </select>
+
+    <update id="updateUser" parameterType="UserVO">
+        UPDATE users
+        SET email_verified = #{emailVerified},
+            verification_token = #{verificationToken},
+            token_expiration = #{tokenExpiration}
+        WHERE id = #{id}
+    </update>
+
+<!--    데이터 삭제 -->
+    <delete id="deleteUserById" parameterType="long">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+
 
 </mapper>

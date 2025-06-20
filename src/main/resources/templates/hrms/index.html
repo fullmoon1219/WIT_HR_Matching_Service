@@ -9,12 +9,16 @@
 </head>
 <body>
 
+
 <div th:if="${userDetails != null}">
   <p>이름: <span th:text="${userDetails.name}"></span></p>
   <p>이메일: <span th:text="${userDetails.email}"></span></p>
   <p>ID: <span th:text="${userDetails.id}"></span></p>
   <p>나이: <span th:text="${userDetails.applicantProfile.age}"></span></p>
   <a href="/users/logout">로그아웃</a>
+  <form method="post" action="/users/delete" onsubmit="return confirm('정말 회원 탈퇴하시겠습니까?')">
+    <button type="submit">회원 탈퇴</button>
+  </form>
 </div>
 
 <div th:if="${userDetails == null}">

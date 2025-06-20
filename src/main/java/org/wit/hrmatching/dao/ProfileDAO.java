@@ -23,4 +23,12 @@ public class ProfileDAO {
     public void createEmployerProfile(EmployerProfilesVO profile) {
         employerProfilesMapper.insertEmployerProfile(profile);
     }
+
+    public void deleteApplicantProfileByUserId(Long userId) {
+        applicantProfilesMapper.deleteApplicantProfileByUserId(userId);
+    }
+
+    public void deleteEmployerProfileByUserId(Long userId) {
+        employerProfilesMapper.deleteEmployerProfileByUserId(userId);
+    }
 }

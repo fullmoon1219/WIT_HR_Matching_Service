@@ -24,6 +24,8 @@ public class UserVO {
     private LocalDateTime lastLogin;
     private String profileImage;
     private boolean emailVerified;
+    private String verificationToken;
+    private LocalDateTime tokenExpiration;
     private LocalDateTime updatedAt;
 
     private ApplicantProfilesVO applicantProfile;
