@@ -3,6 +3,8 @@ package org.wit.hrmatching.service.auth;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.dao.ProfileDAO;
 import org.wit.hrmatching.dao.UserDAO;
@@ -28,55 +30,60 @@ public class AuthService {
 
     public void registerUser(UserRegisterDTO dto) {
         if (userDAO.existsByEmail(dto.getEmail())) {
-            throw new IllegalArgumentException("Email address already in use");
+            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
 
-        // 이메일 인증 토큰 및 만료시간 생성
-        String token = UUID.randomUUID().toString();
-        LocalDateTime expiration = LocalDateTime.now().plusMinutes(30);
-
         UserVO user = new UserVO();
-
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setName(dto.getName());
         user.setRole(UserRole.valueOf(dto.getRole()).name());
-
-        // 이메일 인증 관련
         user.setEmailVerified(false);
-        user.setVerificationToken(token);
-        user.setTokenExpiration(expiration);
+        user.setLoginType("EMAIL");
+        user.setVerificationToken(UUID.randomUUID().toString());
+        user.setTokenExpiration(LocalDateTime.now().plusMinutes(30));
 
-        userDAO.insertUser(user);
-
-        // 유저 ID가 할당되었는지 확인 (자동 증가된 ID가 정상적으로 할당되어야 함)
-        if (user.getId() == null) {
-            throw new IllegalStateException("User ID could not be set after insertion");
-        }
-
-        // 이메일 전송
-        mailService.sendVerificationMail(user.getEmail(), token);
-
-        // 역할에 따라 지원자 또는 기업 프로필 생성
-        if ("APPLICANT".equals(dto.getRole())) {
-            System.out.println("Applicant 생성");
-            createApplicantProfile(user);  // 지원자 프로필 생성
-        } else if ("EMPLOYER".equals(dto.getRole())) {
-            System.out.println("Employer 생성");
-            createEmployerProfile(user);  // 기업 프로필 생성
-        }
+        insertUserWithProfile(user, true); // 인증 메일 전송 포함
     }
 
     public void saveOrUpdate(UserVO user) {
         UserVO existing = userDAO.findByEmail(user.getEmail());
-        if (existing == null) {
-
-            if (user.getPassword() != null && !user.getPassword().startsWith("$2a$")) {
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (existing != null) {
+            if (!user.isSocialUser()) {
+                throw new OAuth2AuthenticationException(
+                        new OAuth2Error("conflict", "이미 일반 회원으로 가입된 이메일입니다. 소셜 로그인으로 가입할 수 없습니다.", null)
+                );
             }
-            userDAO.insertUser(user);
+
+            return;
+        }
+
+        // 소셜 사용자는 이메일 인증이 이미 되었거나 필요 없음
+        user.setEmailVerified(true);
+        user.setVerificationToken(null);
+        user.setTokenExpiration(null);
+
+        insertUserWithProfile(user, false); // 인증 메일 전송 안 함
+    }
+
+    private void insertUserWithProfile(UserVO user, boolean sendMailNeeded) {
+        userDAO.insertUser(user);
+
+        if (user.getId() == null) {
+            throw new IllegalStateException("User ID가 생성되지 않았습니다.");
+        }
+
+        if (sendMailNeeded) {
+            mailService.sendVerificationMail(user.getEmail(), user.getVerificationToken());
+        }
+
+        if ("APPLICANT".equals(user.getRole())) {
+            createApplicantProfile(user);
+        } else if ("EMPLOYER".equals(user.getRole())) {
+            createEmployerProfile(user);
         }
     }
+
 
     public UserVO findByEmail(String email) {
         return userDAO.findByEmail(email);

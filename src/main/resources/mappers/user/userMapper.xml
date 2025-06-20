@@ -4,9 +4,9 @@
 <mapper namespace="org.wit.hrmatching.mapper.UserMapper">
     <insert id="insertUser" parameterType="UserVO" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO users (
-            email, password, name, role, email_verified, verification_token, token_expiration
+            email, password, name, role, email_verified, verification_token, token_expiration, login_type
         ) VALUES (
-            #{email}, #{password}, #{name}, #{role}, #{emailVerified}, #{verificationToken}, #{tokenExpiration}
+            #{email}, #{password}, #{name}, #{role}, #{emailVerified}, #{verificationToken}, #{tokenExpiration}, #{loginType}
         )
     </insert>
 
@@ -17,7 +17,23 @@
     </select>
 
     <select id="findByEmail" resultType="UserVO">
-        SELECT * FROM users WHERE email = #{email}
+        SELECT
+            id,
+            email,
+            password,
+            name,
+            role,
+            create_at AS createAt,
+            status,
+            last_login AS lastLogin,
+            profile_image AS profileImage,
+            email_verified AS emailVerified,
+            updated_at AS updatedAt,
+            login_type AS loginType,
+            verification_token AS verificationToken,
+            token_expiration AS tokenExpiration
+        FROM users
+        WHERE email = #{email}
     </select>
 
     <!-- 유저 ID로 유저 정보 조회 -->
@@ -28,14 +44,15 @@
             password,
             name,
             role,
-            create_at,
+            create_at AS createAt,
             status,
-            last_login,
-            profile_image,
-            email_verified,
-            updated_at,
-            verification_token,
-            token_expiration
+            last_login AS lastLogin,
+            profile_image AS profileImage,
+            email_verified AS emailVerified,
+            updated_at AS updatedAt,
+            login_type AS loginType,
+            verification_token AS verificationToken,
+            token_expiration AS tokenExpiration
         FROM users
         WHERE id = #{userId}
     </select>

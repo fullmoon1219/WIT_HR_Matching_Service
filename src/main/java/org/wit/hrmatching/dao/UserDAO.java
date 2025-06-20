@@ -25,6 +25,11 @@ public class UserDAO {
         return userMapper.findByEmail(email);
     }
 
+    public boolean emailExists(String email) {
+        return userMapper.findByEmail(email) != null;
+    }
+
+
     public UserVO findUserById(Long id) {
         return userMapper.findByUserId(id);
     }

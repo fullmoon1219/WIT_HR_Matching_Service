@@ -1,4 +1,4 @@
-package org.wit.hrmatching.config.auth;
+package org.wit.hrmatching.config.auth.oAuth2;
 
 import org.wit.hrmatching.vo.UserVO;
 
@@ -21,8 +21,9 @@ public class OAuth2UserInfoFactory {
                 .email((String) attr.get("email"))
                 .name((String) attr.get("name"))
                 .role("APPLICANT")
-                .status("ACTIVE")  // 상태를 ACTIVE로 설정
+                .status("ACTIVE")
                 .emailVerified(true)
+                .loginType("GOOGLE")
                 .build();
     }
 
@@ -34,8 +35,9 @@ public class OAuth2UserInfoFactory {
                     .email((String) response.get("email"))
                     .name((String) response.get("name"))
                     .role("APPLICANT")
-                    .status("ACTIVE")  // 상태를 ACTIVE로 설정
+                    .status("ACTIVE")
                     .emailVerified(true)
+                    .loginType("NAVER")
                     .build();
         }
         throw new IllegalArgumentException("Naver 사용자 정보가 올바르지 않습니다.");

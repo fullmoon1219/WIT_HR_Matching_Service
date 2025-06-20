@@ -4,9 +4,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.wit.hrmatching.config.auth.CustomUserDetails;
 import org.wit.hrmatching.dto.login.UserRegisterDTO;
 import org.wit.hrmatching.service.auth.AuthService;
+import org.wit.hrmatching.service.auth.oAuth2.CustomOAuth2DisconnectService;
+import org.wit.hrmatching.service.auth.oAuth2.CustomOAuth2UserService;
 import org.wit.hrmatching.vo.UserVO;
 
 import java.time.LocalDateTime;
@@ -25,6 +29,7 @@ import java.time.LocalDateTime;
 public class UserAuthController {
 
     private final AuthService authService;
+    private final CustomOAuth2DisconnectService customOAuth2DisconnectService;
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
@@ -117,13 +122,24 @@ public class UserAuthController {
     }
 
     @GetMapping("/delete")
-    public String showDeletePage() {
+    public String showDeletePage(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+
+        UserVO user = userDetails.getUser();
+
+        boolean isSocialUser = user.isSocialUser();
+
+        System.out.println("Social User: " + isSocialUser);
+        System.out.println("Password: " + user.getPassword());
+
+        model.addAttribute("isSocialUser", isSocialUser);
+
         return "login/delete";
     }
 
     @PostMapping("/delete")
     public String deleteAccount(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                @RequestParam("password") String password,
+                                @RequestParam(value = "password", required = false) String password,
+                                @RequestParam(value = "confirmDelete", required = false) String confirmDelete,
                                 RedirectAttributes redirectAttributes) {
 
         if (userDetails == null) {
@@ -134,10 +150,28 @@ public class UserAuthController {
 
         UserVO user = authService.findByEmail(userDetails.getEmail());
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            redirectAttributes.addFlashAttribute("message", "비밀번호가 일치하지 않습니다.");
+        boolean isSocialUser = user.isSocialUser();
 
-            return "redirect:/users/delete";
+        if (!isSocialUser) {
+            if (!passwordEncoder.matches(password, user.getPassword())) {
+                redirectAttributes.addFlashAttribute("message", "비밀번호가 일치하지 않습니다.");
+
+                return "redirect:/users/delete";
+            }
+        } else {
+            if (confirmDelete == null) {
+                redirectAttributes.addFlashAttribute("message", "탈퇴에 동의해주세요.");
+                return "redirect:/users/delete";
+            }
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication instanceof OAuth2AuthenticationToken token) {
+            String registrationId = token.getAuthorizedClientRegistrationId();
+            customOAuth2DisconnectService.disconnectFromSocial(token, registrationId);
+
+            System.out.println("소셜 로그인 연결 해제");
         }
 
         authService.deleteUserAccount(user.getId());

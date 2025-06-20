@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements org.springframework.security.co
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserVO user = authService.findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + email);
+            throw new UsernameNotFoundException("존재하지 않는 이메일입니다.");
         }
         if (!UserStatus.ACTIVE.name().equals(user.getStatus())) {
             throw new DisabledException("비활성화된 계정입니다. 관리자에게 문의하세요.");

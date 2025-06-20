@@ -11,8 +11,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.wit.hrmatching.config.auth.CustomAuthenticationFailureHandler;
-import org.wit.hrmatching.config.auth.CustomOAuth2FailureHandler;
-import org.wit.hrmatching.service.auth.CustomOAuth2UserService;
+import org.wit.hrmatching.config.auth.oAuth2.CustomOAuth2FailureHandler;
+import org.wit.hrmatching.service.auth.oAuth2.CustomOAuth2UserService;
 import org.wit.hrmatching.service.auth.CustomUserDetailsService;
 
 @Configuration
@@ -23,6 +23,7 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final CustomUserDetailsService customUserDetailsService;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+    private final CustomOAuth2FailureHandler customOAuth2FailureHandler;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -45,7 +46,8 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/users/login", "/users/register", "/users/register-success", "/users/verify",
-                                "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**")
+                                "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**",
+                                "/api/users/check-email")
                         .permitAll()  // 로그인 없이 접근 허용
                         .anyRequest().authenticated()  // 그 외에는 인증 필요
                 )
@@ -59,19 +61,19 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
+                .oauth2Login(oauth -> oauth
+                        .loginPage("/users/login")  // 소셜 로그인 페이지
+                        .failureUrl("/users/login?oauth2error")  // 소셜 로그인 실패 시 URL
+                        .failureHandler(customOAuth2FailureHandler)  // 소셜 로그인 실패 처리 핸들러
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(oAuth2UserService)
+                        )
+                )
                 .logout(logout -> logout
                         .logoutUrl("/users/logout")  // 로그아웃 경로 설정
                         .logoutSuccessUrl("/users/logout-success")  // 로그아웃 후 이동할 페이지 설정
                         .invalidateHttpSession(true)  // 세션 무효화
                         .deleteCookies("JSESSIONID")  // 로그아웃 시 쿠키 삭제
-                )
-                .oauth2Login(oauth -> oauth
-                        .loginPage("/users/login")  // 소셜 로그인 페이지
-                        .failureUrl("/users/login?oauth2error")  // 소셜 로그인 실패 시 URL
-                        .failureHandler(new CustomOAuth2FailureHandler())  // 소셜 로그인 실패 처리 핸들러
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .userService(oAuth2UserService)
-                        )
                 )
                 .authenticationProvider(authenticationProvider());  // 사용자 인증 제공자 설정
 
