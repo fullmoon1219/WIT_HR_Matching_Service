@@ -1,0 +1,59 @@
+/* static/css/error/info.css */
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    margin-bottom: 40px;
+}
+
+.logo img {
+    height: 100px;
+    object-fit: contain;
+}
+
+.message-container {
+    text-align: center;
+}
+
+.message-box {
+    padding: 40px 60px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.08);
+}
+
+.message-container h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 16px;
+}
+
+.message-container p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.message-container .btn {
+    display: inline-block;
+    padding: 10px 22px;
+    font-size: 15px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+.message-container .btn:hover {
+    background-color: #2980b9;
+}

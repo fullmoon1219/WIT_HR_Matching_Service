@@ -54,6 +54,10 @@ public class CustomUserDetails implements UserDetails {
         return "ACTIVE".equals(user.getStatus());
     }
 
+    public Long getId() {
+        return user.getId();
+    }
+
     public String getName() {
         return user.getName();
     }

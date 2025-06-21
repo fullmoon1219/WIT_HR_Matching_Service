@@ -1,7 +1,41 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.example.hrmatching.mapper.AdminMapper">
+<mapper namespace="org.wit.hrmatching.mapper.AdminMapper">
+
+    <!-- 통계 -->
+    <select id="getDashboardStats" resultType="org.wit.hrmatching.dto.admin.AdminDashboardStatsDTO">
+        SELECT
+                (SELECT COUNT(*) FROM users) AS userCount,
+                (SELECT COUNT(*) FROM users WHERE role = 'APPLICANT') AS applicantCount,
+                (SELECT COUNT(*) FROM users WHERE role = 'COMPANY') AS companyCount,
+                (SELECT COUNT(*) FROM resumes) AS resumeCount,
+                (SELECT COUNT(*) FROM job_posts) AS jobPostCount,
+                (SELECT COUNT(*) FROM applications) AS applicationCount
+    </select>
+
+    <!-- 최근 가입한 사용자 -->
+    <select id="getRecentUsers" resultType="org.wit.hrmatching.vo.UserVO">
+        SELECT id, email, create_at AS createAt, role, name, login_type AS loginType
+        FROM users
+        ORDER BY create_at DESC
+        LIMIT 5
+    </select>
+
+    <!-- 최근 등록된 공고 5건 -->
+    <select id="getRecentJobPosts" resultType="org.wit.hrmatching.vo.JobPostVO">
+        SELECT
+            jp.id,
+            jp.title,
+            u.name AS companyName,
+            jp.create_at AS createAt
+        FROM job_posts jp
+                 JOIN users u ON jp.user_id = u.id
+        WHERE u.role = 'EMPLOYER'
+        ORDER BY jp.create_at DESC
+        LIMIT 5
+    </select>
+
 
 
 </mapper>

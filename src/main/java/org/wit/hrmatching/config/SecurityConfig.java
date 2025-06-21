@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,6 +17,7 @@ import org.wit.hrmatching.service.auth.oAuth2.CustomOAuth2UserService;
 import org.wit.hrmatching.service.auth.CustomUserDetailsService;
 
 @Configuration
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -24,6 +26,7 @@ public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     private final CustomOAuth2FailureHandler customOAuth2FailureHandler;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -47,14 +50,18 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/users/login", "/users/register", "/users/register-success", "/users/verify",
                                 "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**",
-                                "/api/users/check-email")
-                        .permitAll()  // 로그인 없이 접근 허용
+                                "/api/users/check-email", "/error/**", "/admin/**").permitAll()  // 로그인 없이 접근 허용
+//                        .requestMatchers("/admin/**").hasAuthority("ADMIN") // 관리자 전용
+                        .requestMatchers("/employer/**").hasAuthority("EMPLOYER") // 기업 전용
+                        .requestMatchers("/applicant/**").hasAuthority("APPLICANT") // 지원자 전용
                         .anyRequest().authenticated()  // 그 외에는 인증 필요
+                )
+                .exceptionHandling(ex -> ex
+                        .accessDeniedHandler(customAccessDeniedHandler) // 권한 없는 페이지 이동 시 연결 페이지
                 )
                 .formLogin(form -> form
                         .loginPage("/users/login")  // 커스텀 로그인 페이지
-//                        .failureUrl("/users/login?error")  // 로그인 실패 시 URL
-                        .failureHandler(customAuthenticationFailureHandler)
+                        .failureHandler(customAuthenticationFailureHandler) // 로그인 실패 처리
                         .loginProcessingUrl("/login")  // 로그인 처리 URL
                         .usernameParameter("email")  // 이메일로 로그인
                         .passwordParameter("password")  // 비밀번호 파라미터 이름 설정

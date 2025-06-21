@@ -1,0 +1,22 @@
+<!-- templates/hrms/layout/admin/admin-template.html -->
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Novi</title>
+    <link rel="stylesheet" href="/css/admin/dashboard.css">
+    <link rel="stylesheet" href="/css/admin/admin-sidebar.css">
+    <link rel="stylesheet" href="/css/admin/admin-header.css">
+</head>
+<body>
+<div class="admin-wrapper">
+    <header th:replace="fragments/admin/admin-header :: header"></header>
+    <div class="admin-layout">
+        <aside th:replace="fragments/admin/admin-sidebar :: sidebar"></aside>
+        <main class="content" layout:fragment="content"></main>
+    </div>
+</div>
+</body>
+</html>
