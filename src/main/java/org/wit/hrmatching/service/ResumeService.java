@@ -17,12 +17,24 @@ public class ResumeService {
 		return resumeDAO.registerResume(resumeVO);
 	}
 
-	public List<ResumeVO> selectResumeList(long userId) {
+	public List<ResumeVO> getResumeList(long userId) {
 
-		return resumeDAO.selectResumeList(userId);
+		return resumeDAO.getResumeList(userId);
 	}
 
-	public ResumeVO viewResume(long resumeId) {
-		return resumeDAO.viewResume(resumeId);
+	public ResumeVO getResume(long resumeId) {
+		return resumeDAO.getResume(resumeId);
+	}
+
+	public ResumeVO getResumeForUpdate(long resumeId) {
+		return resumeDAO.getResumeForUpdate(resumeId);
+	}
+
+	public Long findOwnerIdByResumeId(long resumeId) {
+		return resumeDAO.findOwnerIdByResumeId(resumeId);
+	}
+
+	public int editResume(ResumeVO resumeVO) {
+		return resumeDAO.editResume(resumeVO);
 	}
 }

@@ -6,8 +6,7 @@
 </head>
 <body>
 
-<form action="/resume/register_ok" method="post">
-	<input type="hidden" name="userId" th:value="${userId}" />
+<form action="./register_ok" method="post">
 	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 	제목 <input type="text" name="title" /><br />
 	<!-- 자유 기재 -->
@@ -26,8 +25,11 @@
 	희망 직무 <input type="text" name="desiredPosition" /><br />
 	지원 동기 <input type="text" name="motivation" /><br />
 	핵심 역량 <input type="text" name="coreCompetency" />
+
 	<input type="submit" value="이력서 등록">
 </form>
+
+<button type="button" onclick="location.href='./list'">취소</button>
 
 </body>
 </html>
