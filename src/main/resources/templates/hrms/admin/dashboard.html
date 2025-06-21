@@ -1,26 +1,28 @@
 <!-- templates/hrms/admin/dashboard.html -->
 
+
+
 <div layout:decorate="~{layout/admin/admin-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
     <main layout:fragment="content">
         <div class="card-grid">
             <div class="card">
-                <h3>총 사용자 수</h3>
+                <h3>총 사용자</h3>
                 <div class="value" th:text="${stats.userCount}"></div>
             </div>
             <div class="card">
-                <h3>지원자 수</h3>
+                <h3>지원자</h3>
                 <div class="value" th:text="${stats.applicantCount}"></div>
             </div>
             <div class="card">
-                <h3>기업 수</h3>
+                <h3>기업</h3>
                 <div class="value" th:text="${stats.companyCount}"></div>
             </div>
             <div class="card">
-                <h3>이력서 수</h3>
+                <h3>이력서</h3>
                 <div class="value" th:text="${stats.resumeCount}"></div>
             </div>
             <div class="card">
-                <h3>공고 수</h3>
+                <h3>공고</h3>
                 <div class="value" th:text="${stats.jobPostCount}"></div>
             </div>
             <div class="card">
@@ -76,5 +78,75 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="chart-section">
+            <h2>👤 사용자 통계</h2>
+            <div class="chart-grid">
+                <div class="chart-box">
+                    <h3>일일 가입자 수</h3>
+                    <canvas id="dailyUserChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>일일 로그인 수</h3>
+                    <canvas id="dailyLoginChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>회원 유형 비율</h3>
+                    <canvas id="userRoleChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>소셜 로그인 비율</h3>
+                    <canvas id="loginTypeChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 📄 이력서 통계 -->
+        <div class="chart-section">
+            <h2>📄 이력서 통계</h2>
+            <div class="chart-grid">
+                <div class="chart-box">
+                    <h3>일일 이력서 등록 수</h3>
+                    <canvas id="dailyResumeChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>이력서 작성 완료율</h3>
+                    <canvas id="resumeCompletionChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>직무별 이력서 분포</h3>
+                    <canvas id="resumeJobChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 💼 채용 공고 통계 -->
+        <div class="chart-section">
+            <h2>💼 채용 공고 통계</h2>
+            <div class="chart-grid">
+                <div class="chart-box">
+                    <h3>일일 공고 등록 수</h3>
+                    <canvas id="dailyJobPostChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>직무별 공고 분포</h3>
+                    <canvas id="jobPostCategoryChart"></canvas>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
+<script th:inline="javascript">
+    window.chartData = {
+        dailyUserCount: /*[[${dailyUserCount}]]*/,
+        dailyLoginCount: /*[[${dailyLoginCount}]]*/,
+        userRoleDistribution: /*[[${userRoleDistribution}]]*/,
+        loginTypeDistribution: /*[[${loginTypeDistribution}]]*/,
+        dailyResumeCount: /*[[${dailyResumeCount}]]*/,
+        resumeCompletionStats: /*[[${resumeCompletionStats}]]*/,
+        resumeJobDistribution: /*[[${resumeJobDistribution}]]*/,
+        dailyJobPostCount: /*[[${dailyJobPostCount}]]*/,
+        jobPostCategoryDistribution: /*[[${jobPostCategoryDistribution}]]*/
+    };
+</script>
+<script src="/js/admin/dashboard.js"></script>

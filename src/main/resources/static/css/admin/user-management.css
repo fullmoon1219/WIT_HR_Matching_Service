@@ -1,0 +1,97 @@
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.toggle-details-btn {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 18px;
+}
+
+.detail-table-wrapper {
+    display: none;
+    padding: 16px;
+    background: #dcf5ff;
+    border-radius: 8px;
+}
+
+/* 지원자 상세 테이블 */
+.applicant-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    table-layout: fixed;
+}
+
+/* 프로필 이미지 셀 */
+.applicant-detail-table th {
+    background-color: #ffffff;
+    vertical-align: middle;
+    text-align: center;
+    padding: 16px;
+    border: 1px solid #ddd;
+}
+
+/* 기본 내용 셀 */
+.applicant-detail-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    background-color: #ffffff;
+    word-break: break-word;
+}
+
+/* 제목 셀: class="label" 적용된 td만 회색 배경 */
+.applicant-detail-table td.label {
+    background-color: #f0f0f0 !important;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+/* 링크 스타일 */
+.applicant-detail-table a {
+    color: #007bff;
+    text-decoration: underline;
+    word-break: break-all;
+}
+/* 기업 상세 테이블 */
+.employer-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    table-layout: fixed;
+}
+
+.employer-detail-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    background-color: #ffffff;
+    word-break: break-word;
+}
+
+.employer-detail-table td.label {
+    background-color: #f0f0f0 !important;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+/* 작은 화면 대응 */
+@media (max-width: 480px) {
+    .applicant-detail-table th,
+    .applicant-detail-table td {
+        font-size: 14px;
+        padding: 6px;
+    }
+}

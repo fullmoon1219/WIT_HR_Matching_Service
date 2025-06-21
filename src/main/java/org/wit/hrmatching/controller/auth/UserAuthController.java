@@ -147,9 +147,6 @@ public class UserAuthController {
 
         boolean isSocialUser = user.isSocialUser();
 
-        System.out.println("Social User: " + isSocialUser);
-        System.out.println("Password: " + user.getPassword());
-
         model.addAttribute("isSocialUser", isSocialUser);
 
         return "account/delete";
@@ -197,7 +194,7 @@ public class UserAuthController {
         SecurityContextHolder.clearContext(); // 로그아웃 처리
 
         redirectAttributes.addFlashAttribute("message", "회원 탈퇴가 완료되었습니다.");
-        return "redirect:/";
+        return "account/delete-success";
     }
 
 }

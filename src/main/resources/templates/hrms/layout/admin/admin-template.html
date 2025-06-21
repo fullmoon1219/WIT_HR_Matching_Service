@@ -9,12 +9,17 @@
     <link rel="stylesheet" href="/css/admin/dashboard.css">
     <link rel="stylesheet" href="/css/admin/admin-sidebar.css">
     <link rel="stylesheet" href="/css/admin/admin-header.css">
+
+    <th:block layout:fragment="styles"></th:block>
+
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <div class="admin-wrapper">
-    <header th:replace="fragments/admin/admin-header :: header"></header>
+    <header th:replace="~{fragments/admin/admin-header :: header}"></header>
     <div class="admin-layout">
-        <aside th:replace="fragments/admin/admin-sidebar :: sidebar"></aside>
+        <aside th:replace="~{fragments/admin/admin-sidebar :: sidebar}"></aside>
         <main class="content" layout:fragment="content"></main>
     </div>
 </div>

@@ -92,3 +92,51 @@ th {
 .btn:hover {
     background: #2f3640;
 }
+
+/* 섹션 간격 */
+.chart-section {
+    margin: 40px 0;
+}
+
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, max-content));
+    gap: 24px;
+    justify-content: start;
+}
+
+.chart-box {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    height: 230px;
+    width: 350px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chart-box h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #333;
+    text-align: center;
+}
+
+/* 캔버스 고정 사이즈 */
+.chart-box canvas {
+    width: 100% !important;
+    height: 180px !important;
+    margin: 0 auto;
+}
+
+/* 숫자 카드용 */
+.number-card {
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: auto;
+    color: #2c3e50;
+}
