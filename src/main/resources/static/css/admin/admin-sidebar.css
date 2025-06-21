@@ -1,0 +1,34 @@
+/* /static/css/admin/admin-sidebar.css */
+.sidebar {
+    width: 200px;
+    background-color: #34495e;
+    padding: 20px 0;
+    flex-shrink: 0;
+    overflow-y: auto;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar nav ul li {
+    margin-bottom: 12px;
+}
+
+.sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #2980b9;
+    color: #ffffff;
+}

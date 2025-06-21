@@ -73,9 +73,9 @@ public class AuthService {
             throw new IllegalStateException("User ID가 생성되지 않았습니다.");
         }
 
-        if (sendMailNeeded) {
-            mailService.sendVerificationMail(user.getEmail(), user.getVerificationToken());
-        }
+//        if (sendMailNeeded) {
+//            mailService.sendVerificationMail(user.getEmail(), user.getVerificationToken());
+//        }
 
         if ("APPLICANT".equals(user.getRole())) {
             createApplicantProfile(user);
