@@ -1,4 +1,4 @@
-package org.wit.hrmatching.service.auth;
+package org.wit.hrmatching.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

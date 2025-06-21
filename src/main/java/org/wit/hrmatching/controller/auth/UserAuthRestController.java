@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.dto.login.UserRegisterDTO;
 import org.wit.hrmatching.service.auth.AuthService;
-import org.wit.hrmatching.service.auth.UserService;
+import org.wit.hrmatching.service.UserService;
 
 import java.util.Map;
 

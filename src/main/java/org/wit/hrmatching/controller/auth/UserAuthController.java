@@ -32,11 +32,22 @@ public class UserAuthController {
     private final CustomOAuth2DisconnectService customOAuth2DisconnectService;
     private final PasswordEncoder passwordEncoder;
 
+    // 로그인 상태인지 구분
+    private boolean isLoggedIn() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal());
+    }
+
+
     @GetMapping("/login")
     public String loginPage(@RequestParam(required = false) String error,
                             @RequestParam(required = false) String oauth2error,
                             HttpServletRequest request,
                             Model model) {
+
+        if (isLoggedIn()) {
+            return "redirect:/";
+        }
 
         String errorMessage = (String) request.getSession().getAttribute("errorMessage");
 
@@ -45,13 +56,17 @@ public class UserAuthController {
             request.getSession().removeAttribute("errorMessage"); // 1회성 표시 후 제거
         }
 
-        return "login/login";
+        return "account/login";
     }
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
+        if (isLoggedIn()) {
+            return "redirect:/";
+        }
+
         model.addAttribute("userRegisterDTO", new UserRegisterDTO());
-        return "login/register";
+        return "account/register";
     }
 
     @PostMapping("/register")
@@ -65,7 +80,7 @@ public class UserAuthController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "login/register";
+            return "account/register";
         }
 
         try {
@@ -73,7 +88,7 @@ public class UserAuthController {
             authService.registerUser(userRegisterDTO);
         } catch (IllegalArgumentException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "login/register";
+            return "account/register";
         }
 
         return "redirect:/users/register-success";
@@ -81,7 +96,11 @@ public class UserAuthController {
 
     @GetMapping("/register-success")
     public String registerSuccess() {
-        return "login/register-success";
+        if (isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        return "account/register-success";
     }
 
     @GetMapping("/logout")
@@ -102,13 +121,13 @@ public class UserAuthController {
 
         if (user == null) {
             model.addAttribute("message", "유효하지 않은 인증 토큰입니다.");
-            return "login/mail-verity";
+            return "account/mail-verity";
         }
 
         // 만료 시간 체크
         if (user.getTokenExpiration() != null && user.getTokenExpiration().isBefore(LocalDateTime.now())) {
             model.addAttribute("message", "인증 토큰이 만료되었습니다. 다시 시도해주세요.");
-            return "login/mail-verity";
+            return "account/mail-verity";
         }
 
         // 인증 완료 처리
@@ -118,7 +137,7 @@ public class UserAuthController {
         authService.updateUser(user);
 
         model.addAttribute("message", "이메일 인증이 성공적으로 완료되었습니다!");
-        return "login/mail-verity";
+        return "account/mail-verity";
     }
 
     @GetMapping("/delete")
@@ -133,7 +152,7 @@ public class UserAuthController {
 
         model.addAttribute("isSocialUser", isSocialUser);
 
-        return "login/delete";
+        return "account/delete";
     }
 
     @PostMapping("/delete")
