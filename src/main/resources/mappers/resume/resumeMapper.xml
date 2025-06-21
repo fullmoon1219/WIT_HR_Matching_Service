@@ -3,7 +3,7 @@
 
 <mapper namespace="org.wit.hrmatching.mapper.ResumeMapper">
 
-    <insert id="registerResume" parameterType="resumeVO">
+    <insert id="insertResume" parameterType="resumeVO">
         insert into resumes
         (user_id, education, experience, skills, preferred_location, salary_expectation,
          is_public, title, core_competency, desired_position, motivation)
@@ -17,13 +17,29 @@
         where user_id=#{userId} and deleted_at is null
     </select>
 
-    <select id="viewResume" resultType="resumeVO">
+    <select id="selectResume" resultType="resumeVO">
         select id, user_id as userId, education, experience, skills, preferred_location as preferredLocation,
                salary_expectation as salaryExpectation, create_at as createAt, is_public as isPublic, title,
                core_competency as coreCompetency, desired_position as desiredPosition, motivation,
                updated_at as updatedAt
         from resumes
-        where id=#{resumeId}
+        where id=#{resumeId} and deleted_at is null
     </select>
+
+    <select id="selectResumeForUpdate" resultType="resumeVO">
+        select id, user_id as userId, education, experience, skills, preferred_location as preferredLocation,
+               salary_expectation as salaryExpectation, is_public as isPublic, title,
+               core_competency as coreCompetency, desired_position as desiredPosition, motivation
+        from resumes
+        where id=#{resumeId} and deleted_at is null
+    </select>
+
+    <update id="updateResume" parameterType="resumeVO">
+        update resumes
+        set education=#{education}, experience=#{experience}, skills=#{skills},
+            preferred_location=#{preferredLocation}, salary_expectation=#{salaryExpectation}, is_public=#{isPublic},
+            title=#{title}, core_competency=#{coreCompetency}, desired_position=#{desiredPosition}, motivation=#{motivation}
+        where id=#{resumeId} and user_id=#{userId}
+    </update>
 
 </mapper>
