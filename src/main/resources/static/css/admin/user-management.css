@@ -1,6 +1,16 @@
+/* /resources/static/css/admin/user-management.css */
+
 .user-table {
     width: 100%;
     border-collapse: collapse;
+}
+
+.user-table th {
+    background-color: #f0f0f0;
+}
+
+.user-table td {
+    background-color: #ffffff;
 }
 
 .user-table th,
@@ -20,7 +30,7 @@
 .detail-table-wrapper {
     display: none;
     padding: 16px;
-    background: #dcf5ff;
+    background: #f1f9ff;
     border-radius: 8px;
 }
 

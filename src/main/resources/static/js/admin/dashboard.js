@@ -1,56 +1,78 @@
-// /static/js/admin/dashboard.js
+//  /static/js/admin/dashboard.js
 
-document.addEventListener('DOMContentLoaded', () => {
-    const data = window.chartData;
+$(document).ready(function () {
+    $.get("/api/admin/dashboard/daily-user-counts", function (data) {
+        renderLineChart("dailyUserChart", data, "일일 가입자 수");
+    });
 
-    renderLineChart('dailyUserChart', data.dailyUserCount, '가입자 수');
-    renderLineChart('dailyLoginChart', data.dailyLoginCount, '로그인 수');
-    renderPieChart('userRoleChart', data.userRoleDistribution, '회원 유형 비율');
-    renderPieChart('loginTypeChart', data.loginTypeDistribution, '소셜 로그인 비율');
-    renderLineChart('dailyResumeChart', data.dailyResumeCount, '이력서 등록 수');
+    $.get("/api/admin/dashboard/daily-login-counts", function (data) {
+        renderLineChart('dailyLoginChart', data, '일일 로그인 수');
+    });
 
-    const resumeStats = data.resumeCompletionStats;
-    renderDoughnutChart('resumeCompletionChart', {
-        '완료': resumeStats.completedResumes,
-        '미완료': resumeStats.totalApplicants - resumeStats.completedResumes
-    }, '이력서 작성 완료율');
+    $.get("/api/admin/dashboard/user-role-distribution", function (data) {
+        renderPieChart('userRoleChart', data, '회원 유형 비율');
+    });
 
-    renderBarChart('resumeJobChart', data.resumeJobDistribution, '직무별 이력서');
-    renderLineChart('dailyJobPostChart', data.dailyJobPostCount, '공고 등록 수');
-    renderBarChart('jobPostCategoryChart', data.jobPostCategoryDistribution, '직무별 공고');
+    $.get("/api/admin/dashboard/login-type-distribution", function (data) {
+        renderPieChart('loginTypeChart', data, '소셜 로그인 비율');
+    });
+
+    $.get("/api/admin/dashboard/daily-resume-counts", function (data) {
+        renderLineChart('dailyResumeChart', data, '이력서 등록 수');
+    });
+
+    $.get("/api/admin/dashboard/resume-completion-stats", function (data) {
+        renderDoughnutChart('resumeCompletionChart', {
+            '완료': data.completedResumes,
+            '미완료': data.totalApplicants - data.completedResumes
+        }, '이력서 작성 완료율');
+    });
+
+    $.get("/api/admin/dashboard/resume-job-distribution", function (data) {
+        renderBarChart('resumeJobChart', data, '직무별 이력서');
+    });
+
+    $.get("/api/admin/dashboard/daily-jobpost-counts", function (data) {
+        renderLineChart('dailyJobPostChart', data, '공고 등록 수');
+    });
+
+    $.get("/api/admin/dashboard/job-post-category-distribution", function (data) {
+        renderBarChart('jobPostCategoryChart', data, '직무별 공고');
+    });
 });
 
-// ============================
-// ✅ 유틸 함수
-// ============================
+// 전역에서 모든 차트 인스턴스를 저장
+const chartInstances = {};
 
 function renderLineChart(id, rawData, label) {
-    const ctx = document.getElementById(id)?.getContext('2d');
-    if (!ctx || !rawData) return;
+    const canvas = document.getElementById(id);
+    if (!canvas || !rawData) return;
 
-    // 최근 5일 날짜 생성
+    const ctx = canvas.getContext('2d');
+
+    // 기존 차트가 있으면 파괴
+    if (chartInstances[id]) {
+        chartInstances[id].destroy();
+    }
+
+    // 날짜 라벨 5일치 생성 (서버에서 반환하는 key 형식 'MM-DD'에 맞춤)
     const today = new Date();
     const labels = Array.from({ length: 5 }, (_, i) => {
-        const date = new Date(today);
-        date.setDate(today.getDate() - (4 - i));
-        return date.toISOString().split('T')[0];
+        const d = new Date(today);
+        d.setDate(today.getDate() - (4 - i));
+        return d.toISOString().slice(5, 10); // 'MM-DD' 형식
     });
 
-    // rawData를 날짜 기준으로 매핑
-    const dataMap = {};
-    rawData.forEach(item => {
-        dataMap[item.date] = item.count;
-    });
+    // 데이터 매핑 (없는 날짜는 0으로)
+    const values = labels.map(date => Number(rawData[date]) || 0);
 
-    // 값이 없으면 0으로 채움
-    const values = labels.map(date => dataMap[date] || 0);
-
-    new Chart(ctx, {
+    // 새 차트 생성
+    const chart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels,
+            labels: labels,
             datasets: [{
-                label,
+                label: label,
                 data: values,
                 borderColor: 'rgb(75, 192, 192)',
                 borderWidth: 2,
@@ -59,7 +81,8 @@ function renderLineChart(id, rawData, label) {
                 pointHoverRadius: 7,
                 pointBackgroundColor: 'rgb(75, 192, 192)',
                 pointBorderColor: '#ffffff',
-                pointBorderWidth: 2
+                pointBorderWidth: 2,
+                fill: false
             }]
         },
         options: {
@@ -80,7 +103,6 @@ function renderLineChart(id, rawData, label) {
             },
             plugins: {
                 tooltip: {
-                    enabled: true,
                     callbacks: {
                         label: function (context) {
                             return `${label}: ${context.parsed.y}`;
@@ -88,17 +110,24 @@ function renderLineChart(id, rawData, label) {
                     }
                 }
             }
-
         }
     });
+
+    // 저장
+    chartInstances[id] = chart;
 }
+
+
+
+
 
 function renderPieChart(id, rawData, label) {
     const ctx = document.getElementById(id)?.getContext('2d');
     if (!ctx || !rawData) return;
 
-    const labels = rawData.map(item => item.role || item.login_type);
-    const values = rawData.map(item => item.count);
+    // 객체를 키-값 쌍으로 나눠서 처리
+    const labels = Object.keys(rawData);
+    const values = Object.values(rawData);
 
     new Chart(ctx, {
         type: 'pie',
@@ -117,9 +146,10 @@ function renderPieChart(id, rawData, label) {
     });
 }
 
+
 function renderDoughnutChart(id, dataMap, label) {
     const ctx = document.getElementById(id)?.getContext('2d');
-    if (!ctx || !dataMap) return;
+    if (!ctx || !dataMap || typeof dataMap !== 'object') return;
 
     const labels = Object.keys(dataMap);
     const values = Object.values(dataMap);
@@ -141,12 +171,14 @@ function renderDoughnutChart(id, dataMap, label) {
     });
 }
 
+
 function renderBarChart(id, rawData, label) {
     const ctx = document.getElementById(id)?.getContext('2d');
     if (!ctx || !rawData) return;
 
-    const labels = rawData.map(item => item.job_category);
-    const values = rawData.map(item => item.count);
+    // 객체 → 배열
+    const labels = Object.keys(rawData);
+    const values = Object.values(rawData);
 
     new Chart(ctx, {
         type: 'bar',
@@ -175,11 +207,12 @@ function renderBarChart(id, rawData, label) {
     });
 }
 
+
 function generateColors(count) {
-    const colors = [
+    const baseColors = [
         '#4dc9f6', '#FFA046', '#23e377', '#537bc4',
         '#f67019', '#166a8f', '#f53794', '#58595b',
         '#8549ba'
     ];
-    return Array.from({ length: count }, (_, i) => colors[i % colors.length]);
+    return Array.from({ length: count }, (_, i) => baseColors[i % baseColors.length]);
 }

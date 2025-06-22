@@ -8,8 +8,10 @@ import org.wit.hrmatching.vo.JobPostVO;
 import org.wit.hrmatching.vo.UserVO;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,16 +31,9 @@ public class AdminDAO {
         return adminMapper.getRecentJobPosts();
     }
 
-    public int countUsersByDate(LocalDate date) {
-        return adminMapper.countUsersByDate(date);
-    }
-
-    public List<Map<String, Object>> getDailyUserCount() {
-        return adminMapper.getDailyUserCount();
-    }
-
-    public List<Map<String, Object>> getDailyLoginCount() {
-        return adminMapper.getDailyLoginCount();
+    // 일일 통계 공통
+    public List<Map<String, Object>> getDailyCount(String table, String column, LocalDate start, LocalDate end) {
+        return adminMapper.getDailyCount(table, column, start, end);
     }
 
     public List<Map<String, Object>> getUserRoleDistribution() {
@@ -49,10 +44,6 @@ public class AdminDAO {
         return adminMapper.getLoginTypeDistribution();
     }
 
-    public List<Map<String, Object>> getDailyResumeCount() {
-        return adminMapper.getDailyResumeCount();
-    }
-
     public Map<String, Object> getResumeCompletionStats() {
         return adminMapper.getResumeCompletionStats();
     }
@@ -61,16 +52,8 @@ public class AdminDAO {
         return adminMapper.getResumeJobDistribution();
     }
 
-    public List<Map<String, Object>> getDailyJobPostCount() {
-        return adminMapper.getDailyJobPostCount();
-    }
-
     public List<Map<String, Object>> getJobPostCategoryDistribution() {
         return adminMapper.getJobPostCategoryDistribution();
-    }
-
-    public int getClosingSoonJobPostCount() {
-        return adminMapper.getClosingSoonJobPostCount();
     }
 
     public int getSuspendedUserCount() {
@@ -81,8 +64,13 @@ public class AdminDAO {
         return adminMapper.getUnverifiedEmailUserCount();
     }
 
-    // 전체 사용자
-    public List<UserVO> getAllUsersWithProfiles() {
-        return adminMapper.getAllUsersWithProfiles();
+    // 전체 사용자 (페이지 구분)
+    public List<UserVO> getAllUsersWithProfilesPaged(int limit, int offset) {
+        return adminMapper.getAllUsersWithProfilesPaged(limit, offset);
+    }
+
+    // 전체 사용자 수
+    public int countAllUsers() {
+        return adminMapper.countAllUsers();
     }
 }

@@ -74,6 +74,10 @@ mybatis:
 server:
   forward-headers-strategy: framework
   port: '8080'
+  error:
+    whitelabel:
+      enabled: false
+    path: /error/home
 
 logging:
   level:

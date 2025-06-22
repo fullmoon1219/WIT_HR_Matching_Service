@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.wit.hrmatching.config.auth.CustomAuthenticationFailureHandler;
+import org.wit.hrmatching.config.auth.CustomLoginSuccessHandler;
 import org.wit.hrmatching.config.auth.oAuth2.CustomOAuth2FailureHandler;
 import org.wit.hrmatching.service.auth.oAuth2.CustomOAuth2UserService;
 import org.wit.hrmatching.service.auth.CustomUserDetailsService;
@@ -27,6 +28,7 @@ public class SecurityConfig {
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     private final CustomOAuth2FailureHandler customOAuth2FailureHandler;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomLoginSuccessHandler customLoginSuccessHandler;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -50,8 +52,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/users/login", "/users/register", "/users/register-success", "/users/verify",
                                 "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**",
-                                "/api/users/check-email", "/error/**", "/admin/**").permitAll()  // 로그인 없이 접근 허용
-//                        .requestMatchers("/admin/**").hasAuthority("ADMIN") // 관리자 전용
+                                "/api/users/check-email", "/error/**").permitAll()  // 로그인 없이 접근 허용
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN") // 관리자 전용
+                        .requestMatchers("/api/**").hasAuthority("ADMIN")
                         .requestMatchers("/employer/**").hasAuthority("EMPLOYER") // 기업 전용
                         .requestMatchers("/applicant/**").hasAuthority("APPLICANT") // 지원자 전용
                         .anyRequest().authenticated()  // 그 외에는 인증 필요
@@ -62,16 +65,18 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/users/login")  // 커스텀 로그인 페이지
                         .failureHandler(customAuthenticationFailureHandler) // 로그인 실패 처리
+                        .successHandler(customLoginSuccessHandler) // 로그인 성공 처리
                         .loginProcessingUrl("/login")  // 로그인 처리 URL
                         .usernameParameter("email")  // 이메일로 로그인
                         .passwordParameter("password")  // 비밀번호 파라미터 이름 설정
-                        .defaultSuccessUrl("/", true)
+//                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .oauth2Login(oauth -> oauth
                         .loginPage("/users/login")  // 소셜 로그인 페이지
                         .failureUrl("/users/login?oauth2error")  // 소셜 로그인 실패 시 URL
                         .failureHandler(customOAuth2FailureHandler)  // 소셜 로그인 실패 처리 핸들러
+                        .successHandler(customLoginSuccessHandler) // 로그인 성공 처리
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(oAuth2UserService)
                         )

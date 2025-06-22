@@ -5,13 +5,14 @@
         <link rel="stylesheet" href="/css/admin/user-management.css">
     </th:block>
 
-    <main layout:fragment="content">
+    <div layout:fragment="content">
         <div class="card-grid">
-            <div class="card"><h3>총 사용자</h3><div class="value" th:text="${stats.userCount}"></div></div>
-            <div class="card"><h3>지원자</h3><div class="value" th:text="${stats.applicantCount}"></div></div>
-            <div class="card"><h3>기업</h3><div class="value" th:text="${stats.companyCount}"></div></div>
-            <div class="card"><h3>계정 정지</h3><div class="value" th:text="${suspendedUserCount}"></div></div>
-            <div class="card"><h3>이메일 미인증</h3><div class="value" th:text="${unverifiedEmailUserCount}"></div></div>
+            <div class="card"><h3>총 사용자</h3><div class="value" id="userCount"></div></div>
+            <div class="card"><h3>지원자</h3><div class="value" id="applicantCount"></div></div>
+            <div class="card"><h3>기업</h3><div class="value" id="companyCount"></div></div>
+            <div class="card"><h3>계정 정지</h3><div class="value" id="suspendedUserCount"></div></div>
+            <div class="card"><h3>경고</h3><div class="value" id="warningCount"></div></div>
+            <div class="card"><h3>이메일 미인증</h3><div class="value" id="unverifiedEmailUserCount"></div></div>
         </div>
 
         <div class="section">
@@ -24,126 +25,22 @@
                     <col style="width: 10%">
                     <col style="width: 10%">
                     <col style="width: 10%">
+                    <col style="width: 10%">
                     <col style="width: 20%">
                     <col style="width: 5%">
                 </colgroup>
                 <thead>
                 <tr>
-                    <th>ID</th><th>이메일</th><th>이름</th><th>역할</th><th>상태</th><th>이메일 인증</th><th>최종 로그인</th><th></th>
+                    <th>ID</th><th>이메일</th><th>이름</th><th>역할</th><th>상태</th><th>경고</th><th>이메일 인증</th><th>최종 로그인</th><th></th>
                 </tr>
                 </thead>
-                <tbody>
-                <th:block th:each="user : ${userList}">
-                    <tr>
-                        <td th:text="${user.id}">1</td>
-                        <td th:text="${user.email}">user@example.com</td>
-                        <td th:text="${user.name}">홍길동</td>
-                        <td th:text="${user.role}">APPLICANT</td>
-                        <td th:text="${user.status}">ACTIVE</td>
-                        <td th:text="${user.emailVerified ? 'O' : 'X'}">O</td>
-                        <td th:text="${user.lastLogin != null ? #temporals.format(user.lastLogin, 'yyyy-MM-dd HH:mm') : '-'}">-</td>
-                        <td style="text-align: center;">
-                            <button class="toggle-details-btn" th:attr="data-id=${user.id}" style="width: 30px;">▼</button>
-                        </td>
-                    </tr>
-
-                    <!-- 상세 정보 행 -->
-                    <tr th:attr="class='detail-row row-' + ${user.id}">
-                        <td colspan="8" style="padding: 0; border: none;">
-                            <div class="detail-table-wrapper" style="display: none;">
-                                <!-- 지원자 상세정보 -->
-                                <table class="applicant-detail-table" th:if="${user.role == 'APPLICANT'}">
-                                    <tbody>
-                                    <tr>
-                                        <th rowspan="7">
-                                            <img th:src="@{${user.profileImage}}" alt="프로필 이미지"
-                                                 style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                        </th>
-                                        <td class="label">이름</td>
-                                        <td th:text="${user.name}">-</td>
-                                        <td class="label">주소</td>
-                                        <td th:text="${user.applicantProfile?.address}">-</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label">나이</td>
-                                        <td th:text="${user.applicantProfile?.age}">-</td>
-                                        <td class="label">대표 이력서</td>
-                                        <td th:text="${user.applicantProfile?.primaryResumeId} ?: '-'">-</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label">성별</td>
-                                        <td th:text="${user.applicantProfile?.gender}">-</td>
-                                        <td class="label">포트폴리오</td>
-                                        <td><a th:href="${user.applicantProfile?.portfolioUrl}" target="_blank"
-                                               th:text="${user.applicantProfile?.portfolioUrl} ?: '-'"></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label">전화번호</td>
-                                        <td th:text="${user.applicantProfile?.phoneNumber}">-</td>
-                                        <td class="label">경력</td>
-                                        <td th:text="${user.applicantProfile?.experienceYears} ?: '-'">-</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label">한줄 소개</td>
-                                        <td colspan="3" th:text="${user.applicantProfile?.selfIntro} ?: '-'"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label">계정 생성일</td>
-                                        <td th:text="${#temporals.format(user.createAt, 'yyyy-MM-dd')}">-</td>
-                                        <td class="label">마지막 업데이트</td>
-                                        <td th:text="${#temporals.format(user.updatedAt, 'yyyy-MM-dd')}">-</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label">마지막 로그인</td>
-                                        <td><span th:if="${user.lastLogin != null}" th:text="${#temporals.format(user.lastLogin, 'yyyy-MM-dd HH:mm')}"></span><span th:if="${user.lastLogin == null}">-</span></td>
-                                        <td class="label">로그인 타입</td>
-                                        <td th:text="${user.loginType}">-</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-                                <!-- 기업 상세정보 -->
-                                <table class="employer-detail-table" th:if="${user.role == 'EMPLOYER'}">
-                                    <tbody>
-                                    <tr>
-                                        <td class="label">회사명</td>
-                                        <td th:text="${user.employerProfile?.companyName}">-</td>
-                                        <td class="label">사업자번호</td>
-                                        <td th:text="${user.employerProfile?.businessNumber}">-</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label">회사 주소</td>
-                                        <td th:text="${user.employerProfile?.address}">-</td>
-                                        <td class="label">회사 전화번호</td>
-                                        <td th:text="${user.employerProfile?.phoneNumber}">-</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label">홈페이지</td>
-                                        <td>
-                                            <a th:href="${user.employerProfile?.homepageUrl}" target="_blank"
-                                               th:text="${user.employerProfile?.homepageUrl} ?: '없음'"></a>
-                                        </td>
-                                        <td class="label">산업군</td>
-                                        <td th:text="${user.employerProfile?.industry}">-</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label">설립연도</td>
-                                        <td th:text="${user.employerProfile?.foundedYear} ?: '-'">-</td>
-                                        <td class="label">기업 규모</td>
-                                        <td th:text="${user.employerProfile?.companySize}">-</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-
-                            </div>
-                        </td>
-                    </tr>
-                </th:block>
+                <tbody id="userTableBody">
+                <!-- AJAX로 데이터 삽입 -->
                 </tbody>
             </table>
         </div>
-    </main>
+    </div>
 </div>
 
+<script src="/js/admin/user-management-ajax.js"></script>
 <script src="/js/admin/user-management.js"></script>

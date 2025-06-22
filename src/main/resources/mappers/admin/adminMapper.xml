@@ -7,8 +7,9 @@
     <select id="getDashboardStats" resultType="org.wit.hrmatching.dto.admin.AdminDashboardStatsDTO">
         SELECT
                 (SELECT COUNT(*) FROM users) AS userCount,
+                (SELECT COUNT(*) FROM users WHERE warning_count > 0) AS warningCount,
                 (SELECT COUNT(*) FROM users WHERE role = 'APPLICANT') AS applicantCount,
-                (SELECT COUNT(*) FROM users WHERE role = 'COMPANY') AS companyCount,
+                (SELECT COUNT(*) FROM users WHERE role = 'EMPLOYER') AS companyCount,
                 (SELECT COUNT(*) FROM resumes) AS resumeCount,
                 (SELECT COUNT(*) FROM job_posts) AS jobPostCount,
                 (SELECT COUNT(*) FROM applications) AS applicationCount
@@ -36,23 +37,19 @@
         LIMIT 5
     </select>
 
-    <!-- 1. 일일 가입자 수 -->
-    <select id="getDailyUserCount" resultType="map">
-        SELECT DATE(create_at) AS date, COUNT(*) AS count
-        FROM users
-        WHERE create_at >= DATE_SUB(CURDATE(), INTERVAL 4 DAY)
-        GROUP BY DATE(create_at)
-        ORDER BY DATE(create_at);
+    <!-- 공통 일일 통계 쿼리 -->
+    <select id="getDailyCount" resultType="map" parameterType="map">
+        SELECT DATE(${column}) AS stat_date, COUNT(*) AS count
+        FROM ${table}
+        WHERE ${column} &gt;= #{startDate}
+          AND ${column} &lt; DATE_ADD(#{endDate}, INTERVAL 1 DAY)
+        GROUP BY DATE(${column})
+        ORDER BY DATE(${column})
     </select>
 
-    <!-- 2. 일일 로그인 수 -->
-    <select id="getDailyLoginCount" resultType="map">
-        SELECT DATE(login_at) AS date, COUNT(*) AS count
-        FROM login_history
-        WHERE login_at >= DATE_SUB(CURDATE(), INTERVAL 4 DAY)
-        GROUP BY DATE(login_at)
-        ORDER BY DATE(login_at);
-    </select>
+
+
+
 
     <!-- 3. 회원 유형 비율 -->
     <select id="getUserRoleDistribution" resultType="map">
@@ -62,15 +59,6 @@
     <!-- 4. 소셜 로그인 비율 -->
     <select id="getLoginTypeDistribution" resultType="map">
         SELECT login_type, COUNT(*) AS count FROM users GROUP BY login_type
-    </select>
-
-    <!-- 5. 일일 이력서 등록 수 -->
-    <select id="getDailyResumeCount" resultType="map">
-        SELECT DATE(create_at) AS date, COUNT(*) AS count
-        FROM resumes
-        WHERE create_at >= DATE_SUB(CURDATE(), INTERVAL 4 DAY)
-        GROUP BY DATE(create_at)
-        ORDER BY DATE(create_at);
     </select>
 
     <!-- 6. 이력서 작성 완료율 -->
@@ -88,27 +76,12 @@
         GROUP BY desired_position
     </select>
 
-
-    <!-- 8. 일일 채용 공고 등록 수 -->
-    <select id="getDailyJobPostCount" resultType="map">
-        SELECT DATE(create_at) AS date, COUNT(*) AS count
-        FROM job_posts
-        WHERE create_at >= DATE_SUB(CURDATE(), INTERVAL 4 DAY)
-        GROUP BY DATE(create_at)
-        ORDER BY DATE(create_at);
-    </select>
-
     <!-- 9. 공고 직무별 분포 -->
     <select id="getJobPostCategoryDistribution" resultType="map">
         SELECT job_category, COUNT(*) AS count
         FROM job_posts
         WHERE job_category IS NOT NULL AND job_category != ''
         GROUP BY job_category
-    </select>
-
-    <!-- 10. 마감 임박 공고 수 -->
-    <select id="getClosingSoonJobPostCount" resultType="int">
-        SELECT COUNT(*) FROM job_posts WHERE DATEDIFF(deadline, CURDATE()) BETWEEN 0 AND 3
     </select>
 
     <!-- 사용자 + 지원자/기업 프로필 함께 조회 -->
@@ -120,6 +93,7 @@
         <result property="role" column="role"/>
         <result property="createAt" column="create_at"/>
         <result property="status" column="status"/>
+        <result property="warningCount" column="warning_count"/>
         <result property="lastLogin" column="last_login"/>
         <result property="profileImage" column="profile_image"/>
         <result property="emailVerified" column="email_verified"/>
@@ -156,15 +130,12 @@
         </association>
     </resultMap>
 
-
-
-
-    <select id="getAllUsersWithProfiles" resultMap="UserWithProfilesMap">
+    <select id="getAllUsersWithProfilesPaged" resultMap="UserWithProfilesMap">
         SELECT
             u.id, u.email, u.password, u.name, u.role,
             u.create_at, u.status, u.last_login, u.profile_image,
             u.email_verified, u.verification_token, u.token_expiration,
-            u.updated_at, u.login_type,
+            u.updated_at, u.login_type, u.warning_count,
 
             a.user_id AS a_user_id, a.age, a.address AS a_address, a.phone_number AS a_phone_number,
             a.gender, a.portfolio_url, a.self_intro, a.job_type, a.experience_years, a.primary_resume_id,
@@ -176,8 +147,12 @@
         FROM users u
                  LEFT JOIN applicant_profiles a ON u.id = a.user_id
                  LEFT JOIN employer_profiles e ON u.id = e.user_id
+        ORDER BY u.id DESC
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
-
+    <select id="countAllUsers" resultType="int">
+        SELECT COUNT(*) FROM users
+    </select>
 
 </mapper>
