@@ -2,15 +2,15 @@ package org.wit.hrmatching.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.wit.hrmatching.dao.UserDAO;
+import org.wit.hrmatching.mapper.UserMapper;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserDAO userDAO;
+    private final UserMapper userMapper;
 
     public boolean emailExists(String email) {
-        return userDAO.emailExists(email);
+        return userMapper.findByEmail(email) != null;
     }
 }

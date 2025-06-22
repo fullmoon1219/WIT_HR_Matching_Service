@@ -5,24 +5,40 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Novi</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="/css/admin/admin-template.css">
     <link rel="stylesheet" href="/css/admin/admin-sidebar.css">
     <link rel="stylesheet" href="/css/admin/admin-header.css">
-
+    <link rel="stylesheet" href="/css/admin/admin-right-panel.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
     <th:block layout:fragment="styles"></th:block>
 
+    <!-- JS -->
     <script src="/js/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/admin/csrf-setup.js"></script>
 </head>
 <body>
-<div class="admin-wrapper">
-    <header th:replace="~{fragments/admin/admin-header :: header}"></header>
-    <div class="admin-layout">
-        <aside th:replace="~{fragments/admin/admin-sidebar :: sidebar}"></aside>
-        <main class="content" layout:fragment="content"></main>
+<div class="admin-layout">
+    <!-- Sidebar -->
+    <aside th:replace="~{fragments/admin/admin-sidebar :: sidebar}"></aside>
+
+    <!-- Right Container -->
+    <div class="admin-container">
+        <!-- Header -->
+        <header th:replace="~{fragments/admin/admin-header :: header}"></header>
+
+        <!-- Content -->
+        <div class="content">
+            <section class="main-area" layout:fragment="content"></section>
+            <aside class="right-panel">
+                <div th:replace="~{fragments/admin/admin-right-panel :: panel}"></div>
+            </aside>
+        </div>
     </div>
 </div>
 </body>

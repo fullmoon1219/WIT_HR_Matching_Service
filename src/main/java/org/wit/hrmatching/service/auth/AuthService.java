@@ -6,10 +6,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.stereotype.Service;
-import org.wit.hrmatching.dao.ProfileDAO;
-import org.wit.hrmatching.dao.UserDAO;
 import org.wit.hrmatching.dto.login.UserRegisterDTO;
 import org.wit.hrmatching.enums.UserRole;
+import org.wit.hrmatching.mapper.ProfileMapper;
+import org.wit.hrmatching.mapper.UserMapper;
 import org.wit.hrmatching.service.mail.MailService;
 import org.wit.hrmatching.vo.ApplicantProfilesVO;
 import org.wit.hrmatching.vo.EmployerProfilesVO;
@@ -23,13 +23,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserDAO userDAO;
-    private final ProfileDAO profileDAO;
+    private final ProfileMapper profileMapper;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
 
     public void registerUser(UserRegisterDTO dto) {
-        if (userDAO.existsByEmail(dto.getEmail())) {
+        if (userMapper.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
 
@@ -47,7 +47,7 @@ public class AuthService {
     }
 
     public void saveOrUpdate(UserVO user) {
-        UserVO existing = userDAO.findByEmail(user.getEmail());
+        UserVO existing = userMapper.findByEmail(user.getEmail());
         if (existing != null) {
             if (!user.isSocialUser()) {
                 throw new OAuth2AuthenticationException(
@@ -67,7 +67,7 @@ public class AuthService {
     }
 
     private void insertUserWithProfile(UserVO user, boolean sendMailNeeded) {
-        userDAO.insertUser(user);
+        userMapper.insertUser(user);
 
         if (user.getId() == null) {
             throw new IllegalStateException("User ID가 생성되지 않았습니다.");
@@ -86,15 +86,24 @@ public class AuthService {
 
 
     public UserVO findByEmail(String email) {
-        return userDAO.findByEmail(email);
+        return userMapper.findByEmail(email);
     }
 
     public UserVO getUserWithProfile(Long userId) {
-        UserVO user = userDAO.findUserWithApplicantProfile(userId);  // 기본적으로 지원자 프로필 조회
+        UserVO user = userMapper.findByUserId(userId);
 
-        // 지원자가 아닌 경우, 기업 프로필로 설정
-        if (user == null || !user.getRole().equals("APPLICANT")) {
-            user = userDAO.findUserWithEmployerProfile(userId);  // EMPLOYEE일 경우 기업 프로필 조회
+        if (user == null) {
+            return null;
+        }
+
+        String role = user.getRole();
+
+        if ("APPLICANT".equalsIgnoreCase(role)) {
+            ApplicantProfilesVO profile = profileMapper.applicantFindByUserId(userId);
+            user.setApplicantProfile(profile);
+        } else if ("EMPLOYER".equalsIgnoreCase(role)) {
+            EmployerProfilesVO profile = profileMapper.employerFindByUserId(userId);
+            user.setEmployerProfile(profile);
         }
 
         return user;
@@ -104,15 +113,15 @@ public class AuthService {
     private void createApplicantProfile(UserVO user) {
         ApplicantProfilesVO profile = new ApplicantProfilesVO();
         profile.setUserId(user.getId());  // 유저의 ID 설정
-        profile.setAge(0);  // 기본값 설정 (필요시 수정 가능)
-        profile.setAddress("");  // 기본값 설정 (필요시 수정 가능)
-        profile.setPhoneNumber("");  // 기본값 설정 (필요시 수정 가능)
+        profile.setAge(0);  // 기본값 설정
+        profile.setAddress("");  // 기본값 설정
+        profile.setPhoneNumber("");  // 기본값 설정
         profile.setGender("OTHER");  // 기본값 설정
         profile.setPortfolioUrl("");  // 기본값 설정
         profile.setSelfIntro("");  // 기본값 설정
         profile.setJobType("FULLTIME");  // 기본값 설정
         profile.setExperienceYears(0);  // 기본값 설정
-        profileDAO.createApplicantProfile(profile);  // 프로필 삽입
+        profileMapper.insertApplicantProfile(profile);  // 프로필 삽입
     }
 
     // 기업 프로필 생성
@@ -127,32 +136,36 @@ public class AuthService {
         profile.setIndustry("");  // 기본값 설정
         profile.setFoundedYear(0);  // 기본값 설정
         profile.setCompanySize("");  // 기본값 설정
-        profileDAO.createEmployerProfile(profile);  // 기업 프로필 삽입
+        profileMapper. insertEmployerProfile(profile);  // 기업 프로필 삽입
     }
 
     public UserVO findByVerificationToken(String token) {
-        return userDAO.findByToken(token);
+        return userMapper.findByToken(token);
     }
 
     public void updateUser(UserVO user) {
-        userDAO.updateUser(user);  // emailVerified, token, tokenExpiration 업데이트
+        userMapper.updateUser(user);  // emailVerified, token, tokenExpiration 업데이트
     }
 
     public void deleteUserAccount(Long userId) {
-        UserVO user = userDAO.findUserById(userId);
+        UserVO user = userMapper.findByUserId(userId);
 
         if (user == null) throw new RuntimeException("사용자 없음");
 
-        if ("APPLICANT".equals(user.getRole())) {
-            profileDAO.deleteApplicantProfileByUserId(userId);
-        } else if ("EMPLOYER".equals(user.getRole())) {
-            profileDAO.deleteEmployerProfileByUserId(userId);
+        // 지원자 프로필 존재 여부 확인 후 삭제
+        if (profileMapper.existsApplicantProfile(userId)) {
+            profileMapper.deleteApplicantProfileByUserId(userId);
         }
 
-        userDAO.deleteUserById(userId);
+        // 기업 프로필 존재 여부 확인 후 삭제
+        if (profileMapper.existsEmployerProfile(userId)) {
+            profileMapper.deleteEmployerProfileByUserId(userId);
+        }
+
+        userMapper.deleteUserById(userId);
     }
 
     public void updateLastLoginTime(Long userId) {
-        userDAO.updateLastLoginTime(userId);
+        userMapper.updateLastLogin(userId);
     }
 }

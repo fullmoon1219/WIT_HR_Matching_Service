@@ -1,25 +1,24 @@
-package org.wit.hrmatching.service;
+package org.wit.hrmatching.service.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.wit.hrmatching.dao.AdminDAO;
 import org.wit.hrmatching.dto.admin.AdminDashboardStatsDTO;
+import org.wit.hrmatching.mapper.admin.AdminMapper;
 import org.wit.hrmatching.vo.JobPostVO;
 import org.wit.hrmatching.vo.UserVO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.function.BiFunction;
 
 @Service
 @RequiredArgsConstructor
 public class AdminService {
 
-    private final AdminDAO adminDAO;
+    private final AdminMapper adminMapper;
 
     private Map<String, Object> getDateRangeParams(int days) {
         Map<String, Object> params = new LinkedHashMap<>();
@@ -33,15 +32,15 @@ public class AdminService {
 
 
     public AdminDashboardStatsDTO getDashboardStats() {
-        return adminDAO.getDashboardStats();
+        return adminMapper.getDashboardStats();
     }
 
     public List<UserVO> getRecentUsers() {
-        return adminDAO.getRecentUsers();
+        return adminMapper.getRecentUsers();
     }
 
     public List<JobPostVO> getRecentJobPosts() {
-        return adminDAO.getRecentJobPosts();
+        return adminMapper.getRecentJobPosts();
     }
 
     public Map<String, Integer> getDailyUserCountsForPastDays(int days) {
@@ -64,7 +63,7 @@ public class AdminService {
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = endDate.minusDays(days - 1);
 
-        List<Map<String, Object>> rawData = adminDAO.getDailyCount(table, column, startDate, endDate);
+        List<Map<String, Object>> rawData = adminMapper.getDailyCount(table, column, startDate, endDate);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd");
         Map<String, Integer> result = new LinkedHashMap<>();
 
@@ -85,7 +84,7 @@ public class AdminService {
 
 
     public Map<String, Integer> getUserRoleDistribution() {
-        List<Map<String, Object>> list = adminDAO.getUserRoleDistribution();
+        List<Map<String, Object>> list = adminMapper.getUserRoleDistribution();
         Map<String, Integer> map = new LinkedHashMap<>();
         for (Map<String, Object> row : list) {
             map.put((String) row.get("role"), ((Number) row.get("count")).intValue());
@@ -94,7 +93,7 @@ public class AdminService {
     }
 
     public Map<String, Integer> getLoginTypeDistribution() {
-        List<Map<String, Object>> list = adminDAO.getLoginTypeDistribution();
+        List<Map<String, Object>> list = adminMapper.getLoginTypeDistribution();
         Map<String, Integer> map = new LinkedHashMap<>();
         for (Map<String, Object> row : list) {
             map.put((String) row.get("login_type"), ((Number) row.get("count")).intValue());
@@ -103,11 +102,11 @@ public class AdminService {
     }
 
     public Map<String, Object> getResumeCompletionStats() {
-        return adminDAO.getResumeCompletionStats();
+        return adminMapper.getResumeCompletionStats();
     }
 
     public Map<String, Integer> getResumeJobDistribution() {
-        List<Map<String, Object>> list = adminDAO.getResumeJobDistribution();
+        List<Map<String, Object>> list = adminMapper.getResumeJobDistribution();
         Map<String, Integer> map = new LinkedHashMap<>();
         for (Map<String, Object> row : list) {
             map.put((String) row.get("job_category"), ((Number) row.get("count")).intValue());
@@ -116,7 +115,7 @@ public class AdminService {
     }
 
     public Map<String, Integer> getJobPostCategoryDistribution() {
-        List<Map<String, Object>> list = adminDAO.getJobPostCategoryDistribution();
+        List<Map<String, Object>> list = adminMapper.getJobPostCategoryDistribution();
         Map<String, Integer> map = new LinkedHashMap<>();
         for (Map<String, Object> row : list) {
             map.put((String) row.get("category"), ((Number) row.get("count")).intValue());
@@ -125,19 +124,19 @@ public class AdminService {
     }
 
     public int getSuspendedUserCount() {
-        return adminDAO.getSuspendedUserCount();
+        return adminMapper.getSuspendedUserCount();
     }
 
     public int getUnverifiedEmailUserCount() {
-        return adminDAO.getUnverifiedEmailUserCount();
+        return adminMapper.getUnverifiedEmailUserCount();
     }
 
     public Page<UserVO> getPagedUsers(Pageable pageable) {
-        int total = adminDAO.countAllUsers();
+        int total = adminMapper.countAllUsers();
         int limit = pageable.getPageSize();
         int offset = (int) pageable.getOffset();
 
-        List<UserVO> users = adminDAO.getAllUsersWithProfilesPaged(limit, offset);
+        List<UserVO> users = adminMapper.getAllUsersWithProfilesPaged(limit, offset);
         return new PageImpl<>(users, pageable, total);
     }
 

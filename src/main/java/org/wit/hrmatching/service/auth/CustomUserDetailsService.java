@@ -6,7 +6,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.wit.hrmatching.config.auth.CustomUserDetails;
+import org.wit.hrmatching.vo.CustomUserDetails;
 import org.wit.hrmatching.enums.UserStatus;
 import org.wit.hrmatching.vo.UserVO;
 

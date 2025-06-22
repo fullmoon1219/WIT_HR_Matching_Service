@@ -1,5 +1,14 @@
 /* /resources/static/css/admin/user-management.css */
 
+.section {
+    margin-bottom: 40px;
+}
+
+.section h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
 .user-table {
     width: 100%;
     border-collapse: collapse;
@@ -142,18 +151,18 @@
     cursor: pointer;
 }
 
-.role-popup .applicant,
-.role.applicant {
+.value-popup .applicant,
+.value.applicant {
     background-color: #007bff;
 }
 
-.role-popup .employer,
-.role.employer {
+.value-popup .employer,
+.value.employer {
     background-color: #6f42c1;
 }
 
-.role-popup .admin,
-.role.admin {
+.value-popup .admin,
+.value.admin {
     background-color: #343a40;
 }
 

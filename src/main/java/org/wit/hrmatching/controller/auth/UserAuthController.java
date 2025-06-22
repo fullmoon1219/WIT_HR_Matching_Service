@@ -14,11 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.wit.hrmatching.config.auth.CustomUserDetails;
+import org.wit.hrmatching.vo.CustomUserDetails;
 import org.wit.hrmatching.dto.login.UserRegisterDTO;
 import org.wit.hrmatching.service.auth.AuthService;
 import org.wit.hrmatching.service.auth.oAuth2.CustomOAuth2DisconnectService;
-import org.wit.hrmatching.service.auth.oAuth2.CustomOAuth2UserService;
 import org.wit.hrmatching.vo.UserVO;
 
 import java.time.LocalDateTime;
