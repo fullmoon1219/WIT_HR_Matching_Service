@@ -24,6 +24,18 @@ spring:
     resources:
       static-locations: classpath:/static/, classpath:/public/, classpath:/META-INF/resources/
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
   security:
     oauth2:
       client:
@@ -62,16 +74,26 @@ mybatis:
 server:
   forward-headers-strategy: framework
   port: '8080'
+  error:
+    whitelabel:
+      enabled: false
+    path: /error/home
 
 logging:
   level:
+    jdbc.sqlonly: error
     org:
+      mybatis: error
       springframework:
-        security: DEBUG
-        web: DEBUG
+        security:
+          "config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer": error
+        web: error
+      boot:
+        context:
+          config: error
     wit:
       hrmatching:
         config:
           auth:
-            CustomLogoutSuccessHandler: DEBUG
+            CustomLogoutSuccessHandler: error
 

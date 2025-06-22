@@ -1,0 +1,66 @@
+<!-- /resources/templates/hrms/login/register.html -->
+
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>회원가입</title>
+  <link rel="stylesheet" href="/css/login/register.css">
+  <script src="/js/jquery-3.7.1.min.js"></script>
+  <script src="/js/auth/register.js"></script>
+</head>
+<body>
+<h2>회원가입</h2>
+
+<form th:action="@{/users/register}" method="post" th:object="${userRegisterDTO}">
+
+  <div>
+    <label for="role">역할</label>
+    <select id="role" name="role" th:field="*{role}">
+      <option value="APPLICANT">개인</option>
+      <option value="EMPLOYER">기업</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="email">이메일</label>
+    <input type="email" id="email" name="email" th:field="*{email}" required>
+    <button type="button" id="checkEmailBtn">중복 확인</button>
+    <span id="emailCheckResult"></span>
+  </div>
+
+
+  <div>
+    <label for="password">비밀번호</label>
+    <input type="password" id="password" name="password" th:field="*{password}" required>
+    <div th:if="${#fields.hasErrors('password')}" style="color:red;">
+      <p th:errors="*{password}">비밀번호를 입력하세요</p>
+    </div>
+  </div>
+
+  <div>
+    <label for="confirmPassword">비밀번호 확인</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" required>
+    <span id="pwMatchResult" style="margin-left:10px;"></span>
+
+    <div th:if="${#fields.hasErrors('confirmPassword')}" style="color:red;">
+      <p th:errors="*{confirmPassword}">비밀번호 확인을 입력하세요</p>
+    </div>
+  </div>
+
+  <div>
+    <label for="name">이름</label>
+    <input type="text" id="name" name="name" th:field="*{name}" required>
+    <div th:if="${#fields.hasErrors('name')}" style="color:red;">
+      <p th:errors="*{name}">이름을 입력하세요</p>
+    </div>
+  </div>
+
+  <div>
+    <button type="submit" id="submitBtn">회원가입</button>
+  </div>
+</form>
+
+</body>
+</html>

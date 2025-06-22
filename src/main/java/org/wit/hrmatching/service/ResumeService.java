@@ -1,17 +1,49 @@
 package org.wit.hrmatching.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.dao.ResumeDAO;
 import org.wit.hrmatching.vo.ResumeVO;
 
+import java.util.List;
+
 @Service
+@RequiredArgsConstructor
 public class ResumeService {
 
-	@Autowired
-	private ResumeDAO resumeDAO;
+	private final ResumeDAO resumeDAO;
 
-	public int registerResume(ResumeVO resumeVO) {
-		return resumeDAO.registerResume(resumeVO);
+	public boolean registerResume(ResumeVO resumeVO) {
+
+		return resumeDAO.registerResume(resumeVO) == 0;
+	}
+
+	public List<ResumeVO> getResumeList(long userId) {
+
+		return resumeDAO.getResumeList(userId);
+	}
+
+	public List<ResumeVO> getDraftResumeList(long userId) {
+		return resumeDAO.getDraftResumeList(userId);
+	}
+
+	public ResumeVO getResume(long resumeId) {
+		return resumeDAO.getResume(resumeId);
+	}
+
+	public ResumeVO getResumeForUpdate(long resumeId) {
+		return resumeDAO.getResumeForUpdate(resumeId);
+	}
+
+	public Long findOwnerIdByResumeId(long resumeId) {
+		return resumeDAO.findOwnerIdByResumeId(resumeId);
+	}
+
+	public boolean editResume(ResumeVO resumeVO) {
+		return resumeDAO.editResume(resumeVO) == 0;
+	}
+
+	public boolean deleteResume(long resumeId) {
+		return resumeDAO.deleteResume(resumeId) == 0;
 	}
 }

@@ -12,4 +12,6 @@ public interface ApplicantProfileMapper {
 
     // 지원자 프로필 삽입
     void insertApplicantProfile(ApplicantProfilesVO profile);
+
+    void deleteApplicantProfileByUserId(Long userId);
 }

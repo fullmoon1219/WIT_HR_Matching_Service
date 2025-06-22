@@ -1,0 +1,24 @@
+<!-- templates/hrms/error/db-access-denied.html -->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Novi</title>
+    <link rel="stylesheet" href="/css/info/info.css">
+</head>
+<body>
+
+<div class="message-container">
+    <div class="logo">
+        <img th:src="@{/images/logo_no_background.png}" alt="로고"/>
+    </div>
+
+    <div class="message-box">
+        <h1>🚫 DB 접근 실패</h1>
+        <p>데이터 베이스 접근에 실패했습니다.</p>
+        <a th:href="@{/}" class="btn">홈으로 돌아가기</a>
+    </div>
+</div>
+</body>
+</html>

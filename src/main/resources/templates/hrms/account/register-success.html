@@ -1,0 +1,26 @@
+<!-- /resources/templates/hrms/login/register-success.html -->
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Novi</title>
+    <link rel="stylesheet" href="/css/info/info.css">
+</head>
+<body>
+
+<div class="message-container">
+    <div class="logo">
+        <a th:href="@{/}">
+            <img th:src="@{/images/logo_no_background.png}" alt="로고"/>
+        </a>
+    </div>
+
+    <div class="message-box">
+        <h1>✅ 회원가입이 완료되었습니다.</h1>
+        <a th:href="@{/users/login}" class="btn">로그인하러 가기</a>
+    </div>
+</div>
+</body>
+</html>
+

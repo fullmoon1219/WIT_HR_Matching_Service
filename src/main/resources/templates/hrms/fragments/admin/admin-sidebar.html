@@ -1,0 +1,16 @@
+<!-- templates/hrms/fragments/admin/admin-sidebar.html -->
+
+<aside th:fragment="sidebar" class="sidebar">
+  <nav>
+    <ul>
+      <li><a th:href="@{/admin/dashboard}">📊 대시보드</a></li>
+      <li><a th:href="@{/admin/users}">👤 사용자 관리</a></li>
+      <li><a th:href="@{/admin/resumes}">📄 이력서 목록</a></li>
+      <li><a th:href="@{/admin/job-posts}">📢 채용 공고 관리</a></li>
+      <li><a th:href="@{/admin/applications}">📨 지원 내역 관리</a></li>
+      <li><a th:href="@{/admin/reports}">🧾 신고/문의 관리</a></li>
+      <li><a th:href="@{/admin/categories}">🧩 커뮤니티 관리</a></li>
+      <li><a th:href="@{/admin/settings}">⚙ 시스템 설정</a></li>
+    </ul>
+  </nav>
+</aside>

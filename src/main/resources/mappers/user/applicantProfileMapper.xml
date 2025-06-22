@@ -29,4 +29,9 @@
         VALUES (#{userId}, #{age}, #{address}, #{phoneNumber}, #{gender}, #{portfolioUrl},
                 #{selfIntro}, #{jobType}, #{experienceYears}, #{primaryResumeId})
     </insert>
+
+    <delete id="deleteApplicantProfileByUserId" parameterType="long">
+        DELETE FROM applicant_profiles WHERE user_id = #{userId}
+    </delete>
+
 </mapper>
