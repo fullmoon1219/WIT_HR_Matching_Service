@@ -30,7 +30,7 @@ $(document).ready(function() {
 
     // 등록 버튼 클릭 시
     $('#btnRegister').click(function () {
-        //if (!validateResumeForm()) return;
+        if (!validateResumeForm()) return;
 
         // input 추가
         $('<input>').attr({

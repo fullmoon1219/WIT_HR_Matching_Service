@@ -58,4 +58,17 @@ public class ResumeDAO {
 
 		return flag;
 	}
+
+	public int deleteResume(long resumeId) {
+
+		// 수정 성공 시 flag = 0, 실패 시 flag = 1
+		int flag = 1;
+		int result = resumeMapper.deleteResume(resumeId);
+
+		if (result == 1) {
+			flag = 0;
+		}
+
+		return flag;
+	}
 }

@@ -22,14 +22,11 @@ public class ResumeController {
 	private final ResumeService resumeService;
 
 	@GetMapping("/register")
-	public ModelAndView registerResume(@AuthenticationPrincipal CustomUserDetails userDetails) {
-
-		Long userId = userDetails.getUser().getId();
+	public ModelAndView registerResume() {
 
 		// TODO: 구직자 정보(사진 포함) 추가 → 구직자 메인페이지 로직 완료 후 반영 (작성 화면용)
 
 		ModelAndView modelAndView = new ModelAndView("resume/resume_register");
-		modelAndView.addObject("userId", userId);
 		modelAndView.addObject("resumeVO", new ResumeVO());
 
 		return modelAndView;
@@ -170,5 +167,14 @@ public class ResumeController {
 		}
 
 		return modelAndView;
+	}
+
+	@PostMapping("/delete")
+	@PreAuthorize("@permission.isResumeOwner(#resumeId, authentication)")
+	public ModelAndView deleteResume(@RequestParam Long resumeId) {
+
+		boolean result = resumeService.deleteResume(resumeId);
+
+		return new ModelAndView(result ? "redirect:/applicant/resume/list" : "error/db-access-denied");
 	}
 }

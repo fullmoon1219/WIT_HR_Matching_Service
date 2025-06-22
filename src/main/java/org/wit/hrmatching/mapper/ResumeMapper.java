@@ -21,4 +21,6 @@ public interface ResumeMapper {
 
 	ResumeVO selectResumeForUpdate(long resumeId);
 	int updateResume(ResumeVO resumeVO);
+
+	int deleteResume(long resumeId);
 }

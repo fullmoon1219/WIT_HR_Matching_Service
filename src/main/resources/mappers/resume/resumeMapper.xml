@@ -3,7 +3,7 @@
 
 <mapper namespace="org.wit.hrmatching.mapper.ResumeMapper">
 
-    <insert id="insertResume" parameterType="resumeVO">
+    <insert id="insertResume" parameterType="resumeVO" useGeneratedKeys="true" keyProperty="id">
         insert into resumes
         (user_id, education, experience, skills, preferred_location, salary_expectation,
          is_public, title, core_competency, desired_position, motivation, is_completed)
@@ -46,6 +46,12 @@
             preferred_location=#{preferredLocation}, salary_expectation=#{salaryExpectation}, is_public=#{isPublic},
             title=#{title}, core_competency=#{coreCompetency}, desired_position=#{desiredPosition}, motivation=#{motivation}
         where id=#{id}
+    </update>
+
+    <update id="deleteResume">
+        update resumes
+        set deleted_at=now()
+        where id=#{resumeId} and deleted_at is null
     </update>
 
 </mapper>

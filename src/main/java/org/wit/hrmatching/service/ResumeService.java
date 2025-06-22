@@ -42,4 +42,8 @@ public class ResumeService {
 	public boolean editResume(ResumeVO resumeVO) {
 		return resumeDAO.editResume(resumeVO) == 0;
 	}
+
+	public boolean deleteResume(long resumeId) {
+		return resumeDAO.deleteResume(resumeId) == 0;
+	}
 }
