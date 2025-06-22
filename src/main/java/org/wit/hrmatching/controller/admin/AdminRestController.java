@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import org.wit.hrmatching.dto.admin.AdminDashboardStatsDTO;
-import org.wit.hrmatching.service.AdminService;
+import org.wit.hrmatching.service.admin.AdminService;
 import org.wit.hrmatching.vo.UserVO;
 
 import java.util.HashMap;

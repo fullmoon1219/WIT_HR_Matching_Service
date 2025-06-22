@@ -1,10 +1,9 @@
-package org.wit.hrmatching.config.auth;
+package org.wit.hrmatching.vo;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.wit.hrmatching.vo.UserVO;
 
 import java.util.Collection;
 import java.util.Collections;

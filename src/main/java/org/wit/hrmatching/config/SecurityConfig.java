@@ -54,7 +54,7 @@ public class SecurityConfig {
                                 "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**",
                                 "/api/users/check-email", "/error/**").permitAll()  // 로그인 없이 접근 허용
                         .requestMatchers("/admin/**").hasAuthority("ADMIN") // 관리자 전용
-                        .requestMatchers("/api/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/employer/**").hasAuthority("EMPLOYER") // 기업 전용
                         .requestMatchers("/applicant/**").hasAuthority("APPLICANT") // 지원자 전용
                         .anyRequest().authenticated()  // 그 외에는 인증 필요

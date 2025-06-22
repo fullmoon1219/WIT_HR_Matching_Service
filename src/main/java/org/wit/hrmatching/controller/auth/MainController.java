@@ -5,7 +5,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.wit.hrmatching.config.auth.CustomUserDetails;
+import org.wit.hrmatching.vo.CustomUserDetails;
 import org.wit.hrmatching.service.auth.AuthService;
 import org.wit.hrmatching.vo.UserVO;
 

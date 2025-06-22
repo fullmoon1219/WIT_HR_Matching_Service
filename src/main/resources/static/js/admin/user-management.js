@@ -70,7 +70,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "/admin/changeValue",
+            url: "/api/admin/users/change-value",
             data: { userId: userId, type: type, value: newValue },
             success: function () {
                 location.reload();

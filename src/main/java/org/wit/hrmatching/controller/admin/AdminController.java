@@ -1,4 +1,4 @@
-package org.wit.hrmatching.controller;
+package org.wit.hrmatching.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     @GetMapping("/dashboard")
-    public String dashboardPage() {
+    public String adminDashboard() {
         return "admin/dashboard";
     }
 
