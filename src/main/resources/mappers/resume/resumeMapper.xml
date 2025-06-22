@@ -26,4 +26,6 @@
         where id=#{resumeId}
     </select>
 
+
+
 </mapper>

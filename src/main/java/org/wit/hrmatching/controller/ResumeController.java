@@ -32,7 +32,11 @@ public class ResumeController {
 	}
 
 	@PostMapping("/resume/register_ok")
-	public ModelAndView registerResumeOk(@ModelAttribute ResumeVO resumeVO) {
+	public ModelAndView registerResumeOk(@AuthenticationPrincipal CustomUserDetails userDetails,
+										 @ModelAttribute ResumeVO resumeVO) {
+
+		Long userId = userDetails.getUser().getId();
+		resumeVO.setUserId(userId);
 
 		// TODO: 등록 성공/실패에 따라 redirect 또는 에러 처리 분기
 		// TODO: 디자인 확정 후 선택형 필드 반영 예정 (작성 화면)
@@ -65,9 +69,6 @@ public class ResumeController {
 
 		ResumeVO resumeVO = resumeService.viewResume(resumeId);
 
-		System.out.println("로그인 유저 ID: " + userId);
-		System.out.println("이력서 작성자 ID: " + resumeVO.getUserId());
-
 		// 작성자와 로그인한 유저가 다를 경우
 		// → AccessDeniedException 발생 → Spring Security가 403 응답 처리 → /error 로 포워딩
 		if (resumeVO.getUserId() != userId) {
@@ -82,4 +83,16 @@ public class ResumeController {
 		return modelAndView;
 	}
 
+	@GetMapping("/resume/edit")
+	public ModelAndView editResume(@AuthenticationPrincipal CustomUserDetails userDetails,
+								   @RequestParam Long resumeId) {
+
+		Long userId = userDetails.getUser().getId();
+
+
+
+		ModelAndView modelAndView = new ModelAndView("resume/resume_edit");
+
+		return modelAndView;
+	}
 }
