@@ -3,32 +3,37 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>회원 탈퇴</title>
+
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/auth/delete.js"></script>
+
 </head>
 <body>
 <h2>회원 탈퇴 확인</h2>
 
-<form th:action="@{/users/delete}" method="post" onsubmit="return confirm('정말 회원 탈퇴하시겠습니까?')">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
+<form id="deleteForm">
     <div th:if="${isSocialUser}">
         <label>
-            <input type="checkbox" name="confirmDelete" required>
+            <input type="checkbox" name="confirmDelete" id="confirmDelete" required>
             탈퇴에 동의합니다.
         </label>
     </div>
 
     <div th:if="${!isSocialUser}">
         <label>비밀번호 확인:
-            <input type="password" name="password" required/>
+            <input type="password" name="password" id="password" required/>
         </label>
     </div>
     <br>
     <button type="submit">탈퇴하기</button>
 </form>
 
-<div th:if="${message}" style="color:red;">
-    <p th:text="${message}"></p>
-</div>
+<div id="deleteMessage" style="color:red;"></div>
+
 </body>
 </html>
