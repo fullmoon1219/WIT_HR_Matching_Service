@@ -1,5 +1,18 @@
 //  /static/js/admin/dashboard.js
 
+function renderLoginType(type) {
+    switch (type) {
+        case 'EMAIL':
+            return '<span class="login-type email"><i class="fa-solid fa-envelope"></i> 이메일</span>';
+        case 'NAVER':
+            return '<span class="login-type naver"><i class="fa-brands fa-naver"></i> 네이버</span>';
+        case 'GOOGLE':
+            return '<span class="login-type google"><i class="fa-brands fa-google"></i> 구글</span>';
+        default:
+            return `<span class="login-type unknown">${type}</span>`;
+    }
+}
+
 $(document).ready(function () {
     $.get("/api/admin/dashboard/daily-user-counts", function (data) {
         renderLineChart("dailyUserChart", data, "일일 가입자 수");

@@ -25,8 +25,8 @@ $(document).ready(function () {
                     <td>${user?.email ?? '--'}</td>
                     <td>${user?.name ?? '--'}</td>
                     <td>${user?.createAt ?? '--'}</td>
-                    <td>${user?.role ?? '--'}</td>
-                    <td>${user?.loginType ?? '--'}</td>
+                    <td><span class="role ${user.role.toLowerCase()}">${user.role}</span></td>
+                    <td>${renderLoginType(user.loginType)}</td>
                 </tr>
             `;
             $tbody.append(html);

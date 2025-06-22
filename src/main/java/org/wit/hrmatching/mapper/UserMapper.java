@@ -27,4 +27,7 @@ public interface UserMapper {
 
     // 회원 탈퇴
     void deleteUserById(Long id);
+
+    // 최종 로그인
+    void updateLastLogin(Long id);
 }

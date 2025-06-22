@@ -13,6 +13,7 @@ import org.wit.hrmatching.vo.LoginHistoryVO;
 import org.wit.hrmatching.vo.UserVO;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -40,7 +41,10 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         }
 
         if (userId != null) {
-            // 클라이언트 IP 주소 추출
+            // 로그인 시간 업데이트
+            authService.updateLastLoginTime(userId);
+
+            // 로그인 기록 저장
             String ip = extractClientIp(request);
 
             LoginHistoryVO history = new LoginHistoryVO();
@@ -50,7 +54,17 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
             loginHistoryService.insertLoginHistory(history);
         }
 
-        response.sendRedirect("/");
+        // 이전 페이지로 이동 (단, /users/** 이면 홈으로)
+        String referer = Objects.requireNonNullElse(
+                (String) request.getSession().getAttribute("prevPage"), "/"
+        );
+        request.getSession().removeAttribute("prevPage");
+
+        if (referer.contains("/users/")) {
+            response.sendRedirect("/");
+        } else {
+            response.sendRedirect(referer);
+        }
     }
 
     /**

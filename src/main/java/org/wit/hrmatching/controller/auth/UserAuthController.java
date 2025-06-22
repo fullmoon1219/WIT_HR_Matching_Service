@@ -49,6 +49,11 @@ public class UserAuthController {
             return "redirect:/";
         }
 
+        String referer = request.getHeader("Referer");
+        if (referer != null) {
+            request.getSession().setAttribute("prevPage", referer);
+        }
+
         String errorMessage = (String) request.getSession().getAttribute("errorMessage");
 
         if (errorMessage != null) {

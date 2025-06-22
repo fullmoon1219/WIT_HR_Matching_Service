@@ -21,7 +21,7 @@ table {
 
 th, td {
     padding: 12px;
-    text-align: left;
+    text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
@@ -88,4 +88,48 @@ th {
     text-align: center;
     margin-top: auto;
     color: #2c3e50;
+}
+
+.login-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: bold;
+}
+
+.login-type.email {
+    color: #007bff;
+}
+
+.login-type.naver {
+    color: #1ec800;
+}
+
+.login-type.google {
+    color: #db4437;
+}
+
+.login-type i {
+    font-size: 14px;
+}
+
+.role {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    color: white;
+}
+
+.role.applicant {
+    background-color: #007bff; /* 파랑 */
+}
+
+.role.employer {
+    background-color: #6f42c1; /* 보라 */
+}
+
+.role.admin {
+    background-color: #343a40; /* 다크그레이 */
 }

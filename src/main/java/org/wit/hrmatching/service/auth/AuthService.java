@@ -151,4 +151,8 @@ public class AuthService {
 
         userDAO.deleteUserById(userId);
     }
+
+    public void updateLastLoginTime(Long userId) {
+        userDAO.updateLastLoginTime(userId);
+    }
 }

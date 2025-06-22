@@ -76,5 +76,9 @@
         DELETE FROM users WHERE id = #{id}
     </delete>
 
+<!--    최종 로그인 -->
+    <update id="updateLastLogin">
+        UPDATE users SET last_login = NOW() WHERE id = #{id}
+    </update>
 
 </mapper>

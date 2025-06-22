@@ -97,6 +97,124 @@
     text-align: center;
 }
 
+.icon.verified {
+    color: green;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.icon.unverified {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.value-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.value-popup {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 6px 8px;
+    z-index: 1000;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.value,
+.value-popup span,
+.value-popup button {
+    display: inline-block;
+    border: none;
+    margin: 2px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    color: white;
+    cursor: pointer;
+}
+
+.role-popup .applicant,
+.role.applicant {
+    background-color: #007bff;
+}
+
+.role-popup .employer,
+.role.employer {
+    background-color: #6f42c1;
+}
+
+.role-popup .admin,
+.role.admin {
+    background-color: #343a40;
+}
+
+.value.status.active,
+.value-popup .active {
+    background: #28a745;
+}
+
+.value.status.suspended,
+.value-popup .suspended {
+    background: #dc3545;
+}
+
+.value.status.withdrawn,
+.value-popup .withdrawn {
+    background: #6c757d;
+}
+
+.value.warning.warning-0,
+.value-popup .warning-0 {
+    background: #6c757d;
+}
+
+.value.warning.warning-1,
+.value-popup .warning-1 {
+    background: #ffc107;
+}
+
+.value.warning.warning-2,
+.value-popup .warning-2 {
+    background: #fd7e14;
+}
+
+.value.warning.warning-3,
+.value-popup .warning-3 {
+    background: #dc3545;
+}
+
+.login-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: bold;
+}
+
+.login-type.email {
+    color: #007bff;
+}
+
+.login-type.naver {
+    color: #1ec800;
+}
+
+.login-type.google {
+    color: #db4437;
+}
+
+.login-type i {
+    font-size: 14px;
+}
+
 /* 작은 화면 대응 */
 @media (max-width: 480px) {
     .applicant-detail-table th,
@@ -105,3 +223,5 @@
         padding: 6px;
     }
 }
+
+
