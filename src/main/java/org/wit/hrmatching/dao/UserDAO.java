@@ -72,4 +72,7 @@ public class UserDAO {
         userMapper.deleteUserById(id);
     }
 
+    public void updateLastLoginTime(Long userId) {
+        userMapper.updateLastLogin(userId);
+    }
 }

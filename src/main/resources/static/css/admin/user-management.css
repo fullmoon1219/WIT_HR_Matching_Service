@@ -1,0 +1,227 @@
+/* /resources/static/css/admin/user-management.css */
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-table th {
+    background-color: #f0f0f0;
+}
+
+.user-table td {
+    background-color: #ffffff;
+}
+
+.user-table th,
+.user-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.toggle-details-btn {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 18px;
+}
+
+.detail-table-wrapper {
+    display: none;
+    padding: 16px;
+    background: #f1f9ff;
+    border-radius: 8px;
+}
+
+/* 지원자 상세 테이블 */
+.applicant-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    table-layout: fixed;
+}
+
+/* 프로필 이미지 셀 */
+.applicant-detail-table th {
+    background-color: #ffffff;
+    vertical-align: middle;
+    text-align: center;
+    padding: 16px;
+    border: 1px solid #ddd;
+}
+
+/* 기본 내용 셀 */
+.applicant-detail-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    background-color: #ffffff;
+    word-break: break-word;
+}
+
+/* 제목 셀: class="label" 적용된 td만 회색 배경 */
+.applicant-detail-table td.label {
+    background-color: #f0f0f0 !important;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+/* 링크 스타일 */
+.applicant-detail-table a {
+    color: #007bff;
+    text-decoration: underline;
+    word-break: break-all;
+}
+/* 기업 상세 테이블 */
+.employer-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    table-layout: fixed;
+}
+
+.employer-detail-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    background-color: #ffffff;
+    word-break: break-word;
+}
+
+.employer-detail-table td.label {
+    background-color: #f0f0f0 !important;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+.icon.verified {
+    color: green;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.icon.unverified {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.value-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.value-popup {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 6px 8px;
+    z-index: 1000;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.value,
+.value-popup span,
+.value-popup button {
+    display: inline-block;
+    border: none;
+    margin: 2px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    color: white;
+    cursor: pointer;
+}
+
+.role-popup .applicant,
+.role.applicant {
+    background-color: #007bff;
+}
+
+.role-popup .employer,
+.role.employer {
+    background-color: #6f42c1;
+}
+
+.role-popup .admin,
+.role.admin {
+    background-color: #343a40;
+}
+
+.value.status.active,
+.value-popup .active {
+    background: #28a745;
+}
+
+.value.status.suspended,
+.value-popup .suspended {
+    background: #dc3545;
+}
+
+.value.status.withdrawn,
+.value-popup .withdrawn {
+    background: #6c757d;
+}
+
+.value.warning.warning-0,
+.value-popup .warning-0 {
+    background: #6c757d;
+}
+
+.value.warning.warning-1,
+.value-popup .warning-1 {
+    background: #ffc107;
+}
+
+.value.warning.warning-2,
+.value-popup .warning-2 {
+    background: #fd7e14;
+}
+
+.value.warning.warning-3,
+.value-popup .warning-3 {
+    background: #dc3545;
+}
+
+.login-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: bold;
+}
+
+.login-type.email {
+    color: #007bff;
+}
+
+.login-type.naver {
+    color: #1ec800;
+}
+
+.login-type.google {
+    color: #db4437;
+}
+
+.login-type i {
+    font-size: 14px;
+}
+
+/* 작은 화면 대응 */
+@media (max-width: 480px) {
+    .applicant-detail-table th,
+    .applicant-detail-table td {
+        font-size: 14px;
+        padding: 6px;
+    }
+}
+
+

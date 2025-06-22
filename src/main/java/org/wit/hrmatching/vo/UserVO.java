@@ -21,6 +21,7 @@ public class UserVO {
     private String role;
     private LocalDateTime createAt;
     private String status;  // "ACTIVE", "SUSPENDED", "WITHDRAWN"
+    private int warningCount;
     private LocalDateTime lastLogin;
     private String profileImage;
     private boolean emailVerified;
