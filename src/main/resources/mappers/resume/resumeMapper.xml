@@ -6,15 +6,21 @@
     <insert id="insertResume" parameterType="resumeVO">
         insert into resumes
         (user_id, education, experience, skills, preferred_location, salary_expectation,
-         is_public, title, core_competency, desired_position, motivation)
+         is_public, title, core_competency, desired_position, motivation, is_completed)
         values (#{userId}, #{education}, #{experience}, #{skills}, #{preferredLocation}, #{salaryExpectation},
-                #{isPublic}, #{title}, #{coreCompetency}, #{desiredPosition}, #{motivation})
+                #{isPublic}, #{title}, #{coreCompetency}, #{desiredPosition}, #{motivation}, #{isCompleted})
     </insert>
     
     <select id="selectResumeList" resultType="resumeVO">
         select id, title
         from resumes
-        where user_id=#{userId} and deleted_at is null
+        where user_id=#{userId} and deleted_at is null and is_completed=true
+    </select>
+
+    <select id="selectDraftResumeList" resultType="resumeVO">
+        select id, title
+        from resumes
+        where user_id=#{userId} and deleted_at is null and is_completed=false
     </select>
 
     <select id="selectResume" resultType="resumeVO">
@@ -36,10 +42,10 @@
 
     <update id="updateResume" parameterType="resumeVO">
         update resumes
-        set education=#{education}, experience=#{experience}, skills=#{skills},
+        set education=#{education}, experience=#{experience}, skills=#{skills}, is_completed=#{isCompleted},
             preferred_location=#{preferredLocation}, salary_expectation=#{salaryExpectation}, is_public=#{isPublic},
             title=#{title}, core_competency=#{coreCompetency}, desired_position=#{desiredPosition}, motivation=#{motivation}
-        where id=#{resumeId} and user_id=#{userId}
+        where id=#{id}
     </update>
 
 </mapper>

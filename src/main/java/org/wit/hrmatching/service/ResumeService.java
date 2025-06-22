@@ -13,13 +13,18 @@ public class ResumeService {
 
 	private final ResumeDAO resumeDAO;
 
-	public int registerResume(ResumeVO resumeVO) {
-		return resumeDAO.registerResume(resumeVO);
+	public boolean registerResume(ResumeVO resumeVO) {
+
+		return resumeDAO.registerResume(resumeVO) == 0;
 	}
 
 	public List<ResumeVO> getResumeList(long userId) {
 
 		return resumeDAO.getResumeList(userId);
+	}
+
+	public List<ResumeVO> getDraftResumeList(long userId) {
+		return resumeDAO.getDraftResumeList(userId);
 	}
 
 	public ResumeVO getResume(long resumeId) {
@@ -34,7 +39,7 @@ public class ResumeService {
 		return resumeDAO.findOwnerIdByResumeId(resumeId);
 	}
 
-	public int editResume(ResumeVO resumeVO) {
-		return resumeDAO.editResume(resumeVO);
+	public boolean editResume(ResumeVO resumeVO) {
+		return resumeDAO.editResume(resumeVO) == 0;
 	}
 }

@@ -12,6 +12,7 @@ public interface ResumeMapper {
 	int insertResume(ResumeVO resumeVO);
 
 	List<ResumeVO> selectResumeList(long userId);
+	List<ResumeVO> selectDraftResumeList(long userId);
 
 	ResumeVO selectResume(long resumeId);
 

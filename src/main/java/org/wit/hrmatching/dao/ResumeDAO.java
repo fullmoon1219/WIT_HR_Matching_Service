@@ -30,6 +30,10 @@ public class ResumeDAO {
 		return resumeMapper.selectResumeList(userId);
 	}
 
+	public List<ResumeVO> getDraftResumeList(long userId) {
+		return resumeMapper.selectDraftResumeList(userId);
+	}
+
 	public ResumeVO getResume(long resumeId) {
 		return resumeMapper.selectResume(resumeId);
 	}
