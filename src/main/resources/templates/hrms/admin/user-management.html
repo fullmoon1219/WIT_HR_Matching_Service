@@ -2,7 +2,8 @@
 
 <div layout:decorate="~{layout/admin/admin-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
     <th:block layout:fragment="styles">
-        <link rel="stylesheet" href="/css/admin/user-management.css">
+        <link rel="stylesheet" href="/css/admin/user-management/user-management.css">
+        <link rel="stylesheet" href="/css/admin/user-management/filter.css">
     </th:block>
 
     <div layout:fragment="content">
@@ -16,7 +17,42 @@
         </div>
 
         <div class="section">
-            <h2>사용자 목록</h2>
+            <div class="table-header">
+                <h2>사용자 목록</h2>
+                <div class="user-control-panel">
+                    <div class="search">
+                        <label><input type="text" id="searchKeyword" placeholder="이름, 이메일, 주소, 기업명으로 검색..." /></label>
+                        <button id="searchButton">검색</button>
+                    </div>
+                    <div class="value-wrapper bulk-action">
+                        <span class="bulk-value role" data-type="role">역할변경</span>
+                        <div class="value-popup" style="display: none;">
+                            <button class="default" data-value="">선택 안함</button>
+                            <button class="applicant" data-value="APPLICANT">APPLICANT</button>
+                            <button class="employer" data-value="EMPLOYER">EMPLOYER</button>
+                            <button class="admin" data-value="ADMIN">ADMIN</button>
+                        </div>
+                    </div>
+                    <div class="value-wrapper bulk-action">
+                        <span class="bulk-value status" data-type="status">상태변경</span>
+                        <div class="value-popup" style="display: none;">
+                            <button class="default" data-value="">선택 안함</button>
+                            <button class="active" data-value="ACTIVE">ACTIVE</button>
+                            <button class="suspended" data-value="SUSPENDED">SUSPENDED</button>
+                        </div>
+                    </div>
+                    <div class="value-wrapper bulk-action">
+                        <span class="bulk-value warning" data-type="warning">경고변경</span>
+                        <div class="value-popup" style="display: none;">
+                            <button class="default" data-value="">선택 안함</button>
+                            <button class="warning-0" data-value="0">0</button>
+                            <button class="warning-1" data-value="1">1</button>
+                            <button class="warning-2" data-value="2">2</button>
+                            <button class="warning-3" data-value="3">3</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <table class="user-table">
                 <colgroup>
                     <col style="width: 3%">
@@ -33,16 +69,72 @@
                 <thead>
                 <tr>
                     <th><input type="checkbox" id="checkAll"></th>
-                    <th>ID</th><th>이메일</th><th>이름</th><th>역할</th><th>상태</th><th>경고</th><th>이메일 인증</th><th>최종 로그인</th><th></th>
+                    <th>ID</th>
+                    <th>이메일</th>
+                    <th>이름</th>
+
+                    <th style="position: relative;" id="th-role">
+                        역할
+                        <span class="filter-toggle" data-filter="role">▼</span>
+                        <div class="filter-selected value role" data-type="role" style="display: none;"></div>
+                        <div class="filter-popup" data-type="role" style="display: none;">
+                            <button class="default" data-value="">전체</button>
+                            <button class="applicant" data-value="APPLICANT">APPLICANT</button>
+                            <button class="employer" data-value="EMPLOYER">EMPLOYER</button>
+                            <button class="admin" data-value="ADMIN">ADMIN</button>
+                        </div>
+                    </th>
+
+                    <th style="position: relative;" id="th-status">
+                        상태
+                        <span class="filter-toggle" data-filter="status">▼</span>
+                        <div class="filter-selected value status" data-type="status" style="display: none;"></div>
+                        <div class="filter-popup" data-type="status" style="display: none;">
+                            <button class="default" data-value="">전체</button>
+                            <button class="active" data-value="ACTIVE">ACTIVE</button>
+                            <button class="suspended" data-value="SUSPENDED">SUSPENDED</button>
+                        </div>
+                    </th>
+
+                    <th style="position: relative;" id="th-warning">
+                        경고
+                        <span class="filter-toggle" data-filter="warning">▼</span>
+                        <div class="filter-selected value warning" data-type="warning" style="display: none;"></div>
+                        <div class="filter-popup" data-type="warning" style="display: none;">
+                            <button class="default" data-value="">전체</button>
+                            <button class="warning-0" data-value="0">0</button>
+                            <button class="warning-1" data-value="1">1</button>
+                            <button class="warning-2" data-value="2">2</button>
+                            <button class="warning-3" data-value="3">3</button>
+                        </div>
+                    </th>
+
+                    <th style="position: relative;" id="th-verified">
+                        이메일 인증
+                        <span class="filter-toggle" data-filter="verified">▼</span>
+                        <div class="filter-selected value email" data-type="verified" style="display: none;"></div>
+                        <div class="filter-popup" data-type="verified" style="display: none;">
+                            <button class="default" data-value="">전체</button>
+                            <button class="verified" data-value="true">인증됨</button>
+                            <button class="unverified" data-value="false">미인증</button>
+                        </div>
+                    </th>
+
+
+                    <th>최종 로그인</th>
+                    <th></th>
                 </tr>
                 </thead>
+
                 <tbody id="userTableBody">
                 <!-- AJAX로 데이터 삽입 -->
                 </tbody>
             </table>
+            <div id="paginationContainer" class="pagination"></div>
         </div>
     </div>
 </div>
 
-<script src="/js/admin/user-management-ajax.js"></script>
-<script src="/js/admin/user-management.js"></script>
+<script src="/js/admin/userManagement/user-management-ajax.js"></script>
+<script src="/js/admin/userManagement/user-management.js"></script>
+<script src="/js/admin/userManagement/filters.js"></script>

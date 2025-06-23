@@ -1,6 +1,6 @@
 $(document).ready(function () {
     loadUserStats();
-    loadUserList();
+    loadUserList(1);
 });
 
 function loadUserStats() {
@@ -22,24 +22,41 @@ function loadUserStats() {
 }
 
 
-function loadUserList() {
+// ✅ 필터 상태를 유지하며 사용자 목록 로드
+function loadUserList(page = 1, filters = currentFilters) {
+    const query = $.param({
+        page: page,
+        size: 15,
+        role: filters.role,
+        status: filters.status,
+        warning: filters.warning,
+        verified: filters.verified,
+        keyword: filters.keyword
+    });
+
     $.ajax({
-        url: '/api/admin/users',  // ✅ 이 URL에서만 response.content가 존재함
+        url: `/api/admin/users?${query}`,
         method: 'GET',
         success: function (response) {
-            const users = response.content;  // ✅ 여긴 content 있음
+            const users = response.content;
+            const totalPages = response.totalPages;
+            const currentPage = response.number + 1; // 0-based index 조정
 
             let html = '';
             users.forEach(user => {
                 html += `
                     <tr>
-                        <td><input type="checkbox" class="user-checkbox" value="${user.id}"></td>
+                        <td class="selectable">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" class="user-checkbox" value="${user.id}" />
+                                <span class="check-icon">✔</span>
+                            </div>
+                        </td>
                         <td>${user.id}</td>
                         <td>${user.email}</td>
                         <td>${user.name}</td>
-                        <!-- 역할 -->
                         <td>
-                          <div class="value-wrapper">
+                          <div class="value-wrapper user-specific">
                             <span class="value role ${user.role.toLowerCase()}" data-type="role" data-id="${user.id}">
                               ${user.role}
                             </span>
@@ -50,24 +67,19 @@ function loadUserList() {
                             </div>
                           </div>
                         </td>
-                        
-                        <!-- 상태 -->
                         <td>
-                          <div class="value-wrapper">
+                          <div class="value-wrapper user-specific">
                             <span class="value status ${user.status.toLowerCase()}" data-type="status" data-id="${user.id}">
                               ${user.status}
                             </span>
                             <div class="value-popup" style="display: none;">
                               <button class="active" data-value="ACTIVE">ACTIVE</button>
                               <button class="suspended" data-value="SUSPENDED">SUSPENDED</button>
-                              <span class="withdrawn" data-value="WITHDRAWN">WITHDRAWN</span>
                             </div>
                           </div>
                         </td>
-                        
-                        <!-- 경고 -->
                         <td>
-                          <div class="value-wrapper">
+                          <div class="value-wrapper user-specific">
                             <span class="value warning ${getWarningClass(user.warningCount)}" data-type="warning" data-id="${user.id}">
                               ${user.warningCount}
                             </span>
@@ -79,7 +91,6 @@ function loadUserList() {
                             </div>
                           </div>
                         </td>
-                        
                         <td>${user.emailVerified ? '<span class="icon verified">✔</span>' : '<span class="icon unverified">✖</span>'}</td>
                         <td>${user.lastLogin ? formatDate(user.lastLogin) : '-'}</td>
                         <td style="text-align: center;">
@@ -96,15 +107,48 @@ function loadUserList() {
                 `;
             });
 
+            const missingUsers = 15 - users.length;
+            for (let i = 0; i < missingUsers; i++) {
+                html += `
+                    <tr class="placeholder-row">
+                        <td class="selectable placeholder">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" class="user-checkbox" disabled />
+                                <span class="check-icon">✔</span>
+                            </div>
+                        </td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td><div class="value-wrapper user-specific"><span class="value">--</span></div></td>
+                        <td><div class="value-wrapper user-specific"><span class="value">--</span></div></td>
+                        <td><div class="value-wrapper user-specific"><span class="value">--</span></div></td>
+                        <td><span class="icon">--</span></td>
+                        <td>--</td>
+                        <td style="text-align: center;"><button class="toggle-details-btn" disabled>▼</button></td>
+                    </tr>
+                    <tr class="detail-row">
+                        <td colspan="10" style="padding: 0; border: none;">
+                            <div class="detail-table-wrapper" style="display: none;">
+                                <div style="padding: 20px; text-align: center; color: #999;">사용자 정보 없음</div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+
             $('#userTableBody').html(html);
+
+            renderPagination(totalPages, currentPage, function (page) {
+                loadUserList(page, filters);
+            });
         },
         error: function (xhr, status, error) {
-            console.error("❌ AJAX 오류:", status, error);
+            console.error("❌ 사용자 목록 불러오기 실패:", status, error);
             alert('사용자 목록을 불러오는 데 실패했습니다.');
         }
     });
 }
-
 
 
 function formatDate(dateStr) {

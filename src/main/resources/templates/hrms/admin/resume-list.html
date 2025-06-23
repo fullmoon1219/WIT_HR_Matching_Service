@@ -1,0 +1,51 @@
+<!-- templates/hrms/admin/resume-list.html -->
+
+<div layout:decorate="~{layout/admin/admin-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+  <th:block layout:fragment="styles">
+    <link rel="stylesheet" href="/css/admin/resume-list.css">
+  </th:block>
+
+  <div layout:fragment="content">
+    <div class="card-grid">
+      <div class="card"><h3>총 이력서</h3><div class="value" id="resumeCount"></div></div>
+      <div class="card"><h3>작성완료</h3><div class="value" id="companyCount"></div></div>
+      <div class="card"><h3>미완료</h3><div class="value" id="applicantCount"></div></div>
+    </div>
+
+    <div class="section">
+      <div class="table-header">
+        <h2>이력서 목록</h2>
+
+        <div class="user-control-panel">
+        </div>
+
+      </div>
+      <table class="user-table">
+        <colgroup>
+          <col style="width: 3%">
+          <col style="width: 4%">
+          <col style="width: 10%">
+          <col style="width: 20%">
+          <col style="width: 20%">
+          <col style="width: 10%">
+          <col style="width: 10%">
+          <col style="width: 8%">
+          <col style="width: 8%">
+          <col style="width: 7%">
+        </colgroup>
+        <thead>
+        <tr>
+          <th><input type="checkbox" id="checkAll"></th>
+          <th>ID</th><th>User ID</th><th>이메일</th><th>제목</th><th>작성일</th><th>마지막 업데이트</th><th>완료여부</th><th>공개여부</th><th>삭제여부</th>
+        </tr>
+        </thead>
+        <tbody id="userTableBody">
+        <!-- AJAX로 데이터 삽입 -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="/js/admin/resume/resume-list-ajax.js"></script>
+<script src="/js/admin/resume/resume-list.js"></script>

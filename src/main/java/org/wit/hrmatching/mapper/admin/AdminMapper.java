@@ -3,6 +3,8 @@ package org.wit.hrmatching.mapper.admin;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.wit.hrmatching.dto.admin.AdminDashboardStatsDTO;
 import org.wit.hrmatching.vo.JobPostVO;
 import org.wit.hrmatching.vo.UserVO;
@@ -50,8 +52,18 @@ public interface AdminMapper {
     @Select("SELECT COUNT(*) FROM users WHERE email_verified = 0")
     int getUnverifiedEmailUserCount();
 
-    // 사용자 + 프로필 조회 (페이지네이션)
-    List<UserVO> getAllUsersWithProfilesPaged(@Param("limit") int limit, @Param("offset") int offset);
+    List<UserVO> getPagedUsersWithFilter(@Param("limit") int limit,
+                                         @Param("offset") int offset,
+                                         @Param("role") String role,
+                                         @Param("status") String status,
+                                         @Param("warning") String warning,
+                                         @Param("verified") String verified,
+                                         @Param("keyword") String keyword);
 
-    int countAllUsers();
+
+    int countUsersWithFilter(@Param("role") String role,
+                             @Param("status") String status,
+                             @Param("warning") String warning,
+                             @Param("verified") String verified,
+                             @Param("keyword") String keyword);
 }
