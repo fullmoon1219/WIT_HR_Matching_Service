@@ -2,9 +2,16 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Title</title>
+
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+	<title>이력서 등록</title>
+
 	<script src="/js/jquery-3.7.1.min.js"></script>
+	<script src="/js/admin/csrf-setup.js"></script>
 	<script src="/js/applicant/resume_validate.js"></script>
+	<script src="/js/applicant/resume_register.js"></script>
 </head>
 <body>
 

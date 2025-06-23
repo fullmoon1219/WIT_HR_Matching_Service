@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.wit.hrmatching.enums.ResumeAction;
 import org.wit.hrmatching.vo.CustomUserDetails;
 import org.wit.hrmatching.service.applicant.ResumeService;
 import org.wit.hrmatching.vo.ResumeVO;
@@ -34,7 +35,7 @@ public class ResumeController {
 
 	@PostMapping("/register_ok")
 	public ModelAndView registerResumeOk(@AuthenticationPrincipal CustomUserDetails userDetails,
-										 @RequestParam("action") String action,
+										 @RequestParam("action")ResumeAction action,
 										 @Valid @ModelAttribute ResumeVO resumeVO,
 										 BindingResult bindingResult) {
 
@@ -47,13 +48,13 @@ public class ResumeController {
 		boolean result;
 		ModelAndView modelAndView = new ModelAndView();
 
-		if ("draft".equals(action)) {
+		if (action == ResumeAction.DRAFT) {
 
 			// 임시 저장: is_completed = false
 			resumeVO.setCompleted(false);
 			result = resumeService.registerResume(resumeVO);
 
-		} else if ("register".equals(action)) {
+		} else if (action == ResumeAction.REGISTER) {
 
 			// 입력값 유효성 검사
 			// 만약 입력값이 모두 입력되지 않으면 에러메세지와 함께 작성 페이지로.
@@ -126,20 +127,20 @@ public class ResumeController {
 
 	@PostMapping("/edit_ok")
 	@PreAuthorize("@permission.isResumeOwner(#resumeVO.id, authentication)")
-	public ModelAndView editResumeOk(@RequestParam("action") String action,
+	public ModelAndView editResumeOk(@RequestParam("action") ResumeAction action,
 									 @Valid @ModelAttribute ResumeVO resumeVO,
 									 BindingResult bindingResult) {
 
 		boolean result;
 		ModelAndView modelAndView = new ModelAndView();
 
-		if ("draft".equals(action)) {
+		if (action == ResumeAction.DRAFT) {
 
 			// 임시 저장: is_completed = false
 			resumeVO.setCompleted(false);
 			result = resumeService.editResume(resumeVO);
 
-		} else if ("register".equals(action)) {
+		} else if (action == ResumeAction.REGISTER) {
 
 			// 입력값 유효성 검사
 			// 만약 입력값이 모두 입력되지 않으면 에러메세지와 함께 작성 페이지로.
