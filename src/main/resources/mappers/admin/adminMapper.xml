@@ -126,29 +126,83 @@
         </association>
     </resultMap>
 
-    <select id="getAllUsersWithProfilesPaged" resultMap="UserWithProfilesMap">
+    <select id="getPagedUsersWithFilter" resultMap="UserWithProfilesMap">
         SELECT
-            u.id, u.email, u.password, u.name, u.role,
-            u.create_at, u.status, u.last_login, u.profile_image,
-            u.email_verified, u.verification_token, u.token_expiration,
-            u.updated_at, u.login_type, u.warning_count,
+        u.id, u.email, u.password, u.name, u.role,
+        u.create_at, u.status, u.last_login, u.profile_image,
+        u.email_verified, u.verification_token, u.token_expiration,
+        u.updated_at, u.login_type, u.warning_count,
 
-            a.user_id AS a_user_id, a.age, a.address AS a_address, a.phone_number AS a_phone_number,
-            a.gender, a.portfolio_url, a.self_intro, a.job_type, a.experience_years, a.primary_resume_id,
+        a.user_id AS a_user_id, a.age, a.address AS a_address, a.phone_number AS a_phone_number,
+        a.gender, a.portfolio_url, a.self_intro, a.job_type, a.experience_years, a.primary_resume_id,
 
-            e.user_id AS e_user_id, e.company_name, e.business_number,
-            e.address AS e_address, e.phone_number AS e_phone_number,
-            e.homepage_url, e.industry, e.founded_year, e.company_size
+        e.user_id AS e_user_id, e.company_name, e.business_number,
+        e.address AS e_address, e.phone_number AS e_phone_number,
+        e.homepage_url, e.industry, e.founded_year, e.company_size
 
         FROM users u
-                 LEFT JOIN applicant_profiles a ON u.id = a.user_id
-                 LEFT JOIN employer_profiles e ON u.id = e.user_id
+        LEFT JOIN applicant_profiles a ON u.id = a.user_id
+        LEFT JOIN employer_profiles e ON u.id = e.user_id
+        <where>
+            <if test="role != null and role != ''">
+                AND u.role = #{role}
+            </if>
+            <if test="status != null and status != ''">
+                AND u.status = #{status}
+            </if>
+            <if test="warning != null and warning != ''">
+                AND u.warning_count = #{warning}
+            </if>
+            <if test="verified != null and verified != ''">
+                AND u.email_verified =
+                <choose>
+                    <when test="verified == 'true'">1</when>
+                    <otherwise>0</otherwise>
+                </choose>
+            </if>
+
+            <if test="keyword != null and keyword != ''">
+                AND (u.name LIKE CONCAT('%', #{keyword}, '%')
+                OR u.email LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
         ORDER BY u.id DESC
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
-    <select id="countAllUsers" resultType="int">
-        SELECT COUNT(*) FROM users
+    <select id="countUsersWithFilter" resultType="int">
+        SELECT COUNT(*)
+        FROM users u
+        LEFT JOIN applicant_profiles a ON u.id = a.user_id
+        LEFT JOIN employer_profiles e ON u.id = e.user_id
+        <where>
+            <if test="role != null and role != ''">
+                AND u.role = #{role}
+            </if>
+            <if test="status != null and status != ''">
+                AND u.status = #{status}
+            </if>
+            <if test="warning != null and warning != ''">
+                AND u.warning_count = #{warning}
+            </if>
+            <if test="verified != null and verified != ''">
+                AND u.email_verified =
+                <choose>
+                    <when test="verified == 'true'">1</when>
+                    <otherwise>0</otherwise>
+                </choose>
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND (
+                u.name LIKE CONCAT('%', #{keyword}, '%')
+                OR u.email LIKE CONCAT('%', #{keyword}, '%')
+                OR a.address LIKE CONCAT('%', #{keyword}, '%')
+                OR e.company_name LIKE CONCAT('%', #{keyword}, '%')
+                )
+            </if>
+        </where>
     </select>
+
+
 
 </mapper>

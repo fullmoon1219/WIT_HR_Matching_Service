@@ -131,14 +131,22 @@ public class AdminService {
         return adminMapper.getUnverifiedEmailUserCount();
     }
 
-    public Page<UserVO> getPagedUsers(Pageable pageable) {
-        int total = adminMapper.countAllUsers();
+    public Page<UserVO> getPagedUsers(Pageable pageable,
+                                      String role,
+                                      String status,
+                                      String warning,
+                                      String verified,
+                                      String keyword) {
+
         int limit = pageable.getPageSize();
         int offset = (int) pageable.getOffset();
 
-        List<UserVO> users = adminMapper.getAllUsersWithProfilesPaged(limit, offset);
+        int total = adminMapper.countUsersWithFilter(role, status, warning, verified, keyword);
+        List<UserVO> users = adminMapper.getPagedUsersWithFilter(limit, offset, role, status, warning, verified, keyword);
+
         return new PageImpl<>(users, pageable, total);
     }
+
 
 
 }
