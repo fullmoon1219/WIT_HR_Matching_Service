@@ -33,13 +33,19 @@ function loadUserList() {
             users.forEach(user => {
                 html += `
                     <tr>
-                        <td><input type="checkbox" class="user-checkbox" value="${user.id}"></td>
+                        <td class="selectable">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" class="user-checkbox" value="${user.id}" />
+                                <span class="check-icon">✔</span>
+                            </div>
+                        </td>
+
                         <td>${user.id}</td>
                         <td>${user.email}</td>
                         <td>${user.name}</td>
                         <!-- 역할 -->
                         <td>
-                          <div class="value-wrapper">
+                          <div class="value-wrapper user-specific">
                             <span class="value role ${user.role.toLowerCase()}" data-type="role" data-id="${user.id}">
                               ${user.role}
                             </span>
@@ -53,21 +59,20 @@ function loadUserList() {
                         
                         <!-- 상태 -->
                         <td>
-                          <div class="value-wrapper">
+                          <div class="value-wrapper user-specific">
                             <span class="value status ${user.status.toLowerCase()}" data-type="status" data-id="${user.id}">
                               ${user.status}
                             </span>
                             <div class="value-popup" style="display: none;">
                               <button class="active" data-value="ACTIVE">ACTIVE</button>
                               <button class="suspended" data-value="SUSPENDED">SUSPENDED</button>
-                              <span class="withdrawn" data-value="WITHDRAWN">WITHDRAWN</span>
                             </div>
                           </div>
                         </td>
                         
                         <!-- 경고 -->
                         <td>
-                          <div class="value-wrapper">
+                          <div class="value-wrapper user-specific">
                             <span class="value warning ${getWarningClass(user.warningCount)}" data-type="warning" data-id="${user.id}">
                               ${user.warningCount}
                             </span>

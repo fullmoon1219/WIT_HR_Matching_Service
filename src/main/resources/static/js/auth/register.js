@@ -111,7 +111,6 @@ $(document).ready(function () {
             },
             error: function (xhr) {
                 const message = xhr.responseText || '회원가입 중 오류가 발생했습니다.';
-                alert(message);
             }
         });
     });

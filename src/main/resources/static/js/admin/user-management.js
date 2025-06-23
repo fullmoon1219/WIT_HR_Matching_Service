@@ -6,17 +6,19 @@ function getWarningClass(count) {
     return 'warning-0';
 }
 
+$(document).on("click", "td.selectable", function (e) {
+    // 체크박스를 직접 클릭한 경우는 무시
+    if ($(e.target).is("input[type='checkbox']")) return;
+
+    const checkbox = $(this).find("input[type='checkbox']");
+    checkbox.prop("checked", !checkbox.prop("checked"));
+});
+
+
 // 전체 선택/해제
 $(document).on("change", "#checkAll", function () {
     $(".user-checkbox").prop("checked", this.checked);
 });
-
-// 선택된 유저 ID 목록
-function getSelectedUserIds() {
-    return $(".user-checkbox:checked").map(function () {
-        return $(this).val();
-    }).get();
-}
 
 // 로그인 타입 표시
 function renderLoginType(type) {
@@ -51,8 +53,7 @@ $(document).on("click", ".toggle-details-btn", function () {
 
 $(document).ready(function () {
 
-    // ⬇️ 이벤트 위임: 동적으로 생긴 .value 클릭 처리
-    $("#userTableBody").on("click", ".value", function (e) {
+    $("#userTableBody").on("click", ".user-specific .value", function (e) {
         e.stopPropagation();
 
         const popup = $(this).siblings(".value-popup");
@@ -60,8 +61,7 @@ $(document).ready(function () {
         popup.toggle(); // 현재 토글
     });
 
-    // ⬇️ 이벤트 위임: 팝업 버튼 클릭 처리
-    $("#userTableBody").on("click", ".value-popup button", function () {
+    $("#userTableBody").on("click", ".user-specific .value-popup button", function () {
         const newValue = $(this).data("value");
         const wrapper = $(this).closest(".value-wrapper");
         const span = wrapper.find(".value");
@@ -72,6 +72,49 @@ $(document).ready(function () {
             type: "POST",
             url: "/api/admin/users/change-value",
             data: { userId: userId, type: type, value: newValue },
+            success: function () {
+                location.reload();
+            },
+            error: function () {
+                alert(`${type.toUpperCase()} 변경 실패`);
+            }
+        });
+    });
+
+    // ✅ 일괄 변경용 말풍선 토글
+    $(".bulk-action .bulk-value").on("click", function (e) {
+        e.stopPropagation();
+
+        const popup = $(this).siblings(".value-popup");
+        $(".value-popup").not(popup).hide();
+        popup.toggle();
+    });
+
+    // ✅ 일괄 변경용 버튼 클릭 시 처리
+    $(".bulk-action .value-popup button").on("click", function () {
+        const newValue = $(this).data("value");
+        const wrapper = $(this).closest(".value-wrapper");
+        const span = wrapper.find(".bulk-value");
+        const type = span.data("type");
+
+        const userIds = $('.user-checkbox:checked').map(function () {
+            return $(this).val();
+        }).get();
+
+        if (newValue === null || newValue === "" || userIds.length === 0) {
+            $(".value-popup").hide();
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/api/admin/users/change-value",
+            data: {
+                userIds: userIds, // 복수 사용자 ID
+                type: type,
+                value: newValue
+            },
+            traditional: true, // 배열 직렬화 옵션 (userIds=1&userIds=2)
             success: function () {
                 location.reload();
             },

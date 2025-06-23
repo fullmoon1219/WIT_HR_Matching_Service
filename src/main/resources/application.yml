@@ -24,6 +24,9 @@ spring:
     resources:
       static-locations: classpath:/static/, classpath:/public/, classpath:/META-INF/resources/
 
+  jpa:
+    open-in-view: false
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -83,6 +86,7 @@ logging:
   level:
     jdbc.sqlonly: error
     org:
+      "hibernate.orm.connections.pooling": warn
       mybatis: error
       springframework:
         security:

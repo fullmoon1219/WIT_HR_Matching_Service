@@ -4,7 +4,43 @@
     margin-bottom: 40px;
 }
 
-.section h2 {
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 0;
+    padding-bottom: 4px;
+}
+
+.user-control-panel {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    margin: 0;
+    padding: 0 30px 0 0;
+}
+
+.value-wrapper.bulk-action {
+    margin: 0;
+    position: relative;
+}
+
+.value-wrapper.bulk-action .value.role {
+    background-color: #007bff;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.user-container {
+    display: flex;
+    gap: 10px;
+}
+
+.table-header h2 {
     font-size: 20px;
     margin-bottom: 10px;
 }
@@ -22,11 +58,17 @@
     background-color: #ffffff;
 }
 
+td > .value-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
 .user-table th,
 .user-table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
+    vertical-align: middle;
 }
 
 .toggle-details-btn {
@@ -125,6 +167,8 @@
 
 .value-popup {
     position: absolute;
+    display: flex;
+    flex-direction: column;
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -132,23 +176,74 @@
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 6px 8px;
-    z-index: 1000;
+    z-index: 9999;
     white-space: nowrap;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
-.value,
-.value-popup span,
-.value-popup button {
-    display: inline-block;
+.bulk-value {
+    margin: 2px 0;
     border: none;
-    margin: 2px;
     padding: 4px 8px;
     border-radius: 12px;
     font-weight: bold;
     font-size: 13px;
     color: white;
     cursor: pointer;
+}
+
+.bulk-value.role {
+    background-color: #4bb0ff;
+}
+
+.bulk-value.status {
+    background-color: #299336;
+}
+
+.bulk-value.warning {
+    background-color: #ffa126;
+}
+
+.value {
+    margin: 2px 0;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    color: white;
+    cursor: pointer;
+}
+
+.value-popup span,
+.value-popup button {
+    display: block;
+    width: 100%;
+    margin: 2px 0;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    color: white;
+    cursor: pointer;
+}
+
+.value-role {
+    background-color: #a7ceff;
+    width: 20px;
+    margin: 2px 0;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    color: white;
+    cursor: pointer;
+}
+
+.value-popup .default {
+    background-color: #a7ceff;
 }
 
 .value-popup .applicant,
@@ -223,6 +318,34 @@
 .login-type i {
     font-size: 14px;
 }
+
+/* 기본적으로 체크박스 숨기기 */
+.checkbox-wrapper input[type="checkbox"] {
+    display: none;
+}
+
+/* 기본 상태: 아이콘 숨김 */
+.check-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    line-height: 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: white;
+    background-color: white;
+}
+
+/* 체크되었을 때 아이콘 표시 및 스타일 변경 */
+.checkbox-wrapper input[type="checkbox"]:checked + .check-icon {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    content: "✔";
+}
+
 
 /* 작은 화면 대응 */
 @media (max-width: 480px) {

@@ -16,7 +16,38 @@
         </div>
 
         <div class="section">
-            <h2>사용자 목록</h2>
+            <div class="table-header">
+                <h2>사용자 목록</h2>
+                <div class="user-control-panel">
+                    <div class="value-wrapper bulk-action">
+                        <span class="bulk-value role" data-type="role">역할변경</span>
+                        <div class="value-popup" style="display: none;">
+                            <button class="default" data-value="">선택 안함</button>
+                            <button class="applicant" data-value="APPLICANT">APPLICANT</button>
+                            <button class="employer" data-value="EMPLOYER">EMPLOYER</button>
+                            <button class="admin" data-value="ADMIN">ADMIN</button>
+                        </div>
+                    </div>
+                    <div class="value-wrapper bulk-action">
+                        <span class="bulk-value status" data-type="status">상태변경</span>
+                        <div class="value-popup" style="display: none;">
+                            <button class="default" data-value="">선택 안함</button>
+                            <button class="active" data-value="ACTIVE">ACTIVE</button>
+                            <button class="suspended" data-value="SUSPENDED">SUSPENDED</button>
+                        </div>
+                    </div>
+                    <div class="value-wrapper bulk-action">
+                        <span class="bulk-value warning" data-type="warning">경고변경</span>
+                        <div class="value-popup" style="display: none;">
+                            <button class="default" data-value="">선택 안함</button>
+                            <button class="warning-0" data-value="0">0</button>
+                            <button class="warning-1" data-value="1">1</button>
+                            <button class="warning-2" data-value="2">2</button>
+                            <button class="warning-3" data-value="3">3</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <table class="user-table">
                 <colgroup>
                     <col style="width: 3%">
