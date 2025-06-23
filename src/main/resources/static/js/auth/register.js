@@ -7,6 +7,26 @@ $(document).ready(function () {
     let emailChecked = false;
     let lastCheckedEmail = "";
 
+    $('.tab').on('click', function () {
+        $('.tab').removeClass('active');
+        $(this).addClass('active');
+
+        // 탭에 정의된 data-role 값을 hidden input에 설정
+        const selectedRole = $(this).data('role');
+        $('#role').val(selectedRole);
+
+        // 탭에 따라 폼 UI 전환 (개인 ↔ 기업)
+        if (selectedRole === 'APPLICANT') {
+            $('#personal-content').show();
+            $('#company-content').hide();
+        } else {
+            $('#personal-content').hide();
+            $('#company-content').show();
+        }
+
+        console.log(selectedRole);
+    });
+
     // 초기 상태
     $('#submitBtn').prop('disabled', true);
 
@@ -72,6 +92,12 @@ $(document).ready(function () {
 
         validateForm();
     });
+
+    $('#agree-all').on('change', function () {
+        const checked = $(this).is(':checked');
+        $('#agreeTerms, #agreePrivacy, #agreeMarketing').prop('checked', checked);
+    });
+
 
     // 폼 유효성 검사 후 버튼 제어
     function validateForm() {
