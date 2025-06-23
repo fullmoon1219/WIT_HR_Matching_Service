@@ -1,68 +1,205 @@
-<!-- /resources/templates/hrms/login/register.html -->
-
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>회원가입</title>
-  <link rel="stylesheet" href="/css/login/register.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h2>회원가입</h2>
+    <div class="auth-container">
+        <h2 class="title">회원가입</h2>
+        
+        <!-- 회원 유형 탭 -->
+        <div class="tab-container">
+            <div class="tab active" id="personal-tab">개인회원</div>
+            <div class="tab" id="company-tab">기업회원</div>
+        </div>
+        
+        <!-- 개인회원 회원가입 폼 -->
+        <div id="personal-content" class="tab-content active">
+            <form th:action="@{/users/register}" method="post" th:object="${userRegisterDTO}">
+                <div class="form-group">
+                    <label for="personal-email">이메일</label>
+                    <div class="input-with-button">
+                        <input type="email" id="personal-email" name="email" th:field="*{email}" class="input-field" required>
+                        <button type="button" class="verification-button">중복확인</button>
+                    </div>
+                    <div th:if="${#fields.hasErrors('email')}" class="error-message">
+                      <p th:errors="*{email}">이메일을 입력하세요</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="personal-password">비밀번호</label>
+                    <input type="password" id="personal-password" name="password" th:field="*{password}" class="input-field" placeholder="8~16자의 영문, 숫자, 특수문자 조합" required>
+                    <div th:if="${#fields.hasErrors('password')}" class="error-message">
+                      <p th:errors="*{password}">비밀번호를 입력하세요</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="personal-confirm-password">비밀번호 확인</label>
+                    <input type="password" id="personal-confirm-password" name="confirmPassword" th:field="*{confirmPassword}" class="input-field" required>
+                    <div th:if="${#fields.hasErrors('confirmPassword')}" class="error-message">
+                      <p th:errors="*{confirmPassword}">비밀번호 확인을 입력하세요</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="personal-name">이름</label>
+                    <input type="text" id="personal-name" name="name" th:field="*{name}" class="input-field" required>
+                    <div th:if="${#fields.hasErrors('name')}" class="error-message">
+                      <p th:errors="*{name}">이름을 입력하세요</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="personal-birth">생년월일</label>
+                    <input type="text" id="personal-birth" name="birthDate" class="input-field" placeholder="YYYYMMDD" required>
+                </div>
+                <div class="form-group">
+                    <label for="personal-phone">휴대폰 번호</label>
+                    <div class="input-with-button">
+                        <input type="tel" id="personal-phone" name="phone" class="input-field" placeholder="'-'없이 입력" required>
+                        <button type="button" class="verification-button">인증번호 발송</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="personal-verification">인증번호</label>
+                    <input type="text" id="personal-verification" name="verificationCode" class="input-field" required>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="personal-agree-all">
+                    <label for="personal-agree-all"><strong>전체 동의</strong></label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="personal-agree-terms" name="agreeTerms" required>
+                    <label for="personal-agree-terms">이용약관 동의 (필수)</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="personal-agree-privacy" name="agreePrivacy" required>
+                    <label for="personal-agree-privacy">개인정보 수집 및 이용 동의 (필수)</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="personal-agree-marketing" name="agreeMarketing">
+                    <label for="personal-agree-marketing">마케팅 정보 수신 동의 (선택)</label>
+                </div>
+                
+                <button type="submit" class="login-btn">회원가입</button>
+            </form>
+        </div>
+        
+        <!-- 기업회원 회원가입 폼 -->
+        <div id="company-content" class="tab-content">
+            <form action="#" method="post">
+                <div class="form-group">
+                    <label for="company-email">이메일</label>
+                    <div class="input-with-button">
+                        <input type="text" id="company-email" name="companyId" class="input-field" required>
+                        <button type="button" class="verification-button">중복확인</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="company-password">비밀번호</label>
+                    <input type="password" id="company-password" name="password" class="input-field" placeholder="8~16자의 영문, 숫자, 특수문자 조합" required>
+                </div>
+                <div class="form-group">
+                    <label for="company-confirm-password">비밀번호 확인</label>
+                    <input type="password" id="company-confirm-password" name="confirmPassword" class="input-field" required>
+                </div>
+                <div>
+                    <div style="margin-bottom: 8px; color: #444; font-weight: 500; font-size: 14px;">회사명</div>
+                    <input type="text" id="company-name" name="companyName" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 15px; margin-bottom: 15px;" required>
+                </div>
+                <div class="form-group">
+                    <label for="company-business-number">사업자등록번호</label>
+                    <div class="input-with-button">
+                        <input type="text" id="company-business-number" name="businessNumber" class="input-field" placeholder="'-'없이 입력" required>
+                        <button type="button" class="verification-button">인증</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="manager-name">담당자명</label>
+                    <input type="text" id="manager-name" name="managerName" class="input-field" required>
+                </div>
+                <div class="form-group">
+                    <label for="company-phone">담당자 휴대폰</label>
+                    <div class="input-with-button">
+                        <input type="tel" id="company-phone" name="managerPhone" class="input-field" placeholder="'-'없이 입력" required>
+                        <button type="button" class="verification-button">인증번호 발송</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="company-verification">인증번호</label>
+                    <input type="text" id="company-verification" name="verificationCode" class="input-field" required>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="company-agree-all">
+                    <label for="company-agree-all"><strong>전체 동의</strong></label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="company-agree-terms" name="agreeTerms" required>
+                    <label for="company-agree-terms">이용약관 동의 (필수)</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="company-agree-privacy" name="agreePrivacy" required>
+                    <label for="company-agree-privacy">개인정보 수집 및 이용 동의 (필수)</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="company-agree-marketing" name="agreeMarketing">
+                    <label for="company-agree-marketing">마케팅 정보 수신 동의 (선택)</label>
+                </div>
 
-<form th:action="@{/users/register}" method="post" th:object="${userRegisterDTO}">
-
-  <div>
-    <label for="email">이메일</label>
-    <input type="email" id="email" name="email" th:field="*{email}" required>
-    <div th:if="${#fields.hasErrors('email')}" style="color:red;">
-      <p th:errors="*{email}">이메일을 입력하세요</p>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="company-agree-all">
+                    <label for="company-agree-all"><strong>전체 동의</strong></label>
+                </div>
+                
+            </form>
+        </div>
+        
+        <div class="auth-links">
+            <a href="login.html">로그인</a>
+        </div>
     </div>
-  </div>
-
-
-  <div>
-    <label for="password">비밀번호</label>
-    <input type="password" id="password" name="password" th:field="*{password}" required>
-    <div th:if="${#fields.hasErrors('password')}" style="color:red;">
-      <p th:errors="*{password}">비밀번호를 입력하세요</p>
-    </div>
-  </div>
-
-
-  <div>
-    <label for="confirmPassword">비밀번호 확인</label>
-    <input type="password" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" required>
-    <div th:if="${#fields.hasErrors('confirmPassword')}" style="color:red;">
-      <p th:errors="*{confirmPassword}">비밀번호 확인을 입력하세요</p>
-    </div>
-  </div>
-
-
-  <div>
-    <label for="name">이름</label>
-    <input type="text" id="name" name="name" th:field="*{name}" required>
-    <div th:if="${#fields.hasErrors('name')}" style="color:red;">
-      <p th:errors="*{name}">이름을 입력하세요</p>
-    </div>
-  </div>
-
-  <div>
-    <label for="role">역할</label>
-    <select id="role" name="role" th:field="*{role}">
-      <option value="APPLICANT">개인</option>
-      <option value="EMPLOYEE">기업</option>
-    </select>
-    <div th:if="${#fields.hasErrors('role')}" style="color:red;">
-      <p th:errors="*{role}">역할을 선택하세요</p>
-    </div>
-  </div>
-
-
-  <div>
-    <button type="submit">회원가입</button>
-  </div>
-</form>
-
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const personalTab = document.getElementById('personal-tab');
+            const companyTab = document.getElementById('company-tab');
+            const personalContent = document.getElementById('personal-content');
+            const companyContent = document.getElementById('company-content');
+            
+            personalTab.addEventListener('click', function() {
+                personalTab.classList.add('active');
+                companyTab.classList.remove('active');
+                personalContent.classList.add('active');
+                companyContent.classList.remove('active');
+            });
+            
+            companyTab.addEventListener('click', function() {
+                companyTab.classList.add('active');
+                personalTab.classList.remove('active');
+                companyContent.classList.add('active');
+                personalContent.classList.remove('active');
+            });
+            
+            // 전체 동의 체크박스 기능
+            document.getElementById('personal-agree-all').addEventListener('change', function() {
+                const isChecked = this.checked;
+                document.getElementById('personal-agree-terms').checked = isChecked;
+                document.getElementById('personal-agree-privacy').checked = isChecked;
+                document.getElementById('personal-agree-marketing').checked = isChecked;
+            });
+            
+            document.getElementById('company-agree-all').addEventListener('change', function() {
+                const isChecked = this.checked;
+                document.getElementById('company-agree-terms').checked = isChecked;
+                document.getElementById('company-agree-privacy').checked = isChecked;
+                document.getElementById('company-agree-marketing').checked = isChecked;
+            });
+        });
+    </script>
 </body>
 </html>
