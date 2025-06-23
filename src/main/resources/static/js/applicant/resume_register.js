@@ -12,7 +12,7 @@ $(document).ready(function () {
 			experience: $('input[name="experience"]').val(),
 			skills: $('input[name="skills"]').val(),
 			preferredLocation: $('input[name="preferredLocation"]').val(),
-			salaryExpectation: $('input[name="salaryExpectation"]').val(),
+			salaryExpectation: Number($('input[name="salaryExpectation"]').val()),
 			isPublic: $('input[name="isPublic"]:checked').val() === 'true',  // boolean 처리
 			desiredPosition: $('input[name="desiredPosition"]').val(),
 			motivation: $('input[name="motivation"]').val(),
@@ -21,14 +21,14 @@ $(document).ready(function () {
 		};
 
 		$.ajax({
-			url: 'api/resume',
+			url: '/api/resumes',
 			method: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(resume),
 			success: function (response) {
 				if (response.success) {
 					alert('등록이 완료되었습니다.');
-					location.href = '/applicant/resume/list';
+					location.href = `/applicant/resume/view/${response.id}`;
 				} else {
 					location.href = '/error/db-access-denied';
 				}
@@ -38,9 +38,16 @@ $(document).ready(function () {
 				if (xhr.responseJSON && xhr.responseJSON.errors) {
 					const errors = xhr.responseJSON.errors;
 
-					console.log(errors);
+					$('.error').text('');
 
-					alert(errors[0].defaultMessage);
+					errors.forEach(err => {
+						const field = err.field;
+						const message = err.defaultMessage;
+
+						// 해당 input 아래 에러 div가 있을 경우만 출력
+						$(`#error-${field}`).text(message);
+					});
+
 				} else {
 					alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
 				}
@@ -52,11 +59,17 @@ $(document).ready(function () {
 
 	$('#btnDraft').click(function () {
 
-		const title = $.trim($('input[name="title"]').val());
+		$('#error-title').text('');
+
+		const $titleInput = $('input[name="title"]');
+		const title = $.trim($titleInput.val());
 
 		if (title === '') {
-			alert('제목을 입력해주세요.');
-			$('input[name="title"]').focus();
+			$('#error-title').text('제목을 입력해주세요.');
+
+			// 포커스 이동 + 부드러운 스크롤
+			$titleInput[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+			$titleInput.focus();
 			return;
 		}
 
@@ -75,7 +88,7 @@ $(document).ready(function () {
 		};
 
 		$.ajax({
-			url: '/api/resume',
+			url: '/api/resumes/draft',
 			method: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(resume),
@@ -84,11 +97,11 @@ $(document).ready(function () {
 					alert('임시 저장이 완료되었습니다.');
 					location.href = '/applicant/resume/list';
 				} else {
-					alert('임시 저장 실패');
+					location.href = '/error/db-access-denied';
 				}
 			},
 			error: function () {
-				alert('서버 오류로 저장에 실패했습니다.');
+				alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
 			}
 		});
 	});
