@@ -1,4 +1,4 @@
-package org.wit.hrmatching.mapper;
+package org.wit.hrmatching.mapper.applicant;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

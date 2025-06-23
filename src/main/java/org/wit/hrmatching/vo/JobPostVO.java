@@ -17,6 +17,7 @@ public class JobPostVO {
     private LocalDate deadline;
     private String employmentType;
     private String tags;
+    private String jobCategory;
     private LocalDateTime createAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
