@@ -1,0 +1,24 @@
+<!-- /resources/templates/hrms/login/error.html -->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Novi</title>
+    <link rel="stylesheet" href="/css/info/info.css">
+</head>
+<body>
+
+<div class="message-container">
+    <div class="logo">
+        <img th:src="@{/images/logo_no_background.png}" alt="로고"/>
+    </div>
+
+    <div class="message-box">
+        <h1>🚫 오류 발생</h1>
+        <p>존재하지 않는 페이지 입니다.</p>
+        <a th:href="@{/}" class="btn">홈으로 돌아가기</a>
+    </div>
+</div>
+</body>
+</html>

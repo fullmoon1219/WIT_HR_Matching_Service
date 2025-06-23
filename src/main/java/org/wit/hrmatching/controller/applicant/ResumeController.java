@@ -9,7 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.wit.hrmatching.config.auth.CustomUserDetails;
-import org.wit.hrmatching.service.ResumeService;
+import org.wit.hrmatching.service.applicant.ResumeService;
 import org.wit.hrmatching.vo.ResumeVO;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class ResumeController {
 
 		// TODO: 구직자 정보(사진 포함) 추가 → 구직자 메인페이지 로직 완료 후 반영 (작성 화면용)
 
-		ModelAndView modelAndView = new ModelAndView("resume/resume_register");
+		ModelAndView modelAndView = new ModelAndView("applicant/resume/register");
 		modelAndView.addObject("resumeVO", new ResumeVO());
 
 		return modelAndView;
@@ -58,7 +58,7 @@ public class ResumeController {
 			// 입력값 유효성 검사
 			// 만약 입력값이 모두 입력되지 않으면 에러메세지와 함께 작성 페이지로.
 			if (bindingResult.hasErrors()) {
-				modelAndView.setViewName("resume/resume_register");
+				modelAndView.setViewName("applicant/resume/register");
 				modelAndView.addObject("resumeVO", resumeVO);
 				modelAndView.addObject("org.springframework.validation.BindingResult.resumeVO", bindingResult);
 				return modelAndView;
@@ -74,7 +74,7 @@ public class ResumeController {
 		}
 
 		if (result) {
-			modelAndView.setViewName("resume/resume_register_ok");
+			modelAndView.setViewName("applicant/resume/register_ok");
 			modelAndView.addObject("resumeId", resumeVO.getId());
 		} else {
 			modelAndView.setViewName("error/db-access-denied");
@@ -91,7 +91,7 @@ public class ResumeController {
 		List<ResumeVO> resumeList = resumeService.getResumeList(userId);
 		List<ResumeVO> draftResumeList = resumeService.getDraftResumeList(userId);
 
-		ModelAndView modelAndView = new ModelAndView("resume/resume_list");
+		ModelAndView modelAndView = new ModelAndView("applicant/resume/list");
 		modelAndView.addObject("resumeList", resumeList);
 		modelAndView.addObject("draftResumeList", draftResumeList);
 
@@ -106,7 +106,7 @@ public class ResumeController {
 
 		// TODO: 구직자 정보(사진 포함) 추가 → 구직자 메인페이지 로직 완료 후 반영 (상세보기 화면용)
 
-		ModelAndView modelAndView = new ModelAndView("resume/resume_view");
+		ModelAndView modelAndView = new ModelAndView("applicant/resume/view");
 		modelAndView.addObject("resume", resumeVO);
 
 		return modelAndView;
@@ -118,7 +118,7 @@ public class ResumeController {
 
 		ResumeVO resumeVO = resumeService.getResumeForUpdate(resumeId);
 
-		ModelAndView modelAndView = new ModelAndView("resume/resume_edit");
+		ModelAndView modelAndView = new ModelAndView("applicant/resume/edit");
 		modelAndView.addObject("resumeVO", resumeVO);
 
 		return modelAndView;
@@ -144,7 +144,7 @@ public class ResumeController {
 			// 입력값 유효성 검사
 			// 만약 입력값이 모두 입력되지 않으면 에러메세지와 함께 작성 페이지로.
 			if (bindingResult.hasErrors()) {
-				modelAndView.setViewName("resume/resume_edit");
+				modelAndView.setViewName("applicant/resume/edit");
 				modelAndView.addObject("resumeVO", resumeVO);
 				modelAndView.addObject("org.springframework.validation.BindingResult.resumeVO", bindingResult);
 				return modelAndView;
@@ -160,7 +160,7 @@ public class ResumeController {
 		}
 
 		if (result) {
-			modelAndView.setViewName("resume/resume_edit_ok");
+			modelAndView.setViewName("applicant/resume/edit_ok");
 			modelAndView.addObject("resumeId", resumeVO.getId());
 		} else {
 			modelAndView.setViewName("error/db-access-denied");

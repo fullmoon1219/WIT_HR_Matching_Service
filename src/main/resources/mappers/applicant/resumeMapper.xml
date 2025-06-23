@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.wit.hrmatching.mapper.ResumeMapper">
+<mapper namespace="org.wit.hrmatching.mapper.applicant.ResumeMapper">
 
-    <insert id="insertResume" parameterType="resumeVO" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertResume" parameterType="ResumeVO" useGeneratedKeys="true" keyProperty="id">
         insert into resumes
         (user_id, education, experience, skills, preferred_location, salary_expectation,
          is_public, title, core_competency, desired_position, motivation, is_completed)
@@ -11,19 +11,19 @@
                 #{isPublic}, #{title}, #{coreCompetency}, #{desiredPosition}, #{motivation}, #{isCompleted})
     </insert>
     
-    <select id="selectResumeList" resultType="resumeVO">
+    <select id="selectResumeList" resultType="ResumeVO">
         select id, title
         from resumes
         where user_id=#{userId} and deleted_at is null and is_completed=true
     </select>
 
-    <select id="selectDraftResumeList" resultType="resumeVO">
+    <select id="selectDraftResumeList" resultType="ResumeVO">
         select id, title
         from resumes
         where user_id=#{userId} and deleted_at is null and is_completed=false
     </select>
 
-    <select id="selectResume" resultType="resumeVO">
+    <select id="selectResume" resultType="ResumeVO">
         select id, user_id as userId, education, experience, skills, preferred_location as preferredLocation,
                salary_expectation as salaryExpectation, create_at as createAt, is_public as isPublic, title,
                core_competency as coreCompetency, desired_position as desiredPosition, motivation,
@@ -32,7 +32,7 @@
         where id=#{resumeId} and deleted_at is null
     </select>
 
-    <select id="selectResumeForUpdate" resultType="resumeVO">
+    <select id="selectResumeForUpdate" resultType="ResumeVO">
         select id, user_id as userId, education, experience, skills, preferred_location as preferredLocation,
                salary_expectation as salaryExpectation, is_public as isPublic, title,
                core_competency as coreCompetency, desired_position as desiredPosition, motivation
@@ -40,7 +40,7 @@
         where id=#{resumeId} and deleted_at is null
     </select>
 
-    <update id="updateResume" parameterType="resumeVO">
+    <update id="updateResume" parameterType="ResumeVO">
         update resumes
         set education=#{education}, experience=#{experience}, skills=#{skills}, is_completed=#{isCompleted},
             preferred_location=#{preferredLocation}, salary_expectation=#{salaryExpectation}, is_public=#{isPublic},

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+
+<h2>채용 공고</h2>
+
+<button onclick="">입사 지원</button>
+
+<p><strong>공고 제목:</strong> <span id="title" th:text="${recruit.title}"></span></p>
+<p><strong>상세 설명:</strong> <span id="description" th:text="${recruit.description}"></span></p>
+<p><strong>요구 기술:</strong> <span id="requiredSkills" th:text="${recruit.requiredSkills}"></span></p>
+<p><strong>고용 형태:</strong>
+	<span id="employmentType" th:switch="${recruit.employmentType}">
+        <span th:case="'FULLTIME'">정규직</span>
+        <span th:case="'PARTTIME'">파트타임</span>
+        <span th:case="'INTERN'">인턴</span>
+        <span th:case="'FREELANCE'">프리랜서</span>
+        <span th:case="*">기타</span> <!-- 예외 대비 -->
+    </span>
+</p>
+<p><strong>공고 태그:</strong> <span id="jobCategory" th:text="${recruit.jobCategory}"></span></p>
+<p><strong>연봉:</strong> <span id="salary" th:text="${recruit.salary}"></span></p>
+<p><strong>근무지:</strong> <span id="location" th:text="${recruit.location}"></span></p>
+<p><strong>마감일:</strong> <span id="deadline" th:text="${recruit.deadline}"></span></p>
+<p><strong>등록일:</strong> <span id="createAt" th:text="${recruit.createAt}"></span></p>
+<p><strong>조회수:</strong> <span id="viewCount" th:text="${recruit.viewCount}"></span></p>
+<p><strong>스크랩수:</strong> <span id="bookmarkCount" th:text="${recruit.bookmarkCount}"></span></p>
+
+
+<hr>
+
+<h3>기업 정보</h3>
+
+<p><strong>기업명:</strong> <span id="companyName" th:text="${employerProfiles.companyName}"></span></p>
+<p><strong>주소:</strong> <span id="address" th:text="${employerProfiles.address}"></span></p>
+<p><strong>전화번호:</strong> <span id="phoneNumber" th:text="${employerProfiles.phoneNumber}"></span></p>
+<p><strong>홈페이지:</strong> <span id="homepageUrl" th:text="${employerProfiles.homepageUrl}"></span></p>
+<p><strong>산업군:</strong> <span id="industry" th:text="${employerProfiles.industry}"></span></p>
+<p><strong>기업 규모:</strong> <span id="companySize" th:text="${employerProfiles.companySize}"></span></p>
+
+</body>
+</html>

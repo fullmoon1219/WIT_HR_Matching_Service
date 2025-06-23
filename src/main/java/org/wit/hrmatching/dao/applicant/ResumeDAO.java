@@ -1,8 +1,8 @@
-package org.wit.hrmatching.dao;
+package org.wit.hrmatching.dao.applicant;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.wit.hrmatching.mapper.ResumeMapper;
+import org.wit.hrmatching.mapper.applicant.ResumeMapper;
 import org.wit.hrmatching.vo.ResumeVO;
 
 import java.util.List;
