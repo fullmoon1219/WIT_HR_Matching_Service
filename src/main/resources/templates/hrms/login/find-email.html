@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이메일 찾기</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="logo-container">
+            <img th:src="@{/images/logo_no_background.png}" alt="로고">
+        </div>
+        
+        <h2 class="title">이메일 찾기</h2>
+        <p class="subtitle">회원가입 시 입력하신 정보로 이메일을 찾을 수 있습니다.</p>
+        
+        <!-- 회원 유형 탭 -->
+        <div class="tab-container">
+            <div class="tab active" id="personal-tab">개인회원</div>
+            <div class="tab" id="company-tab">기업회원</div>
+        </div>
+        
+        <!-- 개인회원 내용 -->
+        <div id="personal-content" class="tab-content active">
+            <!-- 인증 방법 영역 -->
+            <div class="find-id-tabs">
+                <div class="find-id-tab-contents">
+                    <!-- 휴대폰 인증 방식 -->
+                    <div id="personal-phone-content" class="find-id-tab-content active">
+                        <p class="guide-text">회원정보에 등록된 휴대폰 번호와 입력한 정보가 일치해야 이메일을 찾을 수 있습니다.</p>
+                        
+                        <form th:action="@{/users/find-email}" method="post">
+                            <div class="form-group">
+                                <label class="form-label">이름</label>
+                                <input type="text" name="name" class="input-field" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">생년월일</label>
+                                <input type="text" name="birthDate" class="input-field" placeholder="YYYYMMDD" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">휴대폰 번호</label>
+                                <div class="input-with-button">
+                                    <input type="tel" name="phone" class="input-field" placeholder="'-'없이 입력" required>
+                                    <button type="button" class="verification-button">인증번호 발송</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">인증번호</label>
+                                <input type="text" name="verificationCode" class="input-field" placeholder="인증번호 입력" required>
+                            </div>
+                            
+                            <div class="button-group">
+                                <button type="submit" class="submit-button">확인</button>
+                                <a th:href="@{/login}" class="cancel-button">취소</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 기업회원 내용 -->
+        <div id="company-content" class="tab-content">
+            <!-- 인증 방법 영역 -->
+            <div class="find-id-tabs">
+                <div class="find-id-tab-contents">
+                    <!-- 휴대폰 인증 방식 -->
+                    <div id="company-phone-content" class="find-id-tab-content active">
+                        <p class="guide-text">회원정보에 등록된 담당자 휴대폰 번호와 입력한 정보가 일치해야 이메일을 찾을 수 있습니다.</p>
+                        
+                        <form th:action="@{/company/find-email}" method="post">
+                            <div class="form-group">
+                                <label class="form-label">회사명</label>
+                                <input type="text" name="companyName" class="input-field" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">담당자명</label>
+                                <input type="text" name="managerName" class="input-field" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">담당자 휴대폰 번호</label>
+                                <div class="input-with-button">
+                                    <input type="tel" name="managerPhone" class="input-field" placeholder="'-'없이 입력" required>
+                                    <button type="button" class="verification-button">인증번호 발송</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">인증번호</label>
+                                <input type="text" name="verificationCode" class="input-field" placeholder="인증번호 입력" required>
+                            </div>
+                            
+                            <div class="button-group">
+                                <button type="submit" class="submit-button">확인</button>
+                                <a th:href="@{/login}" class="cancel-button">취소</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="auth-links">
+            <a th:href="@{/login}">로그인</a> | 
+            <a th:href="@{/users/find-password}">비밀번호 찾기</a>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 회원 유형 탭 전환
+            const personalTab = document.getElementById('personal-tab');
+            const companyTab = document.getElementById('company-tab');
+            const personalContent = document.getElementById('personal-content');
+            const companyContent = document.getElementById('company-content');
+            
+            personalTab.addEventListener('click', function() {
+                personalTab.classList.add('active');
+                companyTab.classList.remove('active');
+                personalContent.classList.add('active');
+                companyContent.classList.remove('active');
+            });
+            
+            companyTab.addEventListener('click', function() {
+                companyTab.classList.add('active');
+                personalTab.classList.remove('active');
+                companyContent.classList.add('active');
+                personalContent.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
