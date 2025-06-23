@@ -1,5 +1,5 @@
-// resume/register.html
-// resume/edit.html
+// applicant/resume/register.html
+// applicant/resume/edit.html
 
 $(document).ready(function() {
 

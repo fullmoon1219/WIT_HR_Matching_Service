@@ -25,6 +25,7 @@
             role,
             create_at AS createAt,
             status,
+            warning_count AS warningCount,
             last_login AS lastLogin,
             profile_image AS profileImage,
             email_verified AS emailVerified,
@@ -46,6 +47,7 @@
             role,
             create_at AS createAt,
             status,
+            warning_count AS warningCount,
             last_login AS lastLogin,
             profile_image AS profileImage,
             email_verified AS emailVerified,
@@ -74,5 +76,9 @@
         DELETE FROM users WHERE id = #{id}
     </delete>
 
+<!--    최종 로그인 -->
+    <update id="updateLastLogin">
+        UPDATE users SET last_login = NOW() WHERE id = #{id}
+    </update>
 
 </mapper>

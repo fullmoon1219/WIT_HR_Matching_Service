@@ -74,19 +74,26 @@ mybatis:
 server:
   forward-headers-strategy: framework
   port: '8080'
+  error:
+    whitelabel:
+      enabled: false
+    path: /error/home
 
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        security: DEBUG
-#        web: DEBUG
-#      boot:
-#        context:
-#          config: DEBUG
-#    wit:
-#      hrmatching:
-#        config:
-#          auth:
-#            CustomLogoutSuccessHandler: DEBUG
+logging:
+  level:
+    jdbc.sqlonly: error
+    org:
+      mybatis: error
+      springframework:
+        security:
+          "config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer": error
+        web: error
+      boot:
+        context:
+          config: error
+    wit:
+      hrmatching:
+        config:
+          auth:
+            CustomLogoutSuccessHandler: error
 

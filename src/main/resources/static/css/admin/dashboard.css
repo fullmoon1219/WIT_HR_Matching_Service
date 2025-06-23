@@ -1,58 +1,5 @@
 /* /static/css/admin/dashboard.css */
 
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Noto Sans KR', sans-serif;
-    overflow: hidden;
-}
-
-.admin-wrapper {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
-
-.admin-layout {
-    display: flex;
-    flex: 1;
-    height: calc(100vh - 60px);
-}
-
-.content {
-    flex: 1;
-    padding: 30px;
-    overflow-y: auto;
-    background-color: #f5f6fa;
-}
-
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    margin-bottom: 40px;
-}
-
-.card {
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-}
-
-.card h3 {
-    margin-top: 0;
-    font-size: 18px;
-    color: #888;
-}
-
-.card .value {
-    font-size: 28px;
-    font-weight: bold;
-    color: #333;
-}
-
 .section {
     margin-bottom: 40px;
 }
@@ -72,7 +19,7 @@ table {
 
 th, td {
     padding: 12px;
-    text-align: left;
+    text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
@@ -91,4 +38,115 @@ th {
 
 .btn:hover {
     background: #2f3640;
+}
+
+/* 섹션 간격 */
+.chart-section {
+    margin: 40px 0;
+}
+
+.chart-grid {
+    display: grid;
+    gap: 24px;
+    justify-content: start;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    max-width: 1080px;
+}
+
+.chart-box {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    height: 230px;
+    width: 350px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chart-box h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #333;
+    text-align: center;
+}
+
+/* 캔버스 고정 사이즈 */
+.chart-box canvas {
+    width: 100% !important;
+    height: 180px !important;
+    margin: 0 auto;
+}
+
+/* 숫자 카드용 */
+.number-card {
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: auto;
+    color: #2c3e50;
+}
+
+.login-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: bold;
+}
+
+.login-type.email {
+    color: #007bff;
+}
+
+.login-type.naver {
+    color: #1ec800;
+}
+
+.login-type.google {
+    color: #db4437;
+}
+
+.login-type i {
+    font-size: 14px;
+}
+
+.role {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    color: white;
+}
+
+.role.applicant {
+    background-color: #007bff; /* 파랑 */
+}
+
+.role.employer {
+    background-color: #6f42c1; /* 보라 */
+}
+
+.role.admin {
+    background-color: #343a40; /* 다크그레이 */
+}
+
+@media (min-width: 1024px) {
+    .chart-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1023px) {
+    .chart-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .chart-grid {
+        grid-template-columns: 1fr;
+    }
 }

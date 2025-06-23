@@ -10,4 +10,5 @@ public class AdminDashboardStatsDTO {
     private long resumeCount;
     private long jobPostCount;
     private long applicationCount;
+    private long warningCount;
 }

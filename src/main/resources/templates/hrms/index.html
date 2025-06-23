@@ -9,26 +9,32 @@
 </head>
 <body>
 
-<div th:if="${message} != null">
+<!-- 메시지 출력 -->
+<div th:if="${message != null}">
   <p th:text="${message}"></p>
 </div>
 
+<!-- 로그인 상태 -->
 <div th:if="${userDetails != null}">
   <p>이름: <span th:text="${userDetails.name}"></span></p>
   <p>이메일: <span th:text="${userDetails.email}"></span></p>
   <p>ID: <span th:text="${userDetails.id}"></span></p>
-<!--  <p>나이: <span th:text="${userDetails.applicantProfile.age}"></span></p>-->
+
   <a href="/users/logout">로그아웃</a>
 
   <form method="get" action="/users/delete">
     <button type="submit">회원 탈퇴</button>
   </form>
-
 </div>
 
+<!-- 비로그인 상태 -->
 <div th:if="${userDetails == null}">
   <a href="/users/login">로그인</a>
 </div>
 
+<!-- 관리자 대시보드 이동 -->
+<a href="/admin/dashboard">관리자</a>
+
 </body>
+
 </html>

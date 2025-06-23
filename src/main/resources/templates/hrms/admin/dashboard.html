@@ -1,37 +1,42 @@
 <!-- templates/hrms/admin/dashboard.html -->
 
 <div layout:decorate="~{layout/admin/admin-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/admin/dashboard.css">
+    </th:block>
+
     <main layout:fragment="content">
         <div class="card-grid">
             <div class="card">
-                <h3>총 사용자 수</h3>
-                <div class="value" th:text="${stats.userCount}"></div>
+                <h3>총 사용자</h3>
+                <div class="value" id="total-user-count">--</div>
             </div>
             <div class="card">
-                <h3>지원자 수</h3>
-                <div class="value" th:text="${stats.applicantCount}"></div>
+                <h3>지원자</h3>
+                <div class="value" id="applicant-count">--</div>
             </div>
             <div class="card">
-                <h3>기업 수</h3>
-                <div class="value" th:text="${stats.companyCount}"></div>
+                <h3>기업</h3>
+                <div class="value" id="company-count">--</div>
             </div>
             <div class="card">
-                <h3>이력서 수</h3>
-                <div class="value" th:text="${stats.resumeCount}"></div>
+                <h3>이력서</h3>
+                <div class="value" id="resume-count">--</div>
             </div>
             <div class="card">
-                <h3>공고 수</h3>
-                <div class="value" th:text="${stats.jobPostCount}"></div>
+                <h3>공고</h3>
+                <div class="value" id="job-post-count">--</div>
             </div>
             <div class="card">
                 <h3>지원 건수</h3>
-                <div class="value" th:text="${stats.applicationCount}"></div>
+                <div class="value" id="application-count">--</div>
             </div>
         </div>
 
         <div class="section">
             <h2>최근 가입한 사용자</h2>
-            <table>
+            <table id="recent-users-table">
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -43,21 +48,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="i : ${#numbers.sequence(0, 4)}">
-                    <td th:text="${i < recentUsers.size() ? recentUsers[i].id : '--'}">1</td>
-                    <td th:text="${i < recentUsers.size() ? recentUsers[i].email : '--'}">user@example.com</td>
-                    <td th:text="${i < recentUsers.size() ? recentUsers[i].name : '--'}">USER</td>
-                    <td th:text="${i < recentUsers.size() ? recentUsers[i].createAt : '--'}">2025-06-20</td>
-                    <td th:text="${i < recentUsers.size() ? recentUsers[i].role : '--'}">APPLICANT</td>
-                    <td th:text="${i < recentUsers.size() ? recentUsers[i].loginType : '--'}">EMAIL</td>
-                </tr>
+                <!-- JS로 삽입 -->
                 </tbody>
             </table>
         </div>
 
         <div class="section">
             <h2>최근 등록된 채용 공고</h2>
-            <table>
+            <table id="recent-job-posts-table">
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -67,14 +65,67 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="i : ${#numbers.sequence(0, 4)}">
-                    <td th:text="${i < recentJobPosts.size() ? recentJobPosts[i].id : '--'}">1</td>
-                    <td th:text="${i < recentJobPosts.size() ? recentJobPosts[i].title : '--'}">백엔드 개발자</td>
-                    <td th:text="${i < recentJobPosts.size() ? recentJobPosts[i].companyName : '--'}">네이버</td>
-                    <td th:text="${i < recentJobPosts.size() ? recentJobPosts[i].createAt : '--'}">2025-06-21</td>
-                </tr>
+                <!-- JS로 삽입 -->
                 </tbody>
             </table>
         </div>
+
+        <!-- 통계 차트는 그대로 유지 -->
+        <div class="chart-section">
+            <h2>👤 사용자 통계</h2>
+            <div class="chart-grid">
+                <div class="chart-box">
+                    <h3>일일 가입자 수</h3>
+                    <canvas id="dailyUserChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>일일 로그인 수</h3>
+                    <canvas id="dailyLoginChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>회원 유형 비율</h3>
+                    <canvas id="userRoleChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>소셜 로그인 비율</h3>
+                    <canvas id="loginTypeChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2>📄 이력서 통계</h2>
+            <div class="chart-grid">
+                <div class="chart-box">
+                    <h3>일일 이력서 등록 수</h3>
+                    <canvas id="dailyResumeChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>이력서 작성 완료율</h3>
+                    <canvas id="resumeCompletionChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>직무별 이력서 분포</h3>
+                    <canvas id="resumeJobChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2>💼 채용 공고 통계</h2>
+            <div class="chart-grid">
+                <div class="chart-box">
+                    <h3>일일 공고 등록 수</h3>
+                    <canvas id="dailyJobPostChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>직무별 공고 분포</h3>
+                    <canvas id="jobPostCategoryChart"></canvas>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
+
+<script src="/js/admin/dashboard.js"></script>
+<script src="/js/admin/dashboard-ajax.js"></script>

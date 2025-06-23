@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.wit.hrmatching.config.auth.CustomUserDetails;
+import org.wit.hrmatching.vo.CustomUserDetails;
 import org.wit.hrmatching.service.applicant.ResumeService;
 import org.wit.hrmatching.vo.ResumeVO;
 
