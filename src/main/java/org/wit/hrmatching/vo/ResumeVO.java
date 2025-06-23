@@ -11,6 +11,7 @@ public class ResumeVO {
 
 	private long id;
 	private long userId;
+	private String email;
 	@NotBlank(message = "학력은 필수입니다.")
 	private String education;
 	@NotBlank(message = "경력은 필수입니다.")

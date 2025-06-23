@@ -21,6 +21,7 @@
     <script src="/js/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/admin/csrf-setup.js"></script>
+    <script src="/js/admin/admin-template.js"></script>
 </head>
 <body>
 <div class="admin-layout">
@@ -38,8 +39,18 @@
             <aside class="right-panel">
                 <div th:replace="~{fragments/admin/admin-right-panel :: panel}"></div>
             </aside>
+            <div id="floatingSidebar" class="floating-sidebar">
+                <div class="floating-sidebar-inner">
+                    <button id="closeFloatingSidebar" title="닫기">×</button>
+                    <div class="content" id="floatingSidebarContent">
+                        <!-- AJAX로 삽입됨 -->
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>
+
 </body>
 </html>

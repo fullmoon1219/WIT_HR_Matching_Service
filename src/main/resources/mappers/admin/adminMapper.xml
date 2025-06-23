@@ -47,10 +47,6 @@
         ORDER BY DATE(${column})
     </select>
 
-
-
-
-
     <!-- 3. 회원 유형 비율 -->
     <select id="getUserRoleDistribution" resultType="map">
         SELECT role, COUNT(*) AS count FROM users GROUP BY role

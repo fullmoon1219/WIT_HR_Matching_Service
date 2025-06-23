@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.admin.AdminResumeMapper">
+
+    <select id="getPagedResumes" resultType="org.wit.hrmatching.vo.ResumeVO">
+        SELECT
+        r.*,
+        u.email AS email
+        FROM resumes r
+        LEFT JOIN users u ON r.user_id = u.id
+        <where>
+            <if test="userId != null">
+                r.user_id = #{userId}
+            </if>
+            <if test="includeDeleted == false">
+                <if test="userId != null">AND</if>
+                <if test="userId == null"></if>
+                r.deleted_at IS NULL
+            </if>
+        </where>
+        ORDER BY r.create_at DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+
+    <select id="getTotalResumeCount" resultType="int">
+        SELECT COUNT(*)
+        FROM resumes
+        <where>
+            deleted_at IS NULL
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
