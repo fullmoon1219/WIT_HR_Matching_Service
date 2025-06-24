@@ -13,7 +13,6 @@ $(document).ready(function () {
 			skills: $('input[name="skills"]').val(),
 			preferredLocation: $('input[name="preferredLocation"]').val(),
 			salaryExpectation: Number($('input[name="salaryExpectation"]').val()),
-			isPublic: $('input[name="isPublic"]:checked').val() === 'true',  // boolean 처리
 			desiredPosition: $('input[name="desiredPosition"]').val(),
 			motivation: $('input[name="motivation"]').val(),
 			coreCompetency: $('input[name="coreCompetency"]').val(),
@@ -80,7 +79,6 @@ $(document).ready(function () {
 			skills: $('input[name="skills"]').val(),
 			preferredLocation: $('input[name="preferredLocation"]').val(),
 			salaryExpectation: $('input[name="salaryExpectation"]').val(),
-			isPublic: $('input[name="isPublic"]:checked').val() === 'true',  // boolean 처리
 			desiredPosition: $('input[name="desiredPosition"]').val(),
 			motivation: $('input[name="motivation"]').val(),
 			coreCompetency: $('input[name="coreCompetency"]').val(),

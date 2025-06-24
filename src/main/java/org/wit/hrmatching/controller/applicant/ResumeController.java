@@ -46,9 +46,9 @@ public class ResumeController {
 		return modelAndView;
 	}
 
-	@GetMapping("/edit")
+	@GetMapping("/edit/{resumeId}")
 	@PreAuthorize("@permission.isResumeOwner(#resumeId, authentication)")
-	public ModelAndView editResume(@RequestParam Long resumeId) {
+	public ModelAndView editResume(@PathVariable Long resumeId) {
 
 		ResumeVO resumeVO = resumeService.getResumeForUpdate(resumeId);
 
