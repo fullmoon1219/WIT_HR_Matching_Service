@@ -59,18 +59,38 @@ public class ResumeRestController {
 				.body(Map.of("success", false, "message", "DB 저장 실패"));
 	}
 
+	// 대표 이력서 조회
+	@GetMapping("/public")
+	public ResponseEntity<ResumeVO> getPublicResume(@AuthenticationPrincipal CustomUserDetails userDetails) {
+		ResumeVO resume = resumeService.getPublicResume(userDetails.getId());
+		return resume != null ? ResponseEntity.ok(resume)
+				: ResponseEntity.noContent().build();
+	}
+
 	// 작성 완료된 이력서 목록 조회
 	@GetMapping
 	public List<ResumeVO> getResumeList(@AuthenticationPrincipal CustomUserDetails userDetails) {
-		Long userId = userDetails.getUser().getId();
+		Long userId = userDetails.getId();
 		return resumeService.getResumeList(userId);
 	}
 
 	// 임시 저장 이력서 목록 조회
 	@GetMapping("/draft")
 	public List<ResumeVO> getDraftResumeList(@AuthenticationPrincipal CustomUserDetails userDetails) {
-		Long userId = userDetails.getUser().getId();
+		Long userId = userDetails.getId();
 		return resumeService.getDraftResumeList(userId);
+	}
+
+	// 대표 이력서 설정
+	@PutMapping("/{resumeId}/public")
+	@PreAuthorize("@permission.isResumeOwner(#resumeId, authentication)")
+	public ResponseEntity<?> setResumePublic(@PathVariable Long resumeId,
+											 @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+		boolean result = resumeService.setResumeAsPublic(resumeId, userDetails.getId());
+
+		return result ? ResponseEntity.ok().build()
+				: ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 	// 이력서 삭제 (소프트 삭제)

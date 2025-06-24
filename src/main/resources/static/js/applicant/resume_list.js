@@ -6,40 +6,82 @@ $(document).ready(function () {
 });
 
 function loadResumes() {
-    $.ajax({
-        url: '/api/resumes', // 이력서 목록 REST API URL
-        method: 'GET',
-        success: function (resumes) {
-            const tbody = $('#resumeListBody');
-            tbody.empty();
 
-            // 이력서가 없는 경우 문구 출력
-            if (resumes.length === 0) {
-                const emptyRow = `
-                    <tr>
-                        <td colspan="3" style="text-align: center;">이력서가 없습니다</td>
-                    </tr>
-                `;
-                tbody.append(emptyRow);
-                return; // 데이터 없으면 여기서 끝
+    const tbody = $('#resumeListBody');
+    tbody.empty();
+
+    // 대표 이력서부터 조회
+    $.ajax({
+        url: '/api/resumes/public',
+        method: 'GET',
+        success: function (publicResume) {
+
+            if (publicResume) {
+                const row = makeRow(publicResume, true);
+                tbody.append(row);
             }
 
-            resumes.forEach(resume => {
-                const row = `
-                    <tr>
-                        <td>${resume.title}</td>
-                        <td><a href="/applicant/resume/edit/${resume.id}">수정</a></td>
-                        <td><button onclick="deleteResume(${resume.id})">삭제</button></td>
-                    </tr>
-                `;
-                tbody.append(row);
+            // 비공개 이력서 목록 조회
+            $.ajax({
+                url: '/api/resumes',
+                method: 'GET',
+                success: function (resumes) {
+
+                    // 대표 이력서 외의 이력서가 없는 경우
+                    if (!publicResume && resumes.length === 0) {
+                        const emptyRow = `<tr><td colspan="4" style="text-align: center;">이력서가 없습니다</td></tr>`;
+                        tbody.append(emptyRow);
+                        return;
+                    }
+
+                    resumes.forEach(resume => {
+                        const row = makeRow(resume, false);
+                        tbody.append(row);
+                    });
+                },
+                error: function () {
+                    location.href = '/error/db-access-denied';
+                }
             });
         },
         error: function () {
-            location.href = '/error/db-access-denied';
-        }
 
+            // 대표 이력서가 없는 경우 비공개 이력서 목록만 조회
+            $.ajax({
+                url: '/api/resumes',
+                method: 'GET',
+                success: function (resumes) {
+                    if (resumes.length === 0) {
+                        const emptyRow = `<tr><td colspan="4" style="text-align: center;">이력서가 없습니다</td></tr>`;
+                        tbody.append(emptyRow);
+                        return;
+                    }
+
+                    resumes.forEach(resume => {
+                        const row = makeRow(resume, false);
+                        tbody.append(row);
+                    });
+                },
+                error: function () {
+                    location.href = '/error/db-access-denied';
+                }
+            });
+        }
     });
+}
+
+function makeRow(resume, isPublic) {
+    return `
+        <tr>
+            <td onclick="handlePublicClick(${resume.id}, ${isPublic})" style="cursor: pointer;">
+                ${isPublic ? '<span>◆</span>' : '<span>◇</span>'}
+            </td>
+            <td><a href="/applicant/resume/view/${resume.id}">${resume.title}</a></td>
+            <td>${resume.updatedAt}</td>
+            <td><a href="/applicant/resume/edit/${resume.id}">수정</a></td>
+            <td><button onclick="deleteResume(${resume.id})">삭제</button></td>
+        </tr>
+    `;
 }
 
 function loadDraftResumes() {
@@ -63,7 +105,8 @@ function loadDraftResumes() {
             drafts.forEach(draft => {
                 const row = `
                     <tr>
-                        <td>${draft.title}</td>
+                        <td><a href="/applicant/resume/view/${draft.id}">${draft.title}</a></td>
+                        <td>${resume.updatedAt}</td>
                         <td><a href="/applicant/resume/edit/${draft.id}">수정</a></td>
                         <td><button onclick="deleteResume(${draft.id})">삭제</button></td>
                     </tr>
@@ -78,6 +121,7 @@ function loadDraftResumes() {
 }
 
 function deleteResume(resumeId) {
+
     if (!confirm('정말 삭제하시겠습니까?')) return;
 
     $.ajax({
@@ -89,6 +133,27 @@ function deleteResume(resumeId) {
         },
         error: function () {
             location.href = '/error/db-access-denied';
+        }
+    });
+}
+
+function handlePublicClick(resumeId, isPublic) {
+
+    if (isPublic) {
+        alert('이미 대표 이력서입니다.');
+        return;
+    }
+
+    if (!confirm('이 이력서를 대표 이력서로 설정하시겠습니까?')) return;
+
+    $.ajax({
+        url: `/api/resumes/${resumeId}/public`,
+        method: 'PUT',
+        success: function () {
+            loadResumes();
+        },
+        error: function () {
+            alert('대표 공개 설정에 실패했습니다.');
         }
     });
 }

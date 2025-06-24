@@ -6,22 +6,42 @@
     <insert id="insertResume" parameterType="ResumeVO" useGeneratedKeys="true" keyProperty="id">
         insert into resumes
         (user_id, education, experience, skills, preferred_location, salary_expectation,
-         is_public, title, core_competency, desired_position, motivation, is_completed)
+        title, core_competency, desired_position, motivation, is_completed)
         values (#{userId}, #{education}, #{experience}, #{skills}, #{preferredLocation}, #{salaryExpectation},
-                #{isPublic}, #{title}, #{coreCompetency}, #{desiredPosition}, #{motivation}, #{isCompleted})
+                #{title}, #{coreCompetency}, #{desiredPosition}, #{motivation}, #{isCompleted})
     </insert>
     
-    <select id="selectResumeList" resultType="ResumeVO">
-        select id, title
+    <select id="selectPublicResume" resultType="ResumeVO">
+        select id, title, updated_at as updatedAt, is_public as isPublic
         from resumes
-        where user_id=#{userId} and deleted_at is null and is_completed=true
+        where user_id=#{userId} and deleted_at is null and is_completed=true and is_public=true
+    </select>
+    
+    <select id="selectResumeList" resultType="ResumeVO">
+        select id, title, updated_at as updatedAt, is_public as isPublic
+        from resumes
+        where user_id=#{userId} and deleted_at is null and is_completed=true and is_public=false
+        order by updated_at desc
     </select>
 
     <select id="selectDraftResumeList" resultType="ResumeVO">
         select id, title
         from resumes
         where user_id=#{userId} and deleted_at is null and is_completed=false
+        order by updated_at desc
     </select>
+    
+    <update id="updatePublicResume">
+        update resumes
+        set is_public=true
+        where id=#{resumeId} and deleted_at is null and is_completed=true
+    </update>
+    
+    <update id="resetPublicResume">
+        update resumes
+        set is_public=false
+        where user_id=#{userId} and is_public=true and deleted_at is null
+    </update>
 
     <select id="selectResume" resultType="ResumeVO">
         select id, user_id as userId, education, experience, skills, preferred_location as preferredLocation,
@@ -34,8 +54,8 @@
 
     <select id="selectResumeForUpdate" resultType="ResumeVO">
         select id, user_id as userId, education, experience, skills, preferred_location as preferredLocation,
-               salary_expectation as salaryExpectation, is_public as isPublic, title,
-               core_competency as coreCompetency, desired_position as desiredPosition, motivation
+               salary_expectation as salaryExpectation, title, core_competency as coreCompetency,
+               desired_position as desiredPosition, motivation
         from resumes
         where id=#{resumeId} and deleted_at is null
     </select>
@@ -45,7 +65,7 @@
         set education=#{education}, experience=#{experience}, skills=#{skills}, is_completed=#{isCompleted},
             preferred_location=#{preferredLocation}, salary_expectation=#{salaryExpectation}, is_public=#{isPublic},
             title=#{title}, core_competency=#{coreCompetency}, desired_position=#{desiredPosition}, motivation=#{motivation}
-        where id=#{id}
+        where id=#{id} and deleted_at is null and is_public=false
     </update>
 
     <update id="deleteResume">
