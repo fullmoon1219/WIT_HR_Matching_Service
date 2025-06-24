@@ -1,8 +1,8 @@
-package org.wit.hrmatching.dao;
+package org.wit.hrmatching.dao.applicant;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.wit.hrmatching.mapper.ResumeMapper;
+import org.wit.hrmatching.mapper.applicant.ResumeMapper;
 import org.wit.hrmatching.vo.ResumeVO;
 
 import java.util.List;
@@ -26,12 +26,32 @@ public class ResumeDAO {
 		return flag;
 	}
 
+	public ResumeVO getPublicResume(long userId) {
+		return resumeMapper.selectPublicResume(userId);
+	}
+
 	public List<ResumeVO> getResumeList(long userId) {
 		return resumeMapper.selectResumeList(userId);
 	}
 
 	public List<ResumeVO> getDraftResumeList(long userId) {
 		return resumeMapper.selectDraftResumeList(userId);
+	}
+
+	public int updatePublicResume(long resumeId) {
+
+		int flag = 1;
+		int result = resumeMapper.updatePublicResume(resumeId);
+
+		if (result == 1) {
+			flag = 0;
+		}
+
+		return flag;
+	}
+
+	public void resetPublicResume(long resumeId) {
+		resumeMapper.resetPublicResume(resumeId);
 	}
 
 	public ResumeVO getResume(long resumeId) {

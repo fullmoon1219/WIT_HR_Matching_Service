@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+	<title>내 이력서 목록</title>
+
+	<script src="/js/jquery-3.7.1.min.js"></script>
+	<script src="/js/admin/csrf-setup.js"></script>
+	<script src="/js/applicant/resume_list.js"></script>
+</head>
+<body>
+
+
+<a href="/applicant/resume/register">새 이력서 작성</a>
+
+<br /><br />
+
+<h3>이력서 목록</h3>
+<table border="1" cellspacing="0" id="resumeTable">
+	<thead>
+	<tr>
+		<th>대표 이력서 설정</th>
+		<th>제목</th>
+		<th>마지막 업데이트</th>
+		<th></th> <!-- 수정 버튼 -->
+		<th></th> <!-- 삭제 버튼 -->
+	</tr>
+	</thead>
+	<tbody id="resumeListBody">
+	<!-- JS에서 채움 -->
+	</tbody>
+</table>
+
+<br /><br />
+
+<h3>임시 저장된 이력서 목록</h3>
+<table border="1" cellspacing="0" id="draftTable">
+	<thead>
+	<tr>
+		<th>제목</th>
+		<th>마지막 업데이트</th>
+		<th></th> <!-- 수정 버튼 -->
+		<th></th> <!-- 삭제 버튼 -->
+	</tr>
+	</thead>
+	<tbody id="draftListBody">
+	<!-- JS에서 채움 -->
+	</tbody>
+</table>
+
+</body>
+</html>

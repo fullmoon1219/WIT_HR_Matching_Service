@@ -3,9 +3,7 @@ package org.wit.hrmatching.vo;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import org.apache.ibatis.type.Alias;
 
-@Alias(value = "resumeVO")
 @Data
 public class ResumeVO {
 

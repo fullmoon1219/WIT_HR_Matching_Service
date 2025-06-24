@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>기업 메인페이지</title>
+<!--    CSS 적용시 삭제 -->
+    <style>
+        body { font-family: sans-serif; }
+        .container { display: flex; }
+        .sidebar { width: 200px; background: #f0f0f0; padding: 10px; }
+        .main { flex: 1; padding: 20px; }
+        .profile-info { margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ccc; padding: 5px; }
+    </style>
+
+
+</head>
+<body>
+
+<div class="container"> <!----------------- 사이드 메뉴 -->
+
+    <div class="sidebar">
+        <h3><a href="/employer/main">기업 페이지</a></h3>
+        <ul>
+            <li><a href="/employer/profile">기업관리</a></li>
+            <li><a href="/employer/jobpost_list">채용공고</a></li>
+            <li><a href="/employer/applications">이력서 확인</a></li>
+            <li><a href="#">AI 추천 공고</a></li>
+        </ul>
+    </div>
+
+    <div class="main"> <!------------------- 기업 메인 프로필 -->
+
+        <div class="section"> <!------------------- 기업 프로필 이미지 미리보기 ... 회사별로  -->
+            <img src="/images/company-profile.png" alt="프로필 이미지" width="100" height="100">
+        </div>
+
+        <div class="profile-info">
+            <strong>감자컴퍼니 님</strong>
+            <a href="#">프로필수정</a>
+        </div>
+
+        <div class="section"> <!--------------------- 채용공고, 지원자 정보 요약 현황 -->
+            <p>전체 공고: 3 | 마감 공고: 1 | 지원자 현황: 2</p>
+        </div>
+
+        <div class="section"> <!--------------------------- 채용공고 내역 -->
+            <h4>채용공고 내역 <a href="jobpost_list">더보기</a></h4>
+            <table>
+                <tr>
+                    <th>채용공고</th>
+                    <th>직무</th>
+                    <th>등록일</th>
+                    <th>마감일</th>
+                </tr>
+                <tr th:each="post : ${jobPostList}">
+                    <td th:text="${post.title}"></td>
+                    <td th:text="${post.employmentType}"></td>
+                    <td th:text="${#temporals.format(post.createAt, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${post.deadline}"></td>
+                </tr>
+
+            </table>
+        </div>
+
+
+        <div class="section"> <!------------------------ 지원자 현황 -->
+            <h4>지원자 현황 <a href="applications">더보기</a></h4>
+            <table>
+                <tr>
+                    <th>이력서 제목</th>
+                    <th>희망 직무</th>
+                    <th>기술</th>
+                </tr>
+                <tr th:each="resume : ${recentApplicants}">
+                    <td th:text="${resume.title}"></td>
+                    <td th:text="${resume.desiredPosition}"></td>
+                    <td th:text="${resume.skills}"></td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

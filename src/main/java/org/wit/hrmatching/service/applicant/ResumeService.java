@@ -1,8 +1,8 @@
-package org.wit.hrmatching.service;
+package org.wit.hrmatching.service.applicant;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.wit.hrmatching.dao.ResumeDAO;
+import org.wit.hrmatching.dao.applicant.ResumeDAO;
 import org.wit.hrmatching.vo.ResumeVO;
 
 import java.util.List;
@@ -14,17 +14,26 @@ public class ResumeService {
 	private final ResumeDAO resumeDAO;
 
 	public boolean registerResume(ResumeVO resumeVO) {
-
 		return resumeDAO.registerResume(resumeVO) == 0;
 	}
 
-	public List<ResumeVO> getResumeList(long userId) {
+	public ResumeVO getPublicResume(long userId) {
+		return resumeDAO.getPublicResume(userId);
+	}
 
+	public List<ResumeVO> getResumeList(long userId) {
 		return resumeDAO.getResumeList(userId);
 	}
 
 	public List<ResumeVO> getDraftResumeList(long userId) {
 		return resumeDAO.getDraftResumeList(userId);
+	}
+
+	public boolean setResumeAsPublic(long resumeId, long userId) {
+
+		resumeDAO.resetPublicResume(userId);
+
+		return resumeDAO.updatePublicResume(resumeId) == 0;
 	}
 
 	public ResumeVO getResume(long resumeId) {

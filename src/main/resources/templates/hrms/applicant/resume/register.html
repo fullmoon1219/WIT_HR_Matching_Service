@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+	<title>이력서 등록</title>
+
+	<script src="/js/jquery-3.7.1.min.js"></script>
+	<script src="/js/admin/csrf-setup.js"></script>
+	<script src="/js/applicant/resume_validate.js"></script>
+	<script src="/js/applicant/resume_register.js"></script>
+</head>
+<body>
+
+<form id="resumeForm">
+
+	<!-- CSRF 토큰 (AJAX 설정에서 활용됨) -->
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+	<!-- 컨트롤러에서 유효성 검사 실패했을 때, 에러메세지 출력 -->
+	제목 <input type="text" name="title" /><br />
+	<div class="error" id="error-title"></div>
+
+	<!-- 자유 기재 -->
+	학력 <input type="text" name="education" /><br />
+	<div class="error" id="error-education"></div>
+
+	<!-- 자유 기재 -->
+	경력 <input type="text" name="experience" /><br />
+	<div class="error" id="error-experience"></div>
+
+	<!-- 기술 스택은 태그 선택으로 구성 -->
+	기술 스택 <input type="text" name="skills" /><br />
+	<div class="error" id="error-skills"></div>
+
+	<!-- 선호 지역은 선택형 -->
+	선호 지역 <input type="text" name="preferredLocation" /><br />
+	<div class="error" id="error-preferredLocation"></div>
+
+	<!-- 숫자만 기재 -->
+	희망 연봉 <input type="text" name="salaryExpectation" />만원<br />
+	<div class="error" id="error-salaryExpectation"></div>
+
+	<!-- 희망 직무는 선택형 -->
+	희망 직무 <input type="text" name="desiredPosition" /><br />
+	<div class="error" id="error-desiredPosition"></div>
+
+	지원 동기 <input type="text" name="motivation" /><br />
+	<div class="error" id="error-motivation"></div>
+
+	<!-- 자유 기재 -->
+	핵심 역량 <input type="text" name="coreCompetency" />
+	<div class="error" id="error-coreCompetency"></div>
+
+	<button type="button" id="btnDraft" name="action" value="draft">임시 저장</button>
+	<button type="button" id="btnRegister" name="action" value="register">이력서 등록</button>
+</form>
+
+<button type="button" onclick="location.href='/application/resume/list'">취소</button>
+
+</body>
+</html>

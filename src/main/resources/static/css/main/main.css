@@ -1,138 +1,7 @@
 body {
     margin-top: 140px;
     font-family: 'Arial', sans-serif;
-}
-
-/* 헤더 (로고 영역) */
-.header-container {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 10px 30px;
-    display: flex;
-    align-items: center;
-    background-color: #ffffff;
-    border-bottom: 1px solid #ddd;
-    justify-content: space-between;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-}
-
-/* 로그인 | 회원가입 */
-.header-auth {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-}
-
-.header-auth a {
-    color: #444;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.header-auth a:hover {
-    color: #0078ff;
-    text-decoration: underline;
-}
-
-.header-auth .divider {
-    color: #bbb;
-}
-
-/* 로고 */
-.logo img {
-    height: 40px;
-}
-
-/* 네비게이션 바 */
-.menu-nav {
-    background-color: white;
-    border-bottom: 1px solid #ddd;
-    padding: 20px 50px;
-
-    position: fixed;
-    top: 60px; /* 헤더 높이만큼 띄움 */
-    left: 0;
-    width: 100%;
-    z-index: 999;
-}
-
-
-.menu-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-    overflow: visible;
-}
-
-/*전체 메뉴용 햄버거 버튼 만들었는데 자꾸 오류나서 전체 메뉴 패스했습니다
-혹시 원하실까봐 일단 코드는 안 지우고 남겨둡니다*/
-/*.hamburger {
-    font-size: 22px;
-    cursor: pointer;
-    padding-right: 20px;
-    user-select: none;
-}*/
-
-/* 메뉴 항목 */
-.menu-wrapper > ul {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-    margin: 0;
-    padding: 0;
-}
-
-.menu-nav li {
-    position: relative;
-}
-
-.menu-nav li a {
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-}
-
-/* 드롭다운 구성 */
-.dropdown {
-    position: relative;
-}
-
-.submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    padding: 10px 0;
-    min-width: 160px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    list-style: none;
-    margin: 0;
-}
-
-.submenu li {
-    padding: 8px 20px;
-    white-space: nowrap;
-}
-
-.submenu li a {
-    text-decoration: none;
-    color: #333;
-    display: block;
-}
-
-.submenu li a:hover {
-    background-color: #f5f5f5;
-}
-
-.dropdown:hover .submenu {
-    display: block;
+    background-color: #f8f8f8;
 }
 
 /*메일 인증 여부*/
@@ -142,8 +11,8 @@ body {
     margin: 30px auto;
     padding: 10px 20px;
     border-radius: 8px;
-    background-color: #0078ff;
-    color: white;
+    background-color: #FFEB3B;
+    color: #333;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -296,7 +165,7 @@ body {
     text-decoration: none;
     color: #333;
 
-    background-color: #f8f8f8;
+    background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 12px;
     height: 200px;
@@ -346,26 +215,4 @@ body {
 #banner,
 #urgent {
     scroll-margin-top: 140px; /* 헤더+메뉴바 높이만큼 */
-}
-
-/* 푸터 */
-.site-footer {
-    text-align: center;
-    padding: 16px 10px;
-    background-color: #f7f7f7;
-    color: #555;
-    font-size: 15px;
-    border-top: 1px solid #ddd;
-    margin-top: 60px;
-}
-
-.site-footer .slogan {
-    font-weight: 500;
-    color: #333;
-}
-
-.site-footer .copyright {
-    font-size: 13px;
-    color: #999;
-    margin-left: 8px;
 }

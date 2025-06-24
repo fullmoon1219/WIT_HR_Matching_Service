@@ -1,4 +1,4 @@
-package org.wit.hrmatching.mapper;
+package org.wit.hrmatching.mapper.applicant;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -11,8 +11,12 @@ public interface ResumeMapper {
 
 	int insertResume(ResumeVO resumeVO);
 
+	ResumeVO selectPublicResume(long userId);
 	List<ResumeVO> selectResumeList(long userId);
 	List<ResumeVO> selectDraftResumeList(long userId);
+
+	int updatePublicResume(long resumeId);
+	int resetPublicResume(long userId);
 
 	ResumeVO selectResume(long resumeId);
 
