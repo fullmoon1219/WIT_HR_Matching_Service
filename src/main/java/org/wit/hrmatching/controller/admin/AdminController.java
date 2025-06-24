@@ -24,4 +24,9 @@ public class AdminController {
     public String resumeLists() {
         return "admin/resume-list";
     }
+
+    @GetMapping("/jobPosts")
+    public String postLists() {
+        return "admin/jobPosts";
+    }
 }

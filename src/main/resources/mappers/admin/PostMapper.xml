@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.admin.AdminPostMapper">
+
+    <!-- AdminPostMapper.xml -->
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*) FROM job_posts
+    </select>
+
+    <select id="countByStatus" parameterType="boolean" resultType="int">
+        SELECT COUNT(*) FROM job_posts
+        WHERE deadline < CURRENT_DATE() = #{status}
+    </select>
+
+    <select id="countDeleted" resultType="int">
+        SELECT COUNT(*) FROM job_posts WHERE deleted_at IS NOT NULL
+    </select>
+
+    <!-- AdminPostMapper.xml -->
+    <select id="countAvailable" resultType="int">
+        SELECT COUNT(*) FROM job_posts
+        WHERE deadline >= CURRENT_DATE()
+          AND deleted_at IS NULL
+    </select>
+
+
+    <select id="getFilteredJobPostsPaged" resultType="org.wit.hrmatching.vo.JobPostVO">
+        SELECT jp.*, u.name AS company_name
+        FROM job_posts jp
+        LEFT JOIN users u ON jp.user_id = u.id
+        <where>
+            <if test="id != null">
+                jp.id = #{id}
+            </if>
+
+            <if test="deleted != null">
+                <choose>
+                    <when test="deleted == true">
+                        AND jp.deleted_at IS NOT NULL
+                    </when>
+                    <when test="deleted == false">
+                        AND jp.deleted_at IS NULL
+                    </when>
+                </choose>
+            </if>
+
+            <if test="status != null">
+                <choose>
+                    <when test="status == true">
+                        AND jp.deadline &lt; CURRENT_DATE()
+                    </when>
+                    <when test="status == false">
+                        AND jp.deadline &gt;= CURRENT_DATE()
+                    </when>
+                </choose>
+            </if>
+
+            <if test="keyword != null and keyword != ''">
+                AND (
+                u.email LIKE CONCAT('%', #{keyword}, '%')
+                OR u.name LIKE CONCAT('%', #{keyword}, '%')
+                )
+            </if>
+        </where>
+        ORDER BY jp.create_at DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countFilteredJobPosts" resultType="int">
+        SELECT COUNT(*)
+        FROM job_posts jp
+        LEFT JOIN users u ON jp.user_id = u.id
+        <where>
+            <if test="id != null">
+                jp.id = #{id}
+            </if>
+
+            <if test="deleted != null">
+                <choose>
+                    <when test="deleted == true">
+                        AND jp.deleted_at IS NOT NULL
+                    </when>
+                    <when test="deleted == false">
+                        AND jp.deleted_at IS NULL
+                    </when>
+                </choose>
+            </if>
+
+            <if test="status != null">
+                <choose>
+                    <when test="status == true">
+                        AND jp.deadline &lt; CURRENT_DATE()
+                    </when>
+                    <when test="status == false">
+                        AND jp.deadline &gt;= CURRENT_DATE()
+                    </when>
+                </choose>
+            </if>
+
+            <if test="keyword != null and keyword != ''">
+                AND (
+                u.email LIKE CONCAT('%', #{keyword}, '%')
+                OR u.name LIKE CONCAT('%', #{keyword}, '%')
+                )
+            </if>
+        </where>
+    </select>
+
+
+    <delete id="deletePostsByIds">
+        DELETE FROM job_posts
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+
+</mapper>
