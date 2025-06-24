@@ -32,4 +32,19 @@ public class ResumeVO {
 	private String updatedAt;
 	private String deletedAt;
 	private boolean isCompleted;
+
+	// MyBatis 매칭을 위한 getter/setter
+	public boolean getIsPublic() {
+		return isPublic;
+	}
+	public void setIsPublic(boolean isPublic) {
+		this.isPublic = isPublic;
+	}
+
+	public boolean getIsCompleted() {
+		return isCompleted;
+	}
+	public void setIsCompleted(boolean isCompleted) {
+		this.isCompleted = isCompleted;
+	}
 }

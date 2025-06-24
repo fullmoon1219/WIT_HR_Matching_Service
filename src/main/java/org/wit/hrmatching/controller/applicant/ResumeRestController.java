@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.service.applicant.ResumeService;
+import org.wit.hrmatching.service.security.PermissionService;
 import org.wit.hrmatching.vo.CustomUserDetails;
 import org.wit.hrmatching.vo.ResumeVO;
 
@@ -91,6 +92,57 @@ public class ResumeRestController {
 
 		return result ? ResponseEntity.ok().build()
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	}
+
+	// 이력서 상세보기 (수정 시 기존 이력서 데이터도 전달)
+	@GetMapping("/{resumeId}")
+	@PreAuthorize("@permission.isResumeOwner(#resumeId, authentication)")
+	public ResponseEntity<?> getResume(@PathVariable Long resumeId) {
+
+		ResumeVO resume = resumeService.getResume(resumeId);
+		if (resume == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		return ResponseEntity.ok(resume);
+	}
+
+	// 이력서 수정 (완전 저장)
+	@PutMapping("/{resumeId}")
+	@PreAuthorize("@permission.isResumeOwner(#resumeId, authentication)")
+	public ResponseEntity<?> editResume(@PathVariable Long resumeId,
+										@Valid @RequestBody ResumeVO resumeVO,
+										BindingResult bindingResult) {
+
+		resumeVO.setId(resumeId);
+
+		// 유효성 오류 처리
+		if (bindingResult.hasErrors()) {
+			return ResponseEntity.badRequest().body(Map.of("success", false,
+					"errors", bindingResult.getAllErrors()));
+		}
+
+		boolean result = resumeService.editResume(resumeVO);
+
+		return result
+				? ResponseEntity.ok(Map.of("success", true, "id", resumeVO.getId()))
+				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+				.body(Map.of("success", false, "message", "DB 수정 실패"));
+	}
+
+	// 이력서 수정 (임시 저장)
+	@PutMapping("/draft/{resumeId}")
+	@PreAuthorize("@permission.isResumeOwner(#resumeId, authentication)")
+	public ResponseEntity<?> editDraftResume(@PathVariable Long resumeId,
+											 @RequestBody ResumeVO resumeVO) {
+
+		resumeVO.setId(resumeId);
+
+		boolean result = resumeService.editResume(resumeVO);
+
+		return result
+				? ResponseEntity.ok(Map.of("success", true))
+				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+				.body(Map.of("success", false, "message", "DB 저장 실패"));
 	}
 
 	// 이력서 삭제 (소프트 삭제)

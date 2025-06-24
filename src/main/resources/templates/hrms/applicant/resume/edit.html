@@ -2,52 +2,54 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Title</title>
+
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+	<title>내 이력서 수정하기</title>
+
 	<script src="/js/jquery-3.7.1.min.js"></script>
+	<script src="/js/admin/csrf-setup.js"></script>
 	<script src="/js/applicant/resume_validate.js"></script>
+	<script src="/js/applicant/resume_edit.js"></script>
 </head>
 <body>
 
-<form action="./edit_ok" method="post" th:object="${resumeVO}">
-	<input type="hidden" th:field="*{id}" />
-	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+<form id="resumeForm">
 
-	제목 <input type="text" th:field="*{title}" /><br />
-	<div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+	제목 <input type="text" id="title" name="title" /><br />
+	<div class="error" id="error-title"></div>
 
-	학력 <input type="text" th:field="*{education}" /><br />
-	<div th:if="${#fields.hasErrors('education')}" th:errors="*{education}"></div>
+	학력 <input type="text" id="education" name="education" /><br />
+	<div class="error" id="error-education"></div>
 
-	경력 <input type="text" th:field="*{experience}" /><br />
-	<div th:if="${#fields.hasErrors('experience')}" th:errors="*{experience}"></div>
+	경력 <input type="text" id="experience" name="experience" /><br />
+	<div class="error" id="error-experience"></div>
 
-	기술 스택 <input type="text" th:field="*{skills}" /><br />
-	<div th:if="${#fields.hasErrors('skills')}" th:errors="*{skills}"></div>
+	기술 스택 <input type="text" id="skills" name="skills" /><br />
+	<div class="error" id="error-skills"></div>
 
-	선호 지역 <input type="text" th:field="*{preferredLocation}" /><br />
-	<div th:if="${#fields.hasErrors('preferredLocation')}" th:errors="*{preferredLocation}"></div>
+	선호 지역 <input type="text" id="preferredLocation" name="preferredLocation" /><br />
+	<div class="error" id="error-preferredLocation"></div>
 
-	희망 연봉 <input type="text" th:field="*{salaryExpectation}" /><br />
-	<div th:if="${#fields.hasErrors('salaryExpectation')}" th:errors="*{salaryExpectation}"></div>
+	희망 연봉 <input type="text" id="salaryExpectation" name="salaryExpectation" /><br />
+	<div class="error" id="error-salaryExpectation"></div>
 
-	공개 여부 &nbsp;
-	공개 <input type="radio" th:field="*{public}" value="true" />
-	비공개 <input type="radio" th:field="*{public}" value="false" /><br />
+	희망 직무 <input type="text" id="desiredPosition" name="desiredPosition" /><br />
+	<div class="error" id="error-desiredPosition"></div>
 
-	희망 직무 <input type="text" th:field="*{desiredPosition}" /><br />
-	<div th:if="${#fields.hasErrors('desiredPosition')}" th:errors="*{desiredPosition}"></div>
+	지원 동기 <input type="text" id="motivation" name="motivation" /><br />
+	<div class="error" id="error-motivation"></div>
 
-	지원 동기 <input type="text" th:field="*{motivation}" /><br />
-	<div th:if="${#fields.hasErrors('motivation')}" th:errors="*{motivation}"></div>
-
-	핵심 역량 <input type="text" th:field="*{coreCompetency}" /><br />
-	<div th:if="${#fields.hasErrors('coreCompetency')}" th:errors="*{coreCompetency}"></div>
+	핵심 역량 <input type="text" id="coreCompetency" name="coreCompetency" /><br />
+	<div class="error" id="error-coreCompetency"></div>
 
 	<br />
 
-	<button type="button" id="btnDraft" name="action" value="draft">임시 저장</button>
-	<button type="button" id="btnRegister" name="action" value="register">이력서 등록</button>
-	<button type="button" onclick="location.href='./list'">취소</button>
+	<button type="button" id="btnDraft">임시 저장</button>
+	<button type="button" id="btnRegister">수정 완료</button>
+	<button type="button" onclick="location.href='/applicant/resume/list'">취소</button>
+
 </form>
 
 </body>
