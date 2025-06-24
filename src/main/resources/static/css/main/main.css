@@ -1,138 +1,7 @@
 body {
     margin-top: 140px;
     font-family: 'Arial', sans-serif;
-}
-
-/* 헤더 (로고 영역) */
-.header-container {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 10px 30px;
-    display: flex;
-    align-items: center;
-    background-color: #ffffff;
-    border-bottom: 1px solid #ddd;
-    justify-content: space-between;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-}
-
-/* 로그인 | 회원가입 */
-.header-auth {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-}
-
-.header-auth a {
-    color: #444;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.header-auth a:hover {
-    color: #0078ff;
-    text-decoration: underline;
-}
-
-.header-auth .divider {
-    color: #bbb;
-}
-
-/* 로고 */
-.logo img {
-    height: 40px;
-}
-
-/* 네비게이션 바 */
-.menu-nav {
-    background-color: white;
-    border-bottom: 1px solid #ddd;
-    padding: 20px 50px;
-
-    position: fixed;
-    top: 60px; /* 헤더 높이만큼 띄움 */
-    left: 0;
-    width: 100%;
-    z-index: 999;
-}
-
-
-.menu-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-    overflow: visible;
-}
-
-/*전체 메뉴용 햄버거 버튼 만들었는데 자꾸 오류나서 전체 메뉴 패스했습니다
-혹시 원하실까봐 일단 코드는 안 지우고 남겨둡니다*/
-/*.hamburger {
-    font-size: 22px;
-    cursor: pointer;
-    padding-right: 20px;
-    user-select: none;
-}*/
-
-/* 메뉴 항목 */
-.menu-wrapper > ul {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-    margin: 0;
-    padding: 0;
-}
-
-.menu-nav li {
-    position: relative;
-}
-
-.menu-nav li a {
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-}
-
-/* 드롭다운 구성 */
-.dropdown {
-    position: relative;
-}
-
-.submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    padding: 10px 0;
-    min-width: 160px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    list-style: none;
-    margin: 0;
-}
-
-.submenu li {
-    padding: 8px 20px;
-    white-space: nowrap;
-}
-
-.submenu li a {
-    text-decoration: none;
-    color: #333;
-    display: block;
-}
-
-.submenu li a:hover {
-    background-color: #f5f5f5;
-}
-
-.dropdown:hover .submenu {
-    display: block;
+    background-color: #f8f8f8;
 }
 
 /*메일 인증 여부*/
@@ -142,8 +11,8 @@ body {
     margin: 30px auto;
     padding: 10px 20px;
     border-radius: 8px;
-    background-color: #0078ff;
-    color: white;
+    background-color: #FFEB3B;
+    color: #333;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -159,113 +28,106 @@ body {
     font-size: 18px;
 }
 
-/* 공통 카드 스타일 */
-.card-section {
+.slider-section {
     max-width: 1200px;
-    margin: 30px auto;
-    padding: 60px 60px;
-    border-radius: 24px;
-    color: white;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    margin: 60px auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.slider-container {
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-    transition: transform 0.3s ease;
+    justify-content: center;
+}
+
+.slide-wrapper {
     position: relative;
+    width: 100%;
+    height: 400px;
 }
 
-.card-section:hover {
-    transform: translateY(-5px);
-}
-
-.card-section button {
-    margin-top: 30px;
-    padding: 10px 20px;
-    border: 2px solid white;
-    background: transparent;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.card-section button:hover {
-    background-color: white;
-    color: #333;
-}
-
-/* 조회수 TOP20 전용 스타일 */
-.top20-section {
-    background: linear-gradient(135deg, #71c4ef, #54a9dd);
-}
-
-.top20-section h1 {
-    font-size: 40px;
-    margin: 0;
-}
-
-.top20-section p {
-    margin-top: 20px;
-    font-size: 18px;
-}
-
-.top20-section .text-content p strong {
-    font-weight: bold;
-    color: #ffffff;
-}
-
-/* 북마크 TOP20 전용 스타일 */
-.bmark-section {
-    background: linear-gradient(135deg, #b6ccd8, #8aa3b2);
-}
-
-.bmark-section h1 {
-    font-size: 40px;
-    margin: 0;
-}
-
-.bmark-section p {
-    margin-top: 20px;
-    font-size: 18px;
-}
-
-.bmark-section .text-content p strong {
-    font-weight: bold;
-    color: #ffffff;
-}
-
-/* 이미지 영역 스타일 및 배경 원형 효과 */
-.image-content {
-    position: relative;
-}
-
-.image-content::before {
-    content: '';
+.slide-link {
     position: absolute;
-    top: 10%;
-    left: 10%;
-    width: 80%;
-    height: 80%;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 50%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
     z-index: 0;
 }
 
-.image-content img {
-    position: relative;
+.slide-link.active {
+    opacity: 1;
+    pointer-events: auto;
     z-index: 1;
-    max-height: 300px;
-    object-fit: contain;
 }
 
-/* 강조 텍스트 (TOP20 등) */
-.highlight {
-    background-color: #ffe600;
-    padding: 4px 8px;
-    border-radius: 8px;
-    color: black;
+.slide-link img {
+    width: 100%;
+    border-radius: 16px;
 }
+
+.slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255,255,255,0.8);
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.slide-btn.prev { left: 10px; }
+.slide-btn.next { right: 10px; }
+
+.slide-indicator {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: #0078ff;
+}
+
+/*광고 배너*/
+.ad-banner {
+    max-width: 1200px;
+    height: 150px;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.ad-banner img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+
 
 /* ===== 마감 임박 공고 영역 ===== */
 .urgent-section {
@@ -303,7 +165,7 @@ body {
     text-decoration: none;
     color: #333;
 
-    background-color: #f8f8f8;
+    background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 12px;
     height: 200px;
@@ -350,30 +212,7 @@ body {
     font-weight: bold;
 }
 
-#top20,
-#bookmark,
+#banner,
 #urgent {
     scroll-margin-top: 140px; /* 헤더+메뉴바 높이만큼 */
-}
-
-/* 푸터 */
-.site-footer {
-    text-align: center;
-    padding: 16px 10px;
-    background-color: #f7f7f7;
-    color: #555;
-    font-size: 15px;
-    border-top: 1px solid #ddd;
-    margin-top: 60px;
-}
-
-.site-footer .slogan {
-    font-weight: 500;
-    color: #333;
-}
-
-.site-footer .copyright {
-    font-size: 13px;
-    color: #999;
-    margin-left: 8px;
 }

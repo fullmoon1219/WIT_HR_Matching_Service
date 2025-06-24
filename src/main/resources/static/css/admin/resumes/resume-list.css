@@ -1,5 +1,13 @@
 /* /css/admin/resume-list.css */
 
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 0;
+    padding-bottom: 4px;
+}
+
 .user-table {
     width: 100%;
     border-collapse: collapse;

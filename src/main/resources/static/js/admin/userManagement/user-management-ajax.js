@@ -26,7 +26,6 @@ function loadUserStats() {
 function loadUserList(page = 1, filters = currentFilters) {
     const query = $.param({
         page: page,
-        size: 15,
         role: filters.role,
         status: filters.status,
         warning: filters.warning,
@@ -40,7 +39,7 @@ function loadUserList(page = 1, filters = currentFilters) {
         success: function (response) {
             const users = response.content;
             const totalPages = response.totalPages;
-            const currentPage = response.number + 1; // 0-based index 조정
+            const currentPage = response.number;
 
             let html = '';
             users.forEach(user => {
@@ -106,36 +105,6 @@ function loadUserList(page = 1, filters = currentFilters) {
                     </tr>
                 `;
             });
-
-            const missingUsers = 15 - users.length;
-            for (let i = 0; i < missingUsers; i++) {
-                html += `
-                    <tr class="placeholder-row">
-                        <td class="selectable placeholder">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" class="user-checkbox" disabled />
-                                <span class="check-icon">✔</span>
-                            </div>
-                        </td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td><div class="value-wrapper user-specific"><span class="value">--</span></div></td>
-                        <td><div class="value-wrapper user-specific"><span class="value">--</span></div></td>
-                        <td><div class="value-wrapper user-specific"><span class="value">--</span></div></td>
-                        <td><span class="icon">--</span></td>
-                        <td>--</td>
-                        <td style="text-align: center;"><button class="toggle-details-btn" disabled>▼</button></td>
-                    </tr>
-                    <tr class="detail-row">
-                        <td colspan="10" style="padding: 0; border: none;">
-                            <div class="detail-table-wrapper" style="display: none;">
-                                <div style="padding: 20px; text-align: center; color: #999;">사용자 정보 없음</div>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }
 
             $('#userTableBody').html(html);
 

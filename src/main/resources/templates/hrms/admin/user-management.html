@@ -3,7 +3,7 @@
 <div layout:decorate="~{layout/admin/admin-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
     <th:block layout:fragment="styles">
         <link rel="stylesheet" href="/css/admin/user-management/user-management.css">
-        <link rel="stylesheet" href="/css/admin/user-management/filter.css">
+        <link rel="stylesheet" href="/css/admin/filter.css">
     </th:block>
 
     <div layout:fragment="content">
@@ -51,6 +51,7 @@
                             <button class="warning-3" data-value="3">3</button>
                         </div>
                     </div>
+                    <button id="deleteButton">삭제</button>
                 </div>
             </div>
             <table class="user-table">
@@ -73,9 +74,9 @@
                     <th>이메일</th>
                     <th>이름</th>
 
-                    <th style="position: relative;" id="th-role">
+                    <th class="filter-toggle" data-filter="role" style="position: relative;" id="th-role">
                         역할
-                        <span class="filter-toggle" data-filter="role">▼</span>
+                        <span>▼</span>
                         <div class="filter-selected value role" data-type="role" style="display: none;"></div>
                         <div class="filter-popup" data-type="role" style="display: none;">
                             <button class="default" data-value="">전체</button>
@@ -85,9 +86,9 @@
                         </div>
                     </th>
 
-                    <th style="position: relative;" id="th-status">
+                    <th class="filter-toggle" data-filter="status" style="position: relative;" id="th-status">
                         상태
-                        <span class="filter-toggle" data-filter="status">▼</span>
+                        <span>▼</span>
                         <div class="filter-selected value status" data-type="status" style="display: none;"></div>
                         <div class="filter-popup" data-type="status" style="display: none;">
                             <button class="default" data-value="">전체</button>
@@ -96,9 +97,9 @@
                         </div>
                     </th>
 
-                    <th style="position: relative;" id="th-warning">
+                    <th class="filter-toggle" data-filter="warning" style="position: relative;" id="th-warning">
                         경고
-                        <span class="filter-toggle" data-filter="warning">▼</span>
+                        <span>▼</span>
                         <div class="filter-selected value warning" data-type="warning" style="display: none;"></div>
                         <div class="filter-popup" data-type="warning" style="display: none;">
                             <button class="default" data-value="">전체</button>
@@ -109,9 +110,9 @@
                         </div>
                     </th>
 
-                    <th style="position: relative;" id="th-verified">
+                    <th class="filter-toggle" data-filter="verified" style="position: relative;" id="th-verified">
                         이메일 인증
-                        <span class="filter-toggle" data-filter="verified">▼</span>
+                        <span>▼</span>
                         <div class="filter-selected value email" data-type="verified" style="display: none;"></div>
                         <div class="filter-popup" data-type="verified" style="display: none;">
                             <button class="default" data-value="">전체</button>
@@ -137,4 +138,5 @@
 
 <script src="/js/admin/userManagement/user-management-ajax.js"></script>
 <script src="/js/admin/userManagement/user-management.js"></script>
-<script src="/js/admin/userManagement/filters.js"></script>
+<script src="/js/admin/userManagement/filter.js"></script>
+<script src="/js/admin/table.js"></script>
