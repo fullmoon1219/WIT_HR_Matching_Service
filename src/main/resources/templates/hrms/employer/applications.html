@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>이력서 확인</title>
+
+  <!--  CSS 적용시 해당 스타일 삭제해 주세요-->
+  <style>
+    body { font-family: sans-serif; }
+    .container { display: flex; }
+    .sidebar { width: 200px; background: #f0f0f0; padding: 10px; }
+    .main { flex: 1; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 5px; }
+  </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+  <!--  사이드바 -->
+  <div class="sidebar">
+    <h3><a href="/employer/main">기업 페이지</a></h3>
+    <ul>
+      <li><a href="/employer/profile">기업관리</a></li>
+      <li><a href="/employer/jobpost_list">채용공고</a></li>
+      <li><a href="/employer/applications">이력서 확인</a></li>
+      <li><a href="#">AI 추천 공고</a></li>
+    </ul>
+  </div>
+
+  <!-- ✅ 메인 콘텐츠 -->
+  <div class="main">
+    <h2>이력서 확인하기</h2>
+
+    <!-- 라디오 메뉴 -->
+    <div class="menu-radio-group">
+      <label>
+        <input type="radio" name="menu" value="scout" checked>
+        스카우트하기
+      </label>
+      <label>
+        <input type="radio" name="menu" value="resume">
+        이력서 확인
+      </label>
+    </div>
+
+    <!-- 콘텐츠 영역 -->
+    <div id="content">
+      <p>스카우트하기 콘텐츠 출력</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ✅ 라디오 선택에 따라 콘텐츠 변경 -->
+<script>
+  const radios = document.querySelectorAll('input[name="menu"]');
+  const content = document.getElementById('content');
+
+  radios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.value === 'scout') {
+        content.innerHTML = "<p>스카우트하기 콘텐츠 출력</p>";
+      } else if (radio.value === 'resume') {
+        content.innerHTML = "<p>이력서 확인 콘텐츠 출력</p>";
+      }
+    });
+  });
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>공고문 작성</title>
+
+</head>
+<body>
+
+<h1>채용 공고 작성</h1>
+
+<form action="jobpost/jobpost_ok" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+    공고 제목<input type="text" name="title" required><br/>
+    상세 설명<textarea name="description" rows="6" required></textarea><br/>
+    요구 기술<textarea name="requiredSkills" rows="4"></textarea><br/>
+    연봉<input type="text" name="salary"><br/>
+    근무지<input type="text" name="location"><br/>
+
+    고용 형태<select name="employmentType">
+    <option value="FULLTIME">정규직</option>
+    <option value="PARTTIME">파트타임</option>
+    <option value="INTERN">인턴</option>
+    <option value="FREELANCE">프리랜서</option>
+</select><br/>
+
+    마감일<input type="date" name="deadline"><br/>
+    카테고리<input type="text" name="jobCategory" placeholder="예: Java, Spring, React"><br/>
+
+    <input type="submit" value="등록하기">
+
+</form>
+
+</body>
+</html>
