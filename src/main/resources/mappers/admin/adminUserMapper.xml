@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.admin.AdminUserMapper">
+    <update id="updateRole">
+        UPDATE users SET role = #{role} WHERE id = #{userId}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE users SET status = #{status} WHERE id = #{userId}
+    </update>
+
+    <update id="updateWarningCount">
+        UPDATE users SET warning_count = #{count} WHERE id = #{userId}
+    </update>
+
+    <!-- applicant_profiles 삭제 -->
+    <delete id="deleteApplicantProfilesIfExists">
+        DELETE FROM applicant_profiles WHERE user_id IN
+        <foreach collection="userIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- employer_profiles 삭제 -->
+    <delete id="deleteEmployerProfilesIfExists">
+        DELETE FROM employer_profiles WHERE user_id IN
+        <foreach collection="userIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- users 삭제 -->
+    <delete id="deleteUsers">
+        DELETE FROM users WHERE id IN
+        <foreach collection="userIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

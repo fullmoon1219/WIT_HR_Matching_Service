@@ -21,11 +21,19 @@ public class UserVO {
     private String role;
     private LocalDateTime createAt;
     private String status;  // "ACTIVE", "SUSPENDED", "WITHDRAWN"
+    private int warningCount;
     private LocalDateTime lastLogin;
     private String profileImage;
     private boolean emailVerified;
+    private String verificationToken;
+    private LocalDateTime tokenExpiration;
     private LocalDateTime updatedAt;
+    private String loginType; // "EMAIL", "NAVER", "GOOGLE"
 
     private ApplicantProfilesVO applicantProfile;
     private EmployerProfilesVO employerProfile;
+
+    public boolean isSocialUser() {
+        return this.password == null;
+    }
 }

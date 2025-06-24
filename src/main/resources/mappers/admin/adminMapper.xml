@@ -1,7 +1,214 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.example.hrmatching.mapper.AdminMapper">
+<mapper namespace="org.wit.hrmatching.mapper.admin.AdminMapper">
+
+    <!-- 통계 -->
+    <select id="getDashboardStats" resultType="org.wit.hrmatching.dto.admin.AdminDashboardStatsDTO">
+        SELECT
+                (SELECT COUNT(*) FROM users) AS userCount,
+                (SELECT COUNT(*) FROM users WHERE warning_count > 0) AS warningCount,
+                (SELECT COUNT(*) FROM users WHERE role = 'APPLICANT') AS applicantCount,
+                (SELECT COUNT(*) FROM users WHERE role = 'EMPLOYER') AS companyCount,
+                (SELECT COUNT(*) FROM resumes) AS resumeCount,
+                (SELECT COUNT(*) FROM job_posts) AS jobPostCount,
+                (SELECT COUNT(*) FROM applications) AS applicationCount
+    </select>
+
+    <!-- 최근 가입한 사용자 -->
+    <select id="getRecentUsers" resultType="org.wit.hrmatching.vo.UserVO">
+        SELECT id, email, create_at AS createAt, role, name, login_type AS loginType
+        FROM users
+        ORDER BY create_at DESC
+        LIMIT 5
+    </select>
+
+    <!-- 최근 등록된 공고 5건 -->
+    <select id="getRecentJobPosts" resultType="org.wit.hrmatching.vo.JobPostVO">
+        SELECT
+            jp.id,
+            jp.title,
+            u.name AS companyName,
+            jp.create_at AS createAt
+        FROM job_posts jp
+                 JOIN users u ON jp.user_id = u.id
+        WHERE u.role = 'EMPLOYER'
+        ORDER BY jp.create_at DESC
+        LIMIT 5
+    </select>
+
+    <!-- 공통 일일 통계 쿼리 -->
+    <select id="getDailyCount" resultType="map" parameterType="map">
+        SELECT DATE(${column}) AS stat_date, COUNT(*) AS count
+        FROM ${table}
+        WHERE ${column} &gt;= #{startDate}
+          AND ${column} &lt; DATE_ADD(#{endDate}, INTERVAL 1 DAY)
+        GROUP BY DATE(${column})
+        ORDER BY DATE(${column})
+    </select>
+
+    <!-- 3. 회원 유형 비율 -->
+    <select id="getUserRoleDistribution" resultType="map">
+        SELECT role, COUNT(*) AS count FROM users GROUP BY role
+    </select>
+
+    <!-- 4. 소셜 로그인 비율 -->
+    <select id="getLoginTypeDistribution" resultType="map">
+        SELECT login_type, COUNT(*) AS count FROM users GROUP BY login_type
+    </select>
+
+    <!-- 6. 이력서 작성 완료율 -->
+    <select id="getResumeCompletionStats" resultType="map">
+        SELECT
+                (SELECT COUNT(*) FROM users WHERE role = 'APPLICANT') AS totalApplicants,
+                (SELECT COUNT(DISTINCT user_id) FROM resumes WHERE is_completed = true) AS completedResumes
+    </select>
+
+    <!-- 7. 직무별 이력서 분포 -->
+    <select id="getResumeJobDistribution" resultType="map">
+        SELECT desired_position AS job_category, COUNT(*) AS count
+        FROM resumes
+        WHERE desired_position IS NOT NULL AND desired_position != ''
+        GROUP BY desired_position
+    </select>
+
+    <!-- 9. 공고 직무별 분포 -->
+    <select id="getJobPostCategoryDistribution" resultType="map">
+        SELECT job_category AS category, COUNT(*) AS count
+        FROM job_posts
+        WHERE job_category IS NOT NULL AND job_category != ''
+        GROUP BY job_category
+    </select>
+
+    <!-- 사용자 + 지원자/기업 프로필 함께 조회 -->
+    <resultMap id="UserWithProfilesMap" type="org.wit.hrmatching.vo.UserVO">
+        <id property="id" column="id"/>
+        <result property="email" column="email"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="role" column="role"/>
+        <result property="createAt" column="create_at"/>
+        <result property="status" column="status"/>
+        <result property="warningCount" column="warning_count"/>
+        <result property="lastLogin" column="last_login"/>
+        <result property="profileImage" column="profile_image"/>
+        <result property="emailVerified" column="email_verified"/>
+        <result property="verificationToken" column="verification_token"/>
+        <result property="tokenExpiration" column="token_expiration"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="loginType" column="login_type"/>
+
+        <!-- applicantProfile -->
+        <association property="applicantProfile" javaType="org.wit.hrmatching.vo.ApplicantProfilesVO">
+            <result property="userId" column="a_user_id"/>
+            <result property="age" column="age"/>
+            <result property="address" column="a_address"/>
+            <result property="phoneNumber" column="a_phone_number"/>
+            <result property="gender" column="gender"/>
+            <result property="portfolioUrl" column="portfolio_url"/>
+            <result property="selfIntro" column="self_intro"/>
+            <result property="jobType" column="job_type"/>
+            <result property="experienceYears" column="experience_years"/>
+            <result property="primaryResumeId" column="primary_resume_id"/>
+        </association>
+
+        <!-- employerProfile -->
+        <association property="employerProfile" javaType="org.wit.hrmatching.vo.EmployerProfilesVO">
+            <result property="userId" column="e_user_id"/>
+            <result property="companyName" column="company_name"/>
+            <result property="businessNumber" column="business_number"/>
+            <result property="address" column="e_address"/>
+            <result property="phoneNumber" column="e_phone_number"/>
+            <result property="homepageUrl" column="homepage_url"/>
+            <result property="industry" column="industry"/>
+            <result property="foundedYear" column="founded_year"/>
+            <result property="companySize" column="company_size"/>
+        </association>
+    </resultMap>
+
+    <select id="getPagedUsersWithFilter" resultMap="UserWithProfilesMap">
+        SELECT
+        u.id, u.email, u.password, u.name, u.role,
+        u.create_at, u.status, u.last_login, u.profile_image,
+        u.email_verified, u.verification_token, u.token_expiration,
+        u.updated_at, u.login_type, u.warning_count,
+
+        a.user_id AS a_user_id, a.age, a.address AS a_address, a.phone_number AS a_phone_number,
+        a.gender, a.portfolio_url, a.self_intro, a.job_type, a.experience_years, a.primary_resume_id,
+
+        e.user_id AS e_user_id, e.company_name, e.business_number,
+        e.address AS e_address, e.phone_number AS e_phone_number,
+        e.homepage_url, e.industry, e.founded_year, e.company_size
+
+        FROM users u
+        LEFT JOIN applicant_profiles a ON u.id = a.user_id
+        LEFT JOIN employer_profiles e ON u.id = e.user_id
+        <where>
+            <if test="userId != null">
+                AND u.id = #{userId}
+            </if>
+            <if test="role != null and role != ''">
+                AND u.role = #{role}
+            </if>
+            <if test="status != null and status != ''">
+                AND u.status = #{status}
+            </if>
+            <if test="warning != null and warning != ''">
+                AND u.warning_count = #{warning}
+            </if>
+            <if test="verified != null and verified != ''">
+                AND u.email_verified =
+                <choose>
+                    <when test="verified == 'true'">1</when>
+                    <otherwise>0</otherwise>
+                </choose>
+            </if>
+
+            <if test="keyword != null and keyword != ''">
+                AND (u.name LIKE CONCAT('%', #{keyword}, '%')
+                OR u.email LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+        ORDER BY u.id DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countUsersWithFilter" resultType="int">
+        SELECT COUNT(*)
+        FROM users u
+        LEFT JOIN applicant_profiles a ON u.id = a.user_id
+        LEFT JOIN employer_profiles e ON u.id = e.user_id
+        <where>
+            <if test="userId != null">
+                AND u.id = #{userId}
+            </if>
+            <if test="role != null and role != ''">
+                AND u.role = #{role}
+            </if>
+            <if test="status != null and status != ''">
+                AND u.status = #{status}
+            </if>
+            <if test="warning != null and warning != ''">
+                AND u.warning_count = #{warning}
+            </if>
+            <if test="verified != null and verified != ''">
+                AND u.email_verified =
+                <choose>
+                    <when test="verified == 'true'">1</when>
+                    <otherwise>0</otherwise>
+                </choose>
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND (
+                u.name LIKE CONCAT('%', #{keyword}, '%')
+                OR u.email LIKE CONCAT('%', #{keyword}, '%')
+                OR a.address LIKE CONCAT('%', #{keyword}, '%')
+                OR e.company_name LIKE CONCAT('%', #{keyword}, '%')
+                )
+            </if>
+        </where>
+    </select>
+
 
 
 </mapper>

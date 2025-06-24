@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.wit.hrmatching.mapper.EmployerProfileMapper">
+<mapper namespace="org.wit.hrmatching.mapper.ProfileMapper">
 
     <!-- 유저 ID로 기업 프로필 정보 조회 -->
-    <select id="findByUserId" resultType="org.wit.hrmatching.vo.EmployerProfilesVO">
+    <select id="employerFindByUserId" resultType="org.wit.hrmatching.vo.EmployerProfilesVO">
         SELECT
         user_id,
         company_name,
@@ -28,4 +28,14 @@
         VALUES (#{userId}, #{companyName}, #{businessNumber}, #{address}, #{phoneNumber},
                 #{homepageUrl}, #{industry}, #{foundedYear}, #{companySize})
     </insert>
+
+    <delete id="deleteEmployerProfileByUserId" parameterType="long">
+        DELETE FROM employer_profiles WHERE user_id = #{userId}
+    </delete>
+
+    <select id="existsEmployerProfile" resultType="boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM employer_profiles WHERE user_id = #{userId}
+        )
+    </select>
 </mapper>

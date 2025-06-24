@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.admin.AdminResumeMapper">
+
+    <delete id="deleteResumesByIds">
+        DELETE FROM resumes
+        WHERE id IN
+        <foreach collection="resumeIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <resultMap id="ResumeWithEmailMap" type="org.wit.hrmatching.vo.ResumeVO">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="email" column="email"/>
+        <result property="education" column="education"/>
+        <result property="experience" column="experience"/>
+        <result property="skills" column="skills"/>
+        <result property="preferredLocation" column="preferred_location"/>
+        <result property="salaryExpectation" column="salary_expectation"/>
+        <result property="title" column="title"/>
+        <result property="coreCompetency" column="core_competency"/>
+        <result property="desiredPosition" column="desired_position"/>
+        <result property="motivation" column="motivation"/>
+        <result property="createAt" column="create_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="deletedAt" column="deleted_at"/>
+        <result property="isPublic" column="is_public"/>
+        <result property="isCompleted" column="is_completed"/>
+    </resultMap>
+
+    <select id="getPagedResumes" resultType="org.wit.hrmatching.vo.ResumeVO">
+        SELECT r.*, u.email
+        FROM resumes r
+        JOIN users u ON r.user_id = u.id
+        <where>
+            <if test="id != null">
+                AND r.id = #{id}
+            </if>
+            <if test="isPublic != null">
+                AND r.is_public = #{isPublic}
+            </if>
+            <if test="isCompleted != null">
+                AND r.is_completed = #{isCompleted}
+            </if>
+
+            <choose>
+                <when test="includeDeleted != null and includeDeleted == true">
+                    AND r.deleted_at IS NOT NULL
+                </when>
+                <when test="includeDeleted != null and includeDeleted == false">
+                    AND r.deleted_at IS NULL
+                </when>
+                <!-- includeDeleted가 null일 경우 조건 없음 -->
+            </choose>
+
+            <if test="keyword != null and keyword != ''">
+                AND u.email LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+        ORDER BY r.create_at DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countResumes" resultType="int">
+        SELECT COUNT(*)
+        FROM resumes r
+        JOIN users u ON r.user_id = u.id
+        <where>
+            <if test="id != null">
+                AND r.id = #{id}
+            </if>
+            <if test="isPublic != null">
+                AND r.is_public = #{isPublic}
+            </if>
+            <if test="isCompleted != null">
+                AND r.is_completed = #{isCompleted}
+            </if>
+
+            <choose>
+                <when test="includeDeleted != null and includeDeleted == true">
+                    AND r.deleted_at IS NOT NULL
+                </when>
+                <when test="includeDeleted != null and includeDeleted == false">
+                    AND r.deleted_at IS NULL
+                </when>
+                <!-- includeDeleted가 null일 경우 조건 없음 -->
+            </choose>
+
+            <if test="keyword != null and keyword != ''">
+                AND u.email LIKE CONCAT('%', CAST(#{keyword} AS CHAR), '%')
+            </if>
+        </where>
+    </select>
+
+</mapper>
