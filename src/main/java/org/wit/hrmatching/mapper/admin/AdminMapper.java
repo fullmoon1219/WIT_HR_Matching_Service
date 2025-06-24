@@ -54,6 +54,7 @@ public interface AdminMapper {
 
     List<UserVO> getPagedUsersWithFilter(@Param("limit") int limit,
                                          @Param("offset") int offset,
+                                         @Param("userId") Integer userId,
                                          @Param("role") String role,
                                          @Param("status") String status,
                                          @Param("warning") String warning,
@@ -61,7 +62,8 @@ public interface AdminMapper {
                                          @Param("keyword") String keyword);
 
 
-    int countUsersWithFilter(@Param("role") String role,
+    int countUsersWithFilter(@Param("userId") Integer userId,
+                             @Param("role") String role,
                              @Param("status") String status,
                              @Param("warning") String warning,
                              @Param("verified") String verified,

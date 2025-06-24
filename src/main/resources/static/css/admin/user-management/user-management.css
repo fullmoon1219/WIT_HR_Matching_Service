@@ -10,49 +10,14 @@
     padding-bottom: 4px;
 }
 
-.user-control-panel {
-    display: flex;
-    gap: 8px;
-    margin: 0;
-    padding: 0 30px 0 0;
-}
-
-.search {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-#searchKeyword {
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-#searchButton {
+.bulk-value {
     padding: 6px 12px;
-    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    font-weight: bold;
-}
-
-#searchButton:hover {
-    background-color: #0056b3;
-}
-
-.bulk-value {
-    margin: 2px 0;
-    border: none;
-    padding: 4px 8px;
-    border-radius: 12px;
     font-weight: bold;
     font-size: 13px;
-    color: white;
-    cursor: pointer;
 }
 
 .bulk-value.role {

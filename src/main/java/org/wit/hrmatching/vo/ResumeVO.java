@@ -35,4 +35,13 @@ public class ResumeVO {
 	private String updatedAt;
 	private String deletedAt;
 	private boolean isCompleted;
+
+
+	public boolean getIsCompleted() {
+		return isCompleted;
+	}
+
+	public boolean getIsPublic() {
+		return isPublic;
+	}
 }

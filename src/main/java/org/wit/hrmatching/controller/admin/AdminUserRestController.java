@@ -5,10 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.service.admin.AdminUserService;
 
 import java.util.List;
@@ -53,5 +50,11 @@ public class AdminUserRestController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("변경 실패: " + e.getMessage());
         }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteUsers(@RequestBody List<Long> userIds) {
+        adminUserService.deleteUsers(userIds);
+        return ResponseEntity.ok().build();
     }
 }

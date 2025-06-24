@@ -142,7 +142,8 @@ public class AdminRestController {
      */
     @GetMapping("/users")
     public PagedResponseDTO<UserVO> getUsers(@RequestParam(defaultValue = "1") int page,
-                                             @RequestParam(defaultValue = "15") int size,
+                                             @RequestParam(defaultValue = "10") int size,
+                                             @RequestParam(required = false) Integer userId,
                                              @RequestParam(required = false) String role,
                                              @RequestParam(required = false) String status,
                                              @RequestParam(required = false) String warning,
@@ -152,7 +153,7 @@ public class AdminRestController {
         Pageable pageable = PageRequest.of(page - 1, size);
 
         Page<UserVO> pageResult = adminService.getPagedUsers(
-                pageable, role, status, warning, verified, keyword
+                pageable, userId, role, status, warning, verified, keyword
         );
 
         return PagedResponseDTO.<UserVO>builder()

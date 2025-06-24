@@ -74,7 +74,7 @@
 
     <!-- 9. 공고 직무별 분포 -->
     <select id="getJobPostCategoryDistribution" resultType="map">
-        SELECT job_category, COUNT(*) AS count
+        SELECT job_category AS category, COUNT(*) AS count
         FROM job_posts
         WHERE job_category IS NOT NULL AND job_category != ''
         GROUP BY job_category
@@ -144,6 +144,9 @@
         LEFT JOIN applicant_profiles a ON u.id = a.user_id
         LEFT JOIN employer_profiles e ON u.id = e.user_id
         <where>
+            <if test="userId != null">
+                AND u.id = #{userId}
+            </if>
             <if test="role != null and role != ''">
                 AND u.role = #{role}
             </if>
@@ -176,6 +179,9 @@
         LEFT JOIN applicant_profiles a ON u.id = a.user_id
         LEFT JOIN employer_profiles e ON u.id = e.user_id
         <where>
+            <if test="userId != null">
+                AND u.id = #{userId}
+            </if>
             <if test="role != null and role != ''">
                 AND u.role = #{role}
             </if>
