@@ -1,0 +1,1 @@
+// /js/admin/jobPosts/jobPosts.js

@@ -170,9 +170,11 @@
 .filter-selected.value.incomplete,
 .filter-selected.value.private,
 .filter-selected.value.deleted,
+.filter-selected.value.closed,
 .filter-popup .incomplete,
 .filter-popup .private,
-.filter-popup .deleted {
+.filter-popup .deleted,
+.filter-popup .closed {
     background: #dc3545;
 }
 
