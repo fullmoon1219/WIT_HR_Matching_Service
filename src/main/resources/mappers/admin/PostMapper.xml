@@ -8,10 +8,21 @@
         SELECT COUNT(*) FROM job_posts
     </select>
 
-    <select id="countByStatus" parameterType="boolean" resultType="int">
-        SELECT COUNT(*) FROM job_posts
-        WHERE deadline < CURRENT_DATE() = #{status}
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*)
+        FROM job_posts
+        <where>
+            <choose>
+                <when test="status == true">
+                    deadline &lt; CURRENT_DATE()
+                </when>
+                <when test="status == false">
+                    deadline &gt;= CURRENT_DATE()
+                </when>
+            </choose>
+        </where>
     </select>
+
 
     <select id="countDeleted" resultType="int">
         SELECT COUNT(*) FROM job_posts WHERE deleted_at IS NOT NULL
@@ -19,10 +30,12 @@
 
     <!-- AdminPostMapper.xml -->
     <select id="countAvailable" resultType="int">
-        SELECT COUNT(*) FROM job_posts
-        WHERE deadline >= CURRENT_DATE()
+        SELECT COUNT(*)
+        FROM job_posts
+        WHERE deadline &gt;= CURRENT_DATE()
           AND deleted_at IS NULL
     </select>
+
 
 
     <select id="getFilteredJobPostsPaged" resultType="org.wit.hrmatching.vo.JobPostVO">
