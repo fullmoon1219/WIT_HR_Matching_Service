@@ -159,113 +159,106 @@ body {
     font-size: 18px;
 }
 
-/* 공통 카드 스타일 */
-.card-section {
+.slider-section {
     max-width: 1200px;
-    margin: 30px auto;
-    padding: 60px 60px;
-    border-radius: 24px;
-    color: white;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    margin: 60px auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.slider-container {
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-    transition: transform 0.3s ease;
+    justify-content: center;
+}
+
+.slide-wrapper {
     position: relative;
+    width: 100%;
+    height: 400px;
 }
 
-.card-section:hover {
-    transform: translateY(-5px);
-}
-
-.card-section button {
-    margin-top: 30px;
-    padding: 10px 20px;
-    border: 2px solid white;
-    background: transparent;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.card-section button:hover {
-    background-color: white;
-    color: #333;
-}
-
-/* 조회수 TOP20 전용 스타일 */
-.top20-section {
-    background: linear-gradient(135deg, #71c4ef, #54a9dd);
-}
-
-.top20-section h1 {
-    font-size: 40px;
-    margin: 0;
-}
-
-.top20-section p {
-    margin-top: 20px;
-    font-size: 18px;
-}
-
-.top20-section .text-content p strong {
-    font-weight: bold;
-    color: #ffffff;
-}
-
-/* 북마크 TOP20 전용 스타일 */
-.bmark-section {
-    background: linear-gradient(135deg, #b6ccd8, #8aa3b2);
-}
-
-.bmark-section h1 {
-    font-size: 40px;
-    margin: 0;
-}
-
-.bmark-section p {
-    margin-top: 20px;
-    font-size: 18px;
-}
-
-.bmark-section .text-content p strong {
-    font-weight: bold;
-    color: #ffffff;
-}
-
-/* 이미지 영역 스타일 및 배경 원형 효과 */
-.image-content {
-    position: relative;
-}
-
-.image-content::before {
-    content: '';
+.slide-link {
     position: absolute;
-    top: 10%;
-    left: 10%;
-    width: 80%;
-    height: 80%;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 50%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
     z-index: 0;
 }
 
-.image-content img {
-    position: relative;
+.slide-link.active {
+    opacity: 1;
+    pointer-events: auto;
     z-index: 1;
-    max-height: 300px;
-    object-fit: contain;
 }
 
-/* 강조 텍스트 (TOP20 등) */
-.highlight {
-    background-color: #ffe600;
-    padding: 4px 8px;
-    border-radius: 8px;
-    color: black;
+.slide-link img {
+    width: 100%;
+    border-radius: 16px;
 }
+
+.slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255,255,255,0.8);
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.slide-btn.prev { left: 10px; }
+.slide-btn.next { right: 10px; }
+
+.slide-indicator {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: #0078ff;
+}
+
+/*광고 배너*/
+.ad-banner {
+    max-width: 1200px;
+    height: 150px;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.ad-banner img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+
 
 /* ===== 마감 임박 공고 영역 ===== */
 .urgent-section {
@@ -350,8 +343,7 @@ body {
     font-weight: bold;
 }
 
-#top20,
-#bookmark,
+#banner,
 #urgent {
     scroll-margin-top: 140px; /* 헤더+메뉴바 높이만큼 */
 }

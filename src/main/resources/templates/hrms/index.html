@@ -9,7 +9,7 @@
 <body>
 
 <!-- 헤더 (로고 이미지) -->
-<header class="header-container">
+<header id="header" class="header-container">
     <div class="logo">
         <a th:href="@{/}">
             <img th:src="@{/images/logo.png}" alt="로고 이미지">
@@ -17,14 +17,14 @@
     </div>
 
     <div class="header-auth">
-        <a href="/login">로그인</a>
+        <a href="/users/login">로그인</a>
         <span class="divider">|</span>
-        <a href="/signup">회원가입</a>
+        <a href="/users/register">회원가입</a>
     </div>
 </header>
 
 <!-- 네비게이션 메뉴 -->
-<nav class="menu-nav">
+<nav id="nav" class="menu-nav">
     <div class="menu-wrapper">
         <!-- 햄버거 아이콘 -->
         <!-- 전체 메뉴 구성용으로 만들었는데 자꾸 오류나서 패스했습니다-->
@@ -117,28 +117,33 @@
     </div>
 </div>
 
-<!-- 조회수 TOP20 영역 -->
-<section id="top20" class="card-section top20-section">
-    <div class="text-content">
-        <h1>조회수 <span class="highlight">TOP20</span></h1>
-        <p><strong>가장 관심</strong>을 받은 인기 기업 공고입니다.</p>
-        <button onclick="location.href='/about'">전체 공고 보기</button>
-    </div>
-    <div class="image-content">
-        <img src="/images/team.png" alt="팀 이미지" />
+<!-- 슬라이드 배너 영역 -->
+<section id="banner" class="slider-section">
+    <div class="slider-container">
+        <button class="slide-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+
+        <div class="slide-wrapper">
+            <a href="/job/1" class="slide-link active"><img src="/images/clickbanner.png" alt="배너1"></a>
+            <a href="/job/2" class="slide-link"><img src="/images/bmarkbanner.png" alt="배너2"></a>
+            <a href="/job/3" class="slide-link"><img src="/images/writebanner.png" alt="배너3"></a>
+        </div>
+
+        <button class="slide-btn next" onclick="changeSlide(1)">&#10095;</button>
+
+        <!-- 도트 인디케이터 -->
+        <div class="slide-indicator">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
     </div>
 </section>
 
-<!-- 북마크 TOP20 영역 -->
-<section id="bookmark" class="card-section bmark-section">
-    <div class="text-content">
-        <p><strong>구직자</strong>가 눈여겨 보고 있는</p>
-        <h1>북마크 <span class="highlight">TOP20</span></h1>
-        <button onclick="location.href='/about'">바로 확인하기</button>
-    </div>
-    <div class="image-content">
-        <img src="/images/bookmark.png" alt="북마크 이미지" />
-    </div>
+<!-- 광고 배너 영역 -->
+<section class="ad-banner">
+    <a href="/promotion" target="_blank">
+        <img src="/images/ad_multicampus.png" alt="광고 배너 이미지">
+    </a>
 </section>
 
 
@@ -161,13 +166,14 @@
 
 <!-- 우측 네비게이션 바 -->
 <div class="section-nav">
-    <a href="#top20" class="nav-link active">조회수</a>
-    <a href="#bookmark" class="nav-link">북마크</a>
+    <a href="#header" class="nav-link">TOP</a>
+    <a href="#banner" class="nav-link">배너</a>
     <a href="#urgent" class="nav-link">마감임박</a>
+    <a href="#footer" class="nav-link">BOTTOM</a>
 </div>
 
 <!-- 푸터 -->
-<footer class="site-footer">
+<footer id="footer" class="site-footer">
     <p>
         <span class="slogan">개발자에게 기회를, 기업에게 인재를</span>
         &nbsp;&nbsp;
@@ -175,28 +181,89 @@
     </p>
 </footer>
 
+<!-- 오른쪽 이동 네비게이션 -->
 <script>
-    const sections = ['top20', 'bookmark', 'urgent'];
-    const navLinks = document.querySelectorAll('.section-nav .nav-link');
-
-    window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(id => {
-            const section = document.getElementById(id);
-            const rect = section.getBoundingClientRect();
-            if (rect.top <= 200 && rect.bottom > 200) {
-                current = id;
-            }
-        });
+    document.addEventListener('DOMContentLoaded', () => {
+        const navLinks = document.querySelectorAll('.section-nav .nav-link');
 
         navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + current) {
-                link.classList.add('active');
-            }
+            link.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+
+                    const targetId = href.slice(1);
+
+                    // TOP 버튼일 경우: 바로 0으로 이동
+                    if (targetId === 'header') {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                        return;
+                    }
+
+                    const target = document.getElementById(targetId);
+                    const offset = 160;
+
+                    if (target) {
+                        const targetTop = target.getBoundingClientRect().top + window.scrollY;
+                        window.scrollTo({
+                            top: targetTop - offset,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
         });
     });
+
 </script>
+
+
+<!-- 배너 슬라이더 -->
+<script>
+    let currentSlide = 0;
+    let slideLinks;
+    let dots;
+    let slideInterval;
+
+    function showSlide(index) {
+        slideLinks.forEach((link, i) => {
+            link.classList.toggle('active', i === index);
+            dots[i].classList.toggle('active', i === index);
+        });
+    }
+
+    function changeSlide(direction) {
+        currentSlide = (currentSlide + direction + slideLinks.length) % slideLinks.length;
+        showSlide(currentSlide);
+    }
+
+    function startAutoSlide() {
+        slideInterval = setInterval(() => {
+            changeSlide(1);
+        }, 5000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        slideLinks = document.querySelectorAll('.slide-link');
+        dots = document.querySelectorAll('.dot');
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                currentSlide = i;
+                showSlide(i);
+            });
+        });
+
+        showSlide(currentSlide);
+        startAutoSlide();
+    });
+</script>
+
+
+
 
 
 </body>
