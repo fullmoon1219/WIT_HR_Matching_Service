@@ -6,9 +6,9 @@
     <insert id="insertResume" parameterType="ResumeVO" useGeneratedKeys="true" keyProperty="id">
         insert into resumes
         (user_id, education, experience, skills, preferred_location, salary_expectation,
-        title, core_competency, desired_position, motivation, is_completed)
+        title, core_competency, desired_position, motivation, is_completed, is_public)
         values (#{userId}, #{education}, #{experience}, #{skills}, #{preferredLocation}, #{salaryExpectation},
-                #{title}, #{coreCompetency}, #{desiredPosition}, #{motivation}, #{isCompleted})
+                #{title}, #{coreCompetency}, #{desiredPosition}, #{motivation}, #{isCompleted}, false)
     </insert>
     
     <select id="selectPublicResume" resultType="ResumeVO">
@@ -25,7 +25,7 @@
     </select>
 
     <select id="selectDraftResumeList" resultType="ResumeVO">
-        select id, title
+        select id, title, updated_at as updatedAt
         from resumes
         where user_id=#{userId} and deleted_at is null and is_completed=false
         order by updated_at desc
@@ -52,19 +52,11 @@
         where id=#{resumeId} and deleted_at is null
     </select>
 
-    <select id="selectResumeForUpdate" resultType="ResumeVO">
-        select id, user_id as userId, education, experience, skills, preferred_location as preferredLocation,
-               salary_expectation as salaryExpectation, title, core_competency as coreCompetency,
-               desired_position as desiredPosition, motivation
-        from resumes
-        where id=#{resumeId} and deleted_at is null
-    </select>
-
     <update id="updateResume" parameterType="ResumeVO">
         update resumes
         set education=#{education}, experience=#{experience}, skills=#{skills}, is_completed=#{isCompleted},
-            preferred_location=#{preferredLocation}, salary_expectation=#{salaryExpectation}, is_public=#{isPublic},
-            title=#{title}, core_competency=#{coreCompetency}, desired_position=#{desiredPosition}, motivation=#{motivation}
+            preferred_location=#{preferredLocation}, salary_expectation=#{salaryExpectation}, title=#{title},
+            core_competency=#{coreCompetency}, desired_position=#{desiredPosition}, motivation=#{motivation}
         where id=#{id} and deleted_at is null and is_public=false
     </update>
 

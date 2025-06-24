@@ -78,8 +78,16 @@ function makeRow(resume, isPublic) {
             </td>
             <td><a href="/applicant/resume/view/${resume.id}">${resume.title}</a></td>
             <td>${resume.updatedAt}</td>
-            <td><a href="/applicant/resume/edit/${resume.id}">수정</a></td>
-            <td><button onclick="deleteResume(${resume.id})">삭제</button></td>
+            <td>
+                ${isPublic
+        ? '<button disabled>수정</button>'
+        : `<button onclick="location.href='/applicant/resume/edit/${resume.id}'">수정</button>`}
+            </td>
+            <td>
+                ${isPublic
+        ? '<button disabled>삭제</button>'
+        : `<button onclick="deleteResume(${resume.id})">삭제</button>`}
+            </td>
         </tr>
     `;
 }
@@ -95,7 +103,7 @@ function loadDraftResumes() {
             if (drafts.length === 0) {
                 const emptyRow = `
                     <tr>
-                        <td colspan="3" style="text-align: center;">임시 저장된 이력서가 없습니다</td>
+                        <td colspan="4" style="text-align: center;">임시 저장된 이력서가 없습니다</td>
                     </tr>
                 `;
                 tbody.append(emptyRow);
@@ -106,7 +114,7 @@ function loadDraftResumes() {
                 const row = `
                     <tr>
                         <td><a href="/applicant/resume/view/${draft.id}">${draft.title}</a></td>
-                        <td>${resume.updatedAt}</td>
+                        <td>${draft.updatedAt}</td>
                         <td><a href="/applicant/resume/edit/${draft.id}">수정</a></td>
                         <td><button onclick="deleteResume(${draft.id})">삭제</button></td>
                     </tr>
@@ -131,8 +139,15 @@ function deleteResume(resumeId) {
             loadResumes();
             loadDraftResumes();
         },
-        error: function () {
-            location.href = '/error/db-access-denied';
+        error: function (xhr) {
+            if (xhr.status === 403) {
+                location.href = '/error/access-denied';
+            } else if (xhr.status === 404) {
+                location.href = '/error/not-found';
+            } else {
+                alert('이력서 삭제에 실패했습니다. 나중에 다시 시도해주세요.');
+                console.error(xhr);
+            }
         }
     });
 }
@@ -152,8 +167,15 @@ function handlePublicClick(resumeId, isPublic) {
         success: function () {
             loadResumes();
         },
-        error: function () {
-            alert('대표 공개 설정에 실패했습니다.');
+        error: function (xhr) {
+            if (xhr.status === 403) {
+                location.href = '/error/access-denied';
+            } else if (xhr.status === 404) {
+                location.href = '/error/not-found';
+            } else {
+                alert('대표 공개 설정에 실패했습니다. 나중에 다시 시도해주세요.');
+                console.error(xhr);
+            }
         }
     });
 }

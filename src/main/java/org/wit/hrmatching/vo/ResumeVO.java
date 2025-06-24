@@ -34,12 +34,19 @@ public class ResumeVO {
 	private String deletedAt;
 	private boolean isCompleted;
 
-
 	public boolean getIsCompleted() {
 		return isCompleted;
 	}
 
 	public boolean getIsPublic() {
 		return isPublic;
+	}
+
+	public void setIsCompleted(boolean isCompleted) {
+		this.isCompleted = isCompleted;
+	}
+
+	public void setIsPublic(boolean isPublic) {
+		this.isPublic = isPublic;
 	}
 }
