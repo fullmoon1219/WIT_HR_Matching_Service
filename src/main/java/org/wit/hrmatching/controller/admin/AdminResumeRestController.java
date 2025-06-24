@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.wit.hrmatching.dto.admin.PagedResponseDTO;
-import org.wit.hrmatching.service.ResumeService;
+//import org.wit.hrmatching.service.ResumeService;
 import org.wit.hrmatching.service.admin.AdminResumeService;
 import org.wit.hrmatching.vo.ResumeVO;
 
