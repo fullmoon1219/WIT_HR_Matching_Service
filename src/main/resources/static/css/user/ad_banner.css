@@ -1,0 +1,17 @@
+/*광고 배너*/
+.ad-banner {
+    max-width: 1200px;
+    height: 150px;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.ad-banner img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+}

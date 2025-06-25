@@ -6,22 +6,55 @@
     <insert id="insertResume" parameterType="ResumeVO" useGeneratedKeys="true" keyProperty="id">
         insert into resumes
         (user_id, education, experience, skills, preferred_location, salary_expectation,
-         is_public, title, core_competency, desired_position, motivation, is_completed)
+        title, core_competency, desired_position, motivation, is_completed, is_public)
         values (#{userId}, #{education}, #{experience}, #{skills}, #{preferredLocation}, #{salaryExpectation},
-                #{isPublic}, #{title}, #{coreCompetency}, #{desiredPosition}, #{motivation}, #{isCompleted})
+                #{title}, #{coreCompetency}, #{desiredPosition}, #{motivation}, #{isCompleted}, false)
     </insert>
     
-    <select id="selectResumeList" resultType="ResumeVO">
-        select id, title
+    <select id="selectPublicResume" resultType="ResumeVO">
+        select id, title, updated_at as updatedAt, is_public as isPublic
         from resumes
-        where user_id=#{userId} and deleted_at is null and is_completed=true
+        where user_id=#{userId} and deleted_at is null and is_completed=true and is_public=true
+    </select>
+    
+    <select id="selectResumeList" resultType="ResumeVO">
+        select id, title, updated_at as updatedAt, is_public as isPublic
+        from resumes
+        where user_id=#{userId} and deleted_at is null and is_completed=true and is_public=false
+        order by updated_at desc
     </select>
 
     <select id="selectDraftResumeList" resultType="ResumeVO">
-        select id, title
+        select id, title, updated_at as updatedAt
         from resumes
         where user_id=#{userId} and deleted_at is null and is_completed=false
+        order by updated_at desc
     </select>
+
+    <update id="updatePrivateResume">
+        update resumes
+        set is_public=false
+        where id=#{resumeId} and deleted_at is null and is_completed=true
+    </update>
+
+    <select id="selectApplicantProfile" resultType="ApplicantProfilesVO">
+        select age, address, phone_number as phoneNumber, gender, portfolio_url as portfolioUrl, self_intro as selfIntro,
+               job_type as jobType, experience_years as experienceYears
+        from applicant_profiles
+        where user_id=#{userId}
+    </select>
+    
+    <update id="updatePublicResume">
+        update resumes
+        set is_public=true
+        where id=#{resumeId} and deleted_at is null and is_completed=true
+    </update>
+    
+    <update id="resetPublicResume">
+        update resumes
+        set is_public=false
+        where user_id=#{userId} and is_public=true and deleted_at is null
+    </update>
 
     <select id="selectResume" resultType="ResumeVO">
         select id, user_id as userId, education, experience, skills, preferred_location as preferredLocation,
@@ -32,26 +65,30 @@
         where id=#{resumeId} and deleted_at is null
     </select>
 
-    <select id="selectResumeForUpdate" resultType="ResumeVO">
-        select id, user_id as userId, education, experience, skills, preferred_location as preferredLocation,
-               salary_expectation as salaryExpectation, is_public as isPublic, title,
-               core_competency as coreCompetency, desired_position as desiredPosition, motivation
-        from resumes
-        where id=#{resumeId} and deleted_at is null
-    </select>
-
     <update id="updateResume" parameterType="ResumeVO">
         update resumes
         set education=#{education}, experience=#{experience}, skills=#{skills}, is_completed=#{isCompleted},
-            preferred_location=#{preferredLocation}, salary_expectation=#{salaryExpectation}, is_public=#{isPublic},
-            title=#{title}, core_competency=#{coreCompetency}, desired_position=#{desiredPosition}, motivation=#{motivation}
-        where id=#{id}
+            preferred_location=#{preferredLocation}, salary_expectation=#{salaryExpectation}, title=#{title},
+            core_competency=#{coreCompetency}, desired_position=#{desiredPosition}, motivation=#{motivation}
+        where id=#{id} and deleted_at is null and is_public=false
     </update>
 
     <update id="deleteResume">
         update resumes
         set deleted_at=now()
         where id=#{resumeId} and deleted_at is null
+    </update>
+
+    <update id="updatePrimaryResume">
+        update applicant_profiles
+        set primary_resume_id=#{resumeId}
+        where user_id=#{userId}
+    </update>
+
+    <update id="clearPrimaryResume">
+        update applicant_profiles
+        set primary_resume_id = null
+        where user_id=#{userId}
     </update>
 
 </mapper>

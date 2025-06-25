@@ -1,3 +1,5 @@
+// /js/admin/userManagement/filter.js
+
 // 현재 필터 상태 저장용
 const currentFilters = {
     role: '',
@@ -17,17 +19,15 @@ $(document).on('click', '.filter-toggle', function (e) {
     popup.toggle();
 });
 
-// 팝업 버튼 클릭 시 필터 적용
 $(document).on('click', '.filter-popup button', function () {
-    const type = $(this).parent().data('type');  // 예: 'verified'
-    const value = $(this).data('value');         // 예: 'true' or 'false'
-    const label = $(this).text();                // 예: '인증됨'
+    const type = $(this).closest('.filter-popup').data('type');
+    const value = $(this).data('value');
+    const label = $(this).text();
 
     currentFilters[type] = value;
-    $('.filter-popup').hide();
 
+    // UI만 먼저 업데이트 (닫는 건 나중에)
     const $selected = $(`.filter-selected[data-type="${type}"]`);
-
     if (value === '') {
         $selected.hide().text('');
     } else {
@@ -36,13 +36,16 @@ $(document).on('click', '.filter-popup button', function () {
             .attr('class', newClass)
             .text(label)
             .show();
-
-        // ✅ 로그 출력
-        console.log(`[필터 선택됨] type: ${type}, value: ${value}, class: ${newClass}, text: ${label}`);
     }
 
-    loadUserList(1, currentFilters); // 필터 반영된 데이터 로딩
+    // 이걸 loadUserList 다음으로 미룸 (닫힘 유지됨)
+    setTimeout(() => {
+        $('.filter-popup').hide();
+    }, 50);
+
+    loadUserList(1, currentFilters);
 });
+
 
 
 function getFilterClass(type, value) {
@@ -70,4 +73,36 @@ $(document).on('keydown', '#searchKeyword', function (e) {
     if (e.key === 'Enter') {
         $('#searchButton').click();
     }
+});
+
+$(document).on("click", "#deleteButton", function () {
+    // 확인 창
+    if (!confirm("정말로 선택한 사용자를 삭제하시겠습니까?")) {
+        return;
+    }
+
+    // 체크된 사용자 ID 수집
+    const selectedUserIds = $(".user-checkbox:checked").map(function () {
+        return $(this).val();
+    }).get();
+
+    if (selectedUserIds.length === 0) {
+        alert("삭제할 사용자를 선택해주세요.");
+        return;
+    }
+
+    // AJAX 요청
+    $.ajax({
+        url: "/api/admin/users/delete",
+        method: "DELETE",
+        contentType: "application/json",
+        data: JSON.stringify(selectedUserIds),
+        success: function () {
+            alert("삭제가 완료되었습니다.");
+            loadUserList(); // 목록 새로고침 함수 (이미 있을 것으로 예상)
+        },
+        error: function () {
+            alert("삭제 중 오류가 발생했습니다.");
+        }
+    });
 });

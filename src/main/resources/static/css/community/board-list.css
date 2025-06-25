@@ -1,0 +1,57 @@
+/* /css/community/board-list.css */
+
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.board-header h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.write-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.write-button:hover {
+    background-color: #0056b3;
+}
+
+
+.board-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.board-table th, .board-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+
+.board-table td a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.post-link .post-title {
+    color: #000;
+    font-weight: normal;
+    font-size: 15px;
+}
+
+.post-link .comment-count {
+    color: red;
+    font-weight: bold;
+}
+

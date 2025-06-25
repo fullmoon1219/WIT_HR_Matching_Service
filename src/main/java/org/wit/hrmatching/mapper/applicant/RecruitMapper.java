@@ -7,6 +7,8 @@ import org.wit.hrmatching.vo.JobPostVO;
 @Mapper
 public interface RecruitMapper {
 
-	JobPostVO selectJobPost(long recruitId);
+	JobPostVO selectJobPost(long jobPostId);
 	EmployerProfilesVO selectEmployerProfile(long employerUserId);
+
+	void increaseViewCount(long jobPostId);
 }

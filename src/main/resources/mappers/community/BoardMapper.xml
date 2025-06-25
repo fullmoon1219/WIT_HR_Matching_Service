@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.community.BoardMapper">
+
+    <select id="findAll" resultType="org.wit.hrmatching.vo.community.BoardVO">
+        SELECT
+            id,
+            code,
+            name,
+            description,
+            icon
+        FROM community_board
+        ORDER BY id ASC
+    </select>
+
+</mapper>

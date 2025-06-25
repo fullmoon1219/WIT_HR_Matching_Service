@@ -1,0 +1,33 @@
+<!-- fragments/header.html -->
+<header th:fragment="header" id="header" class="header-container">
+  <div class="logo">
+    <a th:href="@{/}">
+      <img th:src="@{/images/logo.png}" alt="로고 이미지">
+    </a>
+  </div>
+
+  <!-- 로그인 상태일 때 -->
+  <div class="header-auth" th:if="${userDetails != null}" style="display: flex; align-items: center; gap: 10px;">
+    <img th:if="${userDetails.profileImage != null}"
+         th:src="@{${userDetails.profileImage}}"
+         alt="프로필 이미지"
+         style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
+    <img th:if="${userDetails.profileImage == null}"
+         th:src="@{/images/users/user_small_profile.png}"
+         alt="기본 이미지"
+         style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
+    <div style="display: flex; flex-direction: column;">
+      <span th:text="${userDetails.name}">사용자 이름</span>
+      <small th:text="${userDetails.email}" style="font-size: 12px;">이메일</small>
+    </div>
+    <span class="divider">|</span>
+    <a th:href="@{/users/logout}" style="font-weight: bold;">로그아웃</a>
+  </div>
+
+  <!-- 비로그인 상태일 때 -->
+  <div class="header-auth" th:if="${userDetails == null}">
+    <a th:href="@{/users/login}">로그인</a>
+    <span class="divider">|</span>
+    <a th:href="@{/users/register}">회원가입</a>
+  </div>
+</header>

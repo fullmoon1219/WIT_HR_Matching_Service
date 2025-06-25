@@ -2,6 +2,7 @@ package org.wit.hrmatching.service.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.wit.hrmatching.mapper.admin.AdminUserMapper;
 
 import java.util.List;
@@ -39,5 +40,15 @@ public class AdminUserService {
                 adminUserMapper.updateStatus(userId, "ACTIVE");
             }
         }
+    }
+
+    @Transactional
+    public void deleteUsers(List<Long> userIds) {
+        // 프로필 테이블에서 해당 유저 ID가 있는 경우 삭제 (존재 여부 판단 없이 실행 가능)
+        adminUserMapper.deleteApplicantProfilesIfExists(userIds);
+        adminUserMapper.deleteEmployerProfilesIfExists(userIds);
+
+        // users 테이블에서 삭제
+        adminUserMapper.deleteUsers(userIds);
     }
 }
