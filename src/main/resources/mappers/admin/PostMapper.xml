@@ -3,7 +3,6 @@
 
 <mapper namespace="org.wit.hrmatching.mapper.admin.AdminPostMapper">
 
-    <!-- AdminPostMapper.xml -->
     <select id="countAll" resultType="int">
         SELECT COUNT(*) FROM job_posts
     </select>
@@ -28,7 +27,6 @@
         SELECT COUNT(*) FROM job_posts WHERE deleted_at IS NOT NULL
     </select>
 
-    <!-- AdminPostMapper.xml -->
     <select id="countAvailable" resultType="int">
         SELECT COUNT(*)
         FROM job_posts

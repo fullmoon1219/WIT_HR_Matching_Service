@@ -27,4 +27,10 @@ public interface AdminPostMapper {
 
     void deletePostsByIds(@Param("ids") List<Long> ids);
 
+    // 상태
+    int countAll();
+    int countByStatus(boolean status);
+    int countDeleted();
+    int countAvailable();
+
 }

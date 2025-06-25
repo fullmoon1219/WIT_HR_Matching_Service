@@ -26,6 +26,7 @@ public class AdminResumeRestController {
     public Map<String, Integer> getResumesStats() {
         return adminResumeService.getResumeStats();
     }
+
     @GetMapping("/list")
     public PagedResponseDTO<ResumeVO> getResumes(@RequestParam(required = false) Long id,
                                                  @RequestParam(required = false) Boolean isPublic,
