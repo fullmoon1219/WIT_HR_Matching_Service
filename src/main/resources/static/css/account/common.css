@@ -1,0 +1,156 @@
+/* /css/account/common.css */
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.logo-container img {
+    max-width: 200px;
+    height: auto;
+}
+
+/* 공통 컨테이너 */
+.auth-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 공통 폼 */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    margin-bottom: 6px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #4285f4;
+}
+
+/* 버튼 */
+button {
+    cursor: pointer;
+}
+
+button[type="submit"],
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+button[type="submit"]:hover,
+.login-btn:hover {
+    background-color: #357ae8;
+}
+
+/* 탭 스타일 */
+.tab-container {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px 15px;
+    font-weight: 500;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab.active {
+    color: #4285f4;
+    border-bottom: 2px solid #4285f4;
+}
+
+#developer-tab.tab.active {
+    color: #ff9800;
+    border-bottom: 2px solid #ff9800;
+}
+
+
+/* 오류/성공 메시지 */
+.error-message {
+    display: none;
+    font-size: 13px;
+    margin-top: 6px;
+    padding: 10px 15px;
+    border-radius: 4px;
+}
+
+.error-message.error {
+    display: block;
+    color: #ff3333;
+    background-color: #ffeeee;
+    border: 1px solid #ffb3b3;
+}
+
+.error-message.success {
+    display: block;
+    color: #2e7d32;
+    background-color: #e6f4ea;
+    border: 1px solid #81c784;
+}
+
+/* 링크 공통 */
+.auth-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.auth-links a {
+    color: #666;
+    text-decoration: none;
+}
+
+.auth-links a:hover {
+    color: #4285f4;
+    text-decoration: underline;
+}

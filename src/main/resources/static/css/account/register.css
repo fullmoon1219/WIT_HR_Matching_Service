@@ -1,94 +1,44 @@
-/* 회원가입 페이지 전용 스타일 */
-.login-btn {
-    width: 100%;
-    padding: 12px;
-    background-color: #4285f4;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 500;
-    margin-top: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+/* /css/account/register.css */
 
-.login-btn:hover {
-    background-color: #357ae8;
-}
-
-/* 입력필드 스타일 강화 */
-.input-field {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 15px;
-    margin-bottom: 15px;
-}
-
-.input-field:focus {
-    border-color: #4285f4;
-    outline: none;
-    box-shadow: 0 0 3px rgba(66,133,244,0.3);
-}
-
-/* 체크박스 그룹 스타일 */
-.checkbox-group {
-    display: flex;
-    align-items: flex-start;
+/* 회원가입 제목 */
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
     margin-bottom: 10px;
-    padding: 5px 0;
 }
 
-.checkbox-group input[type="checkbox"] {
-    margin-right: 10px;
-    margin-top: 3px;
+/* 인증번호 버튼 있는 input */
+.input-with-button {
+    display: flex;
+    gap: 5px;
 }
 
-.checkbox-group label {
-    font-size: 14px;
-    color: #444;
-    line-height: 1.4;
+.input-with-button .input-field {
+    flex: 1;
 }
 
-.checkbox-group label strong {
-    font-weight: 600;
-}
-
-/* 인증버튼 스타일 */
 .verification-button {
-    white-space: nowrap;
-    padding: 12px 15px;
+    padding: 10px 15px;
+    background-color: #fff;
     border: 1px solid #4285f4;
-    background-color: white;
     color: #4285f4;
     border-radius: 4px;
-    font-size: 14px;
     cursor: pointer;
-    transition: all 0.2s;
+    white-space: nowrap;
 }
 
 .verification-button:hover {
-    background-color: #f0f7ff;
+    background-color: #f1f8fe;
 }
 
-/* 폼 그룹 스타일 */
-.form-group {
-    margin-bottom: 20px;
+/* 약관 체크박스 */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #444;
-    font-weight: 500;
-    font-size: 14px;
-}
-
-/* 에러 메세지 스타일 */
-.error-message {
-    color: #e74c3c;
-    font-size: 12px;
-    margin-top: 5px;
+.checkbox-group input[type="checkbox"] {
+    margin-right: 8px;
 }

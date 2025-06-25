@@ -27,24 +27,24 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
             errorMessage = "비활성화된 계정입니다. 관리자에게 문의하세요.";
 
         } else if (exception instanceof UsernameNotFoundException) {
-            errorMessage = "이메일이 존재하지 않습니다.";
+            errorMessage = "존재하지 않는 이메일입니다.";
 
         } else if (exception instanceof BadCredentialsException) {
-            errorMessage = "비밀번호가 올바르지 않습니다.";
+            String exMessage = exception.getMessage();
+            if ("회원 유형이 일치하지 않습니다.".equals(exMessage)) {
+                errorMessage = "선택한 회원 유형과 계정 정보가 일치하지 않습니다.";
+            } else {
+                errorMessage = "비밀번호가 올바르지 않습니다.";
+            }
 
         } else if (exception instanceof OAuth2AuthenticationException oauth2Ex) {
-            // CustomOAuth2UserService에서 던진 설명 메시지
             errorMessage = oauth2Ex.getError().getDescription();
 
         } else {
             errorMessage = "로그인에 실패했습니다. 다시 시도해주세요.";
         }
 
-        // 에러 메시지를 세션에 저장
         request.getSession().setAttribute("errorMessage", errorMessage);
-
-        // 로그인 페이지로 리다이렉트
         response.sendRedirect("/users/login");
     }
 }
-

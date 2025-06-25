@@ -12,11 +12,15 @@ public class RecruitDAO {
 
 	private final RecruitMapper recruitMapper;
 
-	public JobPostVO viewRecruit(long recruitId) {
-		return recruitMapper.selectJobPost(recruitId);
+	public JobPostVO viewRecruit(long jobPostId) {
+		return recruitMapper.selectJobPost(jobPostId);
 	}
 
 	public EmployerProfilesVO viewEmployerProfile(long employerUserId) {
 		return recruitMapper.selectEmployerProfile(employerUserId);
+	}
+
+	public void increaseViewCount(long jobPostId) {
+		recruitMapper.increaseViewCount(jobPostId);
 	}
 }

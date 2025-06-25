@@ -1,0 +1,133 @@
+<!-- /templates/hrms/community/board-view.html -->
+<div class="view-container">
+    <div class="view-header">
+        <span class="view-title">자유 게시판</span>
+        <br>
+        <span class="view-description">자유롭게 의견을 나누는 공간입니다.</span>
+    </div>
+
+    <div class="view-content">
+        <!-- 게시글 헤더 -->
+        <div class="post-header">
+            <h3 class="post-title">처음 글입니다.</h3>
+            <div class="post-meta">
+                <span>홍길동</span> |
+                <span>2025-06-25 14:32</span> |
+                <span>조회수 12</span> |
+                <span>♥ 3</span>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- 게시글 본문 -->
+        <div class="post-content">
+            <p>가나다라마바</p>
+            <p>가나다라마바</p>
+            <p>가나다라마바</p>
+        </div>
+
+        <!-- 첨부파일 영역 -->
+        <div class="post-files">
+            <h4>📎 첨부파일</h4>
+            <ul>
+                <li><a href="#">첨부파일1.txt</a></li>
+                <li><a href="#">image.png</a></li>
+            </ul>
+        </div>
+
+        <!-- 댓글 목록 -->
+        <div class="post-comments">
+
+            <!-- 댓글 작성 영역 -->
+            <div class="comment-input-box">
+                <div class="comment-user">이름(이메일)</div>
+                <textarea class="comment-textarea" placeholder="댓글을 남겨보세요"></textarea>
+                <div class="comment-footer">
+                    <div class="comment-actions">
+                        <button class="comment-icon"><i class="fa-regular fa-image"></i></button>
+                    </div>
+                    <button class="submit-comment">등록</button>
+                </div>
+            </div>
+
+
+            <h4>💬 댓글</h4>
+
+            <div class="comment">
+                <div class="comment-with-profile">
+                    <img class="comment-profile" src="/images/users/user_small_profile.png" alt="프로필">
+
+                    <div class="comment-body">
+                        <div class="comment-header">
+                            <strong>이름 1</strong> <span>(test@exam.com)</span>
+                            <span class="comment-writer-badge">작성자</span>
+                        </div>
+                        <div class="comment-content">
+                            댓글 1
+                        </div>
+                        <div class="comment-actions">
+                            <span>2025-06-25 15:10</span> | ♥ 2
+                            <a href="#" class="reply-link">답글</a>
+                            <a href="#" class="reply-edit">수정</a>
+                            <a href="#" class="reply-delete">삭제</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 대댓글 1-1 -->
+                <div class="child-comments">
+                    <div class="comment-with-profile">
+                        <img class="comment-profile" src="/images/users/user_small_profile.png" alt="프로필">
+                        <div class="comment-body">
+                            <div class="comment-header">
+                                <strong>관리자</strong> <span>(admin@exam.com)</span>
+                                <span class="comment-writer-badge">작성자</span>
+                            </div>
+                            <div class="comment-content">
+                                대댓글 1
+                            </div>
+                            <div class="comment-actions">
+                                <span>2025-06-25 15:30</span> | ♥ 1
+                                <a href="#" class="reply-link">답글</a>
+                                <a href="#" class="reply-edit">수정</a>
+                                <a href="#" class="reply-delete">삭제</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment-with-profile">
+                    <img class="comment-profile" src="/images/users/user_small_profile.png" alt="프로필">
+
+                    <div class="comment-body">
+                        <div class="comment-header">
+                            <strong>이름 2</strong> <span>(test2@exam.com)</span>
+                            <span class="comment-writer-badge">작성자</span>
+                        </div>
+                        <div class="comment-content">
+                            댓글 2
+                        </div>
+                        <div class="comment-actions">
+                            <span>2025-06-25 15:10</span> | ♥ 4
+                            <a href="#" class="reply-link">답글</a>
+                            <a href="#" class="reply-edit">수정</a>
+                            <a href="#" class="reply-delete">삭제</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 버튼 영역 -->
+        <div class="view-buttons">
+            <button class="edit-btn">수정</button>
+            <button class="delete-btn">삭제</button>
+            <button class="back-btn" id="closeFloatingSidebar">목록</button>
+        </div>
+    </div>
+
+</div>
+
+<script src="/js/community/board-view.js"></script>

@@ -30,6 +30,19 @@
         where user_id=#{userId} and deleted_at is null and is_completed=false
         order by updated_at desc
     </select>
+
+    <update id="updatePrivateResume">
+        update resumes
+        set is_public=false
+        where id=#{resumeId} and deleted_at is null and is_completed=true
+    </update>
+
+    <select id="selectApplicantProfile" resultType="ApplicantProfilesVO">
+        select age, address, phone_number as phoneNumber, gender, portfolio_url as portfolioUrl, self_intro as selfIntro,
+               job_type as jobType, experience_years as experienceYears
+        from applicant_profiles
+        where user_id=#{userId}
+    </select>
     
     <update id="updatePublicResume">
         update resumes
@@ -64,6 +77,18 @@
         update resumes
         set deleted_at=now()
         where id=#{resumeId} and deleted_at is null
+    </update>
+
+    <update id="updatePrimaryResume">
+        update applicant_profiles
+        set primary_resume_id=#{resumeId}
+        where user_id=#{userId}
+    </update>
+
+    <update id="clearPrimaryResume">
+        update applicant_profiles
+        set primary_resume_id = null
+        where user_id=#{userId}
     </update>
 
 </mapper>

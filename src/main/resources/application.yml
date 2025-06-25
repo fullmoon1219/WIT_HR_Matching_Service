@@ -100,10 +100,5 @@ logging:
     org.springframework.boot.context.config: error
     org.wit.hrmatching.mapper: error
     org.mybatis: error
-
-    wit:
-      hrmatching:
-        config:
-          auth:
-            CustomLogoutSuccessHandler: error
+    org.wit.hrmatching.config.auth: debug
 
