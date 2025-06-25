@@ -1,3 +1,5 @@
+<!-- /templates/hrms/community/boardboard-list.html -->
+
 <div layout:decorate="~{layout/community/community-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
     <th:block layout:fragment="styles">
@@ -6,14 +8,23 @@
 
     <section layout:fragment="content">
         <div class="board-header">
-            <h2>자유 게시판</h2>
-            <a href="/community/free/write" class="write-button">글쓰기</a>
+            <h2>📋 전체 게시판</h2>
+            <a href="/community/write" class="write-button">글쓰기</a>
         </div>
 
         <table class="board-table">
+            <colgroup>
+                <col style="width: 5%">
+                <col style="width: 10%">
+                <col style="width: 55%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+            </colgroup>
             <thead>
             <tr>
                 <th>번호</th>
+                <th>분류</th>
                 <th>제목</th>
                 <th>작성자</th>
                 <th>작성일</th>
@@ -24,14 +35,16 @@
             <!-- 임시 더미 데이터 -->
             <tr>
                 <td>5</td>
-                <td><a href="/community/free/5">처음 글입니다.</a></td>
+                <td>자유</td>
+                <td><a href="/community/all?type=free&id=5">처음 글입니다.</a></td>
                 <td>홍길동</td>
                 <td>2025-06-25</td>
                 <td>12</td>
             </tr>
             <tr>
                 <td>4</td>
-                <td><a href="/community/free/4">잡코딩 질문</a></td>
+                <td>질문</td>
+                <td><a href="/community/qna?type=qna&id=4">잡코딩 질문</a></td>
                 <td>devuser</td>
                 <td>2025-06-24</td>
                 <td>36</td>
@@ -46,3 +59,4 @@
         </div>
     </section>
 </div>
+<script src=""></script>
