@@ -18,6 +18,8 @@ $(document).ready(function () {
 			$('#desiredPosition').val(resume.desiredPosition);
 			$('#motivation').val(resume.motivation);
 
+			$('body').show();
+
 		},
 		error: function (xhr) {
 			if (xhr.status === 403) {

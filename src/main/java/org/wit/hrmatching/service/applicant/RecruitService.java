@@ -12,11 +12,15 @@ public class RecruitService {
 
 	private final RecruitDAO recruitDAO;
 
-	public JobPostVO viewRecruit(long recruitId) {
-		return recruitDAO.viewRecruit(recruitId);
+	public JobPostVO viewRecruit(long jobPostId) {
+		return recruitDAO.viewRecruit(jobPostId);
 	}
 
 	public EmployerProfilesVO viewEmployerProfile(long employerUserId) {
 		return recruitDAO.viewEmployerProfile(employerUserId);
+	}
+
+	public void increaseViewCount(long jobPostId) {
+		recruitDAO.increaseViewCount(jobPostId);
 	}
 }

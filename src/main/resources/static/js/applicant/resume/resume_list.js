@@ -155,27 +155,56 @@ function deleteResume(resumeId) {
 function handlePublicClick(resumeId, isPublic) {
 
     if (isPublic) {
-        alert('이미 대표 이력서입니다.');
-        return;
-    }
+        if (!confirm('대표 이력서를 해제하시겠습니까?')) return;
 
-    if (!confirm('이 이력서를 대표 이력서로 설정하시겠습니까?')) return;
-
-    $.ajax({
-        url: `/api/resumes/${resumeId}/public`,
-        method: 'PUT',
-        success: function () {
-            loadResumes();
-        },
-        error: function (xhr) {
-            if (xhr.status === 403) {
-                location.href = '/error/access-denied';
-            } else if (xhr.status === 404) {
-                location.href = '/error/not-found';
-            } else {
-                alert('대표 공개 설정에 실패했습니다. 나중에 다시 시도해주세요.');
-                console.error(xhr);
+        // 공개 상태일 경우 비공개 전환 요청, 아니면 대표 이력서로 설정 요청
+        $.ajax({
+            url: `/api/resumes/${resumeId}/private`,
+            method: 'PUT',
+            success: function () {
+                loadResumes();
+            },
+            error: function (xhr) {
+                if (xhr.status === 403) {
+                    location.href = '/error/access-denied';
+                } else if (xhr.status === 404) {
+                    location.href = '/error/not-found';
+                } else {
+                    alert('대표 해제에 실패했습니다. 나중에 다시 시도해주세요.');
+                    console.error(xhr);
+                }
             }
-        }
-    });
+        });
+    } else {
+        if (!confirm('이 이력서를 대표 이력서로 설정하시겠습니까?')) return;
+
+        $.ajax({
+            url: `/api/resumes/${resumeId}/public`,
+            method: 'PUT',
+            success: function () {
+                loadResumes();
+            },
+            error: function (xhr) {
+                if (xhr.status === 403) {
+
+                    const response = xhr.responseJSON;
+                    if (response && response.message === '개인정보 입력이 완료되지 않았습니다.') {
+                        if (confirm('개인정보 입력이 완료되지 않아 대표 이력서로 설정이 불가능합니다.\n\n지금 개인정보를 입력하러 가시겠습니까?')) {
+                            // TODO: 추후 경로 수정
+                            location.href = '/applicant/profile';
+                        }
+
+                    } else {
+                        location.href = '/error/access-denied';
+                    }
+                } else if (xhr.status === 404) {
+                    location.href = '/error/not-found';
+                } else {
+                    alert('대표 공개 설정에 실패했습니다. 나중에 다시 시도해주세요.');
+                    console.error(xhr);
+                    console.log(xhr.responseText);
+                }
+            }
+        });
+    }
 }

@@ -9,7 +9,7 @@
                bookmark_count as bookmarkCount, employment_type as employmentType,
                job_category as jobCategory
         from job_posts
-        where id=#{recruitId} and deleted_at is null
+        where id=#{jobPostId} and deleted_at is null
     </select>
 
     <select id="selectEmployerProfile" resultType="EmployerProfilesVO">
@@ -18,5 +18,11 @@
         from employer_profiles
         where user_id=#{employerUserId}
     </select>
+
+    <update id="increaseViewCount">
+        update job_posts
+        set view_count = view_count + 1
+        where id=#{jobPostId} and deleted_at is null
+    </update>
 
 </mapper>

@@ -3,6 +3,7 @@ package org.wit.hrmatching.service.applicant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.dao.applicant.ResumeDAO;
+import org.wit.hrmatching.vo.ApplicantProfilesVO;
 import org.wit.hrmatching.vo.ResumeVO;
 
 import java.util.List;
@@ -29,19 +30,37 @@ public class ResumeService {
 		return resumeDAO.getDraftResumeList(userId);
 	}
 
+	public boolean setResumeAsPrivate(long resumeId, long userId) {
+		resumeDAO.clearPrimaryResume(userId);
+		return resumeDAO.updatePrivateResume(resumeId) == 0;
+	}
+
 	public boolean setResumeAsPublic(long resumeId, long userId) {
 
 		resumeDAO.resetPublicResume(userId);
+		resumeDAO.updatePrimaryResume(resumeId, userId);
 
 		return resumeDAO.updatePublicResume(resumeId) == 0;
 	}
 
-	public ResumeVO getResume(long resumeId) {
-		return resumeDAO.getResume(resumeId);
+	public boolean confirmProfile(long userId) {
+
+		ApplicantProfilesVO profile = resumeDAO.getApplicantProfile(userId);
+
+		if (profile == null) return false;
+
+		return profile.getAge() != null &&
+				profile.getPhoneNumber() != null &&
+				profile.getAddress() != null &&
+				profile.getGender() != null &&
+				profile.getPortfolioUrl() != null &&
+				profile.getSelfIntro() != null &&
+				profile.getJobType() != null &&
+				profile.getExperienceYears() != null;
 	}
 
-	public ResumeVO getResumeForUpdate(long resumeId) {
-		return resumeDAO.getResumeForUpdate(resumeId);
+	public ResumeVO getResume(long resumeId) {
+		return resumeDAO.getResume(resumeId);
 	}
 
 	public Long findOwnerIdByResumeId(long resumeId) {
