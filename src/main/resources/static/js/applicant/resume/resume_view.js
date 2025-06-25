@@ -25,12 +25,12 @@ $(document).ready(function () {
 				$('#updatedAtRow').show();
 			}
 
-			console.log(resume);
-
 			if (resume.isPublic === true) {
 				$('#editBtn').hide();
 				$('#deleteBtn').hide();
 			}
+
+			$('body').show();
 		},
 		error: function (xhr) {
 			if (xhr.status === 403) {

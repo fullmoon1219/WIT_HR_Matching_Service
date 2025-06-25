@@ -2,6 +2,7 @@ package org.wit.hrmatching.mapper.applicant;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.wit.hrmatching.vo.ApplicantProfilesVO;
 import org.wit.hrmatching.vo.ResumeVO;
 
 import java.util.List;
@@ -15,8 +16,11 @@ public interface ResumeMapper {
 	List<ResumeVO> selectResumeList(long userId);
 	List<ResumeVO> selectDraftResumeList(long userId);
 
+	int updatePrivateResume(long resumeId);
 	int updatePublicResume(long resumeId);
 	int resetPublicResume(long userId);
+
+	ApplicantProfilesVO selectApplicantProfile(long userId);
 
 	ResumeVO selectResume(long resumeId);
 
@@ -27,4 +31,7 @@ public interface ResumeMapper {
 	int updateResume(ResumeVO resumeVO);
 
 	int deleteResume(long resumeId);
+
+	void updatePrimaryResume(long resumeId, long userId);
+	void clearPrimaryResume(long userId);
 }

@@ -82,11 +82,28 @@ public class ResumeRestController {
 		return resumeService.getDraftResumeList(userId);
 	}
 
+	// 대표 이력서 해제
+	@PutMapping("/{resumeId}/private")
+	@PreAuthorize("@permission.isResumeOwner(#resumeId, authentication)")
+	public ResponseEntity<?> setResumePrivate(@PathVariable Long resumeId,
+											  @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+		boolean result = resumeService.setResumeAsPrivate(resumeId, userDetails.getId());
+
+		return result ? ResponseEntity.ok().build()
+				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	}
+
 	// 대표 이력서 설정
 	@PutMapping("/{resumeId}/public")
 	@PreAuthorize("@permission.isResumeOwner(#resumeId, authentication)")
 	public ResponseEntity<?> setResumePublic(@PathVariable Long resumeId,
 											 @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+		if (!resumeService.confirmProfile(userDetails.getId())) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN)
+					.body(Map.of("message", "개인정보 입력이 완료되지 않았습니다."));
+		}
 
 		boolean result = resumeService.setResumeAsPublic(resumeId, userDetails.getId());
 
