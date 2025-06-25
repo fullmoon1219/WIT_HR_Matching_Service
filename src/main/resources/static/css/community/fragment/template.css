@@ -70,3 +70,39 @@ html, body {
     color: white;
     font-weight: bold;
 }
+
+.floating-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검정 */
+    z-index: 15;
+    display: none;
+}
+
+.floating-overlay.show {
+    display: block;
+}
+
+
+.floating-sidebar {
+    position: absolute;
+    box-sizing: border-box;
+    top: 0;
+    right: 0;
+    width: 850px;
+    height: 100%;
+    background-color: #f5f6fa;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 20;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    padding: 30px;
+}
+
+.floating-sidebar.show {
+    transform: translateX(0);
+}

@@ -1,0 +1,103 @@
+.write-container {
+    width: 90%;
+    height: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.write-header,
+.write-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.write-content {
+    margin-top: 20px;
+}
+
+.write-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.submit-btn,
+.cancel-btn {
+    padding: 10px 20px;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.submit-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #ccc;
+    color: #333;
+}
+
+.write-description {
+    margin-top: -5px;
+    font-size: 15px;
+    color: #555;
+}
+
+.write-description2 {
+    margin-top: 2px;
+    font-size: 13px;
+    color: #999;
+}
+
+.form-label-inline {
+    min-width: 100px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.form-select-inline {
+    width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
