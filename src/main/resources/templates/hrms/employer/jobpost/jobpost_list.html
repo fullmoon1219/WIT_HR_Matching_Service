@@ -38,33 +38,25 @@
   </div>
 
   <table border="1" cellspacing="0" cellpadding="5">
-    <thead>
-    <tr>
-      <th>채용 공고명</th>
-      <th>수정</th>
-      <th>삭제</th>
-      <th>지원자 보기</th>
-    </tr>
-    </thead>
-
     <tbody>
     <tr th:each="post : ${jobPostList}">
       <td> <!--상세페이지로 이동-->
         <a th:href="@{./view(jobPostId=${post.id})}" th:text="${post.title}">이력서 제목</a>
       </td>
       <td> <!--수정페이지로 이동-->
-        <a th:href="@{./joppost_edit(jobPostId=${post.id})}">
+        <a th:href="@{./jobpost_edit(jobPostId=${post.id})}">
           <button type="button">수정</button>
         </a>
       </td>
       <td> <!-- 삭제 -->
         <form action="./delete" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-          <input type="hidden" name="resumeId" th:value="${post.id}" />
+          <input type="hidden" name="jobPostId" th:value="${post.id}" />
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
           <button type="submit">삭제</button>
         </form>
       </td>
       <td><button type="button">지원자보기</button></td>
+
     </tr>
     </tbody>
 

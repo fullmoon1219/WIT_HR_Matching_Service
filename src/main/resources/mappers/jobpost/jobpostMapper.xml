@@ -24,6 +24,7 @@
         SELECT *
         FROM job_posts
         WHERE user_id = #{userId}
+          AND deleted_at IS NULL
     </select>
 
     <select id="selectApplicantList" resultType="JobPostVO">
@@ -34,5 +35,24 @@
         from job_posts
         where id=#{recruitId} and deleted_at is null
     </select>
+
+    <select id="selectJobPostDetail" resultType="JobPostVO">
+        SELECT *
+        FROM job_posts
+        WHERE id = #{recruitId} AND deleted_at IS NULL
+    </select>
+
+    <update id="updateJobPostDetail" parameterType="JobPostVO">
+        UPDATE job_posts
+        SET title = #{title}, description = #{description}, required_skills = #{requiredSkills}, salary = #{salary}, location = #{location},
+            employment_type = #{employmentType}, deadline = #{deadline}, job_category = #{jobCategory}, updated_at = NOW()
+        WHERE id = #{id} AND deleted_at IS NULL
+    </update>
+
+    <update id="deleteJobPost">
+        update job_posts
+        set deleted_at=now()
+        where id=#{jobPostId} and deleted_at is null
+    </update>
 
 </mapper>
