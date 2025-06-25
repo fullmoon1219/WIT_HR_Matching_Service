@@ -3,10 +3,7 @@ package org.wit.hrmatching.controller.applicant;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.service.applicant.RecruitService;
 import org.wit.hrmatching.vo.EmployerProfilesVO;
 import org.wit.hrmatching.vo.JobPostVO;
@@ -48,4 +45,13 @@ public class RecruitRestController {
 
 		return ResponseEntity.ok(response);
 	}
+
+	@GetMapping("/{jobPostId}/summary")
+	public ResponseEntity<Map<String, Object>> getJobPostSummary(@PathVariable long jobPostId) {
+
+		Map<String, Object> summary = recruitService.getJobPostSummary(jobPostId);
+
+		return ResponseEntity.ok(summary);
+	}
+
 }

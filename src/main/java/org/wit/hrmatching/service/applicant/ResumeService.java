@@ -6,6 +6,7 @@ import org.wit.hrmatching.dao.applicant.ResumeDAO;
 import org.wit.hrmatching.vo.ApplicantProfilesVO;
 import org.wit.hrmatching.vo.ResumeVO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,6 +26,26 @@ public class ResumeService {
 	public List<ResumeVO> getResumeList(long userId) {
 		return resumeDAO.getResumeList(userId);
 	}
+
+	public List<ResumeVO> getCompletedResumeList(Long userId) {
+
+		List<ResumeVO> completedList = new ArrayList<>();
+
+		ResumeVO publicResume = resumeDAO.getPublicResume(userId);
+
+		if (publicResume != null) {
+			completedList.add(publicResume);
+		}
+
+		List<ResumeVO> otherResumes = resumeDAO.getResumeList(userId);
+
+		for (ResumeVO resume : otherResumes) {
+			completedList.add(resume);
+		}
+
+		return completedList;
+	}
+
 
 	public List<ResumeVO> getDraftResumeList(long userId) {
 		return resumeDAO.getDraftResumeList(userId);

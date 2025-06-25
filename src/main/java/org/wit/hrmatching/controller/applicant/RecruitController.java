@@ -19,4 +19,9 @@ public class RecruitController {
 	public String viewRecruit() {
 		return "applicant/recruit/view";
 	}
+
+	@GetMapping("/apply/{jobPostId}")
+	public String applyRecruit() {
+		return "applicant/recruit/apply";
+	}
 }

@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
 
-	const jobPostId = getJobPostIdFromUrl();
+	const jobPostId = getIdFromUrl();
 
 	$.ajax({
 		url: `/api/recruit/${jobPostId}`,
@@ -42,19 +42,8 @@ $(document).ready(function () {
 			}
 		}
 	});
+
+	$('#applyBtn').on('click', function () {
+		location.href = `/applicant/recruit/apply/${jobPostId}`;
+	});
 });
-
-function getJobPostIdFromUrl() {
-	const parts = window.location.pathname.split('/');
-	return parts[parts.length - 1];
-}
-
-function translateEmploymentType(code) {
-	switch (code) {
-		case 'FULLTIME': return '정규직';
-		case 'PARTTIME': return '파트타임';
-		case 'INTERN': return '인턴';
-		case 'FREELANCE': return '프리랜서';
-		default: return '기타';
-	}
-}
