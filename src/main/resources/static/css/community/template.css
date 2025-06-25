@@ -4,8 +4,8 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: 'Noto Sans KR', sans-serif;
     overflow: hidden;
+    font-family: 'Noto Sans KR', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
 }
 
 .community-layout {

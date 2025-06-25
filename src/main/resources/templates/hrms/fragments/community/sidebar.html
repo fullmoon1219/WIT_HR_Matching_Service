@@ -13,12 +13,17 @@
 
       <nav class="menu">
         <ul class="sidebar-menu">
-          <li class="menu-item"><a th:href="@{/community/all}">📋 전체 게시판</a></li>
-          <li class="menu-item"><a th:href="@{/community/free}">💬 자유 게시판</a></li>
-          <li class="menu-item"><a th:href="@{/community/qna}">❓ Q&A</a></li>
-          <li class="menu-item"><a th:href="@{/community/study}">👥 스터디/프로젝트 모집</a></li>
-          <li class="menu-item"><a th:href="@{/community/feedback}">📄 이력서/포트폴리오 피드백</a></li>
-          <li class="menu-item"><a th:href="@{/community/job-share}">📢 채용 정보 공유</a></li>
+          <li class="menu-item">
+            <a th:href="@{/community/all}">📋 전체 게시판</a>
+          </li>
+
+          <!-- 동적 게시판 출력 -->
+          <li class="menu-item" th:each="board : ${communityBoards}">
+            <a th:href="@{'/community/' + ${board.code}}">
+              <span th:text="${board.icon}"></span>
+              <span th:text="${board.name}"></span>
+            </a>
+          </li>
         </ul>
       </nav>
     </div>
@@ -30,7 +35,6 @@
         <span>이름</span>
       </div>
     </div>
-
 
   </div>
 </aside>
