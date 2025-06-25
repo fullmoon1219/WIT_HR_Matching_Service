@@ -53,7 +53,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/users/login", "/users/register", "/users/register-success", "/users/verify",
                                 "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**",
                                 "/api/users/check-email", "/error/**", "/api/users/register", "/api/users/verify",
-                                "/users/delete-success")
+                                "/users/delete-success", "/community/**")
                         .permitAll()  // 로그인 없이 접근 허용
                         .requestMatchers("/admin/**").hasAuthority("ADMIN") // 관리자 전용
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
