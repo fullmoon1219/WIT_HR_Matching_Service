@@ -16,7 +16,7 @@ $(document).ready(function () {
 			desiredPosition: $('input[name="desiredPosition"]').val(),
 			motivation: $('input[name="motivation"]').val(),
 			coreCompetency: $('input[name="coreCompetency"]').val(),
-			completed: true // 정식 등록
+			isCompleted: true // 정식 등록
 		};
 
 		$.ajax({
@@ -82,7 +82,7 @@ $(document).ready(function () {
 			desiredPosition: $('input[name="desiredPosition"]').val(),
 			motivation: $('input[name="motivation"]').val(),
 			coreCompetency: $('input[name="coreCompetency"]').val(),
-			completed: false // 임시 저장
+			isCompleted: false // 임시 저장
 		};
 
 		$.ajax({
@@ -100,6 +100,7 @@ $(document).ready(function () {
 			},
 			error: function () {
 				alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+				console.error(xhr);
 			}
 		});
 	});

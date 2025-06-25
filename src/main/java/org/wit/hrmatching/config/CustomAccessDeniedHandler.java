@@ -19,6 +19,13 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
         System.out.println("접근 거부됨: " + request.getRequestURI());
 
-        response.sendRedirect("/error/access-denied");
+        // REST API 요청일 경우
+        if (request.getRequestURI().startsWith("/api")) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+
+        // 일반 브라우저 요청일 경우
+        } else {
+            response.sendRedirect("/error/access-denied");
+        }
     }
 }
