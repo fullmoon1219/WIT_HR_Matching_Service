@@ -2,6 +2,10 @@ spring:
   application:
     name: 'Wit_HR_Matching_Service'
 
+  devtools:
+    restart:
+      enabled: false
+
   datasource:
     driver-class-name: 'com.mysql.cj.jdbc.Driver'
     url: 'jdbc:mysql://fullmoon1219.iptime.org/hrms'
@@ -23,6 +27,9 @@ spring:
   web:
     resources:
       static-locations: classpath:/static/, classpath:/public/, classpath:/META-INF/resources/
+
+  jpa:
+    open-in-view: false
 
   mail:
     host: smtp.gmail.com
@@ -70,6 +77,8 @@ spring:
 mybatis:
   mapper-locations: classpath:mappers/**/*.xml
   type-aliases-package: org.wit.hrmatching.vo
+  configuration:
+    map-underscore-to-camel-case: true
 
 server:
   forward-headers-strategy: framework
@@ -78,19 +87,20 @@ server:
     whitelabel:
       enabled: false
     path: /error/home
+  servlet:
+    session:
+      persistent: false
 
 logging:
   level:
     jdbc.sqlonly: error
-    org:
-      mybatis: error
-      springframework:
-        security:
-          "config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer": error
-        web: error
-      boot:
-        context:
-          config: error
+    org.hibernate.orm.connections.pooling: warn
+    org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer: error
+    org.springframework.web: error
+    org.springframework.boot.context.config: error
+    org.wit.hrmatching.mapper: error
+    org.mybatis: error
+
     wit:
       hrmatching:
         config:

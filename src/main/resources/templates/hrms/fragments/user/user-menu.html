@@ -1,0 +1,84 @@
+<!-- 네비게이션 메뉴 -->
+<nav th:fragment="menu" id="nav" class="menu-nav">
+    <div class="menu-wrapper">
+        <!-- 햄버거 아이콘 -->
+        <!-- 전체 메뉴 구성용으로 만들었는데 자꾸 오류나서 패스했습니다-->
+        <!-- <div class="hamburger">&#9776;</div>-->
+
+        <!-- 메뉴 항목 -->
+        <!-- 메뉴바 내용, 메뉴1~5 내용 전부 변수값입니다
+             메뉴바 내용은 일단 사람인 내용으로 가져다 채웠습니다-->
+        <ul>
+            <li class="dropdown">
+                <a th:href="@{/jobs}">채용정보</a>
+                <ul class="submenu">
+                    <li><a href="#">메뉴1</a></li>
+                    <li><a href="#">메뉴2</a></li>
+                    <li><a href="#">메뉴3</a></li>
+                    <li><a href="#">메뉴4</a></li>
+                    <li><a href="#">메뉴5</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a th:href="@{/bonus}">취업축하금</a>
+                <ul class="submenu">
+                    <li><a href="#">메뉴1</a></li>
+                    <li><a href="#">메뉴2</a></li>
+                    <li><a href="#">메뉴3</a></li>
+                    <li><a href="#">메뉴4</a></li>
+                    <li><a href="#">메뉴5</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a th:href="@{/intern}">신입·인턴</a>
+                <ul class="submenu">
+                    <li><a href="#">메뉴1</a></li>
+                    <li><a href="#">메뉴2</a></li>
+                    <li><a href="#">메뉴3</a></li>
+                    <li><a href="#">메뉴4</a></li>
+                    <li><a href="#">메뉴5</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a th:href="@{/strategy}">합격전략</a>
+                <ul class="submenu">
+                    <li><a href="#">메뉴1</a></li>
+                    <li><a href="#">메뉴2</a></li>
+                    <li><a href="#">메뉴3</a></li>
+                    <li><a href="#">메뉴4</a></li>
+                    <li><a href="#">메뉴5</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a th:href="@{/company}">기업·연봉</a>
+                <ul class="submenu">
+                    <li><a href="#">메뉴1</a></li>
+                    <li><a href="#">메뉴2</a></li>
+                    <li><a href="#">메뉴3</a></li>
+                    <li><a href="#">메뉴4</a></li>
+                    <li><a href="#">메뉴5</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a th:href="@{/growth}">커리어성장</a>
+                <ul class="submenu">
+                    <li><a href="#">메뉴1</a></li>
+                    <li><a href="#">메뉴2</a></li>
+                    <li><a href="#">메뉴3</a></li>
+                    <li><a href="#">메뉴4</a></li>
+                    <li><a href="#">메뉴5</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a th:href="@{/community/free}">커뮤니티</a>
+                <ul class="submenu">
+                    <li><a href="#">메뉴1</a></li>
+                    <li><a href="#">메뉴2</a></li>
+                    <li><a href="#">메뉴3</a></li>
+                    <li><a href="#">메뉴4</a></li>
+                    <li><a href="#">메뉴5</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

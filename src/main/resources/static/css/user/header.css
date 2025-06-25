@@ -1,0 +1,43 @@
+/* 헤더 (로고 영역) */
+.header-container {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 30px;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* 로그인 | 회원가입 */
+.header-auth {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.header-auth a {
+    color: #444;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.header-auth a:hover {
+    color: #0078ff;
+    text-decoration: underline;
+}
+
+.header-auth .divider {
+    color: #bbb;
+}
+
+/* 로고 */
+.logo img {
+    height: 40px;
+}

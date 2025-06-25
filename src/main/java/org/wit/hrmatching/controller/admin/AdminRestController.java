@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import org.wit.hrmatching.dto.admin.AdminDashboardStatsDTO;
+import org.wit.hrmatching.dto.admin.PagedResponseDTO;
 import org.wit.hrmatching.service.admin.AdminService;
 import org.wit.hrmatching.vo.UserVO;
 
@@ -140,20 +141,32 @@ public class AdminRestController {
      * 전체 사용자 목록 (프로필 포함) 반환
      */
     @GetMapping("/users")
-    public Map<String, Object> getUsers(@RequestParam(defaultValue = "0") int page,
-                                        @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<UserVO> pageResult = adminService.getPagedUsers(pageable);
+    public PagedResponseDTO<UserVO> getUsers(@RequestParam(defaultValue = "1") int page,
+                                             @RequestParam(defaultValue = "10") int size,
+                                             @RequestParam(required = false) Integer userId,
+                                             @RequestParam(required = false) String role,
+                                             @RequestParam(required = false) String status,
+                                             @RequestParam(required = false) String warning,
+                                             @RequestParam(required = false) String verified,
+                                             @RequestParam(required = false) String keyword) {
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("content", pageResult.getContent());
-        result.put("totalElements", pageResult.getTotalElements());
-        result.put("totalPages", pageResult.getTotalPages());
-        result.put("size", pageResult.getSize());
-        result.put("number", pageResult.getNumber());
-        result.put("last", pageResult.isLast());
-        result.put("first", pageResult.isFirst());
+        Pageable pageable = PageRequest.of(page - 1, size);
 
-        return result;
+        Page<UserVO> pageResult = adminService.getPagedUsers(
+                pageable, userId, role, status, warning, verified, keyword
+        );
+
+        return PagedResponseDTO.<UserVO>builder()
+                .content(pageResult.getContent())
+                .totalElements(pageResult.getTotalElements())
+                .totalPages(pageResult.getTotalPages())
+                .size(pageResult.getSize())
+                .number(pageResult.getNumber() + 1) // 클라이언트는 1부터 시작
+                .first(pageResult.isFirst())
+                .last(pageResult.isLast())
+                .numberOfElements(pageResult.getNumberOfElements())
+                .empty(pageResult.isEmpty())
+                .build();
     }
+
 }

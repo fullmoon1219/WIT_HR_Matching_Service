@@ -1,40 +1,69 @@
-<!-- /resources/templates/hrms/index.html -->
+<div layout:decorate="~{layout/main/main-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-<!doctype html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Document</title>
-</head>
-<body>
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/main/main.css}">
+    </th:block>
 
-<!-- 메시지 출력 -->
-<div th:if="${message != null}">
-  <p th:text="${message}"></p>
+    <section layout:fragment="content">
+
+        <!-- 메일 인증 안내 -->
+        <div class="info-banner" th:if="${userDetails != null and !userDetails.emailVerified}">
+            <div class="banner-text">
+                <span class="icon">&#x2139;</span>
+                메일 인증이 필요한 사용자입니다.
+            </div>
+        </div>
+
+        <!-- 슬라이드 배너 -->
+        <section id="banner" class="slider-section">
+            <div class="slider-container">
+                <button class="slide-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+                <div class="slide-wrapper">
+                    <a href="/job/1" class="slide-link active"><img src="/images/clickbanner.png" alt="배너1"></a>
+                    <a href="/job/2" class="slide-link"><img src="/images/bmarkbanner.png" alt="배너2"></a>
+                    <a href="/job/3" class="slide-link"><img src="/images/writebanner.png" alt="배너3"></a>
+                </div>
+                <button class="slide-btn next" onclick="changeSlide(1)">&#10095;</button>
+                <div class="slide-indicator">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 광고 영역 -->
+        <section th:replace="~{fragments/user/ad_banner:: ad}"></section>
+
+        <!-- 마감 임박 공고 -->
+        <section id="urgent" class="urgent-section">
+            <h2 class="urgent-title">마감 임박</h2>
+            <div class="urgent-divider"></div>
+            <div class="urgent-card-grid">
+                <a href="/job/1" class="urgent-card">카드1</a>
+                <a href="/job/2" class="urgent-card">카드2</a>
+                <a href="/job/3" class="urgent-card">카드3</a>
+                <a href="/job/4" class="urgent-card">카드4</a>
+                <a href="/job/5" class="urgent-card">카드5</a>
+                <a href="/job/6" class="urgent-card">카드6</a>
+                <a href="/job/7" class="urgent-card">카드7</a>
+                <a href="/job/8" class="urgent-card">카드8</a>
+                <a href="/job/9" class="urgent-card">카드9</a>
+            </div>
+        </section>
+
+        <!-- 우측 네비게이션 -->
+        <div class="section-nav">
+            <a href="#header" class="nav-link">TOP</a>
+            <a href="#banner" class="nav-link">배너</a>
+            <a href="#urgent" class="nav-link">마감임박</a>
+            <a href="#footer" class="nav-link">BOTTOM</a>
+        </div>
+
+    </section>
+
+
 </div>
 
-<!-- 로그인 상태 -->
-<div th:if="${userDetails != null}">
-  <p>이름: <span th:text="${userDetails.name}"></span></p>
-  <p>이메일: <span th:text="${userDetails.email}"></span></p>
-  <p>ID: <span th:text="${userDetails.id}"></span></p>
-
-  <a href="/users/logout">로그아웃</a>
-
-  <form method="get" action="/users/delete">
-    <button type="submit">회원 탈퇴</button>
-  </form>
-</div>
-
-<!-- 비로그인 상태 -->
-<div th:if="${userDetails == null}">
-  <a href="/users/login">로그인</a>
-</div>
-
-<!-- 관리자 대시보드 이동 -->
-<a href="/admin/dashboard">관리자</a>
-
-</body>
-
-</html>
+<script src="/js/main/right-nav.js"></script>
+<script src="/js/main/banner-slider.js"></script>

@@ -14,4 +14,28 @@
         UPDATE users SET warning_count = #{count} WHERE id = #{userId}
     </update>
 
+    <!-- applicant_profiles 삭제 -->
+    <delete id="deleteApplicantProfilesIfExists">
+        DELETE FROM applicant_profiles WHERE user_id IN
+        <foreach collection="userIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- employer_profiles 삭제 -->
+    <delete id="deleteEmployerProfilesIfExists">
+        DELETE FROM employer_profiles WHERE user_id IN
+        <foreach collection="userIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- users 삭제 -->
+    <delete id="deleteUsers">
+        DELETE FROM users WHERE id IN
+        <foreach collection="userIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
 </mapper>

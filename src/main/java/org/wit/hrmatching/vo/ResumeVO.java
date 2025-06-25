@@ -9,6 +9,7 @@ public class ResumeVO {
 
 	private long id;
 	private long userId;
+	private String email;
 	@NotBlank(message = "학력은 필수입니다.")
 	private String education;
 	@NotBlank(message = "경력은 필수입니다.")
@@ -33,18 +34,19 @@ public class ResumeVO {
 	private String deletedAt;
 	private boolean isCompleted;
 
-	// MyBatis 매칭을 위한 getter/setter
-	public boolean getIsPublic() {
-		return isPublic;
-	}
-	public void setIsPublic(boolean isPublic) {
-		this.isPublic = isPublic;
-	}
-
 	public boolean getIsCompleted() {
 		return isCompleted;
 	}
+
+	public boolean getIsPublic() {
+		return isPublic;
+	}
+
 	public void setIsCompleted(boolean isCompleted) {
 		this.isCompleted = isCompleted;
+	}
+
+	public void setIsPublic(boolean isPublic) {
+		this.isPublic = isPublic;
 	}
 }

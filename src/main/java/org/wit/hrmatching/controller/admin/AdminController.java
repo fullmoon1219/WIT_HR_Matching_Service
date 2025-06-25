@@ -19,4 +19,14 @@ public class AdminController {
     public String userManagementPage() {
         return "admin/user-management";
     }
+
+    @GetMapping("/resumes")
+    public String resumeLists() {
+        return "admin/resume-list";
+    }
+
+    @GetMapping("/jobPosts")
+    public String postLists() {
+        return "admin/jobPosts";
+    }
 }
