@@ -1,0 +1,43 @@
+/* /css/community/board.css */
+
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.board-header h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.write-button {
+    padding: 8px 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.board-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.board-table th, .board-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+
+.board-table td a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.board-table tr:hover {
+    background-color: #f0f0f0;
+}

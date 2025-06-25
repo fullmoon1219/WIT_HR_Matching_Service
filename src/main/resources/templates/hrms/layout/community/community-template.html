@@ -1,0 +1,47 @@
+<!-- templates/hrms/layout/community/community-template.html -->
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <title>Novi</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/community/template.css">
+  <link rel="stylesheet" href="/css/community/sidebar.css">
+  <link rel="stylesheet" href="/css/community/header.css">
+  <link rel="stylesheet" href="/css/user/footer.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <th:block layout:fragment="styles"></th:block>
+
+  <!-- JS -->
+  <script src="/js/jquery-3.7.1.min.js"></script>
+  <script src="/js/admin/csrf-setup.js"></script>
+</head>
+<body>
+<div class="community-layout">
+  <!-- Sidebar -->
+  <aside th:replace="~{fragments/community/sidebar :: sidebar}"></aside>
+
+
+  <!-- Right Container -->
+  <div class="community-container">
+    <!-- Header -->
+    <header th:replace="~{fragments/community/header :: header}"></header>
+
+    <!-- Content -->
+    <div class="content">
+      <section class="main-area" layout:fragment="content"></section>
+
+
+    </div>
+    <footer th:replace="~{fragments/user/user-footer :: footer}"></footer>
+
+  </div>
+</div>
+
+</body>
+</html>

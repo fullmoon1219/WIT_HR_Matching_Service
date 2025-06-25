@@ -48,8 +48,6 @@ function loadResumeList(page = 1, filters = currentFilters) {
             const tbody = $("#userTableBody");
             tbody.empty();
 
-            console.log(params.keyword)
-
             resumes.forEach(resume => {
                 const deleted = resume.deletedAt !== null;
                 const isCompleted = resume.isCompleted === true || resume.isCompleted === 1 || resume.isCompleted === '1' || resume.isCompleted === 'true';
