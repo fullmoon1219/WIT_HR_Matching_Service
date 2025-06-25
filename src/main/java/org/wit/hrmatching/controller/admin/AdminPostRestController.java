@@ -11,7 +11,9 @@ import org.wit.hrmatching.dto.admin.PagedResponseDTO;
 import org.wit.hrmatching.service.admin.AdminPostService;
 import org.wit.hrmatching.vo.JobPostVO;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +22,11 @@ import java.util.List;
 public class AdminPostRestController {
 
     private final AdminPostService adminPostService;
+
+    @GetMapping("/stats")
+    public Map<String, Integer> getPostStats() {
+        return adminPostService.getPostStats();
+    }
 
     @GetMapping("/list")
     public PagedResponseDTO<JobPostVO> getPosts(@RequestParam(required = false) Long id,

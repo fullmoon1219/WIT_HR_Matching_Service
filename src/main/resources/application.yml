@@ -2,6 +2,10 @@ spring:
   application:
     name: 'Wit_HR_Matching_Service'
 
+  devtools:
+    restart:
+      enabled: false
+
   datasource:
     driver-class-name: 'com.mysql.cj.jdbc.Driver'
     url: 'jdbc:mysql://fullmoon1219.iptime.org:3306/hrms'
@@ -83,6 +87,9 @@ server:
     whitelabel:
       enabled: false
     path: /error/home
+  servlet:
+    session:
+      persistent: false
 
 logging:
   level:

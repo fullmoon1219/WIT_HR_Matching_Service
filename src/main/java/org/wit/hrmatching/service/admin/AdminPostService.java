@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.wit.hrmatching.mapper.admin.AdminPostMapper;
 import org.wit.hrmatching.vo.JobPostVO;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -33,4 +35,16 @@ public class AdminPostService {
             adminPostMapper.deletePostsByIds(ids);
         }
     }
+
+    public Map<String, Integer> getPostStats() {
+        Map<String, Integer> stats = new HashMap<>();
+
+        stats.put("total", adminPostMapper.countAll());
+        stats.put("available", adminPostMapper.countAvailable());
+        stats.put("closed", adminPostMapper.countByStatus(true));
+        stats.put("deleted", adminPostMapper.countDeleted());
+
+        return stats;
+    }
+
 }

@@ -63,8 +63,8 @@ function renderTable(posts) {
                 <td><input type="checkbox" class="user-checkbox" value="${post.id}"></td>
                 <td>${post.id}</td>
                 <td>${post.userId}</td>
-                <td>${post.companyName ?? '-'}</td>
-                <td>${post.title}</td>
+                <td class="post-name" data-id="${post.userId}" style="cursor: pointer; color: black;"><span>${post.companyName}</span></td>
+                <td class="post-title" data-id="${post.id}" style="cursor: pointer; color: blue;"><span>${post.title}</span></td>
                 <td>${formatDate(post.createAt)}</td>
                 <td>${formatDate(post.updatedAt)}</td>
                 <td><div class="value isClosed ${closedClass}">${closedLabel}</div></td>
