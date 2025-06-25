@@ -34,4 +34,6 @@ public class JobPostVO {
     private Long bookmarkCount;
 
     private String companyName;
+
+    private boolean isCompleted;
 }

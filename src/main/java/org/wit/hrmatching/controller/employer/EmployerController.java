@@ -1,20 +1,17 @@
 package org.wit.hrmatching.controller.employer;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.wit.hrmatching.vo.ApplicantProfilesVO;
-import org.wit.hrmatching.vo.CustomUserDetails;
+import org.wit.hrmatching.vo.*;
 import org.wit.hrmatching.service.JobPostService;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
-import org.wit.hrmatching.vo.JobPostVO;
 
 import java.util.List;
 
@@ -43,9 +40,6 @@ public class EmployerController {
 
         Long userId = userDetails.getUser().getId(); // 현재 로그인한 기업사용자 ID
         jobPostVO.setUserId(userId); // 직접 설정
-
-
-        System.out.println("자료 넘어가는지 확인");
 
         int flag = jobPostService.registerJobPost(jobPostVO);
 
@@ -85,6 +79,58 @@ public class EmployerController {
         return modelAndView;
     }
 
+    @RequestMapping("/view") //-------------기업페이지 _ 이력서확인
+    public ModelAndView selectJobPostview(@RequestParam Long jobPostId) {
+        JobPostVO jobPostVO = jobPostService.selectJobPostDetail(jobPostId);
+
+
+        ModelAndView modelAndView = new ModelAndView("employer/jobpost/view");
+        modelAndView.addObject("post", jobPostVO);
+
+        return modelAndView;
+    }
+
+    @RequestMapping("/jobpost_edit") //-------------기업페이지 _ 이력서확인
+    public ModelAndView editJobPostDetail(@RequestParam Long jobPostId) {
+        JobPostVO jobPostVO = jobPostService.selectJobPostDetail(jobPostId);
+
+
+        ModelAndView modelAndView = new ModelAndView("employer/jobpost/jobpost_edit");
+        modelAndView.addObject("jobPostVO", jobPostVO);
+
+        return modelAndView;
+    }
+
+    @PostMapping("/jobpost_edit_ok")
+    public ModelAndView editJobPostDetail(
+                                     @ModelAttribute JobPostVO jobPostVO
+                                     ) {
+
+        boolean result;
+        ModelAndView modelAndView = new ModelAndView();
+            // 입력값 유효성 검사
+            // 만약 입력값이 모두 입력되지 않으면 에러메세지와 함께 작성 페이지로.
+//            if (bindingResult.hasErrors()) {
+//                modelAndView.setViewName("employer/jobpost/jobpost_edit");
+//                modelAndView.addObject("jobPostVO", jobPostVO);
+//                modelAndView.addObject("org.springframework.validation.BindingResult.jobPostVO", bindingResult);
+//                return modelAndView;
+//            }
+
+            // 정식 등록: is_completed = true
+            jobPostVO.setCompleted(true);
+            result = jobPostService.editJobPostDetail(jobPostVO);
+
+        if (result) {
+            modelAndView.setViewName("employer/jobpost/jobpost_edit_ok");
+            modelAndView.addObject("jobPostId", jobPostVO.getId());
+        } else {
+            modelAndView.setViewName("error/db-access-denied");
+        }
+
+        return modelAndView;
+    }
+
     @RequestMapping("/applications") //-------------기업페이지 _ 이력서확인
     public ModelAndView applications(HttpServletRequest request, Model model) {
         return new ModelAndView("employer/applications");
@@ -93,6 +139,18 @@ public class EmployerController {
     @RequestMapping("/profile") //-------------기업페이지 _ 이력서확인
     public ModelAndView profile(HttpServletRequest request, Model model) {
         return new ModelAndView("employer/profile");
+    }
+
+    @PostMapping("/delete")
+    public ModelAndView deleteJobPostDetail(@RequestParam Long jobPostId) {
+
+        System.out.println("삭제 요청 ID: " + jobPostId);
+
+        boolean result = jobPostService.deleteJobPost(jobPostId);
+
+        System.out.println("삭제 결과: " + result);
+
+        return new ModelAndView(result ? "redirect:/employer/jobpost/jobpost_list" : "error/db-access-denied");
     }
 
 }

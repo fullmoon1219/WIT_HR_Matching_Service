@@ -23,12 +23,14 @@
     <option value="PARTTIME">파트타임</option>
     <option value="INTERN">인턴</option>
     <option value="FREELANCE">프리랜서</option>
+
 </select><br/>
 
     마감일<input type="date" name="deadline"><br/>
     카테고리<input type="text" name="jobCategory" placeholder="예: Java, Spring, React"><br/>
 
     <input type="submit" value="등록하기">
+    <a th:href="@{/employer/jobpost_list}"><button type="button">취소</button>
 
 </form>
 

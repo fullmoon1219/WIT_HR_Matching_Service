@@ -31,4 +31,17 @@ public class JobPostService {
     public List<ApplicantProfilesVO> selectApplicantList(long userId) {
         return jobPostDAO.selectApplicantList(userId);
     }
+
+    public JobPostVO selectJobPostDetail(long jobPostId) {
+        return jobPostDAO.selectJobPostDetail(jobPostId);
+    }
+
+    public boolean editJobPostDetail(JobPostVO jobPostVO) {
+        return jobPostDAO.editJobPostDetail(jobPostVO) == 0;
+    }
+
+    public boolean deleteJobPost(long jobPostId) {
+        return jobPostDAO.deleteJobPost(jobPostId) == 0;
+    }
+
 }
