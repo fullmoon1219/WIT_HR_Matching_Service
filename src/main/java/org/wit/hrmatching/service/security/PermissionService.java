@@ -3,8 +3,8 @@ package org.wit.hrmatching.service.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.wit.hrmatching.config.auth.CustomUserDetails;
-import org.wit.hrmatching.service.ResumeService;
+import org.wit.hrmatching.vo.CustomUserDetails;
+import org.wit.hrmatching.service.applicant.ResumeService;
 
 @Service("permission")
 @RequiredArgsConstructor

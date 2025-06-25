@@ -3,14 +3,13 @@ package org.wit.hrmatching.vo;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import org.apache.ibatis.type.Alias;
 
-@Alias(value = "resumeVO")
 @Data
 public class ResumeVO {
 
 	private long id;
 	private long userId;
+	private String email;
 	@NotBlank(message = "학력은 필수입니다.")
 	private String education;
 	@NotBlank(message = "경력은 필수입니다.")
@@ -34,4 +33,20 @@ public class ResumeVO {
 	private String updatedAt;
 	private String deletedAt;
 	private boolean isCompleted;
+
+	public boolean getIsCompleted() {
+		return isCompleted;
+	}
+
+	public boolean getIsPublic() {
+		return isPublic;
+	}
+
+	public void setIsCompleted(boolean isCompleted) {
+		this.isCompleted = isCompleted;
+	}
+
+	public void setIsPublic(boolean isPublic) {
+		this.isPublic = isPublic;
+	}
 }

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>기업관리 정보수정</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 0; }
+        .container { display: flex; }
+
+        .sidebar {
+            width: 200px;
+            background: #f0f0f0;
+            padding: 10px;
+        }
+
+        .main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .profile-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+        }
+
+        .profile-info {
+            margin-top: 10px;
+        }
+
+        .profile-name {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .profile-desc {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .profile-footer {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* 팝업 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 700px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 6px;
+        }
+
+        .modal-close {
+            float: right;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+    <!-- 사이드바 -->
+    <div class="sidebar">
+        <h3><a href="/employer/main">기업 페이지</a></h3>
+        <ul>
+            <li><a href="/employer/profile">기업관리</a></li>
+            <li><a href="/employer/jobpost_list">채용공고</a></li>
+            <li><a href="/employer/applications">이력서 확인</a></li>
+            <li><a href="#">AI 추천 공고</a></li>
+        </ul>
+    </div>
+
+    <!-- 메인 -->
+    <div class="main">
+        <div class="profile-card">
+            <img src="/images/default-profile.png" alt="프로필 사진">
+            <div class="profile-info">
+
+                </div>
+            </div>
+
+            <button class="btn" onclick="openModal()">기업정보 수정</button>
+        </div>
+    </div>
+
+<!-- 프로필 수정 팝업 -->
+<div class="modal" id="editModal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <h3>프로필 수정</h3>
+        <form action="/employer/profile/update" method="post">
+            <label for="company_name">기업명</label><br/>
+            <input type="text" id="company_name" name="company_name" required><br/>
+
+            <label for="business_number">사업자번호</label><br/>
+            <input type="text" id="business_number" name="business_number" required><br/>
+
+            <label for="address">회사 주소</label><br/>
+            <input type="text" id="address" name="address"><br/>
+
+            <label for="phone_number">기업 전화번호</label><br/>
+            <input type="text" id="phone_number" name="phone_number"><br/>
+
+            <label for="homepage_url">홈페이지 URL</label><br/>
+            <input type="url" id="homepage_url" name="homepage_url"><br/>
+
+            <label for="industry">산업군</label><br/>
+            <input type="text" id="industry" name="industry"><br/>
+
+            <label for="founded_year">설립 연도</label><br/>
+            <input type="number" id="founded_year" name="founded_year"><br/>
+
+            <label for="company_size">기업 규모</label><br/>
+            <input type="text" id="company_size" name="company_size" placeholder="예: 1-10명, 11-50명 등"><br/>
+
+            <label for="salary">연봉 (만원)</label><br/>
+            <input type="text" id="salary" name="salary"><br/>
+
+            <button type="submit">저장</button>
+            <button type="button" onclick="closeModal()">취소</button>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    function openModal() {
+        document.getElementById('editModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('editModal').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
+

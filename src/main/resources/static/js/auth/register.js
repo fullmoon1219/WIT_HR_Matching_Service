@@ -1,8 +1,34 @@
 // /js/auth/register.js
 
 $(document).ready(function () {
+    const token = $('meta[name="_csrf"]').attr('content');
+    const header = $('meta[name="_csrf_header"]').attr('content');
+
     let emailChecked = false;
     let lastCheckedEmail = "";
+
+    $('.tab').on('click', function () {
+        $('.tab').removeClass('active');
+        $(this).addClass('active');
+
+        // 탭에 정의된 data-role 값을 hidden input에 설정
+        const selectedRole = $(this).data('role');
+        $('#role').val(selectedRole);
+
+        // 탭에 따라 폼 UI 전환 (개인 ↔ 기업)
+        if (selectedRole === 'APPLICANT') {
+            $('#personal-content').show();
+            $('#company-content').hide();
+        } else {
+            $('#personal-content').hide();
+            $('#company-content').show();
+        }
+
+        console.log(selectedRole);
+    });
+
+    // 초기 상태
+    $('#submitBtn').prop('disabled', true);
 
     // 이메일 입력 변경 시
     $('#email').on('input', function () {
@@ -14,7 +40,7 @@ $(document).ready(function () {
         }
     });
 
-    // 이메일 중복 확인 버튼
+    // 이메일 중복 확인
     $('#checkEmailBtn').click(function () {
         const email = $('#email').val();
 
@@ -47,7 +73,7 @@ $(document).ready(function () {
         });
     });
 
-    // 비밀번호 일치 검사
+    // 비밀번호 일치 확인
     $('#password, #confirmPassword').on('input', function () {
         const pw = $('#password').val();
         const confirmPw = $('#confirmPassword').val();
@@ -67,7 +93,13 @@ $(document).ready(function () {
         validateForm();
     });
 
-    // 유효성 확인 후 버튼 상태 설정
+    $('#agree-all').on('change', function () {
+        const checked = $(this).is(':checked');
+        $('#agreeTerms, #agreePrivacy, #agreeMarketing').prop('checked', checked);
+    });
+
+
+    // 폼 유효성 검사 후 버튼 제어
     function validateForm() {
         const pw = $('#password').val();
         const confirmPw = $('#confirmPassword').val();
@@ -80,5 +112,32 @@ $(document).ready(function () {
         }
     }
 
-    $('#submitBtn').prop('disabled', true); // 초기 상태
+    // 폼 제출 시 AJAX 처리
+    $('#registerForm').submit(function (e) {
+        e.preventDefault();
+
+        const formData = {
+            email: $('#email').val(),
+            password: $('#password').val(),
+            confirmPassword: $('#confirmPassword').val(),
+            name: $('#name').val(),
+            role: $('#role').val()
+        };
+
+        $.ajax({
+            url: '/api/users/register',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (res) {
+                window.location.href = '/users/register-success';
+            },
+            error: function (xhr) {
+                const message = xhr.responseText || '회원가입 중 오류가 발생했습니다.';
+            }
+        });
+    });
 });

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.applicant.RecruitMapper">
+
+    <select id="selectJobPost" resultType="JobPostVO">
+        select user_id as userId, title, description, required_skills as requiredSkills, salary,
+               location, deadline, create_at as createAt, view_count as viewCount,
+               bookmark_count as bookmarkCount, employment_type as employmentType,
+               job_category as jobCategory
+        from job_posts
+        where id=#{recruitId} and deleted_at is null
+    </select>
+
+    <select id="selectEmployerProfile" resultType="EmployerProfilesVO">
+        select company_name as companyName, address, phone_number as phoneNumber, homepage_url as homepageUrl,
+               industry, company_size as companySize
+        from employer_profiles
+        where user_id=#{employerUserId}
+    </select>
+
+</mapper>

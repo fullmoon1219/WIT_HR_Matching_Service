@@ -1,0 +1,32 @@
+<!-- templates/hrms/fragments/admin/admin-right-panel.html -->
+
+<div th:fragment="panel" class="admin-right-panel">
+
+    <!-- 관리자 정보 카드 -->
+    <div class="admin-card admin-profile">
+        <div class="profile-top">
+            <div class="profile-image">
+                <img th:src="${admin.profileImage ?: '/images/users/user_small_profile.png'}" alt="프로필 이미지"
+                    style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+            </div>
+            <div class="profile-name" th:text="${admin.name}">관리자 이름</div>
+            <div class="profile-email" th:text="${admin.email}">admin@example.com</div>
+        </div>
+
+        <div class="profile-info">
+            <div><span>로그인:</span> <span th:text="${admin.lastLogin}">2025-06-22 14:03</span></div>
+            <div><span>권한:</span> <span th:text="${admin.role}"></span></div>
+            <div><span>접속 IP:</span> <span th:text="${ip}">127.0.0.1</span></div>
+        </div>
+    </div>
+
+    <!-- 운영진 메모 카드 -->
+    <div class="admin-card memo-card">
+        <div class="card-header">운영진 메모</div>
+        <div class="card-body">
+            <textarea placeholder="운영진 간 공유할 메모를 남겨주세요"></textarea>
+            <button class="memo-btn">저장</button>
+        </div>
+    </div>
+
+</div>

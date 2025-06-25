@@ -1,24 +1,15 @@
 package org.wit.hrmatching.service.auth.oAuth2;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 import org.wit.hrmatching.config.auth.oAuth2.CustomOAuth2User;
 import org.wit.hrmatching.config.auth.oAuth2.OAuth2UserInfoFactory;
-import org.wit.hrmatching.dao.UserDAO;
+import org.wit.hrmatching.mapper.UserMapper;
 import org.wit.hrmatching.service.auth.AuthService;
 import org.wit.hrmatching.vo.UserVO;
 
@@ -29,7 +20,7 @@ import java.util.Map;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final AuthService authService;
-    private final UserDAO userDAO;
+    private final UserMapper userMapper;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest request) {
@@ -42,7 +33,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         parsedUser.setPassword(null); // 소셜 로그인에서는 비밀번호 null 처리
 
         // 기존 사용자 조회
-        UserVO existingUser = userDAO.findByEmail(parsedUser.getEmail());
+        UserVO existingUser = userMapper.findByEmail(parsedUser.getEmail());
 
         if (existingUser != null) {
             if (existingUser.getLoginType() == null || !existingUser.getLoginType().equalsIgnoreCase(registrationId)) {
@@ -62,7 +53,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // 유저 정보 전체 조회 (프로필 포함)
         UserVO fullUser = authService.getUserWithProfile(
-                userDAO.findByEmail(parsedUser.getEmail()).getId());
+                userMapper.findByEmail(parsedUser.getEmail()).getId());
 
         // 로그인 세션용 OAuth2User 반환
         return new CustomOAuth2User(fullUser, attributes);

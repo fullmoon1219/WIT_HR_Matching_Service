@@ -1,0 +1,267 @@
+.section {
+    margin-bottom: 40px;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 0;
+    padding-bottom: 4px;
+}
+
+.bulk-value {
+    padding: 6px 12px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.bulk-value.role {
+    background-color: #4bb0ff;
+}
+
+.bulk-value.status {
+    background-color: #299336;
+}
+
+.bulk-value.warning {
+    background-color: #ffa126;
+}
+
+.value-wrapper.bulk-action .value.role {
+    background-color: #007bff;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.table-header h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-table th {
+    background-color: #f0f0f0;
+}
+
+.user-table td {
+    background-color: #ffffff;
+}
+
+td > .value-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.user-table th,
+.user-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.toggle-details-btn {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 18px;
+}
+
+.detail-table-wrapper {
+    display: none;
+    padding: 16px;
+    background: #f1f9ff;
+    border-radius: 8px;
+}
+
+.applicant-detail-table,
+.employer-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    table-layout: fixed;
+}
+
+.applicant-detail-table th,
+.applicant-detail-table td,
+.employer-detail-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    background-color: #ffffff;
+    word-break: break-word;
+}
+
+.applicant-detail-table td.label,
+.employer-detail-table td.label {
+    background-color: #f0f0f0 !important;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+.icon.verified {
+    color: green;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.icon.unverified {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.value-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.value-popup {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 6px 8px;
+    z-index: 9999;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.value,
+.value-popup button {
+    margin: 2px 0;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    color: white;
+    cursor: pointer;
+}
+
+.value-popup .default {
+    background-color: #a7ceff;
+}
+
+.value-popup .applicant,
+.value.applicant {
+    background-color: #007bff;
+}
+
+.value-popup .employer,
+.value.employer {
+    background-color: #6f42c1;
+}
+
+.value-popup .admin,
+.value.admin {
+    background-color: #343a40;
+}
+
+.value.status.active,
+.value-popup .active {
+    background: #28a745;
+}
+
+.value.status.suspended,
+.value-popup .suspended {
+    background: #dc3545;
+}
+
+.value.status.withdrawn,
+.value-popup .withdrawn {
+    background: #6c757d;
+}
+
+.value.warning.warning-0,
+.value-popup .warning-0 {
+    background: #6c757d;
+}
+
+.value.warning.warning-1,
+.value-popup .warning-1 {
+    background: #ffc107;
+}
+
+.value.warning.warning-2,
+.value-popup .warning-2 {
+    background: #fd7e14;
+}
+
+.value.warning.warning-3,
+.value-popup .warning-3 {
+    background: #dc3545;
+}
+
+.login-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: bold;
+}
+
+.login-type.email {
+    color: #007bff;
+}
+
+.login-type.naver {
+    color: #1ec800;
+}
+
+.login-type.google {
+    color: #db4437;
+}
+
+.login-type i {
+    font-size: 14px;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    display: none;
+}
+
+.check-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    line-height: 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: white;
+    background-color: white;
+}
+
+.checkbox-wrapper input[type="checkbox"]:checked + .check-icon {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+@media (max-width: 480px) {
+    .applicant-detail-table th,
+    .applicant-detail-table td {
+        font-size: 14px;
+        padding: 6px;
+    }
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+	<title>내 이력서 상세보기</title>
+
+	<script src="/js/jquery-3.7.1.min.js"></script>
+	<script src="/js/admin/csrf-setup.js"></script>
+	<script src="/js/applicant/resume_view.js"></script>
+</head>
+<body>
+
+<!-- 구직자 사진 & 프로필 -->
+
+<!-- 이력서 작성 부분 -->
+<table border="1">
+	<tr>
+		<th>이력서 제목</th>
+		<td id="title"></td>
+	</tr>
+	<tr>
+		<th>학력</th>
+		<td id="education"></td>
+	</tr>
+	<tr>
+		<th>경력</th>
+		<td id="experience"></td>
+	</tr>
+	<tr>
+		<th>기술 스택</th>
+		<td id="skills"></td>
+	</tr>
+	<tr>
+		<th>선호 지역</th>
+		<td id="preferredLocation"></td>
+	</tr>
+	<tr>
+		<th>희망 연봉</th>
+		<td id="salaryExpectation"></td>
+	</tr>
+	<tr>
+		<th>핵심 역량</th>
+		<td id="coreCompetency"></td>
+	</tr>
+	<tr>
+		<th>희망 직무</th>
+		<td id="desiredPosition"></td>
+	</tr>
+	<tr>
+		<th>지원 동기</th>
+		<td id="motivation"></td>
+	</tr>
+	<tr>
+		<th>등록일</th>
+		<td id="createAt"></td>
+	</tr>
+	<tr id="updatedAtRow" style="display: none;">
+		<th>수정일</th>
+		<td id="updatedAt"></td>
+	</tr>
+</table>
+
+<button type="button" id="editBtn">수정</button>
+<button type="button" id="deleteBtn">삭제</button>
+<button type="button" onclick="location.href='/applicant/resume/list'">목록으로</button>
+
+</body>
+</html>

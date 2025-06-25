@@ -1,0 +1,88 @@
+<!-- templates/hrms/admin/jobPosts.html -->
+
+<div layout:decorate="~{layout/admin/admin-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/admin/resumes/resume-list.css">
+        <link rel="stylesheet" href="/css/admin/jobPosts/details.css">
+        <link rel="stylesheet" href="/css/admin/filter.css">
+    </th:block>
+
+    <div layout:fragment="content">
+        <div class="card-grid">
+            <div class="card"><h3>총 공고</h3><div class="value" id="totalPosts"></div></div>
+            <div class="card"><h3>지원가능</h3><div class="value" id="availablePosts"></div></div>
+            <div class="card"><h3>마감</h3><div class="value" id="closedPosts"></div></div>
+            <div class="card"><h3>삭제</h3><div class="value" id="deletedPosts"></div></div>
+        </div>
+
+        <div class="section">
+            <div class="table-header">
+                <h2>공고 목록</h2>
+
+                <div class="user-control-panel">
+                    <div class="search">
+                        <label><input type="text" id="searchKeyword" placeholder="이메일, 기업명으로 검색" /></label>
+                        <button id="searchButton">검색</button>
+                    </div>
+                    <button id="deleteButton">삭제</button>
+                </div>
+
+            </div>
+            <table class="user-table">
+                <colgroup>
+                    <col style="width: 3%">
+                    <col style="width: 4%">
+                    <col style="width: 8%">
+                    <col style="width: 20%">
+                    <col style="width: 27%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 9%">
+                    <col style="width: 9%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><label><input type="checkbox" id="checkAll"></label></th>
+                    <th>ID</th>
+                    <th>User ID</th>
+                    <th>기업명</th>
+                    <th>제목</th>
+                    <th>작성일</th>
+                    <th>마지막 업데이트</th>
+                    <th class="filter-toggle" data-filter="isClosed" style="position: relative;" id="th-isClosed">
+                        마감여부
+                        <span>▼</span>
+                        <div class="filter-selected value isClosed" data-type="isClosed" style="display: none;"></div>
+                        <div class="filter-popup" data-type="isClosed" style="display: none;">
+                            <button class="default" data-value="">전체</button>
+                            <button class="closed" data-value="closed">마감</button>
+                            <button class="active" data-value="active">진행중</button>
+                        </div>
+                    </th>
+
+                    <th class="filter-toggle" data-filter="isDeleted" style="position: relative;" id="th-isDeleted">
+                        삭제여부
+                        <span>▼</span>
+                        <div class="filter-selected value isDeleted" data-type="isDeleted" style="display: none;"></div>
+                        <div class="filter-popup" data-type="isDeleted" style="display: none;">
+                            <button class="default" data-value="">전체</button>
+                            <button class="active" data-value="active">정상</button>
+                            <button class="deleted" data-value="deleted">삭제됨</button>
+                        </div>
+                    </th>
+
+                </tr>
+                </thead>
+                <tbody id="userTableBody">
+                <!-- AJAX로 데이터 삽입 -->
+                </tbody>
+            </table>
+            <div id="paginationContainer" class="pagination"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/admin/jobPosts/jobPosts-ajax.js"></script>
+<script src="/js/admin/jobPosts/jobPosts.js"></script>
+<script src="/js/admin/jobPosts/filter.js"></script>
+<script src="/js/admin/table.js"></script>
