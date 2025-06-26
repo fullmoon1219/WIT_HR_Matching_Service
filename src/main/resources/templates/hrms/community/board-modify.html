@@ -1,9 +1,9 @@
-<!-- /templates/hrms/community/board-write.html -->
+<!-- /templates/hrms/community/board-modify.html -->
 
 
 <div class="write-container">
     <div class="write-header">
-        <span class="write-title">✍️ 글쓰기</span>
+        <span class="write-title">✍️ 게시물 수정</span>
         <br>
         <span class="write-description" id="board-description" th:text="${description}"></span>
         <br>
@@ -12,6 +12,8 @@
 
     <div class="write-content">
         <form action="#" method="post" enctype="multipart/form-data">
+            <input type="hidden" id="postId" value="1" />
+
 
             <div class="form-group">
                 <label for="board" class="form-label-inline">게시판 선택</label>
@@ -41,12 +43,12 @@
 
             <div class="form-buttons">
                 <button type="submit" class="submit-btn">등록</button>
-                <a href="javascript:void(0)" class="cancel-btn" id="cancelWrite">취소</a>
+                <button type="button" class="cancel-btn" id="cancelModify">취소</button>
             </div>
         </form>
     </div>
 </div>
-<script src="/js/community/board-write.js"></script>
+<script src="/js/community/board-modify.js"></script>
 <script th:inline="javascript">
     const boardMap = {};
     /*<![CDATA[*/

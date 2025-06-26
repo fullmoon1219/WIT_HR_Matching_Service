@@ -30,10 +30,6 @@ public class CommunityController {
         }
         model.addAttribute("boardCode", boardCode);
 
-
-        List<BoardVO> boardList = boardService.findAllBoards();
-        model.addAttribute("boardList", boardList);
-
         return "community/board-write";
     }
 
@@ -41,6 +37,14 @@ public class CommunityController {
     public String getPostFragment(@PathVariable Long id) {
 
         return "community/board-view";
+    }
+
+    @GetMapping("/{boardCode}/edit/{id}")
+    public String showPostModify(@PathVariable String boardCode,@PathVariable Long id, Model model) {
+
+        model.addAttribute("boardCode", boardCode);
+
+        return "community/board-modify";
     }
 
 }
