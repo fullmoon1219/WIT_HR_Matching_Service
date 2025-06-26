@@ -31,7 +31,7 @@
         <result property="isCompleted" column="is_completed"/>
     </resultMap>
 
-    <select id="getPagedResumes" resultType="org.wit.hrmatching.vo.ResumeVO">
+    <select id="getPagedResumes" resultMap="ResumeWithEmailMap">
         SELECT r.*, u.email
         FROM resumes r
         JOIN users u ON r.user_id = u.id

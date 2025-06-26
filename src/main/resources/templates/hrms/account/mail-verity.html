@@ -1,4 +1,4 @@
-<!-- templates/hrms/account/mail-verity.html -->
+<!-- templates/hrms/account/mail-verify.html -->
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -6,19 +6,45 @@
     <meta charset="UTF-8">
     <title>Novi</title>
     <link rel="stylesheet" href="/css/info/info.css">
+    <script src="/js/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 
 <div class="message-container">
     <div class="logo">
-        <img th:src="@{/images/logo_no_background.png}" alt="로고"/>
+        <img src="/images/logo_no_background.png" alt="로고"/>
     </div>
 
     <div class="message-box">
-        <h1>🚫 메일 인증</h1>
-        <p th:if="${message != null}" th:text="${message}"></p>
-        <a th:href="@{/}" class="btn">홈으로 돌아가기</a>
+        <h1>📧 메일 인증 결과</h1>
+        <p id="message">인증을 처리 중입니다...</p>
+        <a href="/" class="btn">홈으로 돌아가기</a>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        const token = new URLSearchParams(window.location.search).get('token');
+
+        if (!token) {
+            $('#message').text("인증 토큰이 존재하지 않습니다.");
+            return;
+        }
+
+        $.ajax({
+            url: '/api/users/verify-email',
+            method: 'GET',
+            data: { token: token },
+            success: function (response) {
+                $('#message').text(response.message || "이메일 인증이 완료되었습니다.");
+            },
+            error: function (xhr) {
+                const msg = xhr.responseJSON?.message || "인증에 실패했거나 토큰이 만료되었습니다.";
+                $('#message').text(msg);
+            }
+        });
+    });
+</script>
+
 </body>
 </html>

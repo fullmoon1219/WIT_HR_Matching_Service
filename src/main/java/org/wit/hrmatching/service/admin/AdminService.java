@@ -30,6 +30,9 @@ public class AdminService {
         return params;
     }
 
+    public UserVO getUserById(Integer id) {
+        return adminMapper.selectUserById(id);
+    }
 
     public AdminDashboardStatsDTO getDashboardStats() {
         return adminMapper.getDashboardStats();
@@ -121,14 +124,6 @@ public class AdminService {
             map.put((String) row.get("category"), ((Number) row.get("count")).intValue());
         }
         return map;
-    }
-
-    public int getSuspendedUserCount() {
-        return adminMapper.getSuspendedUserCount();
-    }
-
-    public int getUnverifiedEmailUserCount() {
-        return adminMapper.getUnverifiedEmailUserCount();
     }
 
     public Page<UserVO> getPagedUsers(Pageable pageable,

@@ -28,7 +28,7 @@ public class UserAuthRestController {
     private final PasswordEncoder passwordEncoder;
     private final CustomOAuth2DisconnectService customOAuth2DisconnectService;
 
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<?> register(@RequestBody UserRegisterDTO dto) {
         if (!dto.getPassword().equals(dto.getConfirmPassword())) {
             return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다.");
@@ -42,18 +42,21 @@ public class UserAuthRestController {
         }
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/me")
     public ResponseEntity<?> deleteAccount(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                           @RequestParam(required = false) String password,
-                                           @RequestParam(required = false) String confirmDelete,
+                                           @RequestBody Map<String, String> payload,
                                            HttpServletRequest request) {
-
         if (userDetails == null) {
             return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
 
         UserVO user = authService.findByEmail(userDetails.getEmail());
         boolean isSocialUser = user.isSocialUser();
+
+        String password = payload.get("password");
+        String confirmDelete = payload.get("confirmDelete");
+
+        System.out.println("password: " + password);
 
         if (!isSocialUser && (password == null || !passwordEncoder.matches(password, user.getPassword()))) {
             return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다.");
@@ -64,18 +67,15 @@ public class UserAuthRestController {
         }
 
         authService.deleteUserAccount(user.getId());
-
-        // ✅ 인증 정보 제거
         SecurityContextHolder.clearContext();
-
-        // ✅ 세션 무효화
         request.getSession().invalidate();
         request.getSession().setAttribute("deleted", true);
 
         return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
     }
 
-    @GetMapping("/verify")
+
+    @GetMapping("/verify-email")
     public ResponseEntity<?> verifyEmail(@RequestParam("token") String token) {
         UserVO user = authService.findByVerificationToken(token);
         Map<String, String> result = new HashMap<>();
@@ -99,9 +99,9 @@ public class UserAuthRestController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/check-email")
+    @GetMapping("/email-exists")
     public ResponseEntity<Map<String, Boolean>> checkEmail(@RequestParam String email) {
-
+        System.out.println("이메일 중복 확인");
         if (!email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
             return ResponseEntity.badRequest().body(Map.of("valid", false));
         }

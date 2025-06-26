@@ -11,9 +11,9 @@ function loadUserStats() {
             $('#userCount').text(data.userCount);
             $('#applicantCount').text(data.applicantCount);
             $('#companyCount').text(data.companyCount);
-            $('#suspendedUserCount').text(data.suspendedUserCount);
+            $('#suspendedUserCount').text(data.suspended);
             $('#warningCount').text(data.warningCount);
-            $('#unverifiedEmailUserCount').text(data.unverifiedEmailUserCount);
+            $('#unverifiedEmailUserCount').text(data.unverifiedEmail);
         },
         error: function () {
             alert('사용자 통계를 불러오는 데 실패했습니다.');

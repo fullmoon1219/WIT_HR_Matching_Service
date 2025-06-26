@@ -16,7 +16,7 @@ function loadJobPosts(page = 1, filters = currentFilters) {
     const deletedParam = isDeleted === 'deleted' ? true : isDeleted === 'active' ? false : null;
 
     $.ajax({
-        url: '/api/admin/posts/list',
+        url: '/api/admin/posts',
         method: 'GET',
         data: {
             keyword: keyword,
@@ -63,7 +63,7 @@ function renderTable(posts) {
                 <td><input type="checkbox" class="user-checkbox" value="${post.id}"></td>
                 <td>${post.id}</td>
                 <td>${post.userId}</td>
-                <td class="post-name" data-id="${post.userId}" style="cursor: pointer; color: black;"><span>${post.companyName}</span></td>
+                <td class="post-name" data-userid="${post.userId}" style="cursor: pointer; color: black;"><span>${post.companyName}</span></td>
                 <td class="post-title" data-id="${post.id}" style="cursor: pointer; color: blue;"><span>${post.title}</span></td>
                 <td>${formatDate(post.createAt)}</td>
                 <td>${formatDate(post.updatedAt)}</td>

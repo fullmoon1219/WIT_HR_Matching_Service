@@ -43,7 +43,10 @@ public class AuthService {
         user.setVerificationToken(UUID.randomUUID().toString());
         user.setTokenExpiration(LocalDateTime.now().plusMinutes(30));
 
-        insertUserWithProfile(user, true); // 인증 메일 전송 포함
+        /*
+        * 실제 테스트 할 때 메일 전송 켜기.
+        */
+        insertUserWithProfile(user, false);
     }
 
     public void saveOrUpdate(UserVO user) {
@@ -58,12 +61,11 @@ public class AuthService {
             return;
         }
 
-        // 소셜 사용자는 이메일 인증이 이미 되었거나 필요 없음
         user.setEmailVerified(true);
         user.setVerificationToken(null);
         user.setTokenExpiration(null);
 
-        insertUserWithProfile(user, false); // 인증 메일 전송 안 함
+        insertUserWithProfile(user, false);
     }
 
     private void insertUserWithProfile(UserVO user, boolean sendMailNeeded) {
@@ -73,9 +75,9 @@ public class AuthService {
             throw new IllegalStateException("User ID가 생성되지 않았습니다.");
         }
 
-//        if (sendMailNeeded) {
-//            mailService.sendVerificationMail(user.getEmail(), user.getVerificationToken());
-//        }
+        if (sendMailNeeded) {
+            mailService.sendVerificationMail(user.getEmail(), user.getVerificationToken());
+        }
 
         if ("APPLICANT".equals(user.getRole())) {
             createApplicantProfile(user);
