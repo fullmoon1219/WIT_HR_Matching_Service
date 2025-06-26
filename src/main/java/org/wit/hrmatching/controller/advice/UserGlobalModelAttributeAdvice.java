@@ -14,7 +14,7 @@ import org.wit.hrmatching.vo.UserVO;
 @RequiredArgsConstructor
 public class UserGlobalModelAttributeAdvice {
 
-    @ModelAttribute("user")
+    @ModelAttribute("userDetails")
     public UserVO addAdminUser(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return userDetails != null ? userDetails.getUser() : null;
     }

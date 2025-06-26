@@ -1,3 +1,5 @@
+<!-- /templates/hrms/account/register.html -->
+
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -10,14 +12,20 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <link rel="stylesheet" th:href="@{/css/account/loginRegister.css}" />
+    <link rel="stylesheet" th:href="@{/css/account/common.css}" />
     <link rel="stylesheet" th:href="@{/css/account/register.css}" />
+
+
     <script src="/js/jquery-3.7.1.min.js"></script>
     <script src="/js/auth/register.js"></script>
 </head>
 <body>
 <div class="auth-container">
-    <h2 class="title">회원가입</h2>
+    <div class="logo-container">
+        <a th:href="@{/}">
+            <img src="/images/logo_no_background.png" alt="로고">
+        </a>
+    </div>
 
     <!-- ✅ 회원가입 폼 시작 -->
     <form id="registerForm">
@@ -47,7 +55,6 @@
             <input type="password" id="password" name="password" class="input-field"
                    placeholder="8~16자의 영문, 숫자, 특수문자 조합" required />
             <span id="pwLengthHint" class="error-message" style="font-size: 12px; color: gray;">
-        ※ 비밀번호는 8자 이상
       </span>
         </div>
 
@@ -55,7 +62,7 @@
         <div class="form-group">
             <label for="confirmPassword">비밀번호 확인</label>
             <input type="password" id="confirmPassword" name="confirmPassword" class="input-field" required />
-            <span id="pwMatchResult" class="error-message" style="margin-left:10px;"></span>
+            <span id="pwMatchResult" class="error-message"></span>
         </div>
 
         <!-- ✅ 이름 -->

@@ -30,7 +30,11 @@
 
     <!-- 하단: 관리자 정보 -->
     <div class="sidebar-footer">
-      <div class="user-info">
+      <div class="user-info" th:if="${userDetails != null}">
+        <img th:src="${userDetails.profileImage ?: '/images/users/user_small_profile.png'}" alt="프로필 이미지">
+        <span th:text="${userDetails.name}"></span>
+      </div>
+      <div class="user-info" th:if="${userDetails == null}">
         <img src="/images/users/user_small_profile.png" alt="프로필 이미지">
         <span>이름</span>
       </div>
