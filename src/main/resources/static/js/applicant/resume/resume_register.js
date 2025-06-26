@@ -26,8 +26,10 @@ $(document).ready(function () {
 			data: JSON.stringify(resume),
 			success: function (response) {
 				if (response.success) {
-					alert('등록이 완료되었습니다.');
+
+					sessionStorage.setItem('toastMessage', '이력서 등록이 완료되었습니다.');
 					location.href = `/applicant/resume/view/${response.id}`;
+
 				} else {
 					location.href = '/error/db-access-denied';
 				}
@@ -92,8 +94,10 @@ $(document).ready(function () {
 			data: JSON.stringify(resume),
 			success: function (response) {
 				if (response.success) {
-					alert('임시 저장이 완료되었습니다.');
+
+					sessionStorage.setItem('toastMessage', '임시저장이 완료되었습니다.');
 					location.href = '/applicant/resume/list';
+
 				} else {
 					location.href = '/error/db-access-denied';
 				}

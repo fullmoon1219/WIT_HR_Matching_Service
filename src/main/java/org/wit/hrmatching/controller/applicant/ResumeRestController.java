@@ -60,19 +60,11 @@ public class ResumeRestController {
 				.body(Map.of("success", false, "message", "DB 저장 실패"));
 	}
 
-	// 대표 이력서 조회
-	@GetMapping("/public")
-	public ResponseEntity<ResumeVO> getPublicResume(@AuthenticationPrincipal CustomUserDetails userDetails) {
-		ResumeVO resume = resumeService.getPublicResume(userDetails.getId());
-		return resume != null ? ResponseEntity.ok(resume)
-				: ResponseEntity.noContent().build();
-	}
-
-	// 작성 완료된 이력서 목록 조회
-	@GetMapping
-	public List<ResumeVO> getResumeList(@AuthenticationPrincipal CustomUserDetails userDetails) {
+	// 완성된 이력서 목록 조회
+	@GetMapping("/completed")
+	public List<ResumeVO> getCompletedResumeList(@AuthenticationPrincipal CustomUserDetails userDetails) {
 		Long userId = userDetails.getId();
-		return resumeService.getResumeList(userId);
+		return resumeService.getCompletedResumeList(userId);
 	}
 
 	// 임시 저장 이력서 목록 조회

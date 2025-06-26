@@ -15,8 +15,13 @@ import org.wit.hrmatching.vo.JobPostVO;
 @RequestMapping("/applicant/recruit")
 public class RecruitController {
 
-	@GetMapping("/view/{resumeId}")
+	@GetMapping("/view/{jobPostId}")
 	public String viewRecruit() {
 		return "applicant/recruit/view";
+	}
+
+	@GetMapping("/apply/{jobPostId}")
+	public String applyRecruit() {
+		return "applicant/recruit/apply";
 	}
 }
