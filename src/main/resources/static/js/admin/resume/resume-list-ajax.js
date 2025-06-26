@@ -40,7 +40,7 @@ function loadResumeList(page = 1, filters = currentFilters) {
     }
 
     $.ajax({
-        url: "/api/admin/resumes/list",
+        url: "/api/admin/resumes", // ✅ RESTful하게 변경됨
         method: "GET",
         data: params,
         success: function (response) {
