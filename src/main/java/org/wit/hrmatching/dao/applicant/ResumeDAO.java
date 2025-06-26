@@ -14,17 +14,11 @@ public class ResumeDAO {
 
 	private final ResumeMapper resumeMapper;
 
-	public int registerResume(ResumeVO resumeVO) {
+	public boolean registerResume(ResumeVO resumeVO) {
 
-		// 등록 성공 시 flag = 0, 실패 시 flag = 1
-		int flag = 1;
-		int result = resumeMapper.insertResume(resumeVO);
+		int rowsAffected = resumeMapper.insertResume(resumeVO);
 
-		if (result == 1) {
-			flag = 0;
-		}
-
-		return flag;
+		return rowsAffected == 1;
 	}
 
 	public ResumeVO getPublicResume(long userId) {
@@ -39,28 +33,18 @@ public class ResumeDAO {
 		return resumeMapper.selectDraftResumeList(userId);
 	}
 
-	public int updatePrivateResume(long resumeId) {
+	public boolean updatePrivateResume(long resumeId) {
 
-		int flag = 1;
-		int result = resumeMapper.updatePrivateResume(resumeId);
+		int rowsAffected = resumeMapper.updatePrivateResume(resumeId);
 
-		if (result == 1) {
-			flag = 0;
-		}
-
-		return flag;
+		return rowsAffected == 1;
 	}
 
-	public int updatePublicResume(long resumeId) {
+	public boolean updatePublicResume(long resumeId) {
 
-		int flag = 1;
-		int result = resumeMapper.updatePublicResume(resumeId);
+		int rowsAffected = resumeMapper.updatePublicResume(resumeId);
 
-		if (result == 1) {
-			flag = 0;
-		}
-
-		return flag;
+		return rowsAffected == 1;
 	}
 
 	public void resetPublicResume(long resumeId) {
@@ -83,30 +67,18 @@ public class ResumeDAO {
 		return resumeMapper.findOwnerIdByResumeId(resumeId);
 	}
 
-	public int editResume(ResumeVO resumeVO) {
+	public boolean editResume(ResumeVO resumeVO) {
 
-		// 수정 성공 시 flag = 0, 실패 시 flag = 1
-		int flag = 1;
-		int result = resumeMapper.updateResume(resumeVO);
+		int rowsAffected = resumeMapper.updateResume(resumeVO);
 
-		if (result == 1) {
-			flag = 0;
-		}
-
-		return flag;
+		return rowsAffected == 1;
 	}
 
-	public int deleteResume(long resumeId) {
+	public boolean deleteResume(long resumeId) {
 
-		// 수정 성공 시 flag = 0, 실패 시 flag = 1
-		int flag = 1;
-		int result = resumeMapper.deleteResume(resumeId);
+		int rowsAffected = resumeMapper.deleteResume(resumeId);
 
-		if (result == 1) {
-			flag = 0;
-		}
-
-		return flag;
+		return rowsAffected == 1;
 	}
 
 	public void updatePrimaryResume(long resumeId, long userId) {

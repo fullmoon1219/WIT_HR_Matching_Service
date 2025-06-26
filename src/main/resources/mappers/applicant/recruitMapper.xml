@@ -25,4 +25,16 @@
         where id=#{jobPostId} and deleted_at is null
     </update>
 
+    <select id="selectExistApplicationCount" parameterType="map" resultType="int">
+        select count(*)
+        from applications
+        where job_post_id=#{jobPostId} and user_id=#{userId}
+    </select>
+
+    <insert id="insertApplication" parameterType="ApplicationsVO">
+        insert into applications
+        (user_id, job_post_id, resume_id)
+        values (#{userId}, #{jobPostId}, #{resumeId})
+    </insert>
+
 </mapper>
