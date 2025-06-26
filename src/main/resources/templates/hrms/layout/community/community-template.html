@@ -10,9 +10,9 @@
   <title>Novi</title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/css/community/template.css">
-  <link rel="stylesheet" href="/css/community/sidebar.css">
-  <link rel="stylesheet" href="/css/community/header.css">
+  <link rel="stylesheet" href="/css/community/fragment/template.css">
+  <link rel="stylesheet" href="/css/community/fragment/sidebar.css">
+  <link rel="stylesheet" href="/css/community/fragment/header.css">
   <link rel="stylesheet" href="/css/user/footer.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <th:block layout:fragment="styles"></th:block>
@@ -20,6 +20,7 @@
   <!-- JS -->
   <script src="/js/jquery-3.7.1.min.js"></script>
   <script src="/js/admin/csrf-setup.js"></script>
+  <script src="/js/main/header.js"></script>
 </head>
 <body>
 <div class="community-layout">
@@ -36,9 +37,16 @@
     <div class="content">
       <section class="main-area" layout:fragment="content"></section>
 
+      <div id="floatingOverlay" class="floating-overlay"></div>
+
+      <div id="floatingSidebar" class="floating-sidebar">
+        <div class="content" id="floatingSidebarContent">
+          <!-- AJAX로 삽입됨 -->
+        </div>
+      </div>
 
     </div>
-    <footer th:replace="~{fragments/user/user-footer :: footer}"></footer>
+<!--    <footer th:replace="~{fragments/user/user-footer :: footer}"></footer>-->
 
   </div>
 </div>

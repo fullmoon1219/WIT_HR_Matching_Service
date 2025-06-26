@@ -1,20 +1,19 @@
 $(document).ready(function () {
-    const $personalTab = $('#personal-tab');
-    const $companyTab = $('#company-tab');
-    const $personalContent = $('#personal-content');
-    const $companyContent = $('#company-content');
+    $('.tab').on('click', function () {
+        $('.tab').removeClass('active');
+        $(this).addClass('active');
 
-    $personalTab.on('click', function () {
-        $personalTab.addClass('active');
-        $companyTab.removeClass('active');
-        $personalContent.addClass('active');
-        $companyContent.removeClass('active');
-    });
+        const tabId = $(this).attr('id');
+        let selectedRole = '';
 
-    $companyTab.on('click', function () {
-        $companyTab.addClass('active');
-        $personalTab.removeClass('active');
-        $companyContent.addClass('active');
-        $personalContent.removeClass('active');
+        if (tabId === 'personal-tab') {
+            selectedRole = 'APPLICANT';
+        } else if (tabId === 'company-tab') {
+            selectedRole = 'EMPLOYER';
+        } else if (tabId === 'developer-tab') {
+            selectedRole = 'ADMIN';
+        }
+
+        $('#userType').val(selectedRole);
     });
 });

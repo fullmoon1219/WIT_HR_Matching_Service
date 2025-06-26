@@ -6,12 +6,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.wit.hrmatching.config.auth.CustomAuthenticationFailureHandler;
+import org.wit.hrmatching.config.auth.CustomAuthenticationProvider;
 import org.wit.hrmatching.config.auth.CustomLoginSuccessHandler;
 import org.wit.hrmatching.config.auth.oAuth2.CustomOAuth2FailureHandler;
 import org.wit.hrmatching.service.auth.oAuth2.CustomOAuth2UserService;
@@ -19,6 +22,7 @@ import org.wit.hrmatching.service.auth.CustomUserDetailsService;
 
 @Configuration
 @EnableMethodSecurity
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -31,17 +35,26 @@ public class SecurityConfig {
     private final CustomLoginSuccessHandler customLoginSuccessHandler;
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    public CustomAuthenticationProvider customAuthenticationProvider() {
+        return new CustomAuthenticationProvider(customUserDetailsService, passwordEncoder);
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder);
-        provider.setUserDetailsService(customUserDetailsService);
-        return provider;
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .authenticationProvider(customAuthenticationProvider())
+                .build();
     }
+
+
+
+//    @Bean
+//    public AuthenticationProvider authenticationProvider() {
+//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+//        provider.setPasswordEncoder(passwordEncoder);
+//        provider.setUserDetailsService(customUserDetailsService);
+//        return provider;
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -53,12 +66,12 @@ public class SecurityConfig {
                         .requestMatchers("/", "/users/login", "/users/register", "/users/register-success", "/users/verify",
                                 "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**",
                                 "/api/users/check-email", "/error/**", "/api/users/register", "/api/users/verify",
-                                "/users/delete-success", "/community/**")
+                                "/users/delete-success", "/community/**", "/employer/**")
                         .permitAll()  // 로그인 없이 접근 허용
                         .requestMatchers("/admin/**").hasAuthority("ADMIN") // 관리자 전용
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers("/employer/**").hasAuthority("EMPLOYER") // 기업 전용
-                        .requestMatchers("/applicant/**").hasAuthority("APPLICANT") // 지원자 전용
+//                        .requestMatchers("/employer/**").hasAuthority("EMPLOYER") // 기업 전용
+//                        .requestMatchers("/applicant/**").hasAuthority("APPLICANT") // 지원자 전용
                         .anyRequest().authenticated()  // 그 외에는 인증 필요
                 )
                 .exceptionHandling(ex -> ex
@@ -89,7 +102,7 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)  // 세션 무효화
                         .deleteCookies("JSESSIONID")   // 로그아웃 시 쿠키 삭제
                 )
-                .authenticationProvider(authenticationProvider());  // 사용자 인증 제공자 설정
+                .authenticationProvider(customAuthenticationProvider());  // 사용자 인증 제공자 설정
 
         return http.build();
     }

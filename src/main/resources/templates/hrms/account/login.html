@@ -1,3 +1,5 @@
+<!-- /templates/hrms/account/login.html -->
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,97 +11,68 @@
     <script src="/js/auth/login.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/css/account/loginRegister.css">
+    <link rel="stylesheet" href="/css/account/common.css">
     <link rel="stylesheet" href="/css/account/login.css">
 </head>
 <body>
-    <div class="auth-container">
-        <div class="logo-container">
+<div class="auth-container">
+    <div class="logo-container">
+        <a th:href="@{/}">
             <img src="/images/logo_no_background.png" alt="로고">
+        </a>
+    </div>
+
+    <!-- 회원 유형 탭 -->
+    <div class="tab-container">
+        <div class="tab active" id="personal-tab">개인회원</div>
+        <div class="tab" id="company-tab">기업회원</div>
+        <div class="tab" id="developer-tab">관리자</div>
+    </div>
+
+    <form method="post" th:action="@{/login}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input type="hidden" id="userType" name="userType" value="APPLICANT"/>
+
+        <div class="form-group">
+            <label for="personal-email">이메일</label>
+            <input type="text" id="personal-email" name="email" class="input-field" required>
         </div>
-        
-        <!-- 회원 유형 탭 -->
-        <div class="tab-container">
-            <div class="tab active" id="personal-tab">개인회원</div>
-            <div class="tab" id="company-tab">기업회원</div>
+        <div class="form-group">
+            <label for="personal-password">비밀번호</label>
+            <input type="password" id="personal-password" name="password" class="input-field" required>
         </div>
-        
-        <!-- 개인회원 로그인 폼 -->
-        <div id="personal-content" class="tab-content active">
-            <form method="post" th:action="@{/login}">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                <input type="hidden" name="userType" value="APPLICANT"/>
-                <div class="form-group">
-                    <label for="personal-email">이메일</label>
-                    <input type="text" id="personal-email" name="email" class="input-field" required>
-                </div>
-                <div class="form-group">
-                    <label for="personal-password">비밀번호</label>
-                    <input type="password" id="personal-password" name="password" class="input-field" required>
-                </div>
-                <div th:if="${errorMessage}" class="error-message">
-                    <p th:text="${errorMessage}"></p>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="personal-remember" name="remember">
-                    <label for="personal-remember">이메일 저장</label>
-                </div>
-                
-                <button type="submit" class="login-button">로그인</button>
-            </form>
-            
-            <div class="divider"><span>또는</span></div>
-            
-            <div class="social-logins">
-                <div class="social-login-title">간편 로그인</div>
-                <div class="social-buttons">
-                    <a th:href="@{/oauth2/authorization/naver}">
-                        <img src="/images/icon/icon_naver.png" alt="네이버 로그인">
-                    </a>
-                    <a th:href="@{/oauth2/authorization/google}">
-                        <img src="/images/icon/icon_google.png" alt="구글 로그인">
-                    </a>
-                </div>
-            </div>
-            
-            <div class="auth-links">
-                <a th:href="@{/users/register}">회원가입</a>
-                <span class="separator">|</span>
-                <a href="#">이메일 찾기</a>
-                <span class="separator">|</span>
-                <a href="#">비밀번호 찾기</a>
-            </div>
+        <div th:if="${errorMessage}" class="error-message error">
+            <p th:text="${errorMessage}"></p>
         </div>
-        
-        <!-- 기업회원 로그인 폼 -->
-        <div id="company-content" class="tab-content">
-            <form method="post" th:action="@{/login}">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                <input type="hidden" name="userType" value="EMPLOYER"/>
-                <div class="form-group">
-                    <label for="company-email">이메일</label>
-                    <input type="text" id="company-email" name="email" class="input-field" required>
-                </div>
-                <div class="form-group">
-                    <label for="company-password">비밀번호</label>
-                    <input type="password" id="company-password" name="password" class="input-field" required>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="company-remember" name="remember">
-                    <label for="company-remember">이메일 저장</label>
-                </div>
-                
-                <button type="submit" class="login-button">로그인</button>
-            </form>
-            
-            <div class="auth-links">
-                <a th:href="@{/users/register}">회원가입</a>
-                <span class="separator">|</span>
-                <a href="#">이메일 찾기</a>
-                <span class="separator">|</span>
-                <a href="#">비밀번호 찾기</a>
-            </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="personal-remember" name="remember">
+            <label for="personal-remember">이메일 저장</label>
+        </div>
+
+        <button type="submit" class="login-button">로그인</button>
+    </form>
+
+    <div class="divider"><span>또는</span></div>
+
+    <div class="social-logins">
+        <div class="social-login-title">간편 로그인</div>
+        <div class="social-buttons">
+            <a th:href="@{/oauth2/authorization/naver}">
+                <img src="/images/icon/icon_naver.png" alt="네이버 로그인">
+            </a>
+            <a th:href="@{/oauth2/authorization/google}">
+                <img src="/images/icon/icon_google.png" alt="구글 로그인">
+            </a>
         </div>
     </div>
+
+    <div class="auth-links">
+        <a th:href="@{/users/register}">회원가입</a>
+        <span class="separator">|</span>
+        <a href="#">이메일 찾기</a>
+        <span class="separator">|</span>
+        <a href="#">비밀번호 찾기</a>
+    </div>
+</div>
 </body>
 </html>
