@@ -131,6 +131,13 @@ public class EmployerController {
         return modelAndView;
     }
 
+    @PostMapping("/delete")
+    public ModelAndView deleteJobPostDetail(@RequestParam Long jobPostId) {
+
+        boolean result = jobPostService.deleteJobPost(jobPostId);
+        return new ModelAndView(result ? "redirect:/employer/jobpost/jobpost_list" : "error/db-access-denied");
+    }
+
     @RequestMapping("/applications") //-------------기업페이지 _ 이력서확인
     public ModelAndView applications(HttpServletRequest request, Model model) {
         return new ModelAndView("employer/applications");
@@ -141,16 +148,9 @@ public class EmployerController {
         return new ModelAndView("employer/profile");
     }
 
-    @PostMapping("/delete")
-    public ModelAndView deleteJobPostDetail(@RequestParam Long jobPostId) {
 
-        System.out.println("삭제 요청 ID: " + jobPostId);
 
-        boolean result = jobPostService.deleteJobPost(jobPostId);
 
-        System.out.println("삭제 결과: " + result);
 
-        return new ModelAndView(result ? "redirect:/employer/jobpost/jobpost_list" : "error/db-access-denied");
-    }
 
 }

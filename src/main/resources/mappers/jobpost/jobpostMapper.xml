@@ -55,4 +55,6 @@
         where id=#{jobPostId} and deleted_at is null
     </update>
 
+
+
 </mapper>

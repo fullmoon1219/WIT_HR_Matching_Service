@@ -1,77 +1,141 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>이력서 확인</title>
-
-  <!--  CSS 적용시 해당 스타일 삭제해 주세요-->
+  <title>지원자 이력서 목록</title>
   <style>
-    body { font-family: sans-serif; }
-    .container { display: flex; }
-    .sidebar { width: 200px; background: #f0f0f0; padding: 10px; }
-    .main { flex: 1; padding: 20px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { border: 1px solid #ccc; padding: 5px; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+    }
+
+    /* 사이드바 */
+    .sidebar {
+      width: 200px;
+      background-color: #f5f5f5;
+      padding: 20px;
+      height: 100vh;
+      box-sizing: border-box;
+      border-right: 1px solid #ddd;
+    }
+
+    .sidebar h3 {
+      margin-top: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      margin: 10px 0;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    .sidebar a:hover {
+      text-decoration: underline;
+    }
+
+    /* 메인 콘텐츠 */
+    .content {
+      flex-grow: 1;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    /* 테이블 스타일 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    textarea {
+      width: 100%;
+      height: 60px;
+    }
+
+    .status-select {
+      width: 100%;
+    }
   </style>
 
 </head>
-
-
 <body>
 
-<div class="container">
-
-  <!--  사이드바 -->
-  <div class="sidebar">
-    <h3><a href="/employer/main">기업 페이지</a></h3>
-    <ul>
-      <li><a href="/employer/profile">기업관리</a></li>
-      <li><a href="/employer/jobpost_list">채용공고</a></li>
-      <li><a href="/employer/applications">이력서 확인</a></li>
-      <li><a href="#">AI 추천 공고</a></li>
-    </ul>
-  </div>
-
-  <!-- ✅ 메인 콘텐츠 -->
-  <div class="main">
-    <h2>이력서 확인하기</h2>
-
-    <!-- 라디오 메뉴 -->
-    <div class="menu-radio-group">
-      <label>
-        <input type="radio" name="menu" value="scout" checked>
-        스카우트하기
-      </label>
-      <label>
-        <input type="radio" name="menu" value="resume">
-        이력서 확인
-      </label>
-    </div>
-
-    <!-- 콘텐츠 영역 -->
-    <div id="content">
-      <p>스카우트하기 콘텐츠 출력</p>
-    </div>
-  </div>
-
+<!--------------------------------------------------------------------------- 사이드바 -->
+<div class="sidebar">
+  <h3><a href="/employer/main">기업 페이지</a></h3>
+  <ul>
+    <li><a href="/employer/profile">기업관리</a></li>
+    <li><a href="/employer/jobpost_list">채용공고</a></li>
+    <li><a href="/employer/applications">이력서 확인</a></li>
+    <li><a href="#">AI 추천 공고</a></li>
+  </ul>
 </div>
 
-<!-- ✅ 라디오 선택에 따라 콘텐츠 변경 -->
-<script>
-  const radios = document.querySelectorAll('input[name="menu"]');
-  const content = document.getElementById('content');
+<!---------------------------------------------------------------------- 메인 콘텐츠 -->
+<div class="content">
+  <h2>지원자 이력서 조회</h2>
+  <!------------------------------------------------------------ 공고 필터 셀렉트 박스 -->
+  <label for="jobPostFilter">공고 선택 : </label>
+  <select id="jobPostFilter" name="jobPostId" onchange="filterByJobPost()">
+    <option value="">전체 공고</option>
+    <th:block th:each="post : ${jobPostList}">
+      <option th:value="${post.id}"
+              th:text="${post.title}"
+              th:selected="${post.id == selectedJobPostId}">
+      </option>
+    </th:block>
+  </select>
 
-  radios.forEach(radio => {
-    radio.addEventListener('change', () => {
-      if (radio.value === 'scout') {
-        content.innerHTML = "<p>스카우트하기 콘텐츠 출력</p>";
-      } else if (radio.value === 'resume') {
-        content.innerHTML = "<p>이력서 확인 콘텐츠 출력</p>";
-      }
-    });
-  });
-</script>
+  <table>
+
+    <thead>
+    <tr>
+      <th>제목</th>
+      <th>학력</th>
+      <th>경력</th>
+      <th>기술</th>
+      <th>희망지역</th>
+      <th>상태</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="resume : ${resumeList}">
+      <td th:text="${resume.title}">이력서 제목</td>
+      <td th:text="${resume.education}">학력</td>
+      <td th:text="${resume.experience}">경력</td>
+      <td th:text="${resume.skills}">기술스택</td>
+      <td th:text="${resume.preferredLocation}">서울, 경기, 강원</td>
+      <td>
+        <select class="status-select" th:name="status" th:data-id="${resume.id}">
+          <option value="검토중" th:selected="${resume.status == '검토중'}">검토중</option>
+          <option value="합격" th:selected="${resume.status == '합격'}">합격</option>
+          <option value="불합격" th:selected="${resume.status == '불합격'}">불합격</option>
+          <option value="보류" th:selected="${resume.status == '보류'}">보류</option>
+        </select>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
 </body>
-
 </html>

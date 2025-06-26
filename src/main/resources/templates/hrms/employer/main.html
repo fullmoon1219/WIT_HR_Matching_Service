@@ -3,22 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <title>기업 메인페이지</title>
-<!--    CSS 적용시 삭제 -->
     <style>
-        body { font-family: sans-serif; }
-        .container { display: flex; }
-        .sidebar { width: 200px; background: #f0f0f0; padding: 10px; }
-        .main { flex: 1; padding: 20px; }
-        .profile-info { margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #ccc; padding: 5px; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+        }
+
+        /* 사이드바 */
+        .sidebar {
+            width: 200px;
+            background-color: #f5f5f5;
+            padding: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+            border-right: 1px solid #ddd;
+        }
+
+        .sidebar h3 {
+            margin-top: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar li {
+            margin: 10px 0;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .sidebar a:hover {
+            text-decoration: underline;
+        }
+
+        /* 메인 영역 */
+        .main {
+            flex-grow: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .profile-info {
+            margin: 10px 0;
+        }
+
+        .profile-info a {
+            margin-left: 10px;
+            font-size: 12px;
+            text-decoration: none;
+            color: #0073e6;
+        }
+
+        .profile-info a:hover {
+            text-decoration: underline;
+        }
     </style>
-
-
 </head>
 <body>
 
-<div class="container"> <!----------------- 사이드 메뉴 -->
+<div class="container"> <!---------------------------------------- 사이드 메뉴 -->
 
     <div class="sidebar">
         <h3><a href="/employer/main">기업 페이지</a></h3>
@@ -30,9 +104,9 @@
         </ul>
     </div>
 
-    <div class="main"> <!------------------- 기업 메인 프로필 -->
+    <div class="main"> <!------------------------------------------ 기업 메인 프로필 -->
 
-        <div class="section"> <!------------------- 기업 프로필 이미지 미리보기 ... 회사별로  -->
+        <div class="section"> <!------------------------------ 기업 프로필 이미지 미리보기 -->
             <img src="/images/company-profile.png" alt="프로필 이미지" width="100" height="100">
         </div>
 
@@ -41,11 +115,13 @@
             <a href="#">프로필수정</a>
         </div>
 
-        <div class="section"> <!--------------------- 채용공고, 지원자 정보 요약 현황 -->
-            <p>전체 공고: 3 | 마감 공고: 1 | 지원자 현황: 2</p>
+        <div class="section"> <!-------------------------------------- 채용공고, 지원자 정보 요약 현황 -->
+            <p>전체 공고: <span th:text="${totalJobPosts}">0</span> |
+                마감 공고: <span th:text="${closedJobPosts}">0</span> |
+                지원자 현황: <span th:text="${applicantCount}">0</span></p>
         </div>
 
-        <div class="section"> <!--------------------------- 채용공고 내역 -->
+        <div class="section"> <!----------------------------------------------------- 채용공고 내역 -->
             <h4>채용공고 내역 <a href="jobpost_list">더보기</a></h4>
             <table>
                 <tr>
@@ -55,17 +131,15 @@
                     <th>마감일</th>
                 </tr>
                 <tr th:each="post : ${jobPostList}">
-                    <td th:text="${post.title}"></td>
-                    <td th:text="${post.employmentType}"></td>
-                    <td th:text="${#temporals.format(post.createAt, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${post.deadline}"></td>
+                    <td th:text="${post.title}">제목</td>
+                    <td th:text="${post.employmentType}">직무</td>
+                    <td th:text="${#temporals.format(post.createAt, 'yyyy-MM-dd')}">등록일</td>
+                    <td th:text="${post.deadline}">마감일</td>
                 </tr>
-
             </table>
         </div>
 
-
-        <div class="section"> <!------------------------ 지원자 현황 -->
+        <div class="section"> <!-------------------------------------------------------- 지원자 현황 -->
             <h4>지원자 현황 <a href="applications">더보기</a></h4>
             <table>
                 <tr>
@@ -74,11 +148,10 @@
                     <th>기술</th>
                 </tr>
                 <tr th:each="resume : ${recentApplicants}">
-                    <td th:text="${resume.title}"></td>
-                    <td th:text="${resume.desiredPosition}"></td>
-                    <td th:text="${resume.skills}"></td>
+                    <td th:text="${resume.title}">이력서 제목</td>
+                    <td th:text="${resume.desiredPosition}">직무</td>
+                    <td th:text="${resume.skills}">기술</td>
                 </tr>
-
             </table>
         </div>
     </div>
