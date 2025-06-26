@@ -6,7 +6,6 @@ function getWarningClass(count) {
     return 'warning-0';
 }
 
-
 // 로그인 타입 표시
 function renderLoginType(type) {
     switch (type) {
@@ -40,25 +39,39 @@ $(document).on("click", ".toggle-details-btn", function () {
 
 $(document).ready(function () {
 
+    // 단일 사용자 변경
     $("#userTableBody").on("click", ".user-specific .value", function (e) {
         e.stopPropagation();
-
         const popup = $(this).siblings(".value-popup");
-        $(".value-popup").not(popup).hide(); // 다른 말풍선 닫기
-        popup.toggle(); // 현재 토글
+        $(".value-popup").not(popup).hide();
+        popup.toggle();
     });
 
+    // 단일 사용자 변경 - 버튼 클릭
     $("#userTableBody").on("click", ".user-specific .value-popup button", function () {
         const newValue = $(this).data("value");
         const wrapper = $(this).closest(".value-wrapper");
         const span = wrapper.find(".value");
-        const userId = span.data("id");
+        const userId = parseInt(span.data("id"));
         const type = span.data("type");
 
+        const urlMap = {
+            role: "/api/admin/users/role",
+            status: "/api/admin/users/status",
+            warning: "/api/admin/users/warning"
+        };
+
+        const dataMap = {
+            role: { userIds: [userId], role: newValue },
+            status: { userIds: [userId], status: newValue },
+            warning: { userIds: [userId], count: parseInt(newValue) }
+        };
+
         $.ajax({
-            type: "POST",
-            url: "/api/admin/users/change-value",
-            data: { userId: userId, type: type, value: newValue },
+            type: "PATCH",
+            url: urlMap[type],
+            contentType: "application/json",
+            data: JSON.stringify(dataMap[type]),
             success: function () {
                 location.reload();
             },
@@ -68,16 +81,15 @@ $(document).ready(function () {
         });
     });
 
-    // ✅ 일괄 변경용 말풍선 토글
+    // ✅ 일괄 변경 말풍선 토글
     $(".bulk-action .bulk-value").on("click", function (e) {
         e.stopPropagation();
-
         const popup = $(this).siblings(".value-popup");
         $(".value-popup").not(popup).hide();
         popup.toggle();
     });
 
-    // ✅ 일괄 변경용 버튼 클릭 시 처리
+    // ✅ 일괄 변경 처리
     $(".bulk-action .value-popup button").on("click", function () {
         const newValue = $(this).data("value");
         const wrapper = $(this).closest(".value-wrapper");
@@ -85,23 +97,31 @@ $(document).ready(function () {
         const type = span.data("type");
 
         const userIds = $('.user-checkbox:checked').map(function () {
-            return $(this).val();
+            return parseInt($(this).val());
         }).get();
 
-        if (newValue === null || newValue === "" || userIds.length === 0) {
+        if (!newValue || userIds.length === 0) {
             $(".value-popup").hide();
             return;
         }
 
+        const urlMap = {
+            role: "/api/admin/users/role",
+            status: "/api/admin/users/status",
+            warning: "/api/admin/users/warning"
+        };
+
+        const dataMap = {
+            role: { userIds: userIds, role: newValue },
+            status: { userIds: userIds, status: newValue },
+            warning: { userIds: userIds, count: parseInt(newValue) }
+        };
+
         $.ajax({
-            type: "POST",
-            url: "/api/admin/users/change-value",
-            data: {
-                userIds: userIds, // 복수 사용자 ID
-                type: type,
-                value: newValue
-            },
-            traditional: true, // 배열 직렬화 옵션 (userIds=1&userIds=2)
+            type: "PATCH",
+            url: urlMap[type],
+            contentType: "application/json",
+            data: JSON.stringify(dataMap[type]),
             success: function () {
                 location.reload();
             },
@@ -115,10 +135,10 @@ $(document).ready(function () {
     $(document).on("click", function () {
         $(".value-popup").hide();
     });
-});
 
-$(document).on('click', '.pagination-btn', function () {
-    const selectedPage = $(this).data('page');
-    loadUserList(selectedPage);
+    // 페이지네이션 버튼 클릭 시
+    $(document).on('click', '.pagination-btn', function () {
+        const selectedPage = $(this).data('page');
+        loadUserList(selectedPage);
+    });
 });
-

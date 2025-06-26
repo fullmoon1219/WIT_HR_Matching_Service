@@ -4,9 +4,10 @@ $(document).ready(function () {
     loadResumeStats();
 });
 
+// ✅ 이력서 통계 로딩
 function loadResumeStats() {
     $.ajax({
-        url: "/api/admin/resumes/stats",
+        url: "/api/admin/resumes/statistics", // 변경된 URI
         method: "GET",
         success: function (data) {
             $("#resumeCount").text(data.total ?? 0);
@@ -21,12 +22,12 @@ function loadResumeStats() {
     });
 }
 
-
+// ✅ 이력서 상세보기
 $(document).on("click", ".resume-title", function () {
     const resumeId = $(this).data("id");
 
     $.ajax({
-        url: "/api/admin/resumes/list",
+        url: "/api/admin/resumes", // RESTful URI
         method: "GET",
         data: { id: resumeId, page: 1, size: 1 },
         success: function (response) {
@@ -76,20 +77,21 @@ $(document).on("click", ".resume-title", function () {
     });
 });
 
+// ✅ 사용자 상세 정보 조회 (RESTful)
 $(document).on("click", ".resume-email", function () {
     const userId = $(this).data("userid");
 
+    console.log("유저 ID 확인:", userId);
+
     $.ajax({
-        url: "/api/admin/users",
+        url: `/api/admin/users/${userId}`, // ✅ RESTful URI
         method: "GET",
-        data: { userId: userId, page: 1, size: 1 },
-        success: function (response) {
-            if (!response.content || response.content.length === 0) {
+        success: function (u) {
+            if (!u || !u.id) {
                 openFloatingSidebar("<p>사용자 정보를 찾을 수 없습니다.</p>");
                 return;
             }
 
-            const u = response.content[0];
             const applicant = u.applicantProfile;
             const employer = u.employerProfile;
 
@@ -148,7 +150,7 @@ $(document).on("click", ".resume-email", function () {
 });
 
 
-
+// ✅ 페이징 처리
 $(document).on('click', '.pagination-btn', function () {
     const selectedPage = $(this).data('page');
     loadUserList(selectedPage);

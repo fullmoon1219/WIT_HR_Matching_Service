@@ -27,7 +27,7 @@ $(document).on("click", ".post-title", function () {
     const postId = $(this).data("id");
 
     $.ajax({
-        url: "/api/admin/posts/list",
+        url: "/api/admin/posts",
         method: "GET",
         data: { id: postId, page: 1, size: 1 },
         success: function (response) {
@@ -79,17 +79,14 @@ $(document).on("click", ".post-name", function () {
     const userId = $(this).data("userid");
 
     $.ajax({
-        url: "/api/admin/users",
+        url: `/api/admin/users/${userId}`,
         method: "GET",
-        data: { userId: userId, page: 1, size: 1 },
-        success: function (response) {
-            if (!response.content || response.content.length === 0) {
+        success: function (u) {
+            if (!u || !u.id) {
                 openFloatingSidebar("<p>사용자 정보를 찾을 수 없습니다.</p>");
                 return;
             }
 
-            const u = response.content[0];
-            const applicant = u.applicantProfile;
             const employer = u.employerProfile;
 
             const baseInfo = `
@@ -130,7 +127,6 @@ $(document).on("click", ".post-name", function () {
                 `;
             }
 
-
             const contentHtml = `
                 <div class="user-detail">
                     ${baseInfo}
@@ -145,3 +141,4 @@ $(document).on("click", ".post-name", function () {
         }
     });
 });
+

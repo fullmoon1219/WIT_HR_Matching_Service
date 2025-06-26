@@ -16,6 +16,8 @@ import java.util.Map;
 @Mapper
 public interface AdminMapper {
 
+    UserVO selectUserById(@Param("id") Integer id);
+
     // 대시보드 총 통계
     AdminDashboardStatsDTO getDashboardStats();
 
@@ -44,13 +46,6 @@ public interface AdminMapper {
 
     // 9. 직무별 공고 분포
     List<Map<String, Object>> getJobPostCategoryDistribution();
-
-    // 계정 상태
-    @Select("SELECT COUNT(*) FROM users WHERE status = 'SUSPENDED'")
-    int getSuspendedUserCount();
-
-    @Select("SELECT COUNT(*) FROM users WHERE email_verified = 0")
-    int getUnverifiedEmailUserCount();
 
     List<UserVO> getPagedUsersWithFilter(@Param("limit") int limit,
                                          @Param("offset") int offset,

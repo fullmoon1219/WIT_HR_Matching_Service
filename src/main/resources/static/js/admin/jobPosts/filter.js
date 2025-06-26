@@ -81,7 +81,7 @@ $(document).on('click', '#deleteButton', function () {
     }
 
     $.ajax({
-        url: "/api/admin/posts/delete",
+        url: "/api/admin/posts",
         method: "DELETE",
         contentType: "application/json",
         data: JSON.stringify(selectedPostIds),

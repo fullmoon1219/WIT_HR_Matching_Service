@@ -30,9 +30,10 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: '/api/users/delete',
-            method: 'POST',
-            data: $.param(payload),
+            url: '/api/users/me',
+            method: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
             },
@@ -40,7 +41,8 @@ $(document).ready(function () {
                 window.location.href = '/users/delete-success';
             },
             error: function (xhr) {
-                $('#deleteMessage').text(xhr.responseText || "회원 탈퇴 실패");
+                const message = xhr.responseText || "회원 탈퇴 실패";
+                $('#deleteMessage').text(message);
             }
         });
     });

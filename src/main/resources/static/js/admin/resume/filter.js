@@ -79,7 +79,7 @@ $(document).on('click', '#deleteButton', function () {
     }
 
     $.ajax({
-        url: "/api/admin/resumes/delete",
+        url: "/api/admin/resumes",
         method: "DELETE",
         contentType: "application/json",
         data: JSON.stringify(selectedResumeIds),
