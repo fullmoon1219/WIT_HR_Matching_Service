@@ -1,8 +1,11 @@
 package org.wit.hrmatching.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class ResumeVO {
@@ -20,7 +23,8 @@ public class ResumeVO {
 	private String preferredLocation;
 	@Min(value = 1, message = "희망 연봉은 1 이상이어야 합니다.")
 	private int salaryExpectation;
-	private String createAt;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime createAt;
 	private boolean isPublic;
 	@NotBlank(message = "제목은 필수입니다.")
 	private String title;
@@ -30,8 +34,10 @@ public class ResumeVO {
 	private String desiredPosition;
 	@NotBlank(message = "지원 동기는 필수입니다.")
 	private String motivation;
-	private String updatedAt;
-	private String deletedAt;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime updatedAt;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime deletedAt;
 	private boolean isCompleted;
 
 	public boolean getIsCompleted() {

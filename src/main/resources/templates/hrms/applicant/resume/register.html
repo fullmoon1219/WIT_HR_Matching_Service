@@ -10,7 +10,11 @@
 
 	<script src="/js/jquery-3.7.1.min.js"></script>
 	<script src="/js/admin/csrf-setup.js"></script>
-	<script src="/js/applicant/resume/resume_validate.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+	<script src="/js/applicant/common.js"></script>
 	<script src="/js/applicant/resume/resume_register.js"></script>
 </head>
 <body>
@@ -59,7 +63,7 @@
 	<button type="button" id="btnRegister" name="action" value="register">이력서 등록</button>
 </form>
 
-<button type="button" onclick="location.href='/application/resume/list'">취소</button>
+<button type="button" onclick="location.href='/applicant/resume/list'">취소</button>
 
 </body>
 </html>

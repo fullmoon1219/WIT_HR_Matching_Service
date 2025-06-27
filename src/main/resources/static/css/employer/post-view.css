@@ -1,0 +1,166 @@
+/* 컨테이너 기본 */
+.view-container {
+    width: 90%;
+    padding: 30px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 제목 */
+.view-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+/* 기본 정보 테이블 */
+.job-basic-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.job-basic-info-table th,
+.job-basic-info-table td {
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.job-basic-info-table th {
+    background-color: #f1f3f5;
+    color: #333;
+    font-weight: 600;
+}
+
+/* 그룹 타이틀 */
+.view-group h3 {
+    font-size: 18px;
+    margin: 30px 0 10px;
+    color: #333;
+}
+
+/* 값 출력용 */
+.view-value {
+    background-color: #fff;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #444;
+    white-space: pre-line;
+}
+
+/* 공고 설명이 많은 경우 대비 */
+.view-value.description {
+    min-height: 200px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* 행 나누기 구조 */
+.view-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.view-group.half {
+    flex: 1 1 calc(50% - 10px);
+}
+
+/* 지도 */
+.map-container {
+    width: 100%;
+    height: 300px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+/* 기업 정보 테이블 */
+.profile-merged-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.profile-merged-table th,
+.profile-merged-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.profile-merged-table th {
+    background-color: #f1f3f5;
+    color: #333;
+    font-weight: 600;
+    text-align: left;
+}
+
+.profile-image-cell {
+    width: 150px;
+    text-align: center;
+    background-color: #fafafa;
+}
+
+.profile-image-cell img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* 버튼 */
+.form-actions {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.form-actions button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 14px;
+}
+
+/* 수정 버튼 */
+.edit-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+/* 삭제 버튼 */
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-button:hover {
+    background-color: #b02a37;
+}
+
+/* 닫기 버튼 (기존 유지) */
+.close-button {
+    background-color: #6c757d;
+    color: white;
+}
+
+.close-button:hover {
+    background-color: #5a6268;
+}

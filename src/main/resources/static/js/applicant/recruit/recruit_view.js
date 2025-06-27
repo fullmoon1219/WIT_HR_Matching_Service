@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
 
-	const jobPostId = getJobPostIdFromUrl();
+	const jobPostId = getIdFromUrl();
 
 	$.ajax({
 		url: `/api/recruit/${jobPostId}`,
@@ -11,6 +11,7 @@ $(document).ready(function () {
 
 			const jobPost = data.jobPost;
 			const employer = data.employer;
+			const isApplied = data.isApplied;
 
 			$('#title').text(jobPost.title);
 			$('#description').text(jobPost.description);
@@ -30,6 +31,15 @@ $(document).ready(function () {
 			$('#homepageUrl').text(employer.homepageUrl);
 			$('#industry').text(employer.industry);
 			$('#companySize').text(employer.companySize);
+
+			if (isApplied === true) {
+
+				$('#applyBtn')
+					.prop('disabled', true)     // 버튼 비활성
+					.text('지원 완료')            		// 버튼 내용 수정
+					.addClass('applied-style');		// 지원 완료 상태에서 스타일 적용을 위한 클래스
+			}
+
 		},
 		error: function (xhr) {
 			if (xhr.status === 403) {
@@ -42,19 +52,8 @@ $(document).ready(function () {
 			}
 		}
 	});
+
+	$('#applyBtn').on('click', function () {
+		location.href = `/applicant/recruit/apply/${jobPostId}`;
+	});
 });
-
-function getJobPostIdFromUrl() {
-	const parts = window.location.pathname.split('/');
-	return parts[parts.length - 1];
-}
-
-function translateEmploymentType(code) {
-	switch (code) {
-		case 'FULLTIME': return '정규직';
-		case 'PARTTIME': return '파트타임';
-		case 'INTERN': return '인턴';
-		case 'FREELANCE': return '프리랜서';
-		default: return '기타';
-	}
-}

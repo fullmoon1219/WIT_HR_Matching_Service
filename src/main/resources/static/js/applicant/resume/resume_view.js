@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
 
-	const resumeId = getResumeIdFromUrl();
+	const resumeId = getIdFromUrl();
 
 	$.ajax({
 		url: `/api/resumes/${resumeId}`,
@@ -59,7 +59,10 @@ $(document).ready(function () {
 				url: `/api/resumes/${resumeId}`,
 				method: 'DELETE',
 				success: function () {
-					location.href = '/applicant/resume/list'
+
+					sessionStorage.setItem('toastMessage', '이력서가 삭제되었습니다.');
+					location.href = '/applicant/resume/list';
+
 				},
 				error: function (xhr) {
 					if (xhr.status === 403) {
@@ -75,8 +78,3 @@ $(document).ready(function () {
 		}
 	})
 });
-
-function getResumeIdFromUrl() {
-	const parts = window.location.pathname.split('/');
-	return parts[parts.length - 1];
-}

@@ -6,6 +6,7 @@ import org.wit.hrmatching.dao.applicant.ResumeDAO;
 import org.wit.hrmatching.vo.ApplicantProfilesVO;
 import org.wit.hrmatching.vo.ResumeVO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,7 +16,7 @@ public class ResumeService {
 	private final ResumeDAO resumeDAO;
 
 	public boolean registerResume(ResumeVO resumeVO) {
-		return resumeDAO.registerResume(resumeVO) == 0;
+		return resumeDAO.registerResume(resumeVO);
 	}
 
 	public ResumeVO getPublicResume(long userId) {
@@ -26,13 +27,33 @@ public class ResumeService {
 		return resumeDAO.getResumeList(userId);
 	}
 
+	public List<ResumeVO> getCompletedResumeList(Long userId) {
+
+		List<ResumeVO> completedList = new ArrayList<>();
+
+		ResumeVO publicResume = resumeDAO.getPublicResume(userId);
+
+		if (publicResume != null) {
+			completedList.add(publicResume);
+		}
+
+		List<ResumeVO> otherResumes = resumeDAO.getResumeList(userId);
+
+		for (ResumeVO resume : otherResumes) {
+			completedList.add(resume);
+		}
+
+		return completedList;
+	}
+
+
 	public List<ResumeVO> getDraftResumeList(long userId) {
 		return resumeDAO.getDraftResumeList(userId);
 	}
 
 	public boolean setResumeAsPrivate(long resumeId, long userId) {
 		resumeDAO.clearPrimaryResume(userId);
-		return resumeDAO.updatePrivateResume(resumeId) == 0;
+		return resumeDAO.updatePrivateResume(resumeId);
 	}
 
 	public boolean setResumeAsPublic(long resumeId, long userId) {
@@ -40,7 +61,7 @@ public class ResumeService {
 		resumeDAO.resetPublicResume(userId);
 		resumeDAO.updatePrimaryResume(resumeId, userId);
 
-		return resumeDAO.updatePublicResume(resumeId) == 0;
+		return resumeDAO.updatePublicResume(resumeId);
 	}
 
 	public boolean confirmProfile(long userId) {
@@ -49,14 +70,19 @@ public class ResumeService {
 
 		if (profile == null) return false;
 
-		return profile.getAge() != null &&
-				profile.getPhoneNumber() != null &&
-				profile.getAddress() != null &&
-				profile.getGender() != null &&
-				profile.getPortfolioUrl() != null &&
-				profile.getSelfIntro() != null &&
-				profile.getJobType() != null &&
-				profile.getExperienceYears() != null;
+		if (profile.getAddress() == null || profile.getAddress().trim().isEmpty()) return false;
+		if (profile.getPhoneNumber() == null || profile.getPhoneNumber().trim().isEmpty()) return false;
+		if (profile.getPortfolioUrl() == null || profile.getPortfolioUrl().trim().isEmpty()) return false;
+		if (profile.getSelfIntro() == null || profile.getSelfIntro().trim().isEmpty()) return false;
+
+		if (profile.getAge() == null || profile.getAge() <= 0) return false;
+
+		if (profile.getExperienceYears() == null) return false;
+
+		if (profile.getGender() == null) return false;
+		if (profile.getJobType() == null) return false;
+
+		return true;
 	}
 
 	public ResumeVO getResume(long resumeId) {
@@ -68,10 +94,10 @@ public class ResumeService {
 	}
 
 	public boolean editResume(ResumeVO resumeVO) {
-		return resumeDAO.editResume(resumeVO) == 0;
+		return resumeDAO.editResume(resumeVO);
 	}
 
 	public boolean deleteResume(long resumeId) {
-		return resumeDAO.deleteResume(resumeId) == 0;
+		return resumeDAO.deleteResume(resumeId);
 	}
 }

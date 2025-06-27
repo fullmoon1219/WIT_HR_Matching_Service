@@ -76,12 +76,10 @@ $(document).on('keydown', '#searchKeyword', function (e) {
 });
 
 $(document).on("click", "#deleteButton", function () {
-    // 확인 창
     if (!confirm("정말로 선택한 사용자를 삭제하시겠습니까?")) {
         return;
     }
 
-    // 체크된 사용자 ID 수집
     const selectedUserIds = $(".user-checkbox:checked").map(function () {
         return $(this).val();
     }).get();
@@ -91,15 +89,14 @@ $(document).on("click", "#deleteButton", function () {
         return;
     }
 
-    // AJAX 요청
     $.ajax({
-        url: "/api/admin/users/delete",
+        url: "/api/admin/users",  // ✅ RESTful 경로로 수정
         method: "DELETE",
         contentType: "application/json",
         data: JSON.stringify(selectedUserIds),
         success: function () {
             alert("삭제가 완료되었습니다.");
-            loadUserList(); // 목록 새로고침 함수 (이미 있을 것으로 예상)
+            loadUserList(); // ✅ 목록 재조회 함수
         },
         error: function () {
             alert("삭제 중 오류가 발생했습니다.");

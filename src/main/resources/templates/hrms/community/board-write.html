@@ -16,7 +16,7 @@
             <div class="form-group">
                 <label for="board" class="form-label-inline">게시판 선택</label>
                 <select id="board" name="boardId" required class="form-select-inline">
-                    <option th:each="board : ${boardList}"
+                    <option th:each="board : ${communityBoards}"
                             th:value="${board.id}"
                             th:text="${board.name}"
                             th:selected="${board.code == boardCode}">

@@ -23,12 +23,18 @@ public class AdminPostRestController {
 
     private final AdminPostService adminPostService;
 
+    /**
+     * 공고 통계 정보 반환
+     */
     @GetMapping("/stats")
     public Map<String, Integer> getPostStats() {
         return adminPostService.getPostStats();
     }
 
-    @GetMapping("/list")
+    /**
+     * 공고 목록 조회
+     */
+    @GetMapping
     public PagedResponseDTO<JobPostVO> getPosts(@RequestParam(required = false) Long id,
                                                 @RequestParam(required = false) Boolean isClosed,
                                                 @RequestParam(required = false) Boolean isDeleted,
@@ -37,7 +43,6 @@ public class AdminPostRestController {
                                                 @RequestParam(defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page - 1, size);
-
         Page<JobPostVO> pageResult = adminPostService.getPagedPosts(pageable, id, isClosed, isDeleted, keyword);
 
         return PagedResponseDTO.<JobPostVO>builder()
@@ -45,7 +50,7 @@ public class AdminPostRestController {
                 .totalElements(pageResult.getTotalElements())
                 .totalPages(pageResult.getTotalPages())
                 .size(pageResult.getSize())
-                .number(pageResult.getNumber())
+                .number(pageResult.getNumber() + 1) // 클라이언트는 1부터 시작
                 .first(pageResult.isFirst())
                 .last(pageResult.isLast())
                 .numberOfElements(pageResult.getNumberOfElements())
@@ -53,10 +58,15 @@ public class AdminPostRestController {
                 .build();
     }
 
-    @DeleteMapping("/delete")
+    /**
+     * 공고 삭제 (복수)
+     */
+    @DeleteMapping
     public ResponseEntity<Void> deleteJobPosts(@RequestBody List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
         adminPostService.deletePostsByIds(ids);
         return ResponseEntity.ok().build();
     }
-
 }

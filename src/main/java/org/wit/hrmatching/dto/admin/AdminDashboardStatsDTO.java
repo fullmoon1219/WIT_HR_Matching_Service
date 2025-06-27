@@ -11,4 +11,6 @@ public class AdminDashboardStatsDTO {
     private long jobPostCount;
     private long applicationCount;
     private long warningCount;
+    private long suspended;
+    private long unverifiedEmail;
 }
