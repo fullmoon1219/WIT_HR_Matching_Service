@@ -6,11 +6,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.wit.hrmatching.controller.community.CommunityController;
+import org.wit.hrmatching.controller.employer.EmployerControllerTest;
 import org.wit.hrmatching.vo.CustomUserDetails;
 import org.wit.hrmatching.vo.UserVO;
 
 //@ControllerAdvice(basePackages = "org.wit.hrmatching.controller.admin")
-@ControllerAdvice(assignableTypes = {CommunityController.class})
+@ControllerAdvice(assignableTypes = {CommunityController.class, EmployerControllerTest.class})
 @RequiredArgsConstructor
 public class UserGlobalModelAttributeAdvice {
 
