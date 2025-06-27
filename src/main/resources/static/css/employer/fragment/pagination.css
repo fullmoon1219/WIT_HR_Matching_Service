@@ -1,0 +1,30 @@
+/* /css/employer/pagination.css */
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    margin-top: 20px;
+}
+
+.pagination-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.pagination-btn:hover {
+    background-color: #f1f1f1;
+}
+
+.pagination-btn.active {
+    background-color: #48a1ff;
+    color: white;
+    border-color: #48a1ff;
+}

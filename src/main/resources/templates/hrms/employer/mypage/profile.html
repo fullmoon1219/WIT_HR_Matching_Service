@@ -1,0 +1,120 @@
+<!-- /templates/hrms/employer/mypagge/profile.html -->
+
+<div layout:decorate="~{layout/employer/employer-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+    </th:block>
+
+    <section layout:fragment="content">
+
+        <!-- ✅ 기업 기본 정보 테이블 -->
+        <div class="profile-table-container">
+            <div class="table-header">
+                <h3 class="table-title">📌 기업 기본 정보</h3>
+                <div class="action-buttons" id="editControls">
+                    <input type="password" id="confirmPassword" class="inline-input password-input" placeholder="비밀번호 입력" style="display: none;">
+                    <button id="editButton" class="edit-button">정보 수정</button>
+                    <button id="cancelButton" class="cancel-button" style="display: none;">취소</button>
+                </div>
+            </div>
+
+            <table class="profile-merged-table">
+                <tr>
+                    <td rowspan="5" class="profile-image-cell">
+                        <img src="/images/users/user_big_profile.png" alt="기업 로고">
+                    </td>
+                    <th>회사명</th>
+                    <td data-field="companyName">WIT</td>
+                    <th>대표자명</th>
+                    <td data-field="ceoName">TEST</td>
+                </tr>
+                <tr>
+                    <th>사업자 번호</th>
+                    <td data-field="businessNumber">123-45-67890</td>
+                    <th>이메일</th>
+                    <td data-field="email">wit@exam.com</td>
+                </tr>
+                <tr>
+                    <th>대표 전화번호</th>
+                    <td data-field="phone">02-1234-5678</td>
+                    <th>홈페이지</th>
+                    <td data-field="homepage"><a href="https://www.wit.co.kr" target="_blank">www.wit.co.kr</a></td>
+                </tr>
+                <tr>
+                    <th>회사 주소</th>
+                    <td data-field="address">서울시 강남구 테헤란로 123</td>
+                    <th>기업 규모</th>
+                    <td data-field="size">중소기업 (50명)</td>
+                </tr>
+                <tr>
+                    <th>업종</th>
+                    <td data-field="industry">IT / 소프트웨어</td>
+                    <th>설립연도</th>
+                    <td data-field="founded">2019년</td>
+                </tr>
+            </table>
+
+            <h3 class="table-title">⚙️ 시스템 정보</h3>
+            <table class="profile-merged-table">
+                <tr>
+                    <th>가입일</th>
+                    <th>마지막 수정일</th>
+                    <th>로그인 방식</th>
+                    <th>이메일 인증</th>
+                    <th>경고 횟수</th>
+                </tr>
+                <tr>
+                    <td>2024-12-01</td>
+                    <td>2025-06-27 13:45</td>
+                    <td><i class="fas fa-envelope"></i> 이메일</td>
+                    <td>완료</td>
+                    <td>0회</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ✅ 최근 지원자 내역 테이블 -->
+        <div class="applicant-table-container">
+            <h3 class="table-title">🧑‍💼 최근 지원자 내역</h3>
+            <table class="profile-merged-table">
+                <thead>
+                <tr>
+                    <th>공고명</th>
+                    <th>지원자 이름</th>
+                    <th>이메일</th>
+                    <th>지원 날짜</th>
+                    <th>상태</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>백엔드 개발자 (Spring)</td>
+                    <td>홍길동</td>
+                    <td>hong@exam.com</td>
+                    <td>2025-06-25</td>
+                    <td><span class="status-label status-new">미열람</span></td>
+                </tr>
+                <tr>
+                    <td>프론트엔드 엔지니어</td>
+                    <td>김자바</td>
+                    <td>java@exam.com</td>
+                    <td>2025-06-24</td>
+                    <td><span class="status-label status-read">열람</span></td>
+                </tr>
+                <tr>
+                    <td>풀스택 개발자</td>
+                    <td>이파이썬</td>
+                    <td>python@exam.com</td>
+                    <td>2025-06-22</td>
+                    <td><span class="status-label status-pass">합격</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </section>
+</div>
+
+<script src="/js/employer/profile.js"></script>

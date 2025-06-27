@@ -1,0 +1,190 @@
+/* /css/employer/profile.css */
+
+.profile-table-container {
+    margin-top: 30px;
+    border: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.profile-table-container .table-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.profile-merged-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    font-size: 14px;
+    table-layout: fixed;
+}
+
+.profile-merged-table th,
+.profile-merged-table td {
+    border: 1px solid #dee2e6;
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-merged-table th {
+    background-color: #f1f3f5;
+    font-weight: 600;
+    color: #333;
+}
+
+.profile-merged-table a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.profile-merged-table a:hover {
+    text-decoration: underline;
+}
+
+.profile-image-cell {
+    width: 120px;
+    text-align: center;
+    background-color: #fff;
+    border-right: 1px solid #dee2e6;
+}
+
+.profile-image-cell img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+
+td[data-field] {
+    height: 38px;
+    vertical-align: middle;
+    padding: 8px 12px;
+    min-width: 140px;
+    max-width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ✅ 수정 중 셀 배경색 (연한 하늘색) */
+td[data-field].editing {
+    background-color: #eaf4ff !important;
+}
+
+td[data-field] input.inline-input {
+    display: block;
+    height: 100%;
+    width: 100%;
+    font-size: inherit;
+    font-family: inherit;
+    padding: 0 6px;
+    margin: 0;
+    border: none;
+    background: none;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.inline-input {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    border: none;
+    background-color: transparent;
+    box-sizing: border-box;
+}
+
+/* 상단 테이블 헤더 + 버튼 정렬 */
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.table-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+/* 버튼/입력창 정렬 */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* 버튼 공통 스타일 */
+.edit-button,
+.cancel-button {
+    height: 32px;
+    padding: 0 14px;
+    font-size: 14px;
+    line-height: 32px;
+    white-space: nowrap;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.edit-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.cancel-button {
+    background-color: #dee2e6;
+    color: #333;
+}
+
+.cancel-button:hover {
+    background-color: #c1cbd6;
+}
+
+/* 비밀번호 입력창 */
+.password-input {
+    height: 32px;
+    padding: 6px 10px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.applicant-table-container {
+    margin-top: 40px;
+}
+
+.status-label {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.status-new    { background-color: #6c757d; }  /* 미열람 */
+.status-read   { background-color: #17a2b8; }  /* 열람 */
+.status-pass   { background-color: #28a745; }  /* 합격 */
+.status-fail   { background-color: #dc3545; }  /* 불합격 */
+.status-pending{ background-color: #ffc107; }  /* 대기 */

@@ -3,14 +3,40 @@ package org.wit.hrmatching.controller.employer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller("/employer")
+@Controller
+@RequestMapping("/employer/test")
 @RequiredArgsConstructor
 public class EmployerControllerTest {
 
-    @GetMapping("/1")
-    public String main() {
+    @GetMapping("/main")
+    public String profile() {
 
-        return "employer/";
+        return "employer/mypage/profile";
+    }
+
+    @GetMapping("/postList")
+    public String postList() {
+
+        return "employer/mypage/post-list";
+    }
+
+    @GetMapping("/write")
+    public String postForm() {
+
+        return "employer/mypage/post-form";
+    }
+
+    @GetMapping("/view")
+    public String postView() {
+
+        return "employer/mypage/post-view";
+    }
+
+    @GetMapping("/modify")
+    public String postModify() {
+
+        return "employer/mypage/post-modify";
     }
 }
