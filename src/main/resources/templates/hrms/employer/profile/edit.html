@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+<form th:action="@{/employer/updateProfile}" method="post">
+    <input type="text" name="companyName" th:value="${profile.companyName}" required />
+    <input type="text" name="businessNumber" th:value="${profile.businessNumber}" required />
+    <input type="text" name="address" th:value="${profile.address}" />
+    <input type="text" name="phoneNumber" th:value="${profile.phoneNumber}" />
+    <input type="text" name="homepageUrl" th:value="${profile.homepageUrl}" />
+    <input type="text" name="industry" th:value="${profile.industry}" />
+    <input type="number" name="foundedYear" th:value="${profile.foundedYear}" />
+    <input type="text" name="companySize" th:value="${profile.companySize}" />
+    <input type="hidden" name="userId" th:value="${profile.userId}" />
+    <button type="submit">수정하기</button>
+</form>
+
+</body>
+</html>

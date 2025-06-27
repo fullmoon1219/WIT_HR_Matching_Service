@@ -1,10 +1,8 @@
-package org.wit.hrmatching.mapper;
+package org.wit.hrmatching.mapper.employer;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.wit.hrmatching.vo.ApplicantProfilesVO;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
 import org.wit.hrmatching.vo.JobPostVO;
-import org.wit.hrmatching.vo.ResumeVO;
 
 import java.util.List;
 

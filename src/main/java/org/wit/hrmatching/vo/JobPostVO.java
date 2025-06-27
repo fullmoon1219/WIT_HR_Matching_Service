@@ -19,12 +19,11 @@ public class JobPostVO {
     private String title;
     private String description;
     private String requiredSkills;
-    private Integer salary;
+    private String salary;
     private String location;
     private LocalDate deadline;
 
     private EmploymentType employmentType;
-//    private String employmentType;
 
     private String jobCategory;
     private LocalDateTime createAt;

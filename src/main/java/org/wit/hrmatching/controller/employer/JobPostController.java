@@ -1,24 +1,21 @@
 package org.wit.hrmatching.controller.employer;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.wit.hrmatching.vo.*;
-import org.wit.hrmatching.service.JobPostService;
+import org.wit.hrmatching.service.employer.JobPostService;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/employer")
-public class EmployerController {
+public class JobPostController {
 
     private final JobPostService jobPostService;
 
@@ -135,22 +132,12 @@ public class EmployerController {
     public ModelAndView deleteJobPostDetail(@RequestParam Long jobPostId) {
 
         boolean result = jobPostService.deleteJobPost(jobPostId);
-        return new ModelAndView(result ? "redirect:/employer/jobpost/jobpost_list" : "error/db-access-denied");
+        return new ModelAndView(result ? "redirect:/employer/jobpost_list" : "error/db-access-denied");
     }
 
     @RequestMapping("/applications") //-------------기업페이지 _ 이력서확인
     public ModelAndView applications(HttpServletRequest request, Model model) {
         return new ModelAndView("employer/applications");
     }
-
-    @RequestMapping("/profile") //-------------기업페이지 _ 이력서확인
-    public ModelAndView profile(HttpServletRequest request, Model model) {
-        return new ModelAndView("employer/profile");
-    }
-
-
-
-
-
 
 }

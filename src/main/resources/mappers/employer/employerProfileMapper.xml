@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.employer.EmployerProfileMapper">
+        <select id="selectEmployerProfiles" resultType="EmployerProfilesVO">
+        SELECT *
+        FROM employer_profiles
+        WHERE user_id = #{userId}
+        </select>
+
+         <update id="updateEmployerProfiles" parameterType="EmployerProfilesVO">
+        UPDATE employer_profiles
+        SET company_name = #{companyName},
+            business_number = #{businessNumber},
+            address = #{address},
+            phone_number = #{phoneNumber},
+            homepage_url = #{homepageUrl},
+            industry = #{industry},
+            founded_year = #{foundedYear},
+            company_size = #{companySize}
+        WHERE user_id = #{userId}
+        </update>
+
+
+
+
+</mapper>

@@ -2,11 +2,9 @@ package org.wit.hrmatching.dao.employer;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.wit.hrmatching.mapper.JobPostMapper;
+import org.wit.hrmatching.mapper.employer.JobPostMapper;
 import org.wit.hrmatching.vo.ApplicantProfilesVO;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
 import org.wit.hrmatching.vo.JobPostVO;
-import org.wit.hrmatching.vo.ResumeVO;
 
 import java.util.List;
 
@@ -46,7 +44,6 @@ public class JobPostDAO {
 
     public int editJobPostDetail(JobPostVO jobPostVO) {
 
-        // 수정 성공 시 flag = 0, 실패 시 flag = 1
         int flag = 1;
         int result = jobPostMapper.updateJobPostDetail(jobPostVO);
 
@@ -59,7 +56,6 @@ public class JobPostDAO {
 
     public int deleteJobPost(long jobPostId) {
 
-        // 수정 성공 시 flag = 0, 실패 시 flag = 1
         int flag = 1;
         int result = jobPostMapper.deleteJobPost(jobPostId);
 

@@ -7,10 +7,11 @@ spring:
       enabled: false
 
   datasource:
-    driver-class-name: 'com.mysql.cj.jdbc.Driver'
-    url: 'jdbc:mysql://fullmoon1219.iptime.org:3306/hrms'
-    username: 'wit'
-    password: '123456'
+      driver-class-name: 'com.mysql.cj.jdbc.Driver'
+      url: 'jdbc:mysql://fullmoon1219.iptime.org:3306/hrms'
+      username: 'wit'
+      password: '123456'
+
 
   servlet:
     multipart:

@@ -1,12 +1,10 @@
-package org.wit.hrmatching.service;
+package org.wit.hrmatching.service.employer;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.dao.employer.JobPostDAO;
 import org.wit.hrmatching.vo.ApplicantProfilesVO;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
 import org.wit.hrmatching.vo.JobPostVO;
-import org.wit.hrmatching.vo.ResumeVO;
 
 import java.util.List;
 
@@ -43,5 +41,4 @@ public class JobPostService {
     public boolean deleteJobPost(long jobPostId) {
         return jobPostDAO.deleteJobPost(jobPostId) == 0;
     }
-
 }

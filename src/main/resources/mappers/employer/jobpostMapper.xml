@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.wit.hrmatching.mapper.JobPostMapper">
+<mapper namespace="org.wit.hrmatching.mapper.employer.JobPostMapper">
 
     <insert id="registerJobPost" parameterType="JobPostVO">
         insert into job_posts
@@ -11,16 +11,20 @@
     </insert>
 
     <select id="selectRecentJobPostList" resultType="JobPostVO">
+        /* 기업페이지 메인- 채용공고내역 조회 */
         SELECT *
           FROM (
-                SELECT *, ROW_NUMBER() OVER (ORDER BY create_at DESC) AS row_num
-                  FROM job_posts
-                 WHERE user_id = #{userId}
+              SELECT *, ROW_NUMBER() OVER (ORDER BY create_at DESC) AS row_num
+                FROM job_posts
+               WHERE user_id = #{userId}
+                 AND deleted_at IS NULL
                 ) AS numbered
-        WHERE row_num &lt; 6
+                WHERE row_num &lt; 6
+                AND deleted_at IS NULL
     </select>
 
     <select id="selectJobPostAllList" resultType="JobPostVO">
+        /* 기업페이지 채용곡고- 채용공고내역 조회 */
         SELECT *
         FROM job_posts
         WHERE user_id = #{userId}
@@ -37,6 +41,7 @@
     </select>
 
     <select id="selectJobPostDetail" resultType="JobPostVO">
+        /* 기업페이지 - 채용공고 상세페이지 조회 */
         SELECT *
         FROM job_posts
         WHERE id = #{recruitId} AND deleted_at IS NULL
@@ -44,8 +49,15 @@
 
     <update id="updateJobPostDetail" parameterType="JobPostVO">
         UPDATE job_posts
-        SET title = #{title}, description = #{description}, required_skills = #{requiredSkills}, salary = #{salary}, location = #{location},
-            employment_type = #{employmentType}, deadline = #{deadline}, job_category = #{jobCategory}, updated_at = NOW()
+        SET title = #{title},
+            description = #{description},
+            required_skills = #{requiredSkills},
+            salary = #{salary},
+            location = #{location},
+            employment_type = #{employmentType},
+            deadline = #{deadline},
+            job_category = #{jobCategory},
+            updated_at = NOW()
         WHERE id = #{id} AND deleted_at IS NULL
     </update>
 
@@ -54,7 +66,5 @@
         set deleted_at=now()
         where id=#{jobPostId} and deleted_at is null
     </update>
-
-
 
 </mapper>
