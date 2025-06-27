@@ -31,6 +31,19 @@ function translateEmploymentType(code) {
 	}
 }
 
+function translateApplicationStatus(status) {
+	switch (status) {
+		case 'APPLIED':
+			return '지원 완료';
+		case 'ACCEPTED':
+			return '최종 합격';
+		case 'REJECTED':
+			return '불합격';
+		default:
+			return '확인중';
+	}
+}
+
 function validateResumeForm() {
 	const requiredFields = [
 		{ name: 'title', label: '제목' },

@@ -8,14 +8,25 @@
 
 	<title>지원하기</title>
 
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+	<link rel="stylesheet" href="/css/jquery-ui/jquery-ui.css">
+
 	<script src="/js/jquery-3.7.1.min.js"></script>
 	<script src="/js/admin/csrf-setup.js"></script>
-
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+	<script src="/js/jquery-ui.min.js"></script>
 
 	<script src="/js/applicant/common.js"></script>
 	<script src="/js/applicant/recruit/recruit_apply.js"></script>
+
+	<style>
+        .ui-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+	</style>
 </head>
 <body>
 
@@ -56,6 +67,11 @@
 </div>
 
 <button id="submitButton">지원 하기</button>
+
+<!-- 이력서 내용 확인할 모달창 구역 -->
+<div id="resume-modal" title="내 이력서 확인" style="display:none;">
+	<!-- JS에서 채움 -->
+</div>
 
 </body>
 </html>
