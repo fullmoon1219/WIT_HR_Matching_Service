@@ -34,12 +34,21 @@ public class RecruitService {
 		JobPostVO jobPost = recruitDAO.viewRecruit(jobPostId);
 		EmployerProfilesVO employer = recruitDAO.viewEmployerProfile(jobPost.getUserId());
 
+		if (jobPost == null) {
+			return null;
+		}
+
 		Map<String, Object> summary = new HashMap<>();
 		summary.put("title", jobPost.getTitle());
 		summary.put("location", jobPost.getLocation());
 		summary.put("employmentType", jobPost.getEmploymentType());
 		summary.put("deadline", jobPost.getDeadline());
-		summary.put("companyName", employer.getCompanyName());
+
+		if (employer != null) {
+			summary.put("companyName", employer.getCompanyName());
+		} else {
+			summary.put("companyName", "(기업 정보 미등록)");
+		}
 
 		return summary;
 	}

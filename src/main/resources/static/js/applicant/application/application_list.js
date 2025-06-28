@@ -1,3 +1,13 @@
+// applicant/application/list.html
+
+let currentCriteria = {
+	page: 1,
+	recordPerPage: 10,
+	status: '',
+	sortOrder: 'latest',
+	keyword: ''
+};
+
 $(document).ready(function() {
 
 	$("#application-modal").dialog({
@@ -7,21 +17,58 @@ $(document).ready(function() {
 		height: 'auto',
 		maxHeight: $(window).height() * 0.8,
 		buttons: {
-			"자세히 보기": function() {
-				const resumeId = $('#resume-modal').data('current-resume-id');
-
-				if (resumeId) {
-					const url = `/applicant/resume/view/${resumeId}`;
-					window.open(url, '_blank');
-				}
-			},
 			"닫기": function() {
 				$(this).dialog("close");
 			}
 		}
 	});
 
+	// 페이지 진입시 전체 지원 목록 가져오기(페이징 적용)
 	loadApplicationList();
+
+	$('#filter-all').on('click', function() {
+		loadApplicationList({
+			status: '',
+			keyword: '',
+			page: 1,
+			sortOrder: 'latest'
+		});
+	});
+
+	$('#filter-in-progress').on('click', function() {
+		let newCriteria = {
+			status: 'APPLIED'
+		};
+		loadApplicationList(newCriteria);
+	});
+
+	$('#filter-final').on('click', function() {
+		let newCriteria = {
+			status: ['ACCEPTED', 'REJECTED']
+		};
+		loadApplicationList(newCriteria);
+	});
+
+	$('#pagination').on('click', 'a', function(e) {
+		e.preventDefault();
+
+		const page = $(this).data('page');
+
+		// 해당 페이지의 목록을 불러오도록 loadApplicationList 함수를 호출.
+		loadApplicationList({ page: page });
+	});
+
+	$('#sort-order').on('change', function() {
+
+		const selectedSortOrder = $(this).val();
+
+		const newCriteria = {
+			sortOrder: selectedSortOrder,
+			page: 1
+		};
+
+		loadApplicationList(newCriteria);
+	});
 
 	// 모달창으로 지원 내용 확인
 	$('#applicationListBody').on('click', '.application-title-text', function() {
@@ -51,7 +98,7 @@ $(document).ready(function() {
 				modalContentHtml += '<h4>[내가 제출한 정보]</h4>';
 				modalContentHtml +=   '<p><strong>제출 이력서:</strong> ' + resume.resumeTitle + '</p>';
 				modalContentHtml +=   '<p><strong>지원 일시:</strong> ' + resume.appliedAt + '</p>';
-				modalContentHtml +=   '<p><em>(클릭 시 제출한 이력서를 새 창에서 확인합니다)</em></p>';
+				modalContentHtml +=   '<p><em>(클릭 시 제출한 이력서를 확인합니다)</em></p>';
 				modalContentHtml += '</div>';
 
 				modalContentHtml += '<hr />';
@@ -70,7 +117,7 @@ $(document).ready(function() {
 					modalContentHtml += 	'<p><strong>근무 지역: </strong>' + resume.jobPostLocation + '</p>';
 					modalContentHtml += 	'<p><strong>고용 형태: </strong>' + resume.jobPostJobCategory + '</p>';
 					modalContentHtml += 	'<p><strong>마감일: </strong>' + resume.jobPostDeadline + '</p>';
-					modalContentHtml += 	'<p><em>(클릭 시 상세 공고를 새 창에서 확인합니다)</em></p>';
+					modalContentHtml += 	'<p><em>(클릭 시 상세 공고를 확인합니다)</em></p>';
 					modalContentHtml += '</div>';
 				}
 
@@ -142,39 +189,43 @@ $(document).ready(function() {
 	});
 });
 
-function loadApplicationList() {
+function loadApplicationList(newCriteria = {}) {
+
+	if (newCriteria.page === undefined) {
+		newCriteria.page = 1;
+	}
+	// currentCriteria 객체에 newCriteria객체 덮어쓰기 (조건 추가시)
+	Object.assign(currentCriteria, newCriteria);
+
 	$.ajax({
 		url: "/api/applications",
 		type: "GET",
-		success: function (applications) {
+		data: currentCriteria,
+		success: function (response) {
 
 			const tbody = $('#applicationListBody');
 			tbody.empty();
 
+			const applications = response.content;
+
 			if (!applications || applications.length === 0) {
-				const emptyRow = `<tr><td colspan="5" style="text-align: center;">지원 내역이 없습니다.</td></tr>`;
+				const emptyRow = `<tr><td colspan="6" style="text-align: center;">지원 내역이 없습니다.</td></tr>`;
 				tbody.append(emptyRow);
+			} else {
+				applications.forEach(function(application, index) {
+					const row = makeRow(application, index);
+					tbody.append(row);
+				});
 			}
 
-			applications.forEach(function(application, index) {
-				const row = makeRow(application, index);
-				tbody.append(row);
-			});
+			// 페이징 UI 그리는 함수 호출
+			renderPagination(response.pagingInfo);
 
-			let countAll = applications.length;
+			const pagingInfo = response.pagingInfo;
 
-			let countInProgress = 0;
-			applications.forEach(function(application) {
-				if (application.status === 'APPLIED') {
-					countInProgress++;
-				}
-			});
-
-			let countFinal = countAll - countInProgress;
-
-			$('#count-all').text(countAll);
-			$('#count-in-progress').text(countInProgress);
-			$('#count-final').text(countFinal);
+			$('#count-all').text(pagingInfo.totalRecord);
+			$('#count-in-progress').text(response.countInProgress);
+			$('#count-final').text(response.countFinal);
 
 		},
 		error: function (xhr) {
@@ -208,7 +259,49 @@ function makeRow(application, index) {
             <td><span class="application-title-text">${application.jobPostTitle}</span></td>
             <td>${application.employerCompanyName}</td>
             <td>${application.appliedAt}</td>
+            <td>${application.jobPostDeadline}</td>
             <td>${statusText}</td>
         </tr>
     `;
+}
+
+function renderPagination(pagingInfo) {
+
+	const paginationContainer = $('#pagination');
+	paginationContainer.empty();
+
+	// 보여줄 페이지가 없거나 1페이지만 있을 때
+	if (!pagingInfo || pagingInfo.totalPage <= 1) {
+		return;
+	}
+
+	let paginationHtml = '';
+
+	// '처음 <<' & '이전 <' 버튼
+	if (pagingInfo.hasPrevBlock) {
+		// 첫 페이지 블록으로 이동
+		paginationHtml += `<a href="#" class="arrow" data-page="1">&lt;&lt;</a>`;
+	}
+	if (pagingInfo.currentPage > 1) {
+		paginationHtml += `<a href="#" class="arrow" data-page="${pagingInfo.currentPage - 1}">&lt;</a>`;
+	}
+
+	// 페이지 번호 목록
+	for (let i = pagingInfo.startPage; i <= pagingInfo.endPage; i++) {
+		if (i === pagingInfo.currentPage) {
+			paginationHtml += `<span class="current-page">${i}</span>`;
+		} else {
+			paginationHtml += `<a href="#" data-page="${i}">${i}</a>`;
+		}
+	}
+
+	// '다음 >' & '마지막 >>' 버튼
+	if (pagingInfo.currentPage < pagingInfo.totalPage) {
+		paginationHtml += `<a href="#" class="arrow" data-page="${pagingInfo.currentPage + 1}">&gt;</a>`;
+	}
+	if (pagingInfo.hasNextBlock) {
+		paginationHtml += `<a href="#" class="arrow" data-page="${pagingInfo.totalPage}">&gt;&gt;</a>`;
+	}
+
+	paginationContainer.html(paginationHtml);
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.wit.hrmatching.mapper.applicant.ApplicationMapper;
 import org.wit.hrmatching.vo.ApplicationDetailVO;
+import org.wit.hrmatching.vo.applicationPaging.SearchCriteria;
 
 import java.util.List;
 
@@ -13,8 +14,16 @@ public class ApplicationDAO {
 
 	private final ApplicationMapper applicationMapper;
 
-	public List<ApplicationDetailVO> getApplicationList(long userId) {
-		return applicationMapper.selectApplicationList(userId);
+	public List<ApplicationDetailVO> getApplicationList(long userId, SearchCriteria criteria) {
+		return applicationMapper.selectApplicationList(userId, criteria);
+	}
+
+	public int countApplicationList(long userId, SearchCriteria criteria) {
+		return applicationMapper.countApplicationList(userId, criteria);
+	}
+
+	public int selectCountByStatusList(long userId, List<String> statusList) {
+		return applicationMapper.selectCountByStatusList(userId, statusList);
 	}
 
 	public ApplicationDetailVO getApplication(long applicationId) {

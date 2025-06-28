@@ -56,9 +56,14 @@ public class RecruitRestController {
 		}
 
 		Map<String, Object> response = new HashMap<>();
-		response.put("employer", employer);
 		response.put("jobPost", jobPost);
 		response.put("isApplied", isApplied);
+
+		if (employer != null) {
+			response.put("employer", employer);
+		} else {
+			response.put("employer", new EmployerProfilesVO());
+		}
 
 		return ResponseEntity.ok(response);
 	}

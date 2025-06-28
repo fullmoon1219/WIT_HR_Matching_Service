@@ -4,7 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.dao.applicant.ApplicationDAO;
 import org.wit.hrmatching.vo.ApplicationDetailVO;
+import org.wit.hrmatching.vo.applicationPaging.PageResponseVO;
+import org.wit.hrmatching.vo.applicationPaging.SearchCriteria;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -13,8 +17,19 @@ public class ApplicationService {
 
 	private final ApplicationDAO applicationDAO;
 
-	public List<ApplicationDetailVO> getApplicationList(long userId) {
-		return applicationDAO.getApplicationList(userId);
+	public PageResponseVO<ApplicationDetailVO> getApplicationList(long userId, SearchCriteria criteria) {
+
+		int totalRecord = applicationDAO.countApplicationList(userId, criteria);
+		int countInProgress = applicationDAO.selectCountByStatusList(userId, Arrays.asList("APPLIED"));
+		int countFinal = applicationDAO.selectCountByStatusList(userId, Arrays.asList("ACCEPTED", "REJECTED"));
+
+		if (totalRecord < 1) {
+			return new PageResponseVO<>(0, criteria, Collections.emptyList(), countInProgress, countFinal);
+		}
+
+		List<ApplicationDetailVO> content = applicationDAO.getApplicationList(userId, criteria);
+
+		return new PageResponseVO<>(totalRecord, criteria, content, countInProgress, countFinal);
 	}
 
 	public ApplicationDetailVO getApplication(long applicationId) {
