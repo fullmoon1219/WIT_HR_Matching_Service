@@ -207,23 +207,27 @@ function loadApplicationList(newCriteria = {}) {
 			tbody.empty();
 
 			const applications = response.content;
+			const pagingInfo = response.pagingInfo;
 
 			if (!applications || applications.length === 0) {
 				const emptyRow = `<tr><td colspan="6" style="text-align: center;">지원 내역이 없습니다.</td></tr>`;
 				tbody.append(emptyRow);
 			} else {
 				applications.forEach(function(application, index) {
-					const row = makeRow(application, index);
+
+					const rowNum = index + 1 + ((pagingInfo.currentPage - 1) * pagingInfo.recordPerPage);
+
+					const row = makeRow(application, rowNum);
 					tbody.append(row);
 				});
 			}
 
 			// 페이징 UI 그리는 함수 호출
-			renderPagination(response.pagingInfo);
+			renderPagination(pagingInfo);
 
-			const pagingInfo = response.pagingInfo;
-
-			$('#count-all').text(pagingInfo.totalRecord);
+			if (!currentCriteria.status || currentCriteria.status.length === 0) {
+				$('#count-all').text(pagingInfo.totalRecord);
+			}
 			$('#count-in-progress').text(response.countInProgress);
 			$('#count-final').text(response.countFinal);
 
@@ -241,7 +245,7 @@ function loadApplicationList(newCriteria = {}) {
 	});
 }
 
-function makeRow(application, index) {
+function makeRow(application, rowNumber) {
 
 	let statusText = '';
 
@@ -255,7 +259,7 @@ function makeRow(application, index) {
 
 	return `
          <tr class="application-row" data-application-id="${application.id}">
-            <td>${index + 1}</td>
+            <td>${rowNumber}</td>
             <td><span class="application-title-text">${application.jobPostTitle}</span></td>
             <td>${application.employerCompanyName}</td>
             <td>${application.appliedAt}</td>
