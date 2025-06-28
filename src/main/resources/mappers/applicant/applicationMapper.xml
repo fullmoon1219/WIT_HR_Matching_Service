@@ -3,6 +3,20 @@
 
 <mapper namespace="org.wit.hrmatching.mapper.applicant.ApplicationMapper">
 
+    <sql id="applicationSearchCondition">
+        <trim prefix="AND" prefixOverrides="AND |OR ">
+            <if test="criteria.status != null and !criteria.status.isEmpty()">
+                AND a.status IN
+                <foreach collection="criteria.status" item="s" open="(" separator="," close=")">
+                    #{s}
+                </foreach>
+            </if>
+            <if test="criteria.keyword != null and criteria.keyword != ''">
+                AND (jp.title LIKE CONCAT('%', #{criteria.keyword}, '%') OR ep.company_name LIKE CONCAT('%', #{criteria.keyword}, '%'))
+            </if>
+        </trim>
+    </sql>
+
     <select id="selectApplicationList" resultType="ApplicationDetailVO">
         select
             a.id as id,
@@ -11,13 +25,49 @@
             ep.company_name as employerCompanyName,
             a.applied_at as appliedAt,
             a.status as status,
-            av.viewed_at as viewedAt
+            MIN(av.viewed_at) as viewedAt
         from applications a
             inner join job_posts jp on a.job_post_id = jp.id
-            inner join employer_profiles ep on jp.user_id = ep.user_id
+            left join employer_profiles ep on jp.user_id = ep.user_id
             left join application_views av on a.id = av.application_id
-        where a.user_id = #{userId}
-        order by a.applied_at desc
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            a.user_id = #{userId}
+            <include refid="applicationSearchCondition"/>
+        </trim>
+        group by a.id
+        <choose>
+            <when test="criteria.sortOrder == 'deadline'">
+                order by jp.deadline asc
+            </when>
+            <when test="criteria.sortOrder == 'oldest'">
+                order by a.applied_at asc
+            </when>
+            <otherwise>
+                order by a.applied_at desc
+            </otherwise>
+        </choose>
+        limit #{criteria.skip}, #{criteria.recordPerPage}
+    </select>
+
+    <select id="countApplicationList">
+        select count(a.id)
+        from applications a
+            inner join job_posts jp on a.job_post_id = jp.id
+            left join employer_profiles ep on jp.user_id = ep.user_id
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            a.user_id = #{userId}
+            <include refid="applicationSearchCondition"/>
+        </trim>
+    </select>
+
+    <select id="selectCountByStatusList" resultType="int">
+        select count(*)
+        from applications
+        where user_id = #{userId}
+        and status in
+        <foreach collection="statusList" item="s" open="(" separator="," close=")">
+            #{s}
+        </foreach>
     </select>
 
     <select id="selectApplication" resultType="ApplicationDetailVO">

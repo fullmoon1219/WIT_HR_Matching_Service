@@ -134,7 +134,7 @@ $(document).ready(function () {
 		$('#resume-modal').html('<p>로딩 중...</p>').dialog('open');
 
 		$.ajax({
-			url: `/api/applications/${resumeId}`,
+			url: `/api/resumes/${resumeId}`,
 			method: 'GET',
 			success: function (resume) {
 
