@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.wit.hrmatching.vo.*;
 import org.wit.hrmatching.service.employer.JobPostService;
 
@@ -20,31 +21,39 @@ public class JobPostController {
     private final JobPostService jobPostService;
 
     @GetMapping("/jobpost") //---------------------------------신규 채용공고 작성
-    public ModelAndView registerJobPost(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ModelAndView registerJobPost(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                        @ModelAttribute JobPostVO jobPostVO) {
 
         Long userId = userDetails.getUser().getId();
-
-        ModelAndView modelAndView = new ModelAndView("employer/jobpost/jobpost");
-        modelAndView.addObject("userId", userId);
-
-        return modelAndView;
-
-    }
-
-    @PostMapping("/jobpost/jobpost_ok") // -------------------------------------신규 채용공고 등록
-    public ModelAndView registerResumeOk(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                         @ModelAttribute JobPostVO jobPostVO) {
-
-        Long userId = userDetails.getUser().getId(); // 현재 로그인한 기업사용자 ID
         jobPostVO.setUserId(userId); // 직접 설정
 
         int flag = jobPostService.registerJobPost(jobPostVO);
 
-        ModelAndView modelAndView = new ModelAndView("employer/jobpost/jobpost_ok");
+        ModelAndView modelAndView = new ModelAndView("employer/jobpost/jobpost_list");
         modelAndView.addObject("flag", flag);
 
         return modelAndView;
     }
+
+    @PostMapping("/jobpost") //---------------------------------신규 채용공고 작성
+    public String  submitJobPost(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                      @ModelAttribute JobPostVO jobPostVO,
+                                      RedirectAttributes redirectAttributes) {
+
+        Long userId = userDetails.getUser().getId();
+        jobPostVO.setUserId(userId); // 직접 설정
+
+        int flag = jobPostService.registerJobPost(jobPostVO);
+
+        if (flag > 0) {
+            redirectAttributes.addFlashAttribute("successMessage", "채용공고가 성공적으로 등록되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "채용공고 등록에 실패했습니다.");
+        }
+
+        return "redirect:/employer/jobpost_list"; // 예시 리다이렉트 경로
+    }
+
 
     @RequestMapping("/main") //-------------기업 페이지 첫화면
     public ModelAndView main(@AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -87,46 +96,23 @@ public class JobPostController {
         return modelAndView;
     }
 
-    @RequestMapping("/jobpost_edit") //-------------기업페이지 _ 이력서확인
+    @RequestMapping("/jobpost_edit")
     public ModelAndView editJobPostDetail(@RequestParam Long jobPostId) {
         JobPostVO jobPostVO = jobPostService.selectJobPostDetail(jobPostId);
-
-
         ModelAndView modelAndView = new ModelAndView("employer/jobpost/jobpost_edit");
         modelAndView.addObject("jobPostVO", jobPostVO);
-
         return modelAndView;
     }
 
-    @PostMapping("/jobpost_edit_ok")
-    public ModelAndView editJobPostDetail(
-                                     @ModelAttribute JobPostVO jobPostVO
-                                     ) {
+    @PostMapping("/jobpost_edit")
+    public String updateJobPost(@ModelAttribute JobPostVO jobPostVO,
+                                RedirectAttributes redirectAttributes) {
+        jobPostService.editJobPostDetail(jobPostVO);
 
-        boolean result;
-        ModelAndView modelAndView = new ModelAndView();
-            // 입력값 유효성 검사
-            // 만약 입력값이 모두 입력되지 않으면 에러메세지와 함께 작성 페이지로.
-//            if (bindingResult.hasErrors()) {
-//                modelAndView.setViewName("employer/jobpost/jobpost_edit");
-//                modelAndView.addObject("jobPostVO", jobPostVO);
-//                modelAndView.addObject("org.springframework.validation.BindingResult.jobPostVO", bindingResult);
-//                return modelAndView;
-//            }
-
-            // 정식 등록: is_completed = true
-            jobPostVO.setCompleted(true);
-            result = jobPostService.editJobPostDetail(jobPostVO);
-
-        if (result) {
-            modelAndView.setViewName("employer/jobpost/jobpost_edit_ok");
-            modelAndView.addObject("jobPostId", jobPostVO.getId());
-        } else {
-            modelAndView.setViewName("error/db-access-denied");
-        }
-
-        return modelAndView;
+        redirectAttributes.addFlashAttribute("successMessage", "공고가 수정되었습니다.");
+        return "redirect:/employer/jobpost_list";
     }
+
 
     @PostMapping("/delete")
     public ModelAndView deleteJobPostDetail(@RequestParam Long jobPostId) {

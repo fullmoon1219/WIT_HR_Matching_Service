@@ -1,152 +1,108 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>채용공고 페이지</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      display: flex;
-    }
+<!-- /templates/hrms/employer/mypagge/post-list.html -->
 
-    .container {
-      display: flex;
-      width: 100%;
-    }
+<div layout:decorate="~{layout/employer/employer-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-    /* 사이드바 */
-    .sidebar {
-      width: 200px;
-      background-color: #f5f5f5;
-      padding: 20px;
-      height: 100vh;
-      box-sizing: border-box;
-      border-right: 1px solid #ddd;
-    }
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/post-list.css">
+        <link rel="stylesheet" href="/css/employer/post-form.css">
+        <link rel="stylesheet" href="/css/employer/post-view.css">
+        <link rel="stylesheet" href="/css/employer/fragment/pagination.css">
+    </th:block>
 
-    .sidebar h3 {
-      margin-top: 0;
-    }
+    <section layout:fragment="content">
+        <div class="card-grid">
+            <div class="card">
+                <h3>총 공고 수</h3>
+                <div class="value">--</div>
+            </div>
+            <div class="card">
+                <h3>마감 공고 수</h3>
+                <div class="value">--</div>
+            </div>
+            <div class="card">
+                <h3>진행중인 공고 수</h3>
+                <div class="value">--</div>
+            </div>
+        </div>
 
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
 
-    .sidebar li {
-      margin: 10px 0;
-    }
+        <div class="post-list-container">
+            <div class="post-list-header">
+                <h3 class="table-title">📄 등록한 공고 목록</h3>
 
-    .sidebar a {
-      text-decoration: none;
-      color: #333;
-    }
+                <div class="post-list-actions">
+                    <input type="text" id="searchInput" placeholder="공고명 검색" class="search-input">
+                    <button type="button" class="action-button register-button" id="openWriteFormBtn">공고 등록</button>
+                    <button type="button" class="action-button delete-button">공고 삭제</button>
+                </div>
+            </div>
 
-    .sidebar a:hover {
-      text-decoration: underline;
-    }
 
-    /* 메인 콘텐츠 */
-    .main {
-      flex-grow: 1;
-      padding: 20px;
-      box-sizing: border-box;
-    }
+            <table class="post-list-table">
+                <colgroup>
+                    <col style="width: 5%">
+                    <col style="width: 5%">
+                    <col style="width: 30%">
+                    <col style="width: 10%">
+                    <col style="width: 15%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 8%">
+                    <col style="width: 7%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="checkbox-cell" id="selectAllCell"><input type="checkbox" id="selectAll"></th>
+                    <th>ID</th>
+                    <th>공고명</th>
+                    <th>고용형태</th>
+                    <th>지역</th>
+                    <th>마감일</th>
+                    <th>등록일</th>
+                    <th>상태</th>
+                    <th>지원자 수</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post : ${jobPostList}">
+                    <td class="checkbox-cell"><input type="checkbox" class="select-post"></td>
+                    <td th:text="${post.id}">공고ID</td>
+                    <td>
+                        <a href="#" class="edit-post-link" th:data-id="${post.id}" th:text="${post.title}">채용공고 제목</a>
+                    </td>
+                    <td th:text="${post.employmentType}">고용형태</td>
+                    <td th:text="${post.location}">지역</td>
+                    <td th:text="${post.deadline}">마감일</td>
+                    <td th:text="${post.createAt}">등록일</td>
+                    <td>
+                        <span th:text="${post.deadline != null and post.deadline.isBefore(T(java.time.LocalDate).now()) ? '마감' : '진행중'}"
+                              th:classappend="${post.deadline != null and post.deadline.isBefore(T(java.time.LocalDate).now()) ? 'status-label status-closed' : 'status-label status-open'}">
+                        </span>
+                    </td>
+                    <td th:text="${post.applicantCount}">지원자 수</td>
+                </tr>
+            </table>
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-      margin-top: 10px;
-    }
+            <div id="paginationContainer" class="pagination-container"></div>
 
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: left;
-    }
+        </div>
 
-    th {
-      background-color: #f4f4f4;
-    }
+        <div class="pagination-container">
+            <button class="pagination-btn">&lt;&lt;</button>
+            <button class="pagination-btn">&lt;</button>
 
-    .button-group {
-      display: flex;
-      gap: 5px;
-    }
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn">4</button>
+            <button class="pagination-btn">5</button>
 
-    button {
-      padding: 6px 10px;
-      font-size: 13px;
-      cursor: pointer;
-    }
+            <button class="pagination-btn">&gt;</button>
+            <button class="pagination-btn">&gt;&gt;</button>
+        </div>
 
-    .new-post-btn {
-      margin-bottom: 15px;
-    }
 
-  </style>
-
-</head>
-<body>
-
-<div class="container"> <!-- 사이드 메뉴 -->
-
-  <div class="sidebar">
-    <h3><a href="/employer/main">기업 페이지</a></h3>
-    <ul>
-      <li><a href="/employer/profile/view">기업관리</a></li>
-      <li><a href="/employer/jobpost_list">채용공고</a></li>
-      <li><a href="/employer/applications">이력서 확인</a></li>
-      <li><a href="#">AI 추천 공고</a></li>
-    </ul>
-  </div>
-
-  <div class="main">
-    <h2>채용공고</h2>
-    <div class="new-post-btn">
-      <a href="/employer/jobpost">
-        <button type="button">+ 신규공고 작성하기</button>
-      </a>
-    </div>
-
-    <table>
-      <thead>
-      <tr>
-        <th>채용공고 제목</th>
-        <th>수정</th>
-        <th>삭제</th>
-        <th>지원자 보기</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="post : ${jobPostList}">
-        <td>
-          <a th:href="@{./view(jobPostId=${post.id})}" th:text="${post.title}">채용공고 제목</a>
-        </td>
-        <td>
-          <a th:href="@{./jobpost_edit(jobPostId=${post.id})}">
-            <button type="button">수정</button>
-          </a>
-        </td>
-        <td>
-          <form action="./delete" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-            <input type="hidden" name="jobPostId" th:value="${post.id}" />
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <button type="submit">삭제</button>
-          </form>
-        </td>
-        <td>
-          <a th:href="@{./applicants(jobPostId=${post.id})}">
-            <button type="button">지원자보기</button>
-          </a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+    </section>
 </div>
 
-</body>
-</html>
+<script src="/js/employer/post-list.js"></script>

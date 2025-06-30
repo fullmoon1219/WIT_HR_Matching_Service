@@ -11,6 +11,4 @@ public class ProfileDAO {
 
     private final EmployerProfileMapper employerProfileMapper;
 
-
-
 }

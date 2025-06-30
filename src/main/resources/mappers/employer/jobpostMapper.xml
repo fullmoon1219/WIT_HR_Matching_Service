@@ -25,10 +25,15 @@
 
     <select id="selectJobPostAllList" resultType="JobPostVO">
         /* 기업페이지 채용곡고- 채용공고내역 조회 */
-        SELECT *
-        FROM job_posts
-        WHERE user_id = #{userId}
-          AND deleted_at IS NULL
+        SELECT a.*, IFNULL(b.cnt, 0) AS applicant_count
+        FROM hrms.job_posts a
+                 LEFT JOIN (
+            SELECT job_post_id, COUNT(*) AS cnt
+            FROM hrms.applications
+            GROUP BY job_post_id
+        ) b ON a.id = b.job_post_id
+        WHERE a.user_id = #{userId}
+          AND a.deleted_at IS NULL
     </select>
 
     <select id="selectApplicantList" resultType="JobPostVO">

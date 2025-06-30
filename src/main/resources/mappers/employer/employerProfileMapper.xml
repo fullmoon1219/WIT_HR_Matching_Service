@@ -17,11 +17,36 @@
             homepage_url = #{homepageUrl},
             industry = #{industry},
             founded_year = #{foundedYear},
-            company_size = #{companySize}
+            company_size = #{companySize},
+            ceo_name = #{ceoName},
+            email = #{email}
+
         WHERE user_id = #{userId}
         </update>
 
+    <select id="selectEmployerRecentApplicantList" resultType="EmployerRecentApplicantVO">
+        SELECT
+            C.title         AS title,
+            D.name          AS applicantName,
+            D.email         AS email,
+            A.applied_at    AS appliedAt,
+            A.status        AS status,
+            C.id            AS jobPostId
 
+        FROM
+            applications A,
+            applicant_profiles B,
+            job_posts C,
+            users D
+        WHERE 1=1
+          AND A.user_id = B.user_id
+          AND A.job_post_id = C.id
+          AND A.user_id = D.id
+          AND C.user_id = #{userId}
+        ORDER BY
+            A.applied_at DESC
+        LIMIT 10;
+    </select>
 
 
 </mapper>

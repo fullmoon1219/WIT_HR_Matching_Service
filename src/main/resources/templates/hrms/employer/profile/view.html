@@ -1,145 +1,124 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>기업 프로필</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-        }
+<!-- /templates/hrms/employer/mypagge/profile.html -->
 
-        .container {
-            display: flex;
-            width: 100%;
-        }
+<div layout:decorate="~{layout/employer/employer-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-        /* -----------------------------------------사이드바 */
-        .sidebar {
-            width: 200px;
-            background-color: #f5f5f5;
-            padding: 20px;
-            height: 100vh;
-            box-sizing: border-box;
-            border-right: 1px solid #ddd;
-        }
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+    </th:block>
 
-        .sidebar h3 {
-            margin-top: 0;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar li {
-            margin: 10px 0;
-        }
-
-        .sidebar a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        .sidebar a:hover {
-            text-decoration: underline;
-        }
-
-        /* -----------------------------------메인 콘텐츠 */
-        .main {
-            padding: 20px;
-            font-size: 14px;
-        }
-
-        .profile-row {
-            margin-bottom: 8px;
-        }
-
-        .label {
-            font-weight: bold;
-        }
-
-        .value {
-            margin-left: 4px;
-        }
-
-        .edit-link {
-            margin-top: 15px;
-        }
-
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <!--------------------------------------------------------- 사이드바 -->
-    <div class="sidebar">
-        <h3><a href="/employer/main">기업 페이지</a></h3>
-        <ul>
-            <li><a href="/employer/profile/view">기업관리</a></li>
-            <li><a href="/employer/jobpost_list">채용공고</a></li>
-            <li><a href="/employer/applications">이력서 확인</a></li>
-            <li><a href="#">AI 추천 공고</a></li>
-        </ul>
-    </div>
-
-    <!------------------------------------------------------- 메인 콘텐츠 -->
-    <div class="main">
-        <div class="profile-box">
-            <h2>기업 프로필</h2>
-
-            <div class="edit-link"> <!------------------------- 회사정보, 비밀번호 수정 버튼 -->
-                <button type="button" class="btn" th:onclick="'location.href=\'' + @{/employer/profile/edit} + '\''">회사정보 변경
-                </button>
-
-                <button type="button" id="openModalBtn" class="btn">비밀번호 변경</button>
+    <section layout:fragment="content">
+        <!-- ✅ 메시지 출력 -->
+        <div class="flash-message-container">
+            <div th:if="${successMessage}" class="alert alert-success">
+                <p th:text="${successMessage}"></p>
             </div>
-
-            <div class="profile-row">
-                <span class="label">회사명:</span>
-                <span class="value" th:text="${profile.companyName}">회사명</span>
+            <div th:if="${errorMessage}" class="alert alert-danger">
+                <p th:text="${errorMessage}"></p>
             </div>
-
-            <div class="profile-row">
-                <span class="label">사업자 번호:</span>
-                <span class="value" th:text="${profile.businessNumber}">123-45-67890</span>
-            </div>
-
-            <div class="profile-row">
-                <span class="label">주소:</span>
-                <span class="value" th:text="${profile.address}">서울특별시 ...</span>
-            </div>
-
-            <div class="profile-row">
-                <span class="label">전화번호:</span>
-                <span class="value" th:text="${profile.phoneNumber}">02-1234-5678</span>
-            </div>
-
-            <div class="profile-row">
-                <span class="label">홈페이지:</span>
-                <span class="value" th:text="${profile.homepageUrl}">www.naver.com</span>
-            </div>
-
-            <div class="profile-row">
-                <span class="label">업종:</span>
-                <span class="value" th:text="${profile.industry}">IT/정보통신</span>
-            </div>
-
-            <div class="profile-row">
-                <span class="label">설립연도:</span>
-                <span class="value" th:text="${profile.foundedYear}">2005</span>
-            </div>
-
-            <div class="profile-row">
-                <span class="label">기업 규모:</span>
-                <span class="value" th:text="${profile.companySize}">50명 이상</span>
-            </div>
-
         </div>
-    </div>
+
+        <!-- ✅ 기업 기본 정보 테이블 -->
+        <div class="profile-table-container">
+            <div class="table-header">
+                <h3 class="table-title">📌 기업 기본 정보</h3>
+                <div class="action-buttons" id="editControls">
+                    <input type="password" id="confirmPassword" class="inline-input password-input" placeholder="비밀번호 입력" style="display: none;">
+                    <button id="editButton" class="edit-button">정보 수정</button>
+                    <button id="cancelButton" class="cancel-button" style="display: none;">취소</button>
+                </div>
+            </div>
+
+            <table class="profile-merged-table">
+                <tr>
+                    <td rowspan="5" class="profile-image-cell">
+                        <img src="/images/users/user_big_profile.png" alt="기업 로고">
+                    </td>
+                    <th>회사명</th>
+                    <td data-field="companyName" th:text="${profile.companyName}" >WIT</td>
+                    <th>대표자명</th>
+                    <td data-field="ceoName" th:text="${profile.ceoName}">TEST</td>
+                </tr>
+                <tr>
+                    <th>사업자 번호</th>
+                    <td data-field="businessNumber" th:text="${profile.businessNumber}" >123-45-67890</td>
+                    <th>이메일</th>
+                    <td data-field="email" th:text="${profile.email}">wit@exam.com</td>
+                </tr>
+                <tr>
+                    <th>대표 전화번호</th>
+                    <td data-field="phoneNumber"th:text="${profile.phoneNumber}" >02-1234-5678</td>
+                    <th>홈페이지</th>
+                    <td data-field="homepageUrl"  th:text="${profile.homepageUrl}" ><a href="https://www.wit.co.kr" target="_blank">www.wit.co.kr</a></td>
+                </tr>
+                <tr>
+                    <th>회사 주소</th>
+                    <td data-field="address" th:text="${profile.address}">서울시 강남구 테헤란로 123</td>
+                    <th>기업 규모</th>
+                    <td data-field="companySize"  th:text="${profile.companySize}" >중소기업 (50명)</td>
+                </tr>
+                <tr>
+                    <th>업종</th>
+                    <td data-field="industry" th:text="${profile.industry}" >IT / 소프트웨어</td>
+                    <th>설립연도</th>
+                    <td data-field="foundedYear"  th:text="${profile.foundedYear}" >2019년</td>
+                </tr>
+            </table>
+
+            <h3 class="table-title">⚙️ 시스템 정보</h3>
+            <table class="profile-merged-table">
+                <tr>
+                    <th>가입일</th>
+                    <th>마지막 수정일</th>
+                    <th>로그인 방식</th>
+                    <th>이메일 인증</th>
+                    <th>경고 횟수</th>
+                </tr>
+                <tr>
+                    <td>2024-12-01</td>
+                    <td>2025-06-27 13:45</td>
+                    <td><i class="fas fa-envelope"></i> 이메일</td>
+                    <td>완료</td>
+                    <td>0회</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ✅ 최근 지원자 내역 테이블 -->
+        <div class="applicant-table-container">
+            <h3 class="table-title">🧑‍💼 최근 지원자 내역</h3>
+            <table class="profile-merged-table">
+                <thead>
+                <tr>
+                    <th>공고명</th>
+                    <th>지원자 이름</th>
+                    <th>이메일</th>
+                    <th>지원 날짜</th>
+                    <th>상태</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="recentApplicant : ${recentApplicantList}">
+                    <td th:text="${recentApplicant.title}">채용공고 제목</td>
+                    <td th:text="${recentApplicant.applicantName}">지원자 이름</td>
+                    <td th:text="${recentApplicant.email}">이메일</td>
+                    <td th:text="${recentApplicant.appliedAt}">지원일자</td>
+                    <td>
+                        <span th:text="${recentApplicant.status}"
+                              th:classappend="
+                                ${recentApplicant.status} == '합격' ? 'status-label status-pass' :
+                                (${recentApplicant.status} == '열람' ? 'status-label status-read' :
+                                'status-label status-new')">
+                        </span>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </section>
 </div>
 
-</body>
-</html>
+<script src="/js/employer/profile.js"></script>

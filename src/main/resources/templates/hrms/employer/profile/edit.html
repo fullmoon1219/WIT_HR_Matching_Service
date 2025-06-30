@@ -1,24 +1,125 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="/js/jquery-3.7.1.min.js"></script>
+    <title>기업정보 수정</title>
+    <style>
+        .edit-mode { display: none; }
+        .profile-table-container { padding: 20px; width: 100%; }
+        .table-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; }
+        .profile-merged-table { width: 100%; border-collapse: collapse; }
+        .profile-merged-table th, .profile-merged-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .action-buttons { text-align: right; margin-top: 10px; }
+    </style>
 </head>
 <body>
 
-<form th:action="@{/employer/updateProfile}" method="post">
-    <input type="text" name="companyName" th:value="${profile.companyName}" required />
-    <input type="text" name="businessNumber" th:value="${profile.businessNumber}" required />
-    <input type="text" name="address" th:value="${profile.address}" />
-    <input type="text" name="phoneNumber" th:value="${profile.phoneNumber}" />
-    <input type="text" name="homepageUrl" th:value="${profile.homepageUrl}" />
-    <input type="text" name="industry" th:value="${profile.industry}" />
-    <input type="number" name="foundedYear" th:value="${profile.foundedYear}" />
-    <input type="text" name="companySize" th:value="${profile.companySize}" />
-    <input type="hidden" name="userId" th:value="${profile.userId}" />
-    <button type="submit">수정하기</button>
+<form th:action="@{/employer/profile/edit}" method="post">
+    <div class="profile-table-container">
+
+        <div class="table-header">
+            <h3 class="table-title">📌 기업 기본 정보</h3>
+            <div class="action-buttons" id="editControls">
+                <button type="button" id="editButton">정보 수정</button>
+                <button type="submit" id="saveButton" class="edit-mode">저장</button>
+                <button type="button" id="cancelButton" class="edit-mode">취소</button>
+            </div>
+        </div>
+
+        <table class="profile-merged-table">
+            <tr>
+                <td rowspan="5" class="profile-image-cell">
+                    <img src="/images/users/user_big_profile.png" alt="기업 로고" style="width:120px;">
+                </td>
+                <th>회사명</th>
+                <td>
+                    <span class="view-mode" th:text="${profile.companyName}">회사명</span>
+                    <input type="text" name="companyName" th:value="${profile.companyName}" class="edit-mode">
+                </td>
+                <th>대표자명</th>
+                <td>
+                    <span class="view-mode" th:text="${profile.ceoName}">대표자명</span>
+                    <input type="text" name="ceoName" th:value="${profile.ceoName}" class="edit-mode">
+                </td>
+            </tr>
+            <tr>
+                <th>사업자 번호</th>
+                <td>
+                    <span class="view-mode" th:text="${profile.businessNumber}">123-45-67890</span>
+                    <input type="text" name="businessNumber" th:value="${profile.businessNumber}" class="edit-mode">
+                </td>
+                <th>이메일</th>
+                <td>
+                    <span class="view-mode" th:text="${profile.email}">email@example.com</span>
+                    <input type="email" name="email" th:value="${profile.email}" class="edit-mode">
+                </td>
+            </tr>
+            <tr>
+                <th>대표 전화번호</th>
+                <td>
+                    <span class="view-mode" th:text="${profile.phoneNumber}">02-1234-5678</span>
+                    <input type="text" name="phoneNumber" th:value="${profile.phoneNumber}" class="edit-mode">
+                </td>
+                <th>홈페이지</th>
+                <td>
+                    <span class="view-mode" th:text="${profile.homepageUrl}">www.wit.co.kr</span>
+                    <input type="text" name="homepageUrl" th:value="${profile.homepageUrl}" class="edit-mode">
+                </td>
+            </tr>
+            <tr>
+                <th>회사 주소</th>
+                <td>
+                    <span class="view-mode" th:text="${profile.address}">서울시 강남구</span>
+                    <input type="text" name="address" th:value="${profile.address}" class="edit-mode">
+                </td>
+                <th>기업 규모</th>
+                <td>
+                    <span class="view-mode" th:text="${profile.companySize}">중소기업</span>
+                    <input type="text" name="companySize" th:value="${profile.companySize}" class="edit-mode">
+                </td>
+            </tr>
+            <tr>
+                <th>업종</th>
+                <td>
+                    <span class="view-mode" th:text="${profile.industry}">IT</span>
+                    <input type="text" name="industry" th:value="${profile.industry}" class="edit-mode">
+                </td>
+                <th>설립연도</th>
+                <td>
+                    <span class="view-mode" th:text="${profile.foundedYear}">2019</span>
+                    <input type="text" name="foundedYear" th:value="${profile.foundedYear}" class="edit-mode">
+                </td>
+            </tr>
+        </table>
+    </div>
 </form>
+
+<!-- 수정 성공 알림 -->
+<script th:if="${successMessage != null}">
+    alert([[${successMessage}]]);
+</script>
+
+<!-- 수정 모드 스크립트 -->
+<script>
+    const editBtn = document.getElementById('editButton');
+    const cancelBtn = document.getElementById('cancelButton');
+    const saveBtn = document.getElementById('saveButton');
+
+    editBtn.addEventListener('click', () => {
+        document.querySelectorAll('.view-mode').forEach(e => e.style.display = 'none');
+        document.querySelectorAll('.edit-mode').forEach(e => e.style.display = 'inline-block');
+        editBtn.style.display = 'none';
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        document.querySelectorAll('.view-mode').forEach(e => e.style.display = 'inline');
+        document.querySelectorAll('.edit-mode').forEach(e => e.style.display = 'none');
+        editBtn.style.display = 'inline-block';
+    });
+</script>
 
 </body>
 </html>
