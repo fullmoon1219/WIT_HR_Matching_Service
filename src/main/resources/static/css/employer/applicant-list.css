@@ -42,6 +42,10 @@
     color: #fff;
 }
 
+.filter-toggle {
+    cursor: pointer;
+}
+
 /* 상태별 스타일 */
 .status-label.unread {
     background-color: #6c757d; /* 회색 */

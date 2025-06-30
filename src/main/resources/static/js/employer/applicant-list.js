@@ -1,5 +1,8 @@
 // /js/employer/applicant-list.js
 
+
+
+
 $('.post-title-link').on('click', function (e) {
     e.preventDefault();
     const postId = $(this).data('id');

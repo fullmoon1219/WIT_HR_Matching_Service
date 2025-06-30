@@ -1,0 +1,88 @@
+/* /css/employer/fragment/filter.css */
+
+/* 팝업 컨테이너 */
+.filter-popup {
+    position: absolute;
+    top: 100%; /* 약간 간격 추가 */
+    z-index: 9999; /* 더 위로 띄움 */
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 4px 0;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    min-width: 120px;
+    display: none; /* 기본은 숨김 */
+}
+
+/* 버튼 공통 스타일 */
+.filter-popup button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 12px;
+    padding: 6px 10px;
+    border: none;
+    margin: 2px 0;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* 상태별 색상 */
+.filter-popup .default {
+    background-color: #a7ceff;
+}
+
+.filter-popup .unread {
+    background-color: #6c757d;
+}
+.filter-popup .read {
+    background-color: #17a2b8;
+}
+.filter-popup .waiting {
+    background-color: #ffc107;
+    color: #212529;
+}
+.filter-popup .accepted {
+    background-color: #28a745;
+}
+.filter-popup .rejected {
+    background-color: #dc3545;
+}
+
+/* Hover: 배경 유지, 투명도 조정 */
+.filter-popup button:hover {
+    opacity: 0.9;
+}
+
+/* 선택된 필터 표시 영역 */
+.filter-selected {
+    display: inline-block;
+    text-align: center;
+    margin: 6px 0;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    color: white;
+}
+
+/* 선택된 필터 색상도 동일하게 적용 */
+.filter-selected.unread {
+    background-color: #6c757d;
+}
+.filter-selected.read {
+    background-color: #17a2b8;
+}
+.filter-selected.waiting {
+    background-color: #ffc107;
+    color: #212529;
+}
+.filter-selected.accepted {
+    background-color: #28a745;
+}
+.filter-selected.rejected {
+    background-color: #dc3545;
+}
