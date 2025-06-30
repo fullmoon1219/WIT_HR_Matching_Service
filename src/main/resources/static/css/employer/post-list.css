@@ -44,7 +44,7 @@
     border-collapse: collapse;
     background-color: #fff;
     font-size: 14px;
-    table-layout: fixed;
+    /*table-layout: fixed;*/
 }
 
 .post-list-table th,
@@ -53,7 +53,7 @@
     padding: 10px 12px;
     text-align: center; /* ✅ 중앙 정렬 */
     vertical-align: middle;
-    overflow: hidden;
+    /*overflow: hidden;*/
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -142,4 +142,18 @@ input[type="checkbox"] {
 
 .delete-button:hover {
     background-color: #b52a3b;
+}
+
+.filter-toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+    white-space: nowrap; /* 줄바꿈 방지 해제 */
+}
+
+.filter-label {
+    font-weight: bold;
+    font-size: 14px;
 }

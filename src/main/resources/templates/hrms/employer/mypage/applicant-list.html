@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="/css/employer/applicant-list.css">
         <link rel="stylesheet" href="/css/employer/applicant-detail.css">
         <link rel="stylesheet" href="/css/employer/fragment/pagination.css">
+        <link rel="stylesheet" href="/css/employer/fragment/filter.css">
     </th:block>
 
     <section layout:fragment="content">
@@ -63,7 +64,20 @@
                     <th>이름</th>
                     <th>지원자 이메일</th>
                     <th>신청일</th>
-                    <th>상태</th>
+                    <th class="filter-toggle" data-filter="status" style="position: relative;" id="th-status">
+                        <div class="filter-label">
+                            상태 <span>▼</span>
+                        </div>
+                        <div class="filter-selected value status" data-type="status" style="display: none;"></div>
+                        <div class="filter-popup" data-type="status" style="display: none;">
+                            <button class="status-filter default" data-value="">전체</button>
+                            <button class="status-filter unread" data-value="unread">미열람</button>
+                            <button class="status-filter read" data-value="read">열람</button>
+                            <button class="status-filter waiting" data-value="waiting">대기</button>
+                            <button class="status-filter accepted" data-value="accepted">합격</button>
+                            <button class="status-filter rejected" data-value="rejected">불합격</button>
+                        </div>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -107,3 +121,4 @@
 </div>
 
 <script src="/js/employer/applicant-list.js"></script>
+<script src="/js/employer/filter.js"></script>
