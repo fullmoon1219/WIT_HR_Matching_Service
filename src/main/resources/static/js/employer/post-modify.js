@@ -5,7 +5,6 @@ $(document).ready(function () {
     $(document).on('click', '.cancel-button', function (e) {
         e.preventDefault();
 
-        // 수정 중일 경우 확인
         const hasChanges = $('#floatingSidebarContent')
             .find('input, textarea, select')
             .toArray()
@@ -15,21 +14,16 @@ $(document).ready(function () {
             return;
         }
 
-        // const postId = $(this).data('id');
-        // if (!postId) {
-        //     alert("공고 ID가 없습니다.");
-        //     return;
-        // }
-
-        // 뷰 페이지로 다시 이동
         $.ajax({
-            url: `/employer/test/view`,
+            url: `/employer/jobpost_list`,
             method: 'GET',
             success: function (html) {
                 $('#floatingSidebarContent').html(html);
+                $('#floatingOverlay').removeClass('show');
+                $('#floatingSidebar').removeClass('show');
             },
             error: function () {
-                alert('상세 페이지를 불러오는 데 실패했습니다.');
+                alert('리스트 페이지를 불러오는 데 실패했습니다.');
             }
         });
     });

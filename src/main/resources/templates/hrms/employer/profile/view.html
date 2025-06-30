@@ -7,6 +7,15 @@
     </th:block>
 
     <section layout:fragment="content">
+        <!-- ✅ 메시지 출력 -->
+        <div class="flash-message-container">
+            <div th:if="${successMessage}" class="alert alert-success">
+                <p th:text="${successMessage}"></p>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger">
+                <p th:text="${errorMessage}"></p>
+            </div>
+        </div>
 
         <!-- ✅ 기업 기본 정보 테이블 -->
         <div class="profile-table-container">
@@ -25,33 +34,33 @@
                         <img src="/images/users/user_big_profile.png" alt="기업 로고">
                     </td>
                     <th>회사명</th>
-                    <td data-field="companyName">WIT</td>
+                    <td data-field="companyName" th:text="${profile.companyName}" >WIT</td>
                     <th>대표자명</th>
-                    <td data-field="ceoName">TEST</td>
+                    <td data-field="ceoName" th:text="${profile.ceoName}">TEST</td>
                 </tr>
                 <tr>
                     <th>사업자 번호</th>
-                    <td data-field="businessNumber">123-45-67890</td>
+                    <td data-field="businessNumber" th:text="${profile.businessNumber}" >123-45-67890</td>
                     <th>이메일</th>
-                    <td data-field="email">wit@exam.com</td>
+                    <td data-field="email" th:text="${profile.email}">wit@exam.com</td>
                 </tr>
                 <tr>
                     <th>대표 전화번호</th>
-                    <td data-field="phone">02-1234-5678</td>
+                    <td data-field="phoneNumber"th:text="${profile.phoneNumber}" >02-1234-5678</td>
                     <th>홈페이지</th>
-                    <td data-field="homepage"><a href="https://www.wit.co.kr" target="_blank">www.wit.co.kr</a></td>
+                    <td data-field="homepageUrl"  th:text="${profile.homepageUrl}" ><a href="https://www.wit.co.kr" target="_blank">www.wit.co.kr</a></td>
                 </tr>
                 <tr>
                     <th>회사 주소</th>
-                    <td data-field="address">서울시 강남구 테헤란로 123</td>
+                    <td data-field="address" th:text="${profile.address}">서울시 강남구 테헤란로 123</td>
                     <th>기업 규모</th>
-                    <td data-field="size" >중소기업 (50명)</td>
+                    <td data-field="companySize"  th:text="${profile.companySize}" >중소기업 (50명)</td>
                 </tr>
                 <tr>
                     <th>업종</th>
-                    <td data-field="industry">IT / 소프트웨어</td>
+                    <td data-field="industry" th:text="${profile.industry}" >IT / 소프트웨어</td>
                     <th>설립연도</th>
-                    <td data-field="founded">2019년</td>
+                    <td data-field="foundedYear"  th:text="${profile.foundedYear}" >2019년</td>
                 </tr>
             </table>
 
@@ -88,26 +97,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>백엔드 개발자 (Spring)</td>
-                    <td>홍길동</td>
-                    <td>hong@exam.com</td>
-                    <td>2025-06-25</td>
-                    <td><span class="status-label status-new">미열람</span></td>
-                </tr>
-                <tr>
-                    <td>프론트엔드 엔지니어</td>
-                    <td>김자바</td>
-                    <td>java@exam.com</td>
-                    <td>2025-06-24</td>
-                    <td><span class="status-label status-read">열람</span></td>
-                </tr>
-                <tr>
-                    <td>풀스택 개발자</td>
-                    <td>이파이썬</td>
-                    <td>python@exam.com</td>
-                    <td>2025-06-22</td>
-                    <td><span class="status-label status-pass">합격</span></td>
+
+                <tr th:each="recentApplicant : ${recentApplicantList}">
+                    <td th:text="${recentApplicant.title}">채용공고 제목</td>
+                    <td th:text="${recentApplicant.applicantName}">지원자 이름</td>
+                    <td th:text="${recentApplicant.email}">이메일</td>
+                    <td th:text="${recentApplicant.appliedAt}">지원일자</td>
+                    <td>
+                        <span th:text="${recentApplicant.status}"
+                              th:classappend="
+                                ${recentApplicant.status} == '합격' ? 'status-label status-pass' :
+                                (${recentApplicant.status} == '열람' ? 'status-label status-read' :
+                                'status-label status-new')">
+                        </span>
+                    </td>
+
                 </tr>
                 </tbody>
             </table>

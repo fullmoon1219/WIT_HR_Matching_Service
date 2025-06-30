@@ -31,7 +31,25 @@ $(document).ready(function () {
             }
         });
     });
+    // 제목 클릭 시 수정 폼 로드
+    $(document).on('click', '.edit-post-link', function (e) {
+        e.preventDefault(); // 기본 링크 동작 막기
 
+        const jobPostId = $(this).data('id');
+
+        $.ajax({
+            url: `/employer/jobpost_edit?jobPostId=${jobPostId}`,
+            type: 'GET',
+            success: function (html) {
+                $('#floatingSidebarContent').html(html);
+                $('#floatingOverlay').addClass('show');
+                $('#floatingSidebar').addClass('show');
+            },
+            error: function () {
+                alert('공고 수정 페이지를 불러오는 데 실패했습니다.');
+            }
+        });
+    });
 
     // 공고 제목 클릭 시 공고 보기 페이지
     $('.post-title-link').on('click', function (e) {

@@ -4,7 +4,7 @@
 <div class="write-container">
     <h2 class="write-title">📢 공고 등록</h2>
 
-    <form action="#" method="post">
+    <form th:action="@{/employer/jobpost}" method="post">
         <div class="form-group">
             <label for="title">공고명</label>
             <input type="text" id="title" name="title" required>

@@ -3,22 +3,22 @@
 <div class="view-container">
 
     <!-- 공고 제목 -->
-    <h2 class="view-title" data-field="title">📄 백엔드 개발자 (Spring)</h2>
+    <h2 class="view-title" data-field="title" th:text="${post.title}">📄 백엔드 개발자 (Spring)</h2>
 
     <!-- 기본 정보 테이블 -->
     <table class="job-basic-info-table">
         <tbody>
         <tr>
             <th>고용형태</th>
-            <td data-field="employment_type">정규직</td>
+            <td data-field="employment_type" th:text="${post.employmentType}">정규직</td>
             <th>급여</th>
-            <td data-field="salary">연 4,000만원</td>
+            <td data-field="salary" th:text="${post.salary}">연 4,000만원</td>
         </tr>
         <tr>
             <th>근무지</th>
-            <td data-field="location">서울 강남구</td>
+            <td data-field="location" th:text="${post.location}">서울 강남구</td>
             <th>마감일</th>
-            <td data-field="deadline">2025-07-05</td>
+            <td data-field="deadline" th:text="${post.deadline}">2025-07-05</td>
         </tr>
         </tbody>
     </table>
@@ -26,7 +26,7 @@
     <!-- 공고 설명 -->
     <div class="view-group">
         <h3>📌 공고 설명</h3>
-        <div class="view-value description" data-field="description">
+        <div class="view-value description" data-field="description" th:text="${post.description}">
             공고 설명이 들어갑니다. 이미지나 HTML 태그도 포함될 수 있습니다.
         </div>
     </div>
@@ -34,13 +34,13 @@
     <!-- 요구 역량 -->
     <div class="view-group">
         <h3>💡 요구 역량</h3>
-        <p class="view-value" data-field="required_skills">Spring, JPA, MySQL</p>
+        <p class="view-value" data-field="required_skills" th:text="${post.requiredSkills}">Spring, JPA, MySQL</p>
     </div>
 
     <!-- 근무지 지도 -->
     <div class="view-group">
         <h3>📍 근무지 위치</h3>
-        <p class="view-value" data-field="workplace_address">서울시 강남구 테헤란로 123</p>
+        <p class="view-value" data-field="workplace_address" th:text="${post.workplaceAddress}">서울시 강남구 테헤란로 123</p>
         <div id="workplaceMap" class="map-container"></div>
     </div>
 
@@ -86,7 +86,7 @@
 
     <!-- 하단 버튼 -->
     <div class="form-actions">
-        <button type="button" class="edit-button">수정</button>
+        <button type="button" th:href="@{/employer/jobpost_list}" class="edit-button">수정</button>
         <button type="button" class="delete-button">삭제</button>
         <button type="button" class="close-button">닫기</button>
     </div>

@@ -1,72 +1,108 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>채용공고 페이지</title>
-<!--  CSS 적용시 해당 스타일 삭제해 주세요-->
-  <style>
-    body { font-family: sans-serif; }
-    .container { display: flex; }
-    .sidebar { width: 200px; background: #f0f0f0; padding: 10px; }
-    .main { flex: 1; padding: 20px; }
-    .section { margin-bottom: 20px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { border: 1px solid #ccc; padding: 5px; }
-  </style>
-  <!--  CSS 적용시 해당 스타일 삭제해 주세요-->
+<!-- /templates/hrms/employer/mypagge/post-list.html -->
 
-</head>
-<body>
+<div layout:decorate="~{layout/employer/employer-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-<div class="container"> <!----------------- 사이드 메뉴 -->
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/post-list.css">
+        <link rel="stylesheet" href="/css/employer/post-form.css">
+        <link rel="stylesheet" href="/css/employer/post-view.css">
+        <link rel="stylesheet" href="/css/employer/fragment/pagination.css">
+    </th:block>
 
-  <div class="sidebar">
-    <h3><a href="/employer/main">기업 페이지</a></h3>
-    <ul>
-      <li><a href="/employer/profile">기업관리</a></li>
-      <li><a href="/employer/jobpost_list">채용공고</a></li>
-      <li><a href="/employer/applications">이력서 확인</a></li>
-      <li><a href="#">AI 추천 공고</a></li>
-    </ul>
-  </div>
+    <section layout:fragment="content">
+        <div class="card-grid">
+            <div class="card">
+                <h3>총 공고 수</h3>
+                <div class="value">--</div>
+            </div>
+            <div class="card">
+                <h3>마감 공고 수</h3>
+                <div class="value">--</div>
+            </div>
+            <div class="card">
+                <h3>진행중인 공고 수</h3>
+                <div class="value">--</div>
+            </div>
+        </div>
 
-  <!--  신규공고 등록 버튼 -->
-  <div style="margin: 10px 0;">
-    <a href="/employer/jobpost" style="text-decoration: none;">
-      <button type="button">신규공고 작성하기</button>
-    </a>
-  </div>
 
-  <table border="1" cellspacing="0" cellpadding="5">
-    <thead>
-    <tr>
-      <th>채용 공고명</th>
-      <th>수정</th>
-      <th>삭제</th>
-      <th>지원자 보기</th>
-    </tr>
-    </thead>
+        <div class="post-list-container">
+            <div class="post-list-header">
+                <h3 class="table-title">📄 등록한 공고 목록</h3>
 
-    <tbody>
-    <tr th:each="post : ${jobPostList}">
-      <td> <!--상세페이지로 이동-->
-        <a th:href="@{./view(jobPostId=${post.id})}" th:text="${post.title}">이력서 제목</a>
-      </td>
-      <td> <!--수정페이지로 이동-->
-        <a th:href="@{./joppost_edit(jobPostId=${post.id})}">
-          <button type="button">수정</button>
-        </a>
-      </td>
-      <td> <!-- 삭제 -->
-        <form action="./delete" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-          <input type="hidden" name="resumeId" th:value="${post.id}" />
-          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-          <button type="submit">삭제</button>
-        </form>
-      </td>
-      <td><button type="button">지원자보기</button></td>
-    </tr>
-    </tbody>
+                <div class="post-list-actions">
+                    <input type="text" id="searchInput" placeholder="공고명 검색" class="search-input">
+                    <button type="button" class="action-button register-button" id="openWriteFormBtn">공고 등록</button>
+                    <button type="button" class="action-button delete-button">공고 삭제</button>
+                </div>
+            </div>
 
-</body>
-</html>
+
+            <table class="post-list-table">
+                <colgroup>
+                    <col style="width: 5%">
+                    <col style="width: 5%">
+                    <col style="width: 30%">
+                    <col style="width: 10%">
+                    <col style="width: 15%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 8%">
+                    <col style="width: 7%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="checkbox-cell" id="selectAllCell"><input type="checkbox" id="selectAll"></th>
+                    <th>ID</th>
+                    <th>공고명</th>
+                    <th>고용형태</th>
+                    <th>지역</th>
+                    <th>마감일</th>
+                    <th>등록일</th>
+                    <th>상태</th>
+                    <th>지원자 수</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post : ${jobPostList}">
+                    <td class="checkbox-cell"><input type="checkbox" class="select-post"></td>
+                    <td th:text="${post.id}">공고ID</td>
+                    <td>
+                        <a href="#" class="edit-post-link" th:data-id="${post.id}" th:text="${post.title}">채용공고 제목</a>
+                    </td>
+                    <td th:text="${post.employmentType}">고용형태</td>
+                    <td th:text="${post.location}">지역</td>
+                    <td th:text="${post.deadline}">마감일</td>
+                    <td th:text="${post.createAt}">등록일</td>
+                    <td>
+                        <span th:text="${post.deadline != null and post.deadline.isBefore(T(java.time.LocalDate).now()) ? '마감' : '진행중'}"
+                              th:classappend="${post.deadline != null and post.deadline.isBefore(T(java.time.LocalDate).now()) ? 'status-label status-closed' : 'status-label status-open'}">
+                        </span>
+                    </td>
+                    <td th:text="${post.applicantCount}">지원자 수</td>
+                </tr>
+            </table>
+
+            <div id="paginationContainer" class="pagination-container"></div>
+
+        </div>
+
+        <div class="pagination-container">
+            <button class="pagination-btn">&lt;&lt;</button>
+            <button class="pagination-btn">&lt;</button>
+
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn">4</button>
+            <button class="pagination-btn">5</button>
+
+            <button class="pagination-btn">&gt;</button>
+            <button class="pagination-btn">&gt;&gt;</button>
+        </div>
+
+
+    </section>
+</div>
+
+<script src="/js/employer/post-list.js"></script>
