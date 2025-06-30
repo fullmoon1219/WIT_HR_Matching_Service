@@ -39,4 +39,16 @@ public class EmployerControllerTest {
 
         return "employer/mypage/post-modify";
     }
+
+    @GetMapping("/applicantList")
+    public String postApplicant() {
+
+        return "employer/mypage/applicant-list";
+    }
+
+    @GetMapping("/applicantDetail")
+    public String postApplicantDetail() {
+
+        return "employer/mypage/applicant-detail";
+    }
 }

@@ -47,15 +47,6 @@ public class SecurityConfig {
     }
 
 
-
-//    @Bean
-//    public AuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setPasswordEncoder(passwordEncoder);
-//        provider.setUserDetailsService(customUserDetailsService);
-//        return provider;
-//    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
