@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.type.Alias;
 
+@Alias(value = "EmployerProfilesVO")
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,4 +22,7 @@ public class EmployerProfilesVO {
     private String industry;       // industry
     private Integer foundedYear;   // founded_year
     private String companySize;    // company_size
+    private String ceoName;
+    private String email;
+    private String password;        // 화면단에서 입력한 비밀번호, userPassword와 일치 비교
 }

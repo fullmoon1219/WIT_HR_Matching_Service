@@ -64,23 +64,29 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="post : ${jobPostList}">
+                <tr>
                     <td class="checkbox-cell"><input type="checkbox" class="select-post"></td>
-                    <td th:text="${post.id}">공고ID</td>
-                    <td>
-                        <a href="#" class="edit-post-link" th:data-id="${post.id}" th:text="${post.title}">채용공고 제목</a>
-                    </td>
-                    <td th:text="${post.employmentType}">고용형태</td>
-                    <td th:text="${post.location}">지역</td>
-                    <td th:text="${post.deadline}">마감일</td>
-                    <td th:text="${post.createAt}">등록일</td>
-                    <td>
-                        <span th:text="${post.deadline != null and post.deadline.isBefore(T(java.time.LocalDate).now()) ? '마감' : '진행중'}"
-                              th:classappend="${post.deadline != null and post.deadline.isBefore(T(java.time.LocalDate).now()) ? 'status-label status-closed' : 'status-label status-open'}">
-                        </span>
-                    </td>
-                    <td th:text="${post.applicantCount}">지원자 수</td>
+                    <td>2</td>
+                    <td><span class="post-title-link">백엔드 개발자 (Spring)</span></td>
+                    <td>정규직</td>
+                    <td>서울 강남구</td>
+                    <td>2025-07-05</td>
+                    <td>2025-06-20</td>
+                    <td><span class="status-label status-open">진행중</span></td>
+                    <td>5명</td>
                 </tr>
+                <tr>
+                    <td class="checkbox-cell"><input type="checkbox" class="select-post"></td>
+                    <td>1</td>
+                    <td><span class="post-title-link">프론트엔드 개발자</span></td>
+                    <td>정규직</td>
+                    <td>서울 마포구</td>
+                    <td>2025-06-25</td>
+                    <td>2025-06-10</td>
+                    <td><span class="status-label status-closed">마감</span></td>
+                    <td>8명</td>
+                </tr>
+                </tbody>
             </table>
 
             <div id="paginationContainer" class="pagination-container"></div>

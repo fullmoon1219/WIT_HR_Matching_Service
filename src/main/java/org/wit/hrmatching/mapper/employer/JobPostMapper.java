@@ -1,8 +1,7 @@
-package org.wit.hrmatching.mapper;
+package org.wit.hrmatching.mapper.employer;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.wit.hrmatching.vo.ApplicantProfilesVO;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
 import org.wit.hrmatching.vo.JobPostVO;
 
 import java.util.List;
@@ -14,4 +13,8 @@ public interface JobPostMapper {
     List<JobPostVO> selectRecentJobPostList(long userId);
     List<JobPostVO> selectJobPostAllList(long userId);
     List<ApplicantProfilesVO> selectApplicantList(long userId);
+    JobPostVO selectJobPostById(Long recruitId);
+    JobPostVO selectJobPostDetail(Long jobPostId);
+    int updateJobPostDetail(JobPostVO jobPostVO);
+    int deleteJobPost(long jobPostId);
 }

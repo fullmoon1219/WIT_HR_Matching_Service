@@ -1,0 +1,53 @@
+<!-- templates/hrms/layout/employer/employer-template.html -->
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Novi</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/community/fragment/template.css">
+    <link rel="stylesheet" href="/css/employer/fragment/sidebar.css">
+    <link rel="stylesheet" href="/css/community/fragment/header.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <th:block layout:fragment="styles"></th:block>
+
+    <!-- JS -->
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/admin/csrf-setup.js"></script>
+</head>
+<body>
+<div class="community-layout">
+    <!-- Sidebar -->
+    <aside th:replace="~{fragments/employer/sidebarHn :: sidebar}"></aside>
+
+
+    <!-- Right Container -->
+    <div class="community-container">
+        <!-- Header -->
+        <header th:replace="~{fragments/employer/header :: header}"></header>
+
+        <!-- Content -->
+        <div class="content">
+            <section class="main-area" layout:fragment="content"></section>
+
+            <div id="floatingOverlay" class="floating-overlay"></div>
+
+            <div id="floatingSidebar" class="floating-sidebar">
+                <div class="content" id="floatingSidebarContent">
+                    <!-- AJAX로 삽입됨 -->
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
