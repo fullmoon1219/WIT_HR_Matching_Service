@@ -2,20 +2,37 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
+
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
 	<title>채용 공고 상세 보기</title>
 
-	<script src="/js/jquery-3.7.1.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+	<script src="/js/jquery-3.7.1.min.js"></script>
+	<script src="/js/admin/csrf-setup.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 	<script src="/js/applicant/common.js"></script>
 	<script src="/js/applicant/recruit/recruit_view.js"></script>
+
+	<style>
+        .ui-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+	</style>
 </head>
 <body>
 
 <h2>채용 공고</h2>
 
 <button id="applyBtn">입사 지원</button>
+<!-- 스크랩 부분 버튼에서 이모지는 디자인 시 바꿔야함(현재 임시) -->
+<button type="button" id="scrapBtn" class="btn-scrap">&#9734; 스크랩</button>
 
 <p><strong>공고 제목:</strong> <span id="title"></span></p>
 <p><strong>상세 설명:</strong> <span id="description"></span></p>

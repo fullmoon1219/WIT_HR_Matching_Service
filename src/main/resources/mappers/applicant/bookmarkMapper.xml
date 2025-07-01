@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.applicant.BookmarkMapper">
+
+    <sql id="bookmarkSearchCondition">
+        <if test="criteria.keyword != null and criteria.keyword != ''">
+            AND (jp.title LIKE CONCAT('%', #{criteria.keyword}, '%') OR ep.company_name LIKE CONCAT('%', #{criteria.keyword}, '%'))
+        </if>
+    </sql>
+
+    <select id="checkBookmarkExist" resultType="int">
+        select count(*)
+        from bookmarks
+        where user_id=#{userId} and job_post_id=#{jobPostId}
+    </select>
+
+    <insert id="insertBookmark">
+        insert into bookmarks
+            (user_id, job_post_id)
+        values (#{userId}, #{jobPostId})
+    </insert>
+
+    <delete id="deleteBookmark">
+        delete
+        from bookmarks
+        where user_id=#{userId} and job_post_id=#{jobPostId}
+    </delete>
+
+    <update id="increaseBookmarkCount">
+        update job_posts
+        set bookmark_count = bookmark_count + 1
+        where id=#{jobPostId} and deleted_at is null
+    </update>
+
+    <update id="decreaseBookmarkCount">
+        update job_posts
+        set bookmark_count = bookmark_count - 1
+        where id=#{jobPostId} and deleted_at is null
+    </update>
+
+    <select id="selectBookmarkListCount" resultType="int">
+        select count(b.id)
+        from bookmarks b
+        inner join job_posts jp on b.job_post_id = jp.id
+        left join employer_profiles ep on jp.user_id = ep.user_id
+        where b.user_id = #{userId}
+        <include refid="bookmarkSearchCondition"/>
+    </select>
+
+    <select id="selectBookmarkList" resultType="BookmarkListVO">
+        select
+        b.id as id,
+        b.job_post_id as jobPostId,
+        jp.title as jobPostTitle,
+        jp.deadline as deadline,
+        ep.company_name as companyName,
+        b.created_at as createdAt
+        from bookmarks b
+        inner join job_posts jp on b.job_post_id = jp.id
+        left join employer_profiles ep on jp.user_id = ep.user_id
+        where b.user_id=#{userId}
+        <include refid="bookmarkSearchCondition"/>
+        <choose>
+            <when test="criteria.sortOrder == 'deadline'">
+                order by jp.deadline asc
+            </when>
+            <when test="criteria.sortOrder == 'oldest'">
+                order by b.created_at asc
+            </when>
+            <otherwise>
+                order by b.created_at desc
+            </otherwise>
+        </choose>
+        limit #{criteria.skip}, #{criteria.recordPerPage}
+    </select>
+
+</mapper>

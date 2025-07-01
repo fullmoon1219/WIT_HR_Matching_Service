@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.wit.hrmatching.service.applicant.BookmarkService;
 import org.wit.hrmatching.service.applicant.RecruitService;
 import org.wit.hrmatching.service.applicant.ResumeService;
 import org.wit.hrmatching.vo.ApplicationsVO;
@@ -24,6 +25,7 @@ public class RecruitRestController {
 
 	private final RecruitService recruitService;
 	private final ResumeService resumeService;
+	private final BookmarkService bookmarkService;
 
 	@GetMapping("/{jobPostId}")
 	public ResponseEntity<Map<String, Object>> getRecruit(@PathVariable long jobPostId,
@@ -48,16 +50,19 @@ public class RecruitRestController {
 		EmployerProfilesVO employer = recruitService.viewEmployerProfile(jobPost.getUserId());
 
 		boolean isApplied = false;
+		boolean isBookmarked = false;
 
 		if (userDetails != null) {
 			long userId = userDetails.getId();
 
 			isApplied = recruitService.isApplicationExist(userId, jobPostId);
+			isBookmarked = bookmarkService.checkBookmarkExist(userId, jobPostId);
 		}
 
 		Map<String, Object> response = new HashMap<>();
 		response.put("jobPost", jobPost);
 		response.put("isApplied", isApplied);
+		response.put("isBookmarked", isBookmarked);
 
 		if (employer != null) {
 			response.put("employer", employer);
