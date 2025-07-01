@@ -69,7 +69,8 @@
         update resumes
         set education=#{education}, experience=#{experience}, skills=#{skills}, is_completed=#{isCompleted},
             preferred_location=#{preferredLocation}, salary_expectation=#{salaryExpectation}, title=#{title},
-            core_competency=#{coreCompetency}, desired_position=#{desiredPosition}, motivation=#{motivation}
+            core_competency=#{coreCompetency}, desired_position=#{desiredPosition}, motivation=#{motivation},
+            updated_at=now()
         where id=#{id} and deleted_at is null and is_public=false
     </update>
 
