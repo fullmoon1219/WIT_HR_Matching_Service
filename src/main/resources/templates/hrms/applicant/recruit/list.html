@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+
+	<title>채용 공고 목록 및 검색</title>
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+	<script src="/js/jquery-3.7.1.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+	<script src="/js/applicant/common.js"></script>
+	<script src="/js/applicant/recruit/recruit_list.js"></script>
+
+	<style>
+        /* 드롭다운 영역 기본적으로 숨김 */
+        .filter-dropdown {
+            display: none;
+        }
+
+        /* 드롭다운 열릴 때 .active 클래스 붙으면 보이게 */
+        .filter-wrapper.active .filter-dropdown {
+            display: block;
+        }
+
+        /* 선택된 필터 버튼 표시 (기능상 선택 여부 확인용) */
+        .filter-btn.active {
+            font-weight: bold;
+            background-color: #eee;
+        }
+	</style>
+</head>
+<body>
+
+<h2>공고 목록</h2>
+
+<div id="main-filter-bar">
+
+	<!-- 지역 선택 -->
+	<div class="filter-wrapper" id="region-wrapper">
+		<button class="filter-toggle" data-type="region">지역 선택</button>
+		<div class="filter-dropdown">
+			<div class="filter-search-wrapper">
+				<input type="text" class="filter-search" data-type="region" placeholder="지역 입력" />
+				<span class="filter-search-icon">🔍</span>
+			</div>
+			<div class="filter-options" id="region-options">
+				<button class="filter-btn" data-value="서울">서울</button>
+				<button class="filter-btn" data-value="부산">부산</button>
+				<button class="filter-btn" data-value="대구">대구</button>
+				<button class="filter-btn" data-value="인천">인천</button>
+				<button class="filter-btn" data-value="광주">광주</button>
+				<button class="filter-btn" data-value="대전">대전</button>
+				<button class="filter-btn" data-value="울산">울산</button>
+				<button class="filter-btn" data-value="세종">세종</button>
+				<button class="filter-btn" data-value="경기">경기</button>
+				<button class="filter-btn" data-value="강원">강원</button>
+				<button class="filter-btn" data-value="충북">충북</button>
+				<button class="filter-btn" data-value="충남">충남</button>
+				<button class="filter-btn" data-value="전북">전북</button>
+				<button class="filter-btn" data-value="전남">전남</button>
+				<button class="filter-btn" data-value="경북">경북</button>
+				<button class="filter-btn" data-value="경남">경남</button>
+				<button class="filter-btn" data-value="제주">제주</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 기술 스택 선택 -->
+	<div class="filter-wrapper" id="stack-wrapper">
+		<button class="filter-toggle" data-type="stack">기술 선택</button>
+		<div class="filter-dropdown">
+			<div class="filter-search-wrapper">
+				<input type="text" class="filter-search" data-type="stack" placeholder="기술 입력" />
+				<span class="filter-search-icon">🔍</span>
+			</div>
+			<div class="filter-options" id="stack-options">
+				<button class="filter-btn" data-value="Java">Java</button>
+				<button class="filter-btn" data-value="C">C</button>
+				<button class="filter-btn" data-value="C++">C++</button>
+				<button class="filter-btn" data-value="Python">Python</button>
+				<button class="filter-btn" data-value="JavaScript">JavaScript</button>
+				<button class="filter-btn" data-value="Kotlin">Kotlin</button>
+				<button class="filter-btn" data-value="SpringBoot">SpringBoot</button>
+				<button class="filter-btn" data-value="Node.js">Node.js</button>
+				<button class="filter-btn" data-value="React">React</button>
+				<button class="filter-btn" data-value="Vue.js">Vue.js</button>
+				<button class="filter-btn" data-value="MySQL">MySQL</button>
+				<button class="filter-btn" data-value="MariaDB">MariaDB</button>
+				<button class="filter-btn" data-value="Oracle">Oracle</button>
+				<button class="filter-btn" data-value="MyBatis">MyBatis</button>
+				<button class="filter-btn" data-value="JPA">JPA</button>
+				<button class="filter-btn" data-value="Maven">Maven</button>
+				<button class="filter-btn" data-value="Gradle">Gradle</button>
+				<button class="filter-btn" data-value="Docker">Docker</button>
+				<button class="filter-btn" data-value="Jenkins">Jenkins</button>
+				<button class="filter-btn" data-value="Git">Git</button>
+				<button class="filter-btn" data-value="AWS">AWS</button>
+				<button class="filter-btn" data-value="NginX">NginX</button>
+				<button class="filter-btn" data-value="Other">Other</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 전체 검색창 -->
+	<div id="main-search-wrapper">
+		<input type="text" id="main-search" placeholder="공고명 또는 키워드 입력" />
+		<button id="search-btn">🔍 검색</button>
+	</div>
+
+	<!-- 상세조건 -->
+	<div class="filter-wrapper" id="detail-wrapper">
+		<button class="filter-toggle" data-type="detail">+ 상세 조건</button>
+		<div class="filter-dropdown">
+			<!-- 상세조건 내용은 아직 없음 -->
+			<div>(상세 조건 영역)</div>
+		</div>
+	</div>
+
+</div>
+
+<hr />
+
+총 <span id="totalRecord"></span>건
+
+<section id="recruit-list">
+	<!-- JS로 채움 -->
+</section>
+
+<div id="pagination" class="pagination"></div>
+
+</body>
+</html>

@@ -8,9 +8,9 @@ spring:
 
   datasource:
       driver-class-name: 'com.mysql.cj.jdbc.Driver'
-      url: 'jdbc:mysql://fullmoon1219.iptime.org:3306/hrms'
-      username: 'wit'
-      password: '123456'
+      url: 'jdbc:mysql://localhost:3306/hrms'
+      username: 'root'
+      password: '!12345'
 
   servlet:
     multipart:
