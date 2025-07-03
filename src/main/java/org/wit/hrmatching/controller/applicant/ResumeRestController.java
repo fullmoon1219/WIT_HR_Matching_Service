@@ -9,7 +9,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.service.applicant.ResumeService;
-import org.wit.hrmatching.service.security.PermissionService;
 import org.wit.hrmatching.vo.CustomUserDetails;
 import org.wit.hrmatching.vo.ResumeVO;
 
