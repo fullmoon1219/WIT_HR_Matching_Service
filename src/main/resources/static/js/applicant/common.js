@@ -31,6 +31,15 @@ function translateEmploymentType(code) {
 	}
 }
 
+function translateExperienceType(code) {
+	switch (code) {
+		case 'NEWCOMER': return '신입';
+		case 'EXPERIENCED': return '경력';
+		case 'ANY': return '경력무관';
+		default: return '기타';
+	}
+}
+
 function translateApplicationStatus(status) {
 	switch (status) {
 		case 'APPLIED':

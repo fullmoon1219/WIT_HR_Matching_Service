@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.service.applicant.BookmarkService;
 import org.wit.hrmatching.service.applicant.RecruitService;
 import org.wit.hrmatching.service.applicant.ResumeService;
-import org.wit.hrmatching.vo.ApplicationsVO;
-import org.wit.hrmatching.vo.CustomUserDetails;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
-import org.wit.hrmatching.vo.JobPostVO;
+import org.wit.hrmatching.vo.*;
+import org.wit.hrmatching.vo.applicationPaging.PageResponseVO;
+import org.wit.hrmatching.vo.applicationPaging.SearchCriteria;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -118,5 +117,11 @@ public class RecruitRestController {
 		}
 	}
 
+	@GetMapping("")
+	public ResponseEntity<?> getRecruitList(@ModelAttribute SearchCriteria criteria) {
 
+		PageResponseVO<RecruitListVO> responseVO = recruitService.getRecruitList(criteria);
+
+		return ResponseEntity.ok(responseVO);
+	}
 }
