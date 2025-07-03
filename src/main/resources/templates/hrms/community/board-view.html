@@ -1,5 +1,4 @@
-<!-- /templates/hrms/community/board-view.html -->
-<div class="view-container">
+<div class="view-container" style="max-width: 800px;">
     <div class="view-header">
         <span class="view-title">자유 게시판</span>
         <br>
@@ -42,12 +41,17 @@
             <!-- 댓글 작성 영역 -->
             <div class="comment-input-box">
                 <div class="comment-user">이름(이메일)</div>
-                <textarea class="comment-textarea" placeholder="댓글을 남겨보세요"></textarea>
+                <input type="hidden" id="parent-comment-id" value="0">
+                <div id="reply-info" style="margin: 10px 0; display: none; background: #e8f4ff; padding: 5px 10px; border-radius: 4px;">
+                  <span id="reply-to-user"></span>님에게 답글 작성 중 
+                  <button id="cancel-reply" style="background: none; border: none; color: #007bff; cursor: pointer; font-size: 14px;">취소</button>
+                </div>
+                <textarea id="comment-input" class="comment-textarea" placeholder="댓글을 남겨보세요"></textarea>
                 <div class="comment-footer">
                     <div class="comment-actions">
                         <button class="comment-icon"><i class="fa-regular fa-image"></i></button>
                     </div>
-                    <button class="submit-comment">등록</button>
+                    <button id="add-comment-btn" class="submit-comment">등록</button>
                 </div>
             </div>
 
@@ -122,11 +126,12 @@
 
         <!-- 버튼 영역 -->
         <div class="view-buttons">
-            <button class="edit-btn"
+            <button id="like-button" class="like-btn" style="background-color: #e74c3c; margin-right: 5px;">❤️ 좋아요 (0)</button>
+            <button class="list-btn" style="background-color: #3498db;">목록으로</button>
+            <button class="edit-btn" style="background-color: #2ecc71;" 
                     data-id="1"
-                    data-board-code="free">수정</button>
-            <button class="delete-btn">삭제</button>
-            <button class="back-btn" id="closeFloatingSidebar">목록</button>
+                    data-board-code="free">수정하기</button>
+            <button class="delete-btn" style="background-color: #e74c3c;">삭제하기</button>
         </div>
     </div>
 
