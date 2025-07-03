@@ -313,3 +313,59 @@ hr {
 .comment-actions a:hover {
     text-decoration: underline;
 }
+
+/* 게시물 버튼 영역 스타일 */
+.view-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+    gap: 10px;
+}
+
+.view-buttons button {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+/* 버튼별 스타일 */
+.like-btn {
+    background-color: #e74c3c;
+}
+
+.like-btn:hover {
+    background-color: #c0392b;
+}
+
+.like-btn.liked {
+    background-color: #e74c3c;
+}
+
+.list-btn {
+    background-color: #3498db;
+}
+
+.list-btn:hover {
+    background-color: #2980b9;
+}
+
+.edit-btn {
+    background-color: #2ecc71;
+}
+
+.edit-btn:hover {
+    background-color: #27ae60;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
