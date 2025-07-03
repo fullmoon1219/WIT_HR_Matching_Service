@@ -1,8 +1,8 @@
 package org.wit.hrmatching.controller.ai;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +18,7 @@ import org.wit.hrmatching.vo.ResumeVO;
 @RestController
 @RequestMapping("/api/ai")
 @RequiredArgsConstructor
+@ConditionalOnBean(AiService.class)
 public class AiRestController {
 
     private final AiService aiService;
