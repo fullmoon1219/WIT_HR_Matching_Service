@@ -3,10 +3,11 @@ package org.wit.hrmatching.service.applicant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.dao.applicant.RecruitDAO;
-import org.wit.hrmatching.vo.ApplicationsVO;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
-import org.wit.hrmatching.vo.JobPostVO;
+import org.wit.hrmatching.vo.*;
+import org.wit.hrmatching.vo.applicationPaging.PageResponseVO;
+import org.wit.hrmatching.vo.applicationPaging.SearchCriteria;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,5 +78,18 @@ public class RecruitService {
 
 	public boolean isApplicationExist(long userId, long jobPostId) {
 		return recruitDAO.isApplicationExist(userId, jobPostId);
+	}
+
+	public PageResponseVO<RecruitListVO> getRecruitList(SearchCriteria criteria) {
+
+		int totalRecord = recruitDAO.countRecruitList(criteria);
+
+		if (totalRecord < 1) {
+			return new PageResponseVO<>(0, criteria, Collections.emptyList());
+		}
+
+		List<RecruitListVO> content = recruitDAO.getRecruitList(criteria);
+
+		return new PageResponseVO<>(totalRecord, criteria, content);
 	}
 }

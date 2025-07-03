@@ -14,4 +14,9 @@ public class ApplicationController {
 	public String applicationList() {
 		return "applicant/application/list";
 	}
+
+	@GetMapping("/apply/{jobPostId}")
+	public String applyRecruit() {
+		return "applicant/application/apply";
+	}
 }

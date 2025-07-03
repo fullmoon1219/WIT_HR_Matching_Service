@@ -63,7 +63,7 @@ $(document).ready(function () {
 	});
 
 	$('#applyBtn').on('click', function () {
-		location.href = `/applicant/recruit/apply/${jobPostId}`;
+		location.href = `/applicant/applications/apply/${jobPostId}`;
 	});
 
 	$('#scrapBtn').on('click', function () {

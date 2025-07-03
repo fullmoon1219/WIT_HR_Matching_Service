@@ -37,4 +37,98 @@
         values (#{userId}, #{jobPostId}, #{resumeId})
     </insert>
 
+    <select id="selectRecruitList">
+        select
+            jp.id as jobPostId,
+            jp.title as jobPostTitle,
+            jp.location,
+            jp.experience_type as experienceType,
+            jp.salary,
+            jp.employment_type as employmentType,
+            jp.deadline,
+            jp.create_at as createAt,
+            ep.company_name as companyName
+        from job_posts jp
+            left join employer_profiles ep on jp.user_id = ep.user_id
+
+        <where>
+            jp.deleted_at is null
+            <if test="keyword != null and keyword != ''">
+                AND (
+                jp.title LIKE CONCAT('%', #{keyword}, '%')
+                OR ep.company_name LIKE CONCAT('%', #{keyword}, '%')
+                OR jp.description LIKE CONCAT('%', #{keyword}, '%')
+                OR jp.location LIKE CONCAT('%', #{keyword}, '%')
+                OR jp.workplace_address LIKE CONCAT('%', #{keyword}, '%')
+                OR jp.job_category LIKE CONCAT('%', #{keyword}, '%')
+                )
+            </if>
+            <if test="regionKeyword != null and regionKeyword != ''">
+                AND (jp.location LIKE CONCAT('%', #{regionKeyword}, '%') OR jp.workplace_address LIKE CONCAT('%', #{regionKeyword}, '%'))
+            </if>
+
+            <if test="region != null and region != ''">
+                AND jp.location = #{region}
+            </if>
+            <if test="techStacks != null and !techStacks.isEmpty()">
+                <foreach collection="techStacks" item="stackId" open="AND (" separator=" AND " close=")">
+                    FIND_IN_SET(#{stackId}, jp.required_skills) > 0
+                </foreach>
+            </if>
+        </where>
+
+        <choose>
+            <when test="sortOrder == 'deadline'">
+                order by jp.deadline asc
+            </when>
+            <when test="sortOrder == 'oldest'">
+                order by jp.create_at asc
+            </when>
+            <when test="sortOrder == 'views'">
+                order by jp.view_count asc
+            </when>
+            <when test="sortOrder == 'scraps'">
+                order by jp.bookmark_count asc
+            </when>
+            <otherwise>
+                order by jp.create_at desc
+            </otherwise>
+        </choose>
+        limit #{skip}, #{recordPerPage}
+    </select>
+
+    <select id="selectRecruitListCount" resultType="int">
+        select count(*)
+        from job_posts jp
+        left join employer_profiles ep on jp.user_id = ep.user_id
+
+        <where>
+            jp.deleted_at is null
+
+            <if test="keyword != null and keyword != ''">
+                AND (
+                jp.title LIKE CONCAT('%', #{keyword}, '%')
+                OR ep.company_name LIKE CONCAT('%', #{keyword}, '%')
+                OR jp.description LIKE CONCAT('%', #{keyword}, '%')
+                OR jp.location LIKE CONCAT('%', #{keyword}, '%')
+                OR jp.job_category LIKE CONCAT('%', #{keyword}, '%')
+                )
+            </if>
+
+            <if test="regionKeyword != null and regionKeyword != ''">
+                AND (jp.location LIKE CONCAT('%', #{regionKeyword}, '%') OR jp.workplace_address LIKE CONCAT('%', #{regionKeyword}, '%'))
+            </if>
+
+            <if test="region != null and region != ''">
+                AND jp.location = #{region}
+            </if>
+
+            <if test="techStacks != null and !techStacks.isEmpty()">
+                <foreach collection="techStacks" item="stackId" open="AND (" separator=" AND " close=")">
+                    FIND_IN_SET(#{stackId}, jp.required_skills) > 0
+                </foreach>
+            </if>
+        </where>
+    </select>
+
 </mapper>

@@ -6,6 +6,8 @@ import org.wit.hrmatching.mapper.applicant.RecruitMapper;
 import org.wit.hrmatching.vo.ApplicationsVO;
 import org.wit.hrmatching.vo.EmployerProfilesVO;
 import org.wit.hrmatching.vo.JobPostVO;
+import org.wit.hrmatching.vo.RecruitListVO;
+import org.wit.hrmatching.vo.applicationPaging.SearchCriteria;
 
 import java.util.List;
 
@@ -36,5 +38,13 @@ public class RecruitDAO {
 		int rowsAffected = recruitMapper.insertApplication(application);
 
 		return rowsAffected == 1;
+	}
+
+	public List<RecruitListVO> getRecruitList(SearchCriteria criteria) {
+		return recruitMapper.selectRecruitList(criteria);
+	}
+
+	public int countRecruitList(SearchCriteria criteria) {
+		return recruitMapper.selectRecruitListCount(criteria);
 	}
 }

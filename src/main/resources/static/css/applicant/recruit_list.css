@@ -1,0 +1,148 @@
+/* 필터 바 */
+#main-filter-bar {
+    display: flex;
+    height: 50px;
+    border: 1px solid #ccc;
+}
+
+.filter-wrapper, #main-search-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-right: 1px solid #e0e0e0;
+    flex-basis: 0;
+    min-width: 0;
+}
+#main-filter-bar > div:last-child {
+    border-right: none;
+}
+.filter-wrapper { flex-grow: 1.5; } /* '지역', '기술', '상세'가 차지할 비율 */
+#main-search-wrapper { flex-grow: 2; } /* '검색창'이 차지할 비율 */
+
+
+/* 필터 토글 버튼 */
+.filter-toggle {
+    background: none; border: none; width: 100%; height: 100%;
+    padding: 0 15px; font-size: 1rem; text-align: left; cursor: pointer;
+}
+.filter-toggle.active {
+    font-weight: bold;
+    color: #3366ff;
+}
+
+/* 검색창 내부 스타일 */
+#main-search {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 0.95rem;
+    padding: 0 15px;
+}
+#search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding-right: 10px;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* 드롭다운 */
+.filter-dropdown {
+    display: none;
+    border: 1px solid #ccc;
+    border-top: none;
+    padding: 20px;
+    background-color: white;
+}
+
+/* 드롭다운 내부의 검색창 스타일 */
+.filter-search-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+.filter-search {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 0.9rem;
+}
+.filter-search-icon {
+    padding: 0 10px;
+    color: #777;
+}
+
+/* 드롭다운 내부 버튼 */
+.filter-options {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+.filter-btn {
+    background: none;
+    border: none;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
+.filter-btn.active {
+    font-weight: bold;
+    background-color: #a9c3f6;
+}
+
+.recruit-card {
+    border: 1px solid #eee;
+    padding: 20px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+.recruit-card a {
+    text-decoration: none;
+    color: inherit;
+}
+h3 { margin: 0 0 10px 0; }
+
+/* 상단 영역 */
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.company-name-container {
+    font-weight: bold;
+    text-align: right;
+    min-width: 120px;
+}
+
+/* 중간 메타 정보 */
+.card-middle {
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #555;
+}
+.card-middle .meta-item::after { content: '·'; margin: 0 6px; }
+.card-middle .meta-item:last-child::after { content: ''; }
+
+/* 하단 영역 */
+.card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #888;
+}
+.tags .tag {
+    background-color: #f0f0f0;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+.dates span { margin-left: 15px; }
