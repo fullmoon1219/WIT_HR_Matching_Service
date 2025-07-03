@@ -1,11 +1,12 @@
-<!-- /templates/hrms/employer/post-view.html -->
+<!--
+&lt;!&ndash; /templates/hrms/employer/post-view.html &ndash;&gt;
 
 <div class="view-container">
 
-    <!-- 공고 제목 -->
+    &lt;!&ndash; 공고 제목 &ndash;&gt;
     <h2 class="view-title" data-field="title" th:text="${post.title}">📄 백엔드 개발자 (Spring)</h2>
 
-    <!-- 기본 정보 테이블 -->
+    &lt;!&ndash; 기본 정보 테이블 &ndash;&gt;
     <table class="job-basic-info-table">
         <tbody>
         <tr>
@@ -23,7 +24,7 @@
         </tbody>
     </table>
 
-    <!-- 공고 설명 -->
+    &lt;!&ndash; 공고 설명 &ndash;&gt;
     <div class="view-group">
         <h3>📌 공고 설명</h3>
         <div class="view-value description" data-field="description" th:text="${post.description}">
@@ -31,20 +32,20 @@
         </div>
     </div>
 
-    <!-- 요구 역량 -->
+    &lt;!&ndash; 요구 역량 &ndash;&gt;
     <div class="view-group">
         <h3>💡 요구 역량</h3>
         <p class="view-value" data-field="required_skills" th:text="${post.requiredSkills}">Spring, JPA, MySQL</p>
     </div>
 
-    <!-- 근무지 지도 -->
+    &lt;!&ndash; 근무지 지도 &ndash;&gt;
     <div class="view-group">
         <h3>📍 근무지 위치</h3>
         <p class="view-value" data-field="workplace_address" th:text="${post.workplaceAddress}">서울시 강남구 테헤란로 123</p>
         <div id="workplaceMap" class="map-container"></div>
     </div>
 
-    <!-- 기업 정보 테이블 -->
+    &lt;!&ndash; 기업 정보 테이블 &ndash;&gt;
     <div class="view-group">
         <h3>🏢 기업 정보</h3>
         <table class="profile-merged-table">
@@ -84,7 +85,7 @@
         </table>
     </div>
 
-    <!-- 하단 버튼 -->
+    &lt;!&ndash; 하단 버튼 &ndash;&gt;
     <div class="form-actions">
         <button type="button" th:href="@{/employer/jobpost_list}" class="edit-button">수정</button>
         <button type="button" class="delete-button">삭제</button>
@@ -93,6 +94,7 @@
 
 </div>
 
-<!-- 지도 API -->
+&lt;!&ndash; 지도 API &ndash;&gt;
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_APP_KEY&libraries=services"></script>
 <script src="/js/employer/post-view.js"></script>
+-->

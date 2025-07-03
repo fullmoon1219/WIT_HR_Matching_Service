@@ -15,10 +15,10 @@ public class JobPostDAO {
 
     private final JobPostMapper jobPostMapper;
 
-    public int registerJobPost(JobPostVO jobpostVO) {
+    public int insertJobPost(JobPostVO jobpostVO) {
 
         int flag = 1;
-        int result = jobPostMapper.registerJobPost(jobpostVO);
+        int result = jobPostMapper.insertJobPost(jobpostVO);
 
         if (result == 1) {
             flag = 0;
@@ -54,15 +54,20 @@ public class JobPostDAO {
         return flag;
     }
 
-    public int deleteJobPost(long jobPostId) {
+    // 공고 삭제하기
+    public void softDeleteJobPosts(List<Long> ids) {
+        jobPostMapper.softDeleteJobPosts(ids);
+    }
 
-        int flag = 1;
-        int result = jobPostMapper.deleteJobPost(jobPostId);
+    public List<JobPostVO> findJobPosts(Long userId, String keyword, int offset, int size) {
+        return jobPostMapper.findJobPostsByTitle(userId, keyword, offset, size);
+    }
 
-        if (result == 1) {
-            flag = 0;
-        }
+    public int countJobPosts(Long userId, String keyword) {
+        return jobPostMapper.countJobPosts(userId, keyword);
+    }
 
-        return flag;
+    public JobPostVO countJobPostStatus(Long userId) {
+        return jobPostMapper.countJobPostStatus(userId);
     }
 }

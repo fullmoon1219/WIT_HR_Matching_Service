@@ -1,0 +1,55 @@
+<div class="write-container" xmlns:th="http://www.thymeleaf.org">
+    <h2 class="write-title">📢 채용 공고</h2>
+
+    <div class="form-group">
+        <label>공고명</label>
+        <p th:text="${jobPost.title}">공고명</p>
+    </div>
+
+    <div class="form-group">
+        <label>직무</label>
+        <p th:text="${jobPost.jobCategory}">직무</p>
+    </div>
+
+    <div class="form-group">
+        <label>공고 설명</label>
+        <p th:text="${jobPost.description}">설명</p>
+    </div>
+
+    <div class="form-group">
+        <label>요구 기술</label>
+        <p th:text="${jobPost.requiredSkills}">기술</p>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group half">
+            <label>급여</label>
+            <p th:text="${jobPost.salary}">급여</p>
+        </div>
+        <div class="form-group half">
+            <label>고용형태</label>
+            <p th:text="${jobPost.employmentType}">고용형태</p>
+        </div>
+        <div class="form-group half">
+            <label>마감일</label>
+            <p th:text="${#temporals.format(jobPost.deadline, 'yyyy-MM-dd')}">마감일</p>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group half">
+            <label>근무지 (지역)</label>
+            <p th:text="${jobPost.location}">지역</p>
+        </div>
+        <div class="form-group half">
+            <label>근무지 상세 주소</label>
+            <p th:text="${jobPost.workplaceAddress}">주소</p>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button type="button" class="cancel-button">닫기</button>
+    </div>
+</div>
+
+<script src="/js/employer/post-modify.js"></script>

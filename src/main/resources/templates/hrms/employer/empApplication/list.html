@@ -1,0 +1,114 @@
+<!-- /templates/hrms/employer/mypagge/applcant-list.html -->
+
+<div layout:decorate="~{layout/employer/employer-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/post-list.css">
+        <link rel="stylesheet" href="/css/employer/post-view.css">
+        <link rel="stylesheet" href="/css/employer/applicant-list.css">
+        <link rel="stylesheet" href="/css/employer/applicant-detail.css">
+        <link rel="stylesheet" href="/css/employer/fragment/pagination.css">
+        <link rel="stylesheet" href="/css/employer/fragment/filter.css">
+    </th:block>
+
+    <section layout:fragment="content">
+        <div class="card-grid">
+            <div class="card">
+                <h3>총 지원 수</h3>
+                <div class="value">--</div>
+            </div>
+            <div class="card">
+                <h3>미확인</h3>
+                <div class="value">--</div>
+            </div>
+            <div class="card">
+                <h3>대기중</h3>
+                <div class="value">--</div>
+            </div>
+            <div class="card">
+                <h3>합격</h3>
+                <div class="value">--</div>
+            </div>
+        </div>
+
+
+        <div class="post-list-container">
+            <div class="post-list-header">
+                <h3 class="table-title">📄 지원자 목록</h3>
+
+                <div class="post-list-actions">
+                    <input type="text" id="searchInput" placeholder="공고명 검색" class="search-input">
+                    <button type="button" class="action-button search-button">검색</button>
+                    <button type="button" class="action-button status-button">상태 변경</button>
+                </div>
+            </div>
+
+
+            <table class="post-list-table">
+                <colgroup>
+                    <col style="width: 5%">
+                    <col style="width: 5%">
+                    <col style="width: 5%">
+                    <col style="width: 30%">
+                    <col style="width: 10%">
+                    <col style="width: 20%">
+                    <col style="width: 15%">
+                    <col style="width: 10%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="checkbox-cell" id="selectAllCell"><input type="checkbox" id="selectAll"></th>
+                    <th>공고 ID</th>
+                    <th>지원자 ID</th>
+                    <th>공고명</th>
+                    <th>이름</th>
+                    <th>지원자 이메일</th>
+                    <th>신청일</th>
+                    <th class="filter-toggle" data-filter="status" style="position: relative;" id="th-status">
+                        <div class="filter-label">
+                            상태 <span>▼</span>
+                        </div>
+                        <div class="filter-selected value status" data-type="status" style="display: none;"></div>
+                        <div class="filter-popup" data-type="status" style="display: none;">
+                            <button class="status-filter default" data-value="">전체</button>
+                            <button class="status-filter unread" data-value="unread">미열람</button>
+                            <button class="status-filter read" data-value="read">열람</button>
+                            <button class="status-filter waiting" data-value="waiting">대기</button>
+                            <button class="status-filter accepted" data-value="accepted">합격</button>
+                            <button class="status-filter rejected" data-value="rejected">불합격</button>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="applicant : ${ApplicantList}">
+                    <td class="checkbox-cell"><input type="checkbox" class="select-post"></td>
+                    <td th:text="${applicant.jobPostId}">공고ID</td>
+                    <td th:text="${applicant.userId}">지원자ID</td>
+                    <td>
+                        <a href="#" class="post-title-link" th:data-id="${applicant.jobPostId}" th:text="${applicant.title}">공고명</a>
+                    </td>
+                    <td class="post-resume-link" th:text="${applicant.applicantName}">이름</td>
+                    <td class="post-resume-link" th:text="${applicant.email}">이메일</td>
+                    <td th:text="${applicant.appliedAt}">신청일</td>
+
+                    <td><span class="status-label unread">미열람</span></td>
+<!--                    <td><span class="status-label read">열람</span></td>-->
+<!--                    <td><span class="status-label waiting">대기</span></td>-->
+<!--                    <td><span class="status-label accepted">합격</span></td>-->
+<!--                    <td><span class="status-label rejected">불합격</span></td>-->
+
+                </tr>
+                </tbody>
+            </table>
+
+            <div id="paginationContainer" class="pagination-container"></div>
+
+        </div>
+
+
+    </section>
+</div>
+
+<script src="/js/employer/applicant-list.js"></script>
+<script src="/js/employer/filter.js"></script>
