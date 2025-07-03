@@ -6,6 +6,7 @@ import org.apache.ibatis.type.Alias;
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Alias(value = "jobpostVO")
 @Data
@@ -43,4 +44,10 @@ public class JobPostVO {
     private String companyName;
 
     private boolean isCompleted;
+
+    private long totalCount;
+    private long activeCount;
+    private long expiredCount;
+
+    private String techStacks; // 콤마로 구분된 기술 스택들 저장
 }

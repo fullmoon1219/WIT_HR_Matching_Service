@@ -81,19 +81,23 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr th:each="applicant : ${ApplicantList}">
                     <td class="checkbox-cell"><input type="checkbox" class="select-post"></td>
-                    <td>2</td>
-                    <td>60</td>
-                    <td><span class="post-title-link">백엔드 개발자 (Spring)</span></td>
-                    <td class="post-resume-link">홍길동</td>
-                    <td class="post-resume-link">test@exam.com</td>
-                    <td>2025-06-30</td>
+                    <td th:text="${applicant.jobPostId}">공고ID</td>
+                    <td th:text="${applicant.userId}">지원자ID</td>
+                    <td>
+                        <a href="#" class="post-title-link" th:data-id="${applicant.jobPostId}" th:text="${applicant.title}">공고명</a>
+                    </td>
+                    <td class="post-resume-link" th:text="${applicant.applicantName}">이름</td>
+                    <td class="post-resume-link" th:text="${applicant.email}">이메일</td>
+                    <td th:text="${applicant.appliedAt}">신청일</td>
+
                     <td><span class="status-label unread">미열람</span></td>
 <!--                    <td><span class="status-label read">열람</span></td>-->
 <!--                    <td><span class="status-label waiting">대기</span></td>-->
 <!--                    <td><span class="status-label accepted">합격</span></td>-->
 <!--                    <td><span class="status-label rejected">불합격</span></td>-->
+
                 </tr>
                 </tbody>
             </table>
@@ -102,19 +106,7 @@
 
         </div>
 
-        <div class="pagination-container">
-            <button class="pagination-btn">&lt;&lt;</button>
-            <button class="pagination-btn">&lt;</button>
 
-            <button class="pagination-btn active">1</button>
-            <button class="pagination-btn">2</button>
-            <button class="pagination-btn">3</button>
-            <button class="pagination-btn">4</button>
-            <button class="pagination-btn">5</button>
-
-            <button class="pagination-btn">&gt;</button>
-            <button class="pagination-btn">&gt;&gt;</button>
-        </div>
     </section>
 </div>
 
