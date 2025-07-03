@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.dao.applicant.RecruitDAO;
 import org.wit.hrmatching.vo.*;
-import org.wit.hrmatching.vo.applicationPaging.PageResponseVO;
-import org.wit.hrmatching.vo.applicationPaging.SearchCriteria;
+import org.wit.hrmatching.vo.applicantPaging.PageResponseVO;
+import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
 
 import java.util.Collections;
 import java.util.HashMap;

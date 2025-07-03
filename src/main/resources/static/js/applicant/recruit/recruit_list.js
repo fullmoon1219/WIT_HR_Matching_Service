@@ -1,12 +1,15 @@
 // applicant/recruit/list.html
 
 let currentFilters = {
-	region: '',
-	techStacks: [],
-	keyword: '',
-	regionKeyword: '',
-	page: 1,
-	sortOrder: 'latest'
+	region: '',				// 지역
+	techStacks: [],			// 기술 스택 (다중 선택 가능)
+	keyword: '',			// 검색어
+	regionKeyword: '',		// 지역 검색어
+	page: 1,				// 현재 페이지
+	sortOrder: 'latest',	// 정렬 기준
+	employmentTypes: [], 	// 고용 형태 (다중 선택 가능)
+	experienceTypes: [], 	// 경력 타입 (다중 선택 가능)
+	salaryOnly: false		// 연봉정보 있는 게시물만 보기
 }
 
 let totalPage = 1;
@@ -68,6 +71,7 @@ $(document).ready(function () {
 		$('#direct-page-input').val('');
 	});
 
+	// 정렬
 	$('#sort-order-select').on('change', function () {
 
 		currentFilters.page = 1;
@@ -86,7 +90,10 @@ $(document).ready(function () {
 			regionKeyword: '',
 			techStackKeyword: '',
 			page: 1,
-			sortOrder: 'latest'
+			sortOrder: 'latest',
+			employmentTypes: [],
+			experienceTypes: [],
+			salaryOnly: false
 		};
 
 		$('.filter-options button').removeClass('active');
@@ -290,6 +297,9 @@ function performSearch() {
 	currentFilters.techStacks = [];
 	currentFilters.region = '';
 	currentFilters.regionKeyword = '';
+	currentFilters.employmentTypes = [];
+	currentFilters.experienceTypes = [];
+	currentFilters.salaryOnly = false;
 
 	$('.filter-options .filter-btn').removeClass('active');
 	$('.filter-toggle').removeClass('active');
