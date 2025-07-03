@@ -1,4 +1,4 @@
-<!-- templates/hrms/layout/community/community-employer-template.html -->
+<!-- templates/hrms/layout/employer/employer-template.html -->
 
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
@@ -11,27 +11,26 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="/css/community/fragment/template.css">
-  <link rel="stylesheet" href="/css/community/fragment/sidebar.css">
+  <link rel="stylesheet" href="/css/user/fragment/sidebar.css">
   <link rel="stylesheet" href="/css/community/fragment/header.css">
-  <link rel="stylesheet" href="/css/main/footer.css">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <th:block layout:fragment="styles"></th:block>
 
   <!-- JS -->
   <script src="/js/jquery-3.7.1.min.js"></script>
   <script src="/js/admin/csrf-setup.js"></script>
-  <script src="/js/main/header.js"></script>
 </head>
 <body>
 <div class="community-layout">
   <!-- Sidebar -->
-  <aside th:replace="~{fragments/community/sidebar :: sidebar}"></aside>
+  <aside th:replace="~{fragments/user/sidebarHn :: sidebar}"></aside>
 
 
   <!-- Right Container -->
   <div class="community-container">
     <!-- Header -->
-    <header th:replace="~{fragments/community/header :: header}"></header>
+    <header th:replace="~{fragments/user/header :: header}"></header>
 
     <!-- Content -->
     <div class="content">
@@ -46,7 +45,6 @@
       </div>
 
     </div>
-<!--    <footer th:replace="~{fragments/user/user-footer :: footer}"></footer>-->
 
   </div>
 </div>
