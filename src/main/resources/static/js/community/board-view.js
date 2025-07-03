@@ -1,10 +1,53 @@
 // board-view.js
 
+let currentPostId = null;
+let currentPostLiked = false;
+let currentUser = '사용자'; // 실제로는 로그인한 사용자 정보를 사용
+
+// URL에서 게시글 ID 추출
+function getPostIdFromUrl() {
+    const pathArray = window.location.pathname.split('/');
+    const id = pathArray[pathArray.length - 1];
+    return isNaN(id) ? null : parseInt(id);
+}
+
+// 게시글 좋아요 상태 불러오기
+function loadPostLikes() {
+    if (!currentPostId) return;
+    
+    $.ajax({
+        url: `/community/posts/${currentPostId}/likes`,
+        method: "GET",
+        success: function(response) {
+            updateLikeButton(response.likeCount, response.userLiked);
+            currentPostLiked = response.userLiked;
+        },
+        error: function(xhr) {
+            console.error('좋아요 정보 불러오기 실패:', xhr);
+        }
+    });
+}
+
+// 좋아요 버튼 상태 업데이트
+function updateLikeButton(likeCount, userLiked) {
+    const likeButton = $('#like-button');
+    likeButton.html(`${userLiked ? '❤️' : '🖤'} 좋아요 (${likeCount})`);
+    
+    if (userLiked) {
+        likeButton.addClass('liked');
+    } else {
+        likeButton.removeClass('liked');
+    }
+}
+
 $(document).ready(function () {
-    // 목록 버튼 클릭 시 플로팅바 닫기
-    $(document).on("click", ".back-btn", function () {
-        $("#floatingSidebar").removeClass("show");
-        $("#floatingOverlay").removeClass("show");
+    // 초기화
+    currentPostId = getPostIdFromUrl();
+    loadPostLikes();
+    
+    // 목록 버튼 클릭 시 페이지 이동
+    $(document).on("click", ".list-btn", function () {
+        window.location.href = '/community';
     });
 
     $(document).on("click", ".edit-btn", function () {
