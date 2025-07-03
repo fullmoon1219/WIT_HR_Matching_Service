@@ -2,11 +2,10 @@ package org.wit.hrmatching.service.employer;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.wit.hrmatching.dao.employer.ProfileDAO;
+import org.springframework.transaction.annotation.Transactional;
 import org.wit.hrmatching.mapper.employer.EmployerProfileMapper;
 import org.wit.hrmatching.vo.EmployerProfilesVO;
 import org.wit.hrmatching.vo.EmployerRecentApplicantVO;
-import org.wit.hrmatching.vo.JobPostVO;
 
 import java.util.List;
 
@@ -22,10 +21,20 @@ public class ProfileService {
 
     public boolean updateProfile(EmployerProfilesVO profile) {
         return employerProfileMapper.updateEmployerProfiles(profile);
-
     }
 
     public List<EmployerRecentApplicantVO> selectEmployerRecentApplicantList(Long userId) {
         return employerProfileMapper.selectEmployerRecentApplicantList(userId);
     }
+
+    /**
+     * 사용자 이름(user.name)과 기업 프로필(employer_profiles) 동시에 업데이트
+     */
+    @Transactional
+    public void updateFullProfile(EmployerProfilesVO profile) {
+        employerProfileMapper.updateEmployerProfiles(profile);
+        employerProfileMapper.updateUserName(profile.getUserId(), profile.getCeoName());
+    }
+
+
 }

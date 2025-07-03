@@ -3,11 +3,22 @@
 
 <mapper namespace="org.wit.hrmatching.mapper.employer.JobPostMapper">
 
-    <insert id="registerJobPost" parameterType="JobPostVO">
-        insert into job_posts
-        (user_id, title, description, required_skills, salary, location, employment_type, deadline, job_category)
-        values
-        (#{userId}, #{title}, #{description}, #{requiredSkills}, #{salary}, #{location}, #{employmentType}, #{deadline}, #{jobCategory})
+<!--    <insert id="registerJobPost" parameterType="JobPostVO">-->
+<!--        insert into job_posts(-->
+<!--                user_id, title, description, required_skills, salary, location, employment_type, deadline, job_category-->
+<!--        ) values (-->
+<!--                 #{userId}, #{title}, #{description}, #{requiredSkills}, #{salary}, #{location},-->
+<!--                 #{employmentType}, #{deadline}, #{jobCategory})-->
+<!--    </insert>-->
+
+    <insert id="insertJobPost" parameterType="JobPostVO">
+        INSERT INTO job_posts (
+            user_id, title, description, required_skills, salary, location,
+            employment_type, deadline, job_category, tech_stacks
+        ) VALUES (
+                     #{userId}, #{title}, #{description}, #{requiredSkills}, #{salary}, #{location},
+                     #{employmentType}, #{deadline}, #{jobCategory}, #{techStacks}
+                 )
     </insert>
 
     <select id="selectRecentJobPostList" resultType="JobPostVO">
@@ -66,10 +77,48 @@
         WHERE id = #{id} AND deleted_at IS NULL
     </update>
 
-    <update id="deleteJobPost">
-        update job_posts
-        set deleted_at=now()
-        where id=#{jobPostId} and deleted_at is null
+    <update id="softDeleteJobPosts">
+        UPDATE job_posts
+        SET deleted_at = NOW()
+        WHERE id IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </update>
+
+    <!-- 채용공고 목록 (검색 포함) -->
+    <select id="findJobPostsByTitle" resultType="JobPostVO">
+        SELECT *
+        FROM job_posts
+        WHERE user_id = #{userId}
+        AND deleted_at IS NULL
+        <if test="keyword != null and keyword != ''">
+            AND title LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        ORDER BY id DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <!-- 공고 개수 (검색 포함) -->
+    <select id="countJobPosts" resultType="int">
+        SELECT COUNT(*)
+        FROM job_posts
+        WHERE user_id = #{userId}
+        AND deleted_at IS NULL
+        <if test="keyword != null and keyword != ''">
+            AND title LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+    </select>
+
+    <!-- 전체/마감/진행 공고 개수 -->
+    <select id="countJobPostStatus" resultType="JobPostVO">
+        SELECT
+        COUNT(*) AS totalCount,
+        SUM(CASE WHEN deadline &lt; CURRENT_DATE THEN 1 ELSE 0 END) AS expiredCount,
+        SUM(CASE WHEN deadline >= CURRENT_DATE THEN 1 ELSE 0 END) AS activeCount
+        FROM job_posts
+        WHERE user_id = #{userId}
+        AND deleted_at IS NULL
+    </select>
 
 </mapper>

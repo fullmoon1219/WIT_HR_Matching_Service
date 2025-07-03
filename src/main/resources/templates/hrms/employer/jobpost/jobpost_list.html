@@ -13,27 +13,29 @@
         <div class="card-grid">
             <div class="card">
                 <h3>총 공고 수</h3>
-                <div class="value">--</div>
+                <div class="value" th:text="${totalCount}">--</div>
             </div>
             <div class="card">
                 <h3>마감 공고 수</h3>
-                <div class="value">--</div>
+                <div class="value" th:text="${expiredCount}">--</div>
             </div>
             <div class="card">
                 <h3>진행중인 공고 수</h3>
-                <div class="value">--</div>
+                <div class="value" th:text="${activeCount}">--</div>
             </div>
         </div>
 
 
         <div class="post-list-container">
             <div class="post-list-header">
-                <h3 class="table-title">📄 등록한 공고 목록</h3>
+                <h3 class="table-title">📄 채용공고 목록</h3>
 
                 <div class="post-list-actions">
-                    <input type="text" id="searchInput" placeholder="공고명 검색" class="search-input">
+                    <input type="text" id="searchInput" th:value="${keyword}" placeholder="공고명 검색" class="search-input">
+                    <button type="button" id="searchBtn" class="action-button">검색</button>
+
                     <button type="button" class="action-button register-button" id="openWriteFormBtn">공고 등록</button>
-                    <button type="button" class="action-button delete-button">공고 삭제</button>
+                    <button type="button" class="action-button delete-button" id="deleteJobPost">공고 삭제</button>
                 </div>
             </div>
 
@@ -52,7 +54,7 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th class="checkbox-cell" id="selectAllCell"><input type="checkbox" id="selectAll"></th>
+                    <th class="checkbox-cell" id="selectAllCell"><input type="checkbox" id="selectAll" ></th>
                     <th>ID</th>
                     <th>공고명</th>
                     <th>고용형태</th>
@@ -65,7 +67,9 @@
                 </thead>
                 <tbody>
                 <tr th:each="post : ${jobPostList}">
-                    <td class="checkbox-cell"><input type="checkbox" class="select-post"></td>
+                    <td class="checkbox-cell">
+                        <input type="checkbox" class="select-post" th:value="${post.id}">
+                    </td>
                     <td th:text="${post.id}">공고ID</td>
                     <td>
                         <a href="#" class="edit-post-link" th:data-id="${post.id}" th:text="${post.title}">채용공고 제목</a>
@@ -88,17 +92,19 @@
         </div>
 
         <div class="pagination-container">
-            <button class="pagination-btn">&lt;&lt;</button>
-            <button class="pagination-btn">&lt;</button>
+            <a th:if="${currentPage > 1}"
+               class="pagination-btn"
+               th:href="@{/employer/jobpost_list(page=${currentPage - 1})}">&lt;</a>
 
-            <button class="pagination-btn active">1</button>
-            <button class="pagination-btn">2</button>
-            <button class="pagination-btn">3</button>
-            <button class="pagination-btn">4</button>
-            <button class="pagination-btn">5</button>
+            <a th:each="i : ${#numbers.sequence(1, totalPages)}"
+               th:classappend="${i == currentPage} ? 'active'"
+               class="pagination-btn"
+               th:href="@{/employer/jobpost_list(page=${i})}"
+               th:text="${i}">1</a>
 
-            <button class="pagination-btn">&gt;</button>
-            <button class="pagination-btn">&gt;&gt;</button>
+            <a th:if="${currentPage < totalPages}"
+               class="pagination-btn"
+               th:href="@{/employer/jobpost_list(page=${currentPage + 1})}">&gt;</a>
         </div>
 
 
