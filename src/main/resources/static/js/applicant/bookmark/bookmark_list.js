@@ -16,7 +16,7 @@ $(document).ready(function() {
 		const jobPostId = $(this).closest('tr.bookmark-row').attr('data-jobPost-id');
 
 		if (jobPostId) {
-			window.open('/applicant/recruit/view/' + jobPostId, '_blank');
+			window.open('/recruit/view/' + jobPostId, '_blank');
 		}
 	});
 
@@ -43,7 +43,7 @@ $(document).ready(function() {
 
 	$('#bookmarkListBody').on('click', '.delete-bookmark-btn', function() {
 
-		const jobPostId = $(this).closest('tr.bookmark-row').data('jobpostid');
+		const jobPostId = $(this).closest('tr.bookmark-row').data('jobpostId');
 
 		if (!jobPostId) {
 			alert('잘못된 요청입니다.');
