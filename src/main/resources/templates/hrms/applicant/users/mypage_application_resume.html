@@ -1,0 +1,192 @@
+<!-- /templates/hrms/employer/mypagge/profile.html -->
+
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+        <link rel="stylesheet" href="/css/user/resume.css">
+
+
+    </th:block>
+
+    <section layout:fragment="content">
+
+        <div class="resume-container">
+            <!-- 좌측 입력 영역 -->
+            <div class="resume-left">
+
+                <section class="resume-section basic-info">
+                    <h2>기본정보 <span class="required">*</span></h2>
+
+                    <div class="basic-info-box">
+                        <!-- 사진 업로드 -->
+                        <div class="photo-box">
+                            <img src="/images/users/user_big_profile.png" alt="프로필 사진" class="profile-img">
+                            <button class="photo-upload-btn">사진등록</button>
+                        </div>
+
+                        <!-- 기본 정보 -->
+                        <div class="info-fields">
+                            <div class="info-row">
+                                <label>이름</label>
+                                <div class="info-value">김노비(남, 24세)</div>
+                                <button class="btn-auth">본인인증 필요</button>
+                            </div>
+
+                            <div class="info-row">
+                                <label>연락처</label>
+                                <div class="info-value">010-1111-2222</div>
+                                <span class="blue-label">통화가능시간 설정</span>
+                            </div>
+
+                            <div class="info-row">
+                                <label>이메일</label>
+                                <div class="info-value">novi@naver.com</div>
+                            </div>
+
+                            <div class="info-row">
+                                <label>주소</label>
+                                <div class="info-value">서울특별시 강서구</div>
+                            </div>
+
+                            <div class="info-row">
+                                <label>깃허브</label>
+                                <input type="text" class="input-homepage" placeholder="http://">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 이력서 제목 영역 -->
+                <section class="resume-section">
+                    <h2>이력서 제목 <span class="required">*</span></h2>
+                    <p class="desc">이력서 작성시 지원분야 및 자신의 강점, 특징을 부각시키면 빠른 채용에 도움이 됩니다.</p>
+                    <input type="text" class="title-input" placeholder="나를 표현할 한마디를 적어보세요.">
+                </section>
+
+                <section class="resume-section">
+                    <h2>자기소개서 <span class="required">*</span></h2>
+                    <p class="desc">지원 동기, 본인의 강점, 성장과정 등 자유롭게 기술해 주세요.</p>
+                    <textarea class="cover-letter-textarea" placeholder="자기소개서를 입력해 주세요."></textarea>
+                </section>
+
+
+                <!-- 학력 입력 영역 -->
+                <section class="resume-section">
+                    <h2>학력 <span class="required">*</span></h2>
+                    <p class="desc"><span class="info-icon">ⓘ</span> 학력사항은 모든 이력서에 동일하게 적용되며, 선택한 학력이 최종학력으로 노출됩니다.</p>
+
+                    <!-- 최종학력 선택 -->
+                    <div class="select-row">
+                        <label>최종학력</label>
+                        <select>
+                            <option>대학원</option>
+                            <option>대학(4년)</option>
+                            <option>대학(2,3년)</option>
+                            <option>고등학교</option>
+                        </select>
+                        <select>
+                            <option>졸업</option>
+                            <option>재학중</option>
+                            <option>중퇴</option>
+                        </select>
+                    </div>
+
+                    <div class="edu-detail-list">
+
+                        <div class="edu-group">
+                            <div class="edu-row">
+                                <span>학력 사항</span>
+                            </div>
+                            <div class="edu-form">
+                                <input type="text" placeholder="학교를 입력해 주세요.">
+                                <input type="text" placeholder="전공을 입력해 주세요.">
+                                <div class="select-row">
+                                    <div class="input-pair">
+                                        <label for="enterYear">입학년도</label>
+                                        <input type="text" id="enterYear" class="year-input" placeholder="예: 2020">
+                                    </div>
+                                    <div class="input-pair">
+                                        <label for="gradYear">졸업년도</label>
+                                        <input type="text" id="gradYear" class="year-input" placeholder="예: 2024">
+                                    </div>
+                                </div>
+
+                                <textarea maxlength="500" placeholder="학교 내 활동, 수상/수료 내역을 적어주세요."></textarea>
+                                <div class="form-bottom">
+                                    <button class="edu-cancel-btn">취소</button>
+                                    <button class="edu-save-btn">저장</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <section class="resume-section">
+                    <h2>희망근무 조건 <span class="required">*</span></h2>
+                    <p class="desc"><span class="info-icon">ⓘ</span> 팝업창(직종검색)이 뜨지 않거나 오류가 발생했다면?</p>
+
+                    <!-- 희망근무지 -->
+                    <div class="field-row">
+                        <label>희망근무지</label>
+                        <div class="input-with-button">
+                            <input type="text" placeholder="지역을 선택해 주세요. (최대 3개)">
+                            <button class="select-btn">선택</button>
+                        </div>
+                        <div class="selected-tag">✓ 재택근무</div>
+                    </div>
+
+                    <!-- 희망업직종 -->
+                    <div class="field-row">
+                        <label>희망업직종</label>
+                        <div class="input-with-button">
+                            <input type="text" placeholder="직종을 선택해 주세요. (최대 20개)">
+                            <button class="select-btn">선택</button>
+                        </div>
+                    </div>
+
+
+                    <!-- 근무기간 -->
+                    <div class="field-row">
+                        <label>기술 스택</label>
+                        <div class="radio-button-group">
+                            <button class="active">프론트엔드</button>
+                            <button>백엔드</button>
+                            <button>풀스택</button>
+                        </div>
+                    </div>
+
+                </section>
+
+
+            </div>
+
+
+            <!-- 우측 사이드바 -->
+            <aside class="resume-sidebar">
+                <button class="btn-save">이력서 저장</button>
+                <button class="btn-outline">임시저장</button>
+                <button class="btn-outline">미리보기</button>
+            </aside>
+        </div>
+
+
+
+    </section>
+</div>
+
+
+<script>
+    // 버튼 다중 선택 가능: active toggle만 적용
+    document.querySelectorAll('.radio-button-group button').forEach(button => {
+        button.addEventListener('click', function () {
+            button.classList.toggle('active'); // ✅ toggle만
+        });
+    });
+</script>
+
+

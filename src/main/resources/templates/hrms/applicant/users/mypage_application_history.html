@@ -1,0 +1,62 @@
+<!-- /templates/hrms/employer/mypagge/profile.html -->
+
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+        <link rel="stylesheet" href="/css/user/history.css">
+
+
+    </th:block>
+
+    <section layout:fragment="content">
+
+        <div class="status-summary-box">
+            <div class="status-card">
+                <span class="label">지원완료</span>
+                <span class="value">0</span>
+            </div>
+            <div class="status-card">
+                <span class="label">진행중</span>
+                <span class="value">0</span>
+            </div>
+            <div class="status-card">
+                <span class="label">최종발표</span>
+                <span class="value">0</span>
+            </div>
+        </div>
+
+
+            <div class="job-recommend-card">
+                <div class="recommend-box">
+                    <div class="recommend-header">
+                        <h3>지원 현황</h3>
+                        <button class="more-btn">정렬</button>
+                    </div>
+                    <table class="recommend-table">
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox" /></th>
+                            <th>근무지</th>
+                            <th>기업명 / 공고제목 / 과목</th>
+                            <th>급여</th>
+                            <th>지원자격</th>
+                            <th>마감일 / 등록일</th>
+                            <th>접수방법</th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div class="no-data">
+                        현재 지원한 공고가 없습니다.
+                    </div>
+                </div>
+            </div>
+
+        <!-- 광고 영역 -->
+        <section th:replace="~{fragments/main/ad_banner:: ad}"></section>
+
+
+    </section>
+</div>
+
+

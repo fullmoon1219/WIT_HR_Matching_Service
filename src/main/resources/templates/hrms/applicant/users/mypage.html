@@ -1,0 +1,111 @@
+<!-- /templates/hrms/employer/mypagge/profile.html -->
+
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+        <link rel="stylesheet" href="/css/user/userprofile.css">
+        <link rel="stylesheet" href="/css/main/footer.css">
+
+    </th:block>
+
+    <section layout:fragment="content">
+
+        <div class="mypage-summary">
+            <div class="userprofile-info">
+                <div class="userprofile-profile-img">
+                    <img src="/images/users/user_big_profile.png" alt="기본 프로필 이미지">
+                    <button class="userprofile-change-photo">사진변경</button>
+                </div>
+                <div class="userprofile-name">
+                    <strong>김지원님</strong>
+                    <p>(여, 25세)</p>
+                </div>
+            </div>
+
+            <div class="userprofile-summary-panel">
+                <div class="userprofile-stats">
+                    <div class="userprofile-stat">
+                        <div class="userprofile-stat-value">0</div>
+                        <div class="userprofile-stat-label">지원현황</div>
+                    </div>
+                    <div class="userprofile-stat">
+                        <div class="userprofile-stat-value">0</div>
+                        <div class="userprofile-stat-label">이력서 관리</div>
+                    </div>
+                    <div class="userprofile-stat">
+                        <div class="userprofile-stat-value">0</div>
+                        <div class="userprofile-stat-label">연락처 공개요청</div>
+                    </div>
+                    <div class="userprofile-stat">
+                        <div class="userprofile-stat-value">0</div>
+                        <div class="userprofile-stat-label">스크랩 공고</div>
+                    </div>
+                    <div class="userprofile-stat">
+                        <div class="userprofile-stat-value">0</div>
+                        <div class="userprofile-stat-label">관심 기업</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <a href="/resume" class="resume-type-card">
+                <img src="/images/users/resume-paper.png" class="resume-icon" alt="이력서 아이콘">
+                <h4 class="resume-title">내 이력서</h4>
+                <p class="resume-desc">상세 이력서 작성</p>
+            </a>
+
+            <div class="job-recommend-card">
+                <div class="recommend-box">
+                    <div class="recommend-header">
+                        <h3>지원 현황</h3>
+                        <button class="more-btn">더보기 +</button>
+                    </div>
+                    <table class="recommend-table">
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox" /></th>
+                            <th>근무지</th>
+                            <th>기업명 / 공고제목 / 과목</th>
+                            <th>급여</th>
+                            <th>지원자격</th>
+                            <th>마감일 / 등록일</th>
+                            <th>접수방법</th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div class="no-data">
+                        현재 지원한 공고가 없습니다.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-wrapper">
+            <a href="/clean-campaign" class="feature-card blue">
+                <h3>공고 조회수 TOP20</h3>
+                <p>아직 지원한 공고가 없다면? <br><strong>조회수 TOP20 공고</strong> 지금 확인해보세요!</p>
+                <div class="arrow-btn">→</div>
+            </a>
+            <a href="/open-interview" class="feature-card green">
+                <h3>북마크 TOP20</h3>
+                <p>구직자들이 눈여겨 본 <strong>북마크 TOP 20</strong><br>놓지치 마세요!</p>
+                <div class="arrow-btn">→</div>
+            </a>
+            <a href="/smart-tool" class="feature-card dark">
+                <h3>스마트 취업 Tool</h3>
+                <p>경력기간, 졸업년월 기억 안 날 때<br><strong>스마트 취업Tool</strong>로 쉽게 계산해보세요.</p>
+                <div class="arrow-btn">→</div>
+            </a>
+        </div>
+
+
+
+
+
+
+    </section>
+</div>
+
+
