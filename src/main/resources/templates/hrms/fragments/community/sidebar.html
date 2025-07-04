@@ -16,13 +16,20 @@
           <li class="menu-item">
             <a th:href="@{/community/all}">📋 전체 게시판</a>
           </li>
-
-          <!-- 동적 게시판 출력 -->
-          <li class="menu-item" th:each="board : ${communityBoards}">
-            <a th:href="@{'/community/' + ${board.code}}">
-              <span th:text="${board.icon}"></span>
-              <span th:text="${board.name}"></span>
-            </a>
+          <li class="menu-item">
+            <a th:href="@{/community/free}">💬 자유게시판</a>
+          </li>
+          <li class="menu-item">
+            <a th:href="@{/community/qna}">❓ Q&A 게시판</a>
+          </li>
+          <li class="menu-item">
+            <a th:href="@{/community/study}">👨‍🎓 스터디 게시판</a>
+          </li>
+          <li class="menu-item">
+            <a th:href="@{/community/feedback}">📝 피드백 게시판</a>
+          </li>
+          <li class="menu-item">
+            <a th:href="@{/community/job}">💼 채용정보 공유</a>
           </li>
         </ul>
       </nav>
