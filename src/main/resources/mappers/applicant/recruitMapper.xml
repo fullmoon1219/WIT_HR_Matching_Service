@@ -75,6 +75,21 @@
                     FIND_IN_SET(#{stackId}, jp.required_skills) > 0
                 </foreach>
             </if>
+            <if test="employmentTypes != null and !employmentTypes.isEmpty()">
+                AND jp.employment_type IN
+                <foreach collection="employmentTypes" item="type" open="(" separator="," close=")">
+                    #{type}
+                </foreach>
+            </if>
+            <if test="experienceTypes != null and !experienceTypes.isEmpty()">
+                AND jp.experience_type IN
+                <foreach collection="experienceTypes" item="type" open="(" separator="," close=")">
+                    #{type}
+                </foreach>
+            </if>
+            <if test="salaryOnly">
+                AND jp.salary REGEXP '^[0-9]'
+            </if>
         </where>
 
         <choose>

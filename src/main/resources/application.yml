@@ -8,7 +8,7 @@ spring:
 
   datasource:
       driver-class-name: 'com.mysql.cj.jdbc.Driver'
-      url: 'jdbc:mysql://fullmoon1219.iptime.org:3306/hrms'
+      url: 'jdbc:mysql://fullmoon1219.iptime.org/hrms'
       username: 'wit'
       password: '123456'
 

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.service.applicant.ApplicationService;
 import org.wit.hrmatching.vo.ApplicationDetailVO;
 import org.wit.hrmatching.vo.CustomUserDetails;
-import org.wit.hrmatching.vo.applicationPaging.PageResponseVO;
-import org.wit.hrmatching.vo.applicationPaging.SearchCriteria;
+import org.wit.hrmatching.vo.applicantPaging.PageResponseVO;
+import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
 
 @RestController
 @RequiredArgsConstructor

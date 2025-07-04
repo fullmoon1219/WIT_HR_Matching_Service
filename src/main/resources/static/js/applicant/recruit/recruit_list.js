@@ -1,12 +1,15 @@
 // applicant/recruit/list.html
 
 let currentFilters = {
-	region: '',
-	techStacks: [],
-	keyword: '',
-	regionKeyword: '',
-	page: 1,
-	sortOrder: 'latest'
+	region: '',				// 지역
+	techStacks: [],			// 기술 스택 (다중 선택 가능)
+	keyword: '',			// 검색어
+	regionKeyword: '',		// 지역 검색어
+	page: 1,				// 현재 페이지
+	sortOrder: 'latest',	// 정렬 기준
+	employmentTypes: [], 	// 고용 형태 (다중 선택 가능)
+	experienceTypes: [], 	// 경력 타입 (다중 선택 가능)
+	salaryOnly: false		// 연봉정보 있는 게시물만 보기
 }
 
 let totalPage = 1;
@@ -27,6 +30,7 @@ $(document).ready(function () {
 		targetDropdown.toggle();
 	});
 
+	// 목록 카드 선택 시 새 창에서 공고 상세보기 열림
 	$(document).on('click', '.recruit-card', function(e) {
 
 		// 이중으로 창이 열리는 것을 방지
@@ -50,6 +54,7 @@ $(document).ready(function () {
 		loadRecruitList(currentFilters);
 	});
 
+	// 페이지 바로가기
 	$('#go-to-page-btn').on('click', function () {
 
 		const input = $('#direct-page-input').val().trim();
@@ -66,6 +71,7 @@ $(document).ready(function () {
 		$('#direct-page-input').val('');
 	});
 
+	// 정렬
 	$('#sort-order-select').on('change', function () {
 
 		currentFilters.page = 1;
@@ -74,6 +80,7 @@ $(document).ready(function () {
 		loadRecruitList(currentFilters);
 	});
 
+	// 필터링 & 검색 초기화
 	$('#reset-filters-btn').on('click', function() {
 
 		currentFilters = {
@@ -83,7 +90,10 @@ $(document).ready(function () {
 			regionKeyword: '',
 			techStackKeyword: '',
 			page: 1,
-			sortOrder: 'latest'
+			sortOrder: 'latest',
+			employmentTypes: [],
+			experienceTypes: [],
+			salaryOnly: false
 		};
 
 		$('.filter-options button').removeClass('active');
@@ -94,6 +104,7 @@ $(document).ready(function () {
 		loadRecruitList(currentFilters);
 	});
 
+	// 지역 필터링 선택 시 (하나만 선택 가능, 기술스택과 중복 가능)
 	$('#region-options').on('click', 'button', function () {
 
 		const clickedButton = $(this);
@@ -117,6 +128,7 @@ $(document).ready(function () {
 		loadRecruitList(currentFilters);
 	});
 
+	// 기술 스택 필터링 선택 시 (여러개 선택 가능, 지역과 중복 가능)
 	$('#stack-options').on('click', 'button', function () {
 
 		const clickedButton = $(this);
@@ -140,28 +152,26 @@ $(document).ready(function () {
 		loadRecruitList(currentFilters);
 	});
 
+	// 메인 검색 (클릭, 엔터 둘 다 허용)
 	$('#main-search-wrapper').on('click', 'button', function () {
 		performSearch();
-		$('#sort-order-select').val('latest');
 	});
 
 	$('#main-search').on('keyup', function (e) {
 		if (e.key === 'Enter') {
 			performSearch();
 		}
-		$('#sort-order-select').val('latest');
 	});
 
+	// 지역 검색 (클릭, 엔터 둘 다 허용)
 	$('.filter-search-wrapper').on('click', 'span', function () {
 		performRegionSearch();
-		$('#sort-order-select').val('latest');
 	});
 
 	$('.filter-search').on('keyup', function (e) {
 		if (e.key === 'Enter') {
 			performRegionSearch();
 		}
-		$('#sort-order-select').val('latest');
 	});
 });
 
@@ -275,20 +285,26 @@ function formatSalary(salary) {
 	return `💰 ${salary}`;
 }
 
+// 메인 검색 함수
 function performSearch() {
 
 	const keyword = $('#main-search').val();
 
+	// 검색어 제외 전부 초기화(필터링 포함)
 	currentFilters.keyword = keyword;
 	currentFilters.page = 1;
 	currentFilters.sortOrder = 'latest';
 	currentFilters.techStacks = [];
 	currentFilters.region = '';
 	currentFilters.regionKeyword = '';
+	currentFilters.employmentTypes = [];
+	currentFilters.experienceTypes = [];
+	currentFilters.salaryOnly = false;
 
 	$('.filter-options .filter-btn').removeClass('active');
 	$('.filter-toggle').removeClass('active');
 
+	// 드롭다운 숨김
 	$('.filter-dropdown').hide();
 
 	$('#sort-order-select').val('latest');
@@ -296,10 +312,12 @@ function performSearch() {
 	loadRecruitList(currentFilters);
 }
 
+// 지역 검색 함수
 function performRegionSearch() {
 
 	const regionKeyword = $('.filter-search').val();
 
+	// 검색어, 지역필터링 초기화 (기술스택 필터링은 초기화 안함)
 	currentFilters.regionKeyword = regionKeyword;
 	currentFilters.keyword = '';
 	currentFilters.page = 1;

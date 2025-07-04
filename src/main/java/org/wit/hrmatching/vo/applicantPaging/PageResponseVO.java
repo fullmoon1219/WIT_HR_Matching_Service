@@ -1,4 +1,4 @@
-package org.wit.hrmatching.vo.applicationPaging;
+package org.wit.hrmatching.vo.applicantPaging;
 
 import lombok.Data;
 

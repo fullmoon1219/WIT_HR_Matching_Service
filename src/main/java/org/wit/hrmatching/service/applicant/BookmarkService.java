@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wit.hrmatching.dao.applicant.BookmarkDAO;
-import org.wit.hrmatching.vo.ApplicationDetailVO;
 import org.wit.hrmatching.vo.BookmarkListVO;
-import org.wit.hrmatching.vo.applicationPaging.PageResponseVO;
-import org.wit.hrmatching.vo.applicationPaging.SearchCriteria;
+import org.wit.hrmatching.vo.applicantPaging.PageResponseVO;
+import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

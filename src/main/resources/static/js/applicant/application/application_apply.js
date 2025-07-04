@@ -104,7 +104,7 @@ $(document).ready(function () {
 			success: function () {
 
 				sessionStorage.setItem('toastMessage', '성공적으로 지원되었습니다.');
-				location.href = `/applicant/recruit/view/${jobPostId}`;
+				location.href = `/recruit/view/${jobPostId}`;
 
 			},
 			error: function (xhr) {

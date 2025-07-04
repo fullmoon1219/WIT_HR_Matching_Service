@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.wit.hrmatching.mapper.applicant.ApplicationMapper;
 import org.wit.hrmatching.vo.ApplicationDetailVO;
-import org.wit.hrmatching.vo.applicationPaging.SearchCriteria;
+import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
 
 import java.util.List;
 

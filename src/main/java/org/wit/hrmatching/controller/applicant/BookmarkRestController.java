@@ -9,8 +9,8 @@ import org.wit.hrmatching.dto.applicant.BookmarkDTO;
 import org.wit.hrmatching.service.applicant.BookmarkService;
 import org.wit.hrmatching.vo.BookmarkListVO;
 import org.wit.hrmatching.vo.CustomUserDetails;
-import org.wit.hrmatching.vo.applicationPaging.PageResponseVO;
-import org.wit.hrmatching.vo.applicationPaging.SearchCriteria;
+import org.wit.hrmatching.vo.applicantPaging.PageResponseVO;
+import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
 
 @RestController
 @RequiredArgsConstructor
