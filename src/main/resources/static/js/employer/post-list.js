@@ -31,14 +31,14 @@ $(document).ready(function () {
             }
         });
     });
-    // -----------------------------------제목 클릭 시 수정 폼 로드
+    // -----------------------------------제목 클릭 시 상세 폼 로드
     $(document).on('click', '.edit-post-link', function (e) {
         e.preventDefault(); // 기본 링크 동작 막기
 
         const jobPostId = $(this).data('id');
 
         $.ajax({
-            url: `/employer/jobpost_edit?jobPostId=${jobPostId}`,
+            url: `/employer/jobpost_view?jobPostId=${jobPostId}`,
             type: 'GET',
             success: function (html) {
                 $('#floatingSidebarContent').html(html);

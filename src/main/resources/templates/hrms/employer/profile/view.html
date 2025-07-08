@@ -21,7 +21,7 @@
                 <h3 class="table-title">📌 기업 기본 정보</h3>
                 <div class="action-buttons" id="editControls">
                     <input type="password" id="confirmPassword" class="inline-input password-input" placeholder="비밀번호 입력" style="display: none;">
-                    <button id="editButton" class="edit-button">정보 수정</button>
+                    <button id="editButton" class="edit-button">기업 정보 수정</button>
                     <button id="cancelButton" class="cancel-button" style="display: none;">취소</button>
                 </div>
             </div>
@@ -61,7 +61,8 @@
                     <td data-field="foundedYear"  th:text="${profile.foundedYear}" >2019년</td>
                 </tr>
             </table>
-
+                <button id="password-edit-button" class="password-edit-button">비밀번호변경</button>
+            <hr>
             <h3 class="table-title">⚙️ 시스템 정보</h3>
             <table class="profile-merged-table">
                 <tr>
@@ -115,6 +116,27 @@
             </table>
         </div>
 
+        <!-- ✅ 비밀번호 변경 모달 -->
+        <div id="passwordModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h3>비밀번호 변경</h3>
+
+                <div id="step1">
+                    <label for="currentPassword">현재 비밀번호</label>
+                    <input type="password" id="currentPassword" placeholder="현재 비밀번호 입력">
+                    <button id="verifyPasswordBtn">확인</button>
+                </div>
+
+                <div id="step2" style="display: none;">
+                    <label for="newPassword">새 비밀번호</label>
+                    <input type="password" id="newPassword" placeholder="새 비밀번호 입력">
+                    <label for="confirmedPassword">비밀번호 확인</label>
+                    <input type="password" id="confirmedPassword" placeholder="비밀번호 확인">
+                    <button id="changePasswordBtn">변경</button>
+                </div>
+            </div>
+        </div>
 
     </section>
 </div>

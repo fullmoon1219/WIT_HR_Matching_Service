@@ -3,8 +3,18 @@
 
 <mapper namespace="org.wit.hrmatching.mapper.employer.TechStackMapper">
 
-    <select id="getAllTechStacks" resultType="String">
-        SELECT name FROM tech_stacks ORDER BY name;
+    <select id="getAllTechStacks" resultType="TechStackVO">
+        SELECT id,name FROM tech_stacks ORDER BY id;
     </select>
+
+    <select id="selectNamesByIds" resultType="String">
+        SELECT name
+          FROM tech_stacks
+         WHERE id IN
+        <foreach collection="stackIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
 
 </mapper>

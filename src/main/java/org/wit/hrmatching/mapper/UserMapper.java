@@ -30,4 +30,6 @@ public interface UserMapper {
 
     // 최종 로그인
     void updateLastLogin(Long id);
+
+    int updatePassword(@Param("userId")Long userId, @Param("encodedPassword")String encodedPassword);
 }

@@ -81,4 +81,9 @@
         UPDATE users SET last_login = NOW() WHERE id = #{id}
     </update>
 
+    <update id="updatePassword" parameterType="map">
+        UPDATE users SET password = #{encodedPassword} WHERE id = #{userId}
+    </update>
+
+
 </mapper>

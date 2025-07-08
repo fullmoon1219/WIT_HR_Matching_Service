@@ -13,4 +13,8 @@ public class UserService {
     public boolean emailExists(String email) {
         return userMapper.findByEmail(email) != null;
     }
+
+    public int updatePassword(Long userId, String encodedPassword) {
+        return userMapper.updatePassword(userId,encodedPassword);
+    }
 }

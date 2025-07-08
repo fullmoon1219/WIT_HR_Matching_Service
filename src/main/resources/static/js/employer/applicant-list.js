@@ -23,11 +23,12 @@ $('.post-title-link').on('click', function (e) {
 });
 
 $('.post-resume-link').on('click', function () {
-    const userId = $(this).closest('tr').find('td:eq(2)').text().trim();
-
+    const resumeId =  $(this).data('id');
+    const jobPostId =  $(this).data('post-id');
     $.ajax({
         url: `/employer/application/resume_detail`,
         type: 'GET',
+        data: { resumeId: resumeId, jobPostId:jobPostId},  // ✅ GET 파라미터로 전달
         success: function (html) {
             $('#floatingSidebarContent').html(html);
             $('#floatingOverlay').addClass('show');
