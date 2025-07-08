@@ -1,4 +1,7 @@
 <div class="write-container" xmlns:th="http://www.thymeleaf.org">
+
+
+
     <h2 class="write-title">📢 공고 수정</h2>
 
     <form th:action="@{/employer/jobpost_edit}" method="post" th:object="${jobPostVO}">
@@ -15,14 +18,29 @@
             <input type="text" id="job_category" th:field="*{jobCategory}" placeholder="예: 백엔드 개발자" required>
         </div>
 
+        <!-- 상세 설명 에디터 -->
         <div class="form-group">
-            <label for="description">공고 설명</label>
-            <textarea id="description" th:field="*{description}" rows="6" required></textarea>
+            <label for="description">상세 설명</label>
+            <!--<div id="quillEditor" style="height: 300px;"></div>-->
+            <textarea id="description" rows="6" th:field="*{description}" required></textarea>
+
+            <!--<input type="hidden" name="description" id="description">-->
         </div>
 
         <div class="form-group">
-            <label for="required_skills">요구 기술</label>
-            <textarea id="required_skills" th:field="*{requiredSkills}" rows="4"></textarea>
+            <label>기술 스택</label>
+            <div id="stack-container">
+                <div th:each="stack : ${stackList}" style="display:inline-block; margin: 2px;">
+                    <button type="button"
+                            class="stack-tag"
+                            th:data-value="${stack.id}"
+                            th:text="${stack.name}"
+                            th:classappend="${selectedStacks.contains(stack.name.toString())} ? ' selected'">
+                    </button>
+                </div>
+            </div>
+            <!-- 선택된 기술 스택을 담을 hidden input -->
+            <input type="hidden" name="techStacks" id="techStacksInput" th:value="${jobPostVO.techStacks}">
         </div>
 
         <!-- 급여 + 고용형태 -->

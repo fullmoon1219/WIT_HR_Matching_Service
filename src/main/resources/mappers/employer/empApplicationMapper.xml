@@ -3,4 +3,163 @@
 
 <mapper namespace="org.wit.hrmatching.mapper.employer.EmpApplicationMapper">
 
+<!--    <select id="selectApplicantToEmployerList" resultType="EmpApplicationVO">-->
+<!--        SELECT /*empApplicationMapper.selectApplicantToEmployerList - list 메인 조회*/-->
+<!--            C.title             AS title,-->
+<!--            D.name              AS applicantName,-->
+<!--            D.email             AS email,-->
+<!--            A.applied_at        AS appliedAt,-->
+<!--            A.status            AS status,-->
+<!--            C.id                AS jobPostId,-->
+<!--            A.resume_id         AS resumeId,-->
+<!--            A.status,-->
+<!--            E.application_id    AS applicationId,-->
+<!--            E.viewed_at         AS viewedAt-->
+<!--        FROM applications A-->
+<!--                 JOIN applicant_profiles B ON A.user_id = B.user_id-->
+<!--                 JOIN job_posts C ON A.job_post_id = C.id-->
+<!--                 JOIN users D ON A.user_id = D.id-->
+<!--                 JOIN resumes F ON A.resume_id = F.id-->
+<!--                 LEFT JOIN application_views E ON E.application_id = A.id-->
+<!--        WHERE C.user_id = #{userId}-->
+<!--          AND C.deleted_at IS NULL-->
+<!--          AND F.deleted_at IS NULL-->
+<!--        ORDER BY A.applied_at DESC-->
+<!--            LIMIT 10;-->
+<!--    </select>-->
+
+    <!-- 검색 + 페이징 -->
+    <select id="selectApplicantToEmployerList" resultType="EmpApplicationVO">
+        SELECT
+        C.title,
+        D.name AS applicantName,
+        D.email,
+        A.applied_at AS appliedAt,
+        A.status,
+        C.id AS jobPostId,
+        A.resume_id AS resumeId,
+        E.application_id AS applicationId,
+        E.viewed_at AS viewedAt,
+        D.id AS userId
+        FROM applications A
+        JOIN applicant_profiles B ON A.user_id = B.user_id
+        JOIN job_posts C ON A.job_post_id = C.id
+        JOIN users D ON A.user_id = D.id
+        JOIN resumes F ON A.resume_id = F.id
+        LEFT JOIN application_views E ON E.application_id = A.id
+        WHERE C.user_id = #{userId}
+        AND C.deleted_at IS NULL
+        AND F.deleted_at IS NULL
+        <if test="keyword != null and keyword != ''">
+            AND (
+            C.title LIKE CONCAT('%', #{keyword}, '%')
+            OR D.name LIKE CONCAT('%', #{keyword}, '%')
+            )
+        </if>
+        ORDER BY A.applied_at DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <!-- 총 개수 (페이징용) -->
+    <select id="countApplicantList" resultType="int" >
+        SELECT COUNT(*)
+        FROM applications A
+        JOIN applicant_profiles B ON A.user_id = B.user_id
+        JOIN job_posts C ON A.job_post_id = C.id
+        JOIN users D ON A.user_id = D.id
+        JOIN resumes F ON A.resume_id = F.id
+        WHERE C.user_id = #{userId}
+        AND C.deleted_at IS NULL
+        AND F.deleted_at IS NULL
+        <if test="keyword != null and keyword != ''">
+            AND (
+            C.title LIKE CONCAT('%', #{keyword}, '%')
+            OR D.name LIKE CONCAT('%', #{keyword}, '%')
+            )
+        </if>
+    </select>
+
+
+
+
+    <select id="selectResumeDetail" resultType="EmpApplicationVO">
+        /*empApplicationMapper.selectResumeDetail*/
+        SELECT A.*
+             , B.id AS applicationId
+             , C.name AS applicantName
+             , C.email
+             , D.phone_number
+             , D.gender
+             , D.age
+             , D.address
+             , D.portfolio_url
+             , D.self_intro
+             , E.viewed_at
+        FROM
+            resumes A
+                LEFT JOIN (
+                SELECT *
+                FROM applications
+                WHERE resume_id = #{resumeId}
+                  AND job_post_id = #{jobPostId}
+                ORDER BY applied_at DESC
+                    LIMIT 1
+            ) B ON A.id = B.resume_id
+                JOIN users C ON A.user_id = C.id
+                JOIN applicant_profiles D ON A.user_id = D.user_id
+                LEFT JOIN application_views E ON B.ID = E.application_id
+        WHERE A.id = #{resumeId}
+          AND A.deleted_at IS NULL
+        ORDER BY
+            applied_at DESC
+            LIMIT 10;
+
+    </select>
+
+    <insert id="updateViewAt" parameterType="Long">
+        /*empApplicationMapper.updateViewAt 공고 확인시 열람시간 수정*/
+        INSERT INTO application_views (application_id, viewed_at)
+        VALUES (#{applicationId}, NOW())
+
+    </insert>
+
+    <update id="updateStatus" parameterType="map">
+        /*empApplicationMapper.updateStatus - 공고지원 상태 수정*/
+        UPDATE applications
+          SET status = #{status}
+        WHERE id = #{applicationId}
+
+    </update>
+
+    <select id="countApplicationsByStatus" parameterType="long" resultType="map">
+        /*empApplicationMapper.countApplicationsByStatus - list 메인화면 총지원자수, 대기중, 합격 cnt 조회 */
+        SELECT
+            IFNULL(A.status, 'TOTAL_COUNT') AS status,
+            COUNT(*) AS count
+        FROM applications A
+            JOIN applicant_profiles B ON A.user_id = B.user_id
+            JOIN job_posts C ON A.job_post_id = C.id
+            JOIN users D ON A.user_id = D.id
+            JOIN resumes F ON A.resume_id = F.id
+        WHERE
+            C.user_id = #{userId}
+          AND C.deleted_at IS NULL
+          AND F.deleted_at IS NULL
+        GROUP BY A.status WITH ROLLUP
+    </select>
+
+    <select id="countUnviewedApplications" parameterType="long" resultType="long">
+        /*empApplicationMapper.countApplicationsByStatus - list 메인화면 미열람 cnt 조회 */
+        SELECT
+            COUNT(*) AS unviewedCount
+        FROM applications A
+                 JOIN job_posts C ON A.job_post_id = C.id
+                 JOIN resumes F ON A.resume_id = F.id
+                 LEFT JOIN application_views E ON E.application_id = A.id
+        WHERE
+            C.user_id = #{userId}
+          AND C.deleted_at IS NULL
+          AND F.deleted_at IS NULL
+          AND E.viewed_at IS NULL
+    </select>
 </mapper>

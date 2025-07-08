@@ -1,21 +1,19 @@
 package org.wit.hrmatching.controller.employer;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.wit.hrmatching.service.employer.EmpApplicationService;
 import org.wit.hrmatching.service.employer.JobPostService;
-import org.wit.hrmatching.service.employer.ProfileService;
-import org.wit.hrmatching.vo.CustomUserDetails;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
-import org.wit.hrmatching.vo.EmployerRecentApplicantVO;
-import org.wit.hrmatching.vo.JobPostVO;
+import org.wit.hrmatching.vo.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -23,24 +21,60 @@ import java.util.List;
 @RequestMapping("/employer/application")
 public class EmpApplicationController {
     private final EmpApplicationService empApplicationService;
-    private final ProfileService profileService;
+
     private final JobPostService jobPostService;
 
     @GetMapping("/list")
-    public ModelAndView postApplicant(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ModelAndView postApplicant(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "page", defaultValue = "1") int page
+    ) {
         Long userId = userDetails.getUser().getId();
-        List<EmployerRecentApplicantVO> vo = profileService.selectEmployerRecentApplicantList(userId);
+        int pageSize = 10;
+        int offset = (page - 1) * pageSize;
 
-        ModelAndView modelAndView = new ModelAndView("employer/empApplication/list"); // 뷰 이름 지정
-        modelAndView.addObject("ApplicantList", vo); // model.addAttribute 와 같음
+        // ✅ 검색 + 페이징 결과 가져오기
+        List<EmployerRecentApplicantVO> vo = empApplicationService
+                .selectApplicantToEmployerList(userId, keyword, offset, pageSize);
+
+        // ✅ 전체 개수 (검색 포함)
+        int totalCount = empApplicationService.countApplicantList(userId, keyword);
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+        // ✅ 상태별 카운트 (기존 유지)
+        List<Map<String, Object>> cntMap = empApplicationService.countApplicationsByStatus(userId);
+        Map<String, Long> statusCountMap = new HashMap<>();
+        for (Map<String, Object> row : cntMap) {
+            String status = (String) row.get("status");
+            Long count = ((Number) row.get("count")).longValue();
+            statusCountMap.put(status, count);
+        }
+        Long cnt = empApplicationService.countUnviewedApplications(userId);
+        statusCountMap.put("UNREAD_CNT", cnt);
+
+        ModelAndView modelAndView = new ModelAndView("employer/empApplication/list");
+        modelAndView.addObject("ApplicantList", vo);
+        modelAndView.addObject("Cnt", statusCountMap);
+        modelAndView.addObject("keyword", keyword); // 검색 유지
+        modelAndView.addObject("currentPage", page); // 현재 페이지
+        modelAndView.addObject("totalPages", totalPages); // 총 페이지
 
         return modelAndView;
     }
 
     @GetMapping("/resume_detail")
-    public String postApplicantDetail() {
+    public ModelAndView  postApplicantDetail(@RequestParam("resumeId") Long resumeId
+                                            , @RequestParam("jobPostId") Long jobPostId) {
+        EmpApplicationVO empApplicationVO = empApplicationService.selectResumeDetail(resumeId,jobPostId);
+        if(empApplicationVO.getViewedAt()== null) {
+            empApplicationService.updateViewAt(empApplicationVO.getApplicationId());
+            empApplicationVO = empApplicationService.selectResumeDetail(resumeId, jobPostId);
+        }
+        ModelAndView modelAndView = new ModelAndView("employer/empApplication/resume_detail"); // 💡 실제 템플릿 경로 맞게 수정
+        modelAndView.addObject("resume", empApplicationVO); // Thymeleaf에서 ${jobPost.xxx}로 접근 가능
 
-        return "employer/empApplication/resume_detail";
+        return modelAndView;
     }
 
     @GetMapping("/jobpost_detail")
@@ -51,6 +85,21 @@ public class EmpApplicationController {
         modelAndView.addObject("jobPost", jobPostVO); // Thymeleaf에서 ${jobPost.xxx}로 접근 가능
 
         return modelAndView;
+    }
+
+    @PostMapping("/update_status")
+    @ResponseBody
+    public ResponseEntity<?> updateApplicationStatus(@RequestBody Map<String, Object> request) {
+        Long applicationId = ((Number) request.get("applicationId")).longValue();
+        String status = (String) request.get("status");
+
+        int flag = empApplicationService.updateStatus(applicationId, status);
+        if (flag > 0) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("상태 변경 실패");
+        }
     }
 
 }
