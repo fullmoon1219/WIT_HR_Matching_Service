@@ -15,7 +15,7 @@ $(document).ready(function () {
         } else if (role === 'EMPLOYER') {
             window.location.href = '/employer/profile/view';
         } else if (role === 'APPLICANT') {
-            window.location.href = '/users/main';
+            window.location.href = '/applicant/main';
         }
     });
 });
