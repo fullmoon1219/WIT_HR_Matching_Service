@@ -58,16 +58,23 @@ $(document).ready(function() {
 		loadApplicationList({ page: page });
 	});
 
-	$('#sort-order').on('change', function() {
+	$('.recommend-header').on('click', '.more-btn', function() {
+		$('.sort-options').toggle(); // 정렬 옵션 div를 보여주거나 숨김
+	});
 
-		const selectedSortOrder = $(this).val();
+	// 정렬 옵션 중 하나를 클릭했을 때의 이벤트
+	$('.recommend-header').on('click', '.sort-options a', function(e) {
+		e.preventDefault(); // a 태그의 기본 동작(페이지 이동) 방지
 
-		const newCriteria = {
+		const selectedSortOrder = $(this).data('sort');
+
+		// 정렬순서에 따라 다시 로드
+		loadApplicationList({
 			sortOrder: selectedSortOrder,
 			page: 1
-		};
+		});
 
-		loadApplicationList(newCriteria);
+		$('.sort-options').hide(); // 옵션을 선택했으니 다시 숨김
 	});
 
 	// 모달창으로 지원 내용 확인
@@ -204,15 +211,19 @@ function loadApplicationList(newCriteria = {}) {
 		success: function (response) {
 
 			const tbody = $('#applicationListBody');
-			tbody.empty();
 
 			const applications = response.content;
 			const pagingInfo = response.pagingInfo;
 
 			if (!applications || applications.length === 0) {
-				const emptyRow = `<tr><td colspan="6" style="text-align: center;">지원 내역이 없습니다.</td></tr>`;
-				tbody.append(emptyRow);
+				$(tbody).hide();
+				$('.no-data').show();
 			} else {
+
+				$(tbody).show();
+				$('.no-data').hide();
+				tbody.empty();
+
 				applications.forEach(function(application, index) {
 
 					const rowNum = index + 1 + ((pagingInfo.currentPage - 1) * pagingInfo.recordPerPage);
