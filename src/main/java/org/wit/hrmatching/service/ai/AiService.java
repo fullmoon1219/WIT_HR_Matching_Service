@@ -55,9 +55,8 @@ public class AiService {
     }
 
     public String scoreResumeFromJson(JsonNode resumeJson) {
-        JsonNode data = resumeJson.get("content").get(0);  // 이력서 1건
+        JsonNode data = resumeJson.get("content").get(0);
 
-        // 프롬프트 생성
         String prompt = String.format("""
             너는 인사담당자야.
             아래 이력서를 평가해서 점수를 매기고 보완점을 알려줘.

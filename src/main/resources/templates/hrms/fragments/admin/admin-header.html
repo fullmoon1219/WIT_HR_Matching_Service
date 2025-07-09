@@ -1,5 +1,8 @@
 <!-- templates/hrms/fragments/admin/admin-header.html -->
 
-<header th:fragment="header" class="admin-header">
+<header th:fragment="header" class="admin-header"
+        style="display: flex; align-items: center; height: 60px; padding: 0 20px;">
+    <span th:text="${pageTitle}">관리자 페이지</span>
 </header>
+
 
