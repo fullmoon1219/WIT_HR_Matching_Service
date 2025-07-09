@@ -178,3 +178,15 @@
     background: #dc3545;
 }
 
+.value.status.waiting,
+.filter-selected.value.waiting,
+button.waiting {
+    background-color: #ffc107;
+}
+
+.value.status.answered,
+.filter-selected.value.answered,
+button.answered {
+    background-color: #28a745;
+}
+

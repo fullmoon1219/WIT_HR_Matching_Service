@@ -1,0 +1,77 @@
+<!-- templates/hrms/admin/inquiry-management.html -->
+
+<div layout:decorate="~{layout/admin/admin-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/admin/user-management/user-management.css">
+        <link rel="stylesheet" href="/css/admin/inquiryManagement/inquiry-management.css">
+        <link rel="stylesheet" href="/css/admin/inquiryManagement/inquiry-detail.css">
+        <link rel="stylesheet" href="/css/admin/filter.css">
+    </th:block>
+
+    <div layout:fragment="content">
+        <div class="card-grid">
+            <div class="card"><h3>총 문의</h3><div class="value" id="inquiryCount"></div></div>
+            <div class="card"><h3>미답변</h3><div class="value" id="unansweredCount"></div></div>
+            <div class="card"><h3>답변 완료</h3><div class="value" id="answeredCount"></div></div>
+        </div>
+
+        <div class="section">
+            <div class="table-header">
+                <h2>문의 내역</h2>
+                <div class="user-control-panel">
+                    <div class="search">
+                        <label><input type="text" id="searchKeyword" placeholder="이름, 이메일, 제목으로 검색..." /></label>
+                        <button id="searchButton">검색</button>
+                        <button id="deleteButton">삭제</button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="user-table">
+                <colgroup>
+                    <col style="width: 3%">
+                    <col style="width: 5%">
+                    <col style="width: 20%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 12%">
+                    <col style="width: 12%">
+                    <col style="width: 10%">
+                    <col style="width: 2%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" id="checkAll"></th>
+                    <th>ID</th>
+                    <th>제목</th>
+                    <th>이름</th>
+                    <th>이메일</th>
+                    <th>작성일</th>
+                    <th>처리 완료일</th>
+                    <th class="filter-toggle" data-filter="status" style="position: relative;" id="th-status">
+                        상태
+                        <span>▼</span>
+                        <div class="filter-selected value status" data-type="status" style="display: none;"></div>
+                        <div class="filter-popup" data-type="status" style="display: none;">
+                            <button class="default" data-value="">전체</button>
+                            <button class="waiting" data-value="WAITING">답변 대기</button>
+                            <button class="answered" data-value="ANSWERED">답변 완료</button>
+                        </div>
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="inquiryTableBody">
+                <!-- AJAX로 데이터 삽입 -->
+                </tbody>
+            </table>
+
+            <div id="paginationContainer" class="pagination"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/admin/inquiryManagement/inquiry-management-ajax.js"></script>
+<script src="/js/admin/inquiryManagement/inquiry-management.js"></script>
+<script src="/js/admin/inquiryManagement/filter.js"></script>
+<script src="/js/admin/table.js"></script>
