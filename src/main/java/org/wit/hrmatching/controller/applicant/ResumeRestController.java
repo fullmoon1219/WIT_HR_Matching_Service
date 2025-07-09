@@ -12,6 +12,7 @@ import org.wit.hrmatching.service.applicant.ResumeService;
 import org.wit.hrmatching.vo.CustomUserDetails;
 import org.wit.hrmatching.vo.ResumeVO;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,16 @@ public class ResumeRestController {
 	private final ResumeService resumeService;
 
 	// TODO: 구직자 정보(사진 포함) 추가 → 구직자 메인페이지 로직 완료 후 반영 (작성 화면용)
+
+	@GetMapping
+	public ResponseEntity<Map<String, Object>> getUserProfile(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+		Long userId = userDetails.getId();
+
+		Map<String, Object> userProfile = resumeService.getUserProfile(userId);
+
+		return ResponseEntity.ok(userProfile);
+	}
 
 	@PostMapping
 	public ResponseEntity<?> registerResume(@AuthenticationPrincipal CustomUserDetails userDetails,

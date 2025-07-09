@@ -2,6 +2,63 @@
 
 $(document).ready(function () {
 
+	$.ajax({
+		url:'/api/resumes',
+		method:'GET',
+		success: function (data) {
+			const userInfo = data.userInfo;
+			const profile = data.profile;
+
+			$('#name').text(userInfo.name);
+			$('#email').text(userInfo.email);
+			$('#age').text(profile.age);
+			$('#gender').text(profile.gender);
+			$('#phoneNumber').text(profile.phoneNumber);
+			$('#address').text(profile.address);
+			$('#portfolioUrl').text(profile.portfolioUrl);
+			$('#selfIntro').text(profile.selfIntro);
+			$('#experienceYears').text(profile.experienceYears);
+			$('#jobType').text(profile.jobType);
+		},
+		error: function (xhr) {
+			if (xhr.status === 403) {
+				location.href = '/error/access-denied';
+			} else if (xhr.status === 404) {
+				location.href = '/error/not-found';
+			} else {
+				alert('사용자 프로필 불러오기에 실패했습니다. 나중에 다시 시도해주세요.')
+				console.error('공고 목록 로딩 중 오류 발생: ', xhr);
+			}
+		}
+	});
+
+	$('#stack-selection-area').on('click', '.select-btn', function () {
+		// 클릭한 버튼의 'active' 클래스를 토글
+		$(this).toggleClass('active');
+
+		const selectedValues = $('#stack-selection-area .select-btn.active').map(function() {
+			return $(this).data('value');
+		}).get();
+		const valueString = selectedValues.join(',');
+
+		$('#skills').val(valueString);
+	});
+
+	$('#location-selection-area').on('click', '.select-btn', function () {
+		const clickedButton = $(this);
+
+		if (clickedButton.hasClass('active')) {
+			clickedButton.removeClass('active');
+			$('#preferredLocation').val('');
+
+		} else {
+			clickedButton.siblings('.select-btn').removeClass('active');
+			clickedButton.addClass('active');
+
+			$('#preferredLocation').val(clickedButton.data('value'));
+		}
+	});
+
 	$('#btnRegister').click(function () {
 
 		if (!validateResumeForm()) return;
@@ -66,7 +123,7 @@ $(document).ready(function () {
 		const title = $.trim($titleInput.val());
 
 		if (title === '') {
-			$('#error-title').text('제목을 입력해주세요.');
+			$('#error-title').text('제목은(는) 필수 입력 항목입니다.');
 
 			// 포커스 이동 + 부드러운 스크롤
 			$titleInput[0].scrollIntoView({ behavior: 'smooth', block: 'center' });

@@ -4,12 +4,14 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.wit.hrmatching.vo.ApplicantProfilesVO;
 import org.wit.hrmatching.vo.ResumeVO;
+import org.wit.hrmatching.vo.UserVO;
 
 import java.util.List;
 
 @Mapper
 public interface ResumeMapper {
 
+	UserVO selectUserInfo(long userId);
 	int insertResume(ResumeVO resumeVO);
 
 	ResumeVO selectPublicResume(long userId);

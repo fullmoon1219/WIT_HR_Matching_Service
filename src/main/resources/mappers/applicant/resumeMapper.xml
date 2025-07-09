@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.wit.hrmatching.mapper.applicant.ResumeMapper">
+    
+    <select id="selectUserInfo" resultType="UserVO">
+        select name, email
+        from users
+        where id = #{userId}
+    </select>
 
     <insert id="insertResume" parameterType="ResumeVO" useGeneratedKeys="true" keyProperty="id">
         insert into resumes
