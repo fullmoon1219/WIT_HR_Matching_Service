@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.wit.hrmatching.mapper.applicant.ResumeMapper;
 import org.wit.hrmatching.vo.ApplicantProfilesVO;
 import org.wit.hrmatching.vo.ResumeVO;
+import org.wit.hrmatching.vo.UserVO;
 
 import java.util.List;
 
@@ -13,6 +14,10 @@ import java.util.List;
 public class ResumeDAO {
 
 	private final ResumeMapper resumeMapper;
+
+	public UserVO getUserInfo(long userId) {
+		return resumeMapper.selectUserInfo(userId);
+	}
 
 	public boolean registerResume(ResumeVO resumeVO) {
 

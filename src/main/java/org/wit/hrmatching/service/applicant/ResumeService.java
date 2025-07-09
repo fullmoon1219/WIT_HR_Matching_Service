@@ -5,15 +5,30 @@ import org.springframework.stereotype.Service;
 import org.wit.hrmatching.dao.applicant.ResumeDAO;
 import org.wit.hrmatching.vo.ApplicantProfilesVO;
 import org.wit.hrmatching.vo.ResumeVO;
+import org.wit.hrmatching.vo.UserVO;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class ResumeService {
 
 	private final ResumeDAO resumeDAO;
+
+	public Map<String, Object> getUserProfile(long userId) {
+
+		UserVO userInfo = resumeDAO.getUserInfo(userId);
+		ApplicantProfilesVO profile = resumeDAO.getApplicantProfile(userId);
+
+		Map<String, Object> userProfile = new HashMap<>();
+		userProfile.put("userInfo", userInfo);
+		userProfile.put("profile", profile);
+
+		return userProfile;
+	}
 
 	public boolean registerResume(ResumeVO resumeVO) {
 		return resumeDAO.registerResume(resumeVO);
