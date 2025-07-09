@@ -1,0 +1,93 @@
+<div class="view-container" xmlns:th="http://www.thymeleaf.org">
+
+<!--    채용공고명   -->
+    <h2 class="view-title" data-field="title" th:text="${post.title}">📍</h2>
+
+<!--    간단한 공고 정보   -->
+    <table class="job-basic-info-table">
+        <tbody>
+        <tr>
+            <th>고용형태</th>
+            <td data-field="employment_type" th:text="${post.employmentType}"></td>
+            <th>급여</th>
+            <td data-field="salary" th:text="${post.salary}"></td>
+        </tr>
+        <tr>
+            <th>근무지</th>
+            <td data-field="location" th:text="${post.location}"></td>
+            <th>마감일</th>
+            <td data-field="deadline" th:text="${post.deadline}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 에디터로 작성한 HTML 상세설명을 그대로 렌더링하기 위해 th:utext 사용 -->
+    <div class="view-group">
+        <h3>📍 상세설명 </h3>
+        <div class="view-value description"
+             data-field="description"
+             th:utext="${post.description}">
+        </div>
+    </div>
+
+    <div class="view-group">
+        <h3>📍 사용 기술 스택</h3>
+        <div class="stack-tags">
+            <button type="button" class="stack-tag" th:each="stack : ${selectedStacks}" th:text="${stack}" disabled></button>
+        </div>
+    </div>
+
+    <div class="view-group">
+        <h3>📍 근무지 위치</h3>
+        <p class="view-value" data-field="workplace_address" th:text="${post.workplaceAddress}"></p>
+        <div id="workplaceMap" class="map-container"></div>
+    </div>
+
+    <div class="view-group">
+        <h3>🏢 기업 정보</h3>
+        <table class="profile-merged-table">
+            <tr>
+                <th>회사명</th>
+                <td data-field="companyName" th:text="${employerProfile.companyName}">WIT</td>
+                <th>대표자명</th>
+                <td data-field="ceoName" th:text="${employerProfile.ceoName}">홍길동</td>
+            </tr>
+            <tr>
+                <th>사업자 번호</th>
+                <td data-field="businessNumber" th:text="${employerProfile.businessNumber}">123-45-67890</td>
+                <th>이메일</th>
+                <td data-field="email" th:text="${employerProfile.email}">wit@exam.com</td>
+            </tr>
+            <tr>
+                <th>대표 전화번호</th>
+                <td data-field="phone" th:text="${employerProfile.phoneNumber}">02-1234-5678</td>
+                <th>홈페이지</th>
+                <td data-field="homepage" th:text="${employerProfile.homepageUrl}"><a href="https://www.wit.co.kr" target="_blank">www.wit.co.kr</a></td>
+            </tr>
+            <tr>
+                <th>회사 주소</th>
+                <td data-field="address" th:text="${employerProfile.address}">서울시 강남구 테헤란로 123</td>
+                <th>기업 규모</th>
+                <td data-field="size" th:text="${employerProfile.companySize}">중소기업 (50명)</td>
+            </tr>
+            <tr>
+                <th>업종</th>
+                <td data-field="industry" th:text="${employerProfile.industry}">IT / 소프트웨어</td>
+                <th>설립연도</th>
+                <td data-field="founded" th:text="${employerProfile.foundedYear}">2019년</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="form-actions">
+        <button type="button" class="edit-button" th:data-id="${post.id}">수정</button>
+<!--        <button type="button" class="delete-button">삭제</button>-->
+        <button type="button" class="delete-button" th:data-id="${post.id}">삭제</button>
+        <button type="button" class="close-button">닫기</button>
+    </div>
+
+</div>
+
+<!-- 지도 API -->
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_APP_KEY&libraries=services"></script>
+<script src="/js/employer/post-view.js"></script>

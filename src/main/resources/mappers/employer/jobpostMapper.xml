@@ -3,21 +3,13 @@
 
 <mapper namespace="org.wit.hrmatching.mapper.employer.JobPostMapper">
 
-<!--    <insert id="registerJobPost" parameterType="JobPostVO">-->
-<!--        insert into job_posts(-->
-<!--                user_id, title, description, required_skills, salary, location, employment_type, deadline, job_category-->
-<!--        ) values (-->
-<!--                 #{userId}, #{title}, #{description}, #{requiredSkills}, #{salary}, #{location},-->
-<!--                 #{employmentType}, #{deadline}, #{jobCategory})-->
-<!--    </insert>-->
-
     <insert id="insertJobPost" parameterType="JobPostVO">
         INSERT INTO job_posts (
             user_id, title, description, required_skills, salary, location,
-            employment_type, deadline, job_category, tech_stacks
+            employment_type, deadline, job_category, tech_stacks, workplace_address
         ) VALUES (
                      #{userId}, #{title}, #{description}, #{requiredSkills}, #{salary}, #{location},
-                     #{employmentType}, #{deadline}, #{jobCategory}, #{techStacks}
+                     #{employmentType}, #{deadline}, #{jobCategory}, #{techStacks}, #{workplaceAddress}
                  )
     </insert>
 
@@ -35,7 +27,7 @@
     </select>
 
     <select id="selectJobPostAllList" resultType="JobPostVO">
-        /* 기업페이지 채용곡고- 채용공고내역 조회 */
+        /* 기업페이지 채용공고- 채용공고내역 조회 */
         SELECT a.*, IFNULL(b.cnt, 0) AS applicant_count
         FROM hrms.job_posts a
                  LEFT JOIN (
@@ -58,9 +50,11 @@
 
     <select id="selectJobPostDetail" resultType="JobPostVO">
         /* 기업페이지 - 채용공고 상세페이지 조회 */
-        SELECT *
-        FROM job_posts
-        WHERE id = #{recruitId} AND deleted_at IS NULL
+        SELECT A.*, B.*, C.name
+        FROM job_posts A
+                 JOIN employer_profiles B ON A.user_id = B.user_id
+                 JOIN users C ON B.user_id = C.id
+        WHERE A.id = #{jobPostId}
     </select>
 
     <update id="updateJobPostDetail" parameterType="JobPostVO">
@@ -68,6 +62,8 @@
         SET title = #{title},
             description = #{description},
             required_skills = #{requiredSkills},
+            tech_stacks = #{techStacks},
+            workplace_address = #{workplaceAddress},
             salary = #{salary},
             location = #{location},
             employment_type = #{employmentType},
@@ -86,16 +82,21 @@
         </foreach>
     </update>
 
-    <!-- 채용공고 목록 (검색 포함) -->
+    <!-- 채용공고 목록 (검색 포함, 공고당 지원자수 포함) -->
     <select id="findJobPostsByTitle" resultType="JobPostVO">
-        SELECT *
-        FROM job_posts
-        WHERE user_id = #{userId}
-        AND deleted_at IS NULL
+        SELECT A.*, IFNULL(B.ApplicantCntByJobpost, 0) AS ApplicantCntByJobpost
+          FROM job_posts A
+          LEFT JOIN (
+                    SELECT job_post_id, COUNT(*) AS applicantCntByJobpost
+                    FROM applications
+                    GROUP BY job_post_id
+                    ) B ON A.id = B.job_post_id
+         WHERE A.user_id = #{userId}
+           AND A.deleted_at IS NULL
         <if test="keyword != null and keyword != ''">
-            AND title LIKE CONCAT('%', #{keyword}, '%')
+            AND A.title LIKE CONCAT('%', #{keyword}, '%')
         </if>
-        ORDER BY id DESC
+         ORDER BY A.id DESC
         LIMIT #{size} OFFSET #{offset}
     </select>
 

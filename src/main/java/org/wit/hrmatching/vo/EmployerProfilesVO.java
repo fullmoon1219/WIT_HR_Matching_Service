@@ -24,5 +24,6 @@ public class EmployerProfilesVO {
     private String companySize;    // company_size
     private String ceoName;
     private String email;
-    private String password;        // 화면단에서 입력한 비밀번호, userPassword와 일치 비교
+    private String password;       // 화면단에서 입력한 비밀번호, userPassword와 일치 비교
+    private String logoUrl;        // 화면단에서 입력한 비밀번호, userPassword와 일치 비교
 }

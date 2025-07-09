@@ -3,6 +3,7 @@ package org.wit.hrmatching.service.employer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.mapper.employer.TechStackMapper;
+import org.wit.hrmatching.vo.TechStackVO;
 
 import java.util.List;
 
@@ -11,8 +12,12 @@ import java.util.List;
 public class TechStackService {
     private final TechStackMapper techStackMapper;
 
-    public List<String> getAllStacks() {
+    public List<TechStackVO> getAllStacks() {
         return techStackMapper.getAllTechStacks();
+    }
+
+    public List<String> getStackNamesByIds(List<Long> stackIds) {
+        return techStackMapper.selectNamesByIds(stackIds);
     }
 }
 

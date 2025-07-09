@@ -17,15 +17,6 @@
     background-color: #0056b3;
 }
 
-.status-button {
-    background-color: #11b600;
-    color: #fff;
-}
-
-.status-button:hover {
-    background-color: #0a6300;
-}
-
 .post-resume-link {
     cursor: pointer;
     color: #11b600;

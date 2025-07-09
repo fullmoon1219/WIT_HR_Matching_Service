@@ -63,6 +63,7 @@
                     <th>등록일</th>
                     <th>상태</th>
                     <th>지원자 수</th>
+                    <th>스크랩 수</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -75,6 +76,7 @@
                         <a href="#" class="edit-post-link" th:data-id="${post.id}" th:text="${post.title}">채용공고 제목</a>
                     </td>
                     <td th:text="${post.employmentType}">고용형태</td>
+
                     <td th:text="${post.location}">지역</td>
                     <td th:text="${post.deadline}">마감일</td>
                     <td th:text="${post.createAt}">등록일</td>
@@ -83,11 +85,13 @@
                               th:classappend="${post.deadline != null and post.deadline.isBefore(T(java.time.LocalDate).now()) ? 'status-label status-closed' : 'status-label status-open'}">
                         </span>
                     </td>
-                    <td th:text="${post.applicantCount}">지원자 수</td>
+                    <td th:text="${post.applicantCntByJobpost}">지원자 수</td>
+                    <td th:text="${post.bookmarkCount}">스크랩 수</td>
                 </tr>
             </table>
 
             <div id="paginationContainer" class="pagination-container"></div>
+
 
         </div>
 

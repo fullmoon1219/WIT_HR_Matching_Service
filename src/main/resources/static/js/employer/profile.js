@@ -100,4 +100,73 @@ $(document).ready(function () {
         $(this).hide();
         isEditing = false;
     });
+
+    // ✅ 비밀번호 변경 모달 처리
+    $('#password-edit-button').on('click', function () {
+        $('#passwordModal').fadeIn();
+    });
+
+    $('.close-button').on('click', function () {
+        $('#passwordModal').fadeOut();
+        resetModal();
+    });
+
+    $('#verifyPasswordBtn').on('click', function () {
+        const currentPassword = $('#currentPassword').val().trim();
+        if (!currentPassword) {
+            alert('현재 비밀번호를 입력해주세요.');
+            return;
+        }
+
+        $.ajax({
+            url: '/employer/profile/verify_password',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ password: currentPassword }),
+            success: function () {
+                $('#step1').hide();
+                $('#step2').show();
+            },
+            error: function () {
+                alert('비밀번호가 일치하지 않습니다.');
+            }
+        });
+    });
+
+    $('#changePasswordBtn').on('click', function () {
+        const newPassword = $('#newPassword').val().trim();
+        const confirmPassword = $('#confirmedPassword').val().trim();
+
+        if (newPassword.length < 6) {
+            alert('새 비밀번호는 6자 이상이어야 합니다.');
+            return;
+        }
+        console.log(newPassword +"//"+ confirmPassword)
+        if (newPassword !== confirmPassword) {
+            alert('새 비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        $.ajax({
+            url: '/employer/profile/update_password',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ newPassword }),
+            success: function () {
+                alert('비밀번호가 성공적으로 변경되었습니다.');
+                $('#passwordModal').fadeOut();
+                resetModal();
+            },
+            error: function () {
+                alert('비밀번호 변경에 실패했습니다.');
+            }
+        });
+    });
+
+    function resetModal() {
+        $('#currentPassword, #newPassword, #confirmPassword').val('');
+        $('#step1').show();
+        $('#step2').hide();
+    }
+
 });

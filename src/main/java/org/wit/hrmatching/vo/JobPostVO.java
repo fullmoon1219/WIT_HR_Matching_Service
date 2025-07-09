@@ -24,6 +24,7 @@ public class JobPostVO {
     private String description;
     private String requiredSkills;
     private String salary;
+    private String ceoName;
     private String location;
     private String workplaceAddress;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -50,4 +51,6 @@ public class JobPostVO {
     private long expiredCount;
 
     private String techStacks; // 콤마로 구분된 기술 스택들 저장
+    private String applicantCntByJobpost; // 공고당 지원자 수
+
 }
