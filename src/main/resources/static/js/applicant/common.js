@@ -53,6 +53,14 @@ function translateApplicationStatus(status) {
 	}
 }
 
+function translateGender(code) {
+	switch (code) {
+		case 'MALE': return '남성';
+		case 'FEMALE': return '여성';
+		default: return '기타';
+	}
+}
+
 function validateResumeForm() {
 	const requiredFields = [
 		{ name: 'title', label: '제목' },
