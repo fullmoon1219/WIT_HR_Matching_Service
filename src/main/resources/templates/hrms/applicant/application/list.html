@@ -30,13 +30,16 @@
                 <div class="recommend-box">
                     <div class="recommend-header">
                         <h3>지원 현황</h3>
-                        <button class="more-btn">정렬</button>
-                        <div class="sort-options" style="display: none;">
-                            <a href="#" data-sort="latest">최신순</a>
-                            <a href="#" data-sort="oldest">오래된순</a>
-                            <a href="#" data-sort="deadline">마감일 임박순</a>
+                        <div class="sort-container">
+                            <button class="more-btn">정렬 ▼</button>
+                            <div class="sort-options" style="display: none;">
+                                <a href="#" data-sort="latest">최신순</a>
+                                <a href="#" data-sort="oldest">오래된순</a>
+                                <a href="#" data-sort="deadline">마감일 임박순</a>
+                            </div>
                         </div>
                     </div>
+
                     <table class="recommend-table">
                         <thead>
                         <tr>
@@ -59,7 +62,11 @@
             </div>
 
         <!-- 페이징 -->
-        <div id="pagination" class="pagination"></div>
+        <div id="custom-pagination" class="pagination">
+            <button data-page="1" class="active">1</button>
+            <button data-page="2">2</button>
+        </div>
+
 
         <!-- 지원 상세 내용 확인할 모달창 구역 -->
         <div id="application-modal" title="지원 상세 내용" style="display:none;">

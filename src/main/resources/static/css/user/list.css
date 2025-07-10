@@ -1,0 +1,117 @@
+.resume-management {
+    max-width: 1000px;
+    margin: 40px auto;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.guide-text {
+    list-style: none;
+    padding-left: 0;
+    color: #555;
+    font-size: 14px;
+}
+
+.guide-text li {
+    margin-bottom: 4px;
+}
+
+.notice-button {
+    background-color: #007bff;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    text-align: left;
+    margin-bottom: 32px;
+}
+
+.notice-button strong {
+    color: #fff;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.notice-button p {
+    color: #e6e6e6;
+    margin: 0;
+    font-size: 14px;
+}
+
+.resume-list {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.resume-list h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.resume-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.resume-items li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding: 12px 0;
+}
+
+.resume-main-select {
+    flex: 0 0 auto;
+    margin-right: 8px;
+}
+
+
+.resume-info {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.resume-title {
+    font-weight: 500;
+    font-size: 14px;
+    color: #222;
+}
+
+.resume-date {
+    font-size: 13px;
+    color: #888;
+}
+
+.resume-actions-inline {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 6px;
+}
+
+.btn-small {
+    font-size: 13px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+}
+
+.star-button {
+    font-size: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #bbb; /* 빈 별 기본 색상 */
+    padding: 0;
+}
+
+.star-button.selected {
+    color: #ffc107; /* 노란 별 (대표 이력서) */
+}
