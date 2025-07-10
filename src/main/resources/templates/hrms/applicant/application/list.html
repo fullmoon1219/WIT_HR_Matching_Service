@@ -1,82 +1,76 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-	<meta charset="UTF-8">
+<!-- /templates/hrms/employer/mypagge/profile.html -->
 
-	<meta name="_csrf" th:content="${_csrf.token}" />
-	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-	<title>나의 지원 현황</title>
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+        <link rel="stylesheet" href="/css/user/history.css">
 
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-	<link rel="stylesheet" href="/css/jquery-ui/jquery-ui.css">
+    </th:block>
 
-	<script src="/js/jquery-3.7.1.min.js"></script>
-	<script src="/js/admin/csrf-setup.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-	<script src="/js/jquery-ui.min.js"></script>
+    <section layout:fragment="content">
 
-	<script src="/js/applicant/common.js"></script>
-	<script src="/js/applicant/application/application_list.js"></script>
+        <div class="status-summary-box">
+            <div id="filter-all" class="status-card">
+                <span class="label">지원완료</span>
+                <span id="count-all" class="value">0</span>
+            </div>
+            <div id="filter-in-progress" class="status-card">
+                <span class="label">진행중</span>
+                <span id="count-in-progress" class="value">0</span>
+            </div>
+            <div id="filter-final" class="status-card">
+                <span class="label">최종발표</span>
+                <span id="count-final" class="value">0</span>
+            </div>
+        </div>
 
-	<style>
-        .ui-dialog {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-	</style>
-</head>
-<body>
 
-<h2>나의 지원 현황</h2>
+            <div class="job-recommend-card">
+                <div class="recommend-box">
+                    <div class="recommend-header">
+                        <h3>지원 현황</h3>
+                        <button class="more-btn">정렬</button>
+                        <div class="sort-options" style="display: none;">
+                            <a href="#" data-sort="latest">최신순</a>
+                            <a href="#" data-sort="oldest">오래된순</a>
+                            <a href="#" data-sort="deadline">마감일 임박순</a>
+                        </div>
+                    </div>
+                    <table class="recommend-table">
+                        <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>공고명</th>
+                            <th>기업명</th>
+                            <th>지원일</th>
+                            <th>공고 마감일</th>
+                            <th>지원 상태</th>
+                        </tr>
+                        </thead>
+                        <tbody id="applicationListBody">
+                        <!-- JS에서 채움 -->
+                        </tbody>
+                    </table>
+                    <div class="no-data">
+                        현재 지원한 공고가 없습니다.
+                    </div>
+                </div>
+            </div>
 
-<div>
-	<div id="filter-all" class="filter-btn active">
-		<!-- 결과 발표와 관계없이 지원한 모든 공고의 수 -->
-		<div>지원 완료 <span id="count-all"></span></div>
-	</div>
-	<div id="filter-in-progress" class="filter-btn">
-		<!-- 결과 발표가 나지 않은 공고 수 (status='APPLIED') -->
-		<div>전형 진행 중 <span id="count-in-progress"></span></div>
-	</div>
-	<div id="filter-final" class="filter-btn">
-		<!-- 결과 발표가 나온 공고 수 (status='ACCEPTED' or 'REJECTED') -->
-		<div>최종 발표 <span id="count-final"></span></div>
-	</div>
+        <!-- 페이징 -->
+        <div id="pagination" class="pagination"></div>
+
+        <!-- 지원 상세 내용 확인할 모달창 구역 -->
+        <div id="application-modal" title="지원 상세 내용" style="display:none;">
+            <!-- JS에서 채움 -->
+        </div>
+
+        <!-- 광고 영역 -->
+        <section th:replace="~{fragments/main/ad_banner:: ad}"></section>
+
+
+    </section>
 </div>
 
-<div>
-	<select name="sort" id="sort-order">
-		<option value="latest">최신순</option>
-		<option value="oldest">오래된순</option>
-		<option value="deadline">마감일 임박순</option>
-	</select>
-</div>
-
-<table border="1" cellspacing="0">
-	<thead>
-	<tr>
-		<th>번호</th>
-		<th>공고명</th>
-		<th>기업명</th>
-		<th>지원일</th>
-		<th>마감일</th>
-		<th>지원 상태</th>
-	</tr>
-	</thead>
-	<tbody id="applicationListBody">
-	<!-- JS에서 채움 -->
-	</tbody>
-</table>
-
-<div id="pagination" class="pagination"></div>
-
-<!-- 지원 상세 내용 확인할 모달창 구역 -->
-<div id="application-modal" title="지원 상세 내용" style="display:none;">
-	<!-- JS에서 채움 -->
-</div>
-
-</body>
-</html>
+<script src="/js/applicant/application/application_list.js"></script>

@@ -4,46 +4,73 @@ $(document).ready(function () {
 
 	const resumeId = getIdFromUrl();
 
-	$.ajax({
+	const profileAjax = $.ajax({
+		url: '/api/resumes',
+		method: 'GET'
+	});
+
+	const resumeAjax = $.ajax({
 		url: `/api/resumes/${resumeId}`,
-		method: 'GET',
-		success: function (resume) {
-			$('#title').text(resume.title);
-			$('#education').text(resume.education);
-			$('#experience').text(resume.experience);
-			$('#skills').text(resume.skills);
-			$('#preferredLocation').text(resume.preferredLocation);
-			$('#salaryExpectation').text(resume.salaryExpectation);
-			$('#coreCompetency').text(resume.coreCompetency);
-			$('#desiredPosition').text(resume.desiredPosition);
-			$('#motivation').text(resume.motivation);
-			$('#createAt').text(resume.createAt);
+		method: 'GET'
+	});
 
-			// 수정일은 등록일과 날짜가 다를 때 노출
-			if (resume.updateAt && resume.updateAt !== resume.createAt) {
-				$('#updatedAt').text(resume.updateAt);
-				$('#updatedAtRow').show();
-			}
+	$.when(profileAjax, resumeAjax).done(function (profileResponse, resumeResponse) {
 
-			if (resume.isPublic === true) {
-				$('#editBtn').hide();
-				$('#deleteBtn').hide();
-			}
+		const profileData = profileResponse[0];
+		const resumeData = resumeResponse[0];
 
-			$('body').show();
-		},
-		error: function (xhr) {
-			if (xhr.status === 403) {
-				// 권한 없는 경우
-				location.href = '/error/access-denied';
-			} else if (xhr.status === 404) {
-				// 없는 이력서
-				location.href = '/error/not-found';
-			} else {
-				// 그 외 에러
-				location.href = '/error/db-access-denied';
-				console.error(xhr);
-			}
+		const userInfo = profileData.userInfo;
+		const profile = profileData.profile;
+
+		$('#name').text(userInfo.name);
+		$('#email').text(userInfo.email);
+
+		if (profile) {
+			$('#age').text(profile.age || '-');
+			$('#gender').text(translateGender(profile.gender) || '-');
+			$('#phoneNumber').text(profile.phoneNumber || '-');
+			$('#address').text(profile.address || '-');
+			$('#portfolioUrl').text(profile.portfolioUrl || '-').attr('href', profile.portfolioUrl || '#');
+			$('#selfIntro').text(profile.selfIntro || '-');
+			$('#experienceYears').text(profile.experienceYears || '0');
+			$('#jobType').text(translateEmploymentType(profile.jobType) || '-');
+		} else {
+			$('#age, #gender, #phoneNumber, #address, #portfolioUrl, #selfIntro, #jobType').text('-');
+			$('#experienceYears').text('0');
+		}
+
+		$('#title').text(resumeData.title);
+		$('#education').text(resumeData.education);
+		$('#experience').text(resumeData.experience);
+		$('#skills').text(resumeData.skills);
+		$('#preferredLocation').text(resumeData.preferredLocation);
+		$('#salaryExpectation').text(resumeData.salaryExpectation);
+		$('#coreCompetency').text(resumeData.coreCompetency);
+		$('#desiredPosition').text(resumeData.desiredPosition);
+		$('#motivation').text(resumeData.motivation);
+		$('#createAt').text(resumeData.createAt);
+
+		if (resumeData.updatedAt && resumeData.updatedAt !== resumeData.createAt) {
+			$('#updatedAt').text(resumeData.updatedAt);
+			$('#updatedAtRow').show();
+		}
+
+		if (resumeData.isPublic === true) {
+			$('#editBtn').hide();
+			$('#deleteBtn').hide();
+		}
+		$('body').show();
+
+	}).fail(function (xhr) {
+
+		console.error("데이터 로딩 중 오류 발생", xhr);
+
+		if (xhr.status === 403) {
+			location.href = '/error/access-denied';
+		} else if (xhr.status === 404) {
+			location.href = '/error/not-found';
+		} else {
+			alert('데이터를 불러오는 데 실패했습니다. 나중에 다시 시도해주세요.');
 		}
 	});
 

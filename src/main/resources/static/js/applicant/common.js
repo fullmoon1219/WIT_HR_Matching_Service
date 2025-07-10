@@ -53,6 +53,14 @@ function translateApplicationStatus(status) {
 	}
 }
 
+function translateGender(code) {
+	switch (code) {
+		case 'MALE': return '남성';
+		case 'FEMALE': return '여성';
+		default: return '기타';
+	}
+}
+
 function validateResumeForm() {
 	const requiredFields = [
 		{ name: 'title', label: '제목' },
@@ -96,13 +104,16 @@ function renderPagination(pagingInfo) {
 
 	let paginationHtml = '';
 
-	// '처음 <<' & '이전 <' 버튼
+	// '처음 <<' 버튼
 	if (pagingInfo.hasPrevBlock) {
-		// 첫 페이지 블록으로 이동
 		paginationHtml += `<a href="#" class="arrow" data-page="1">&lt;&lt;</a>`;
 	}
+
+	// '이전 <' 버튼
 	if (pagingInfo.currentPage > 1) {
 		paginationHtml += `<a href="#" class="arrow" data-page="${pagingInfo.currentPage - 1}">&lt;</a>`;
+	} else {
+		paginationHtml += `<span class="arrow disabled">&lt;</span>`;
 	}
 
 	// 페이지 번호 목록
@@ -114,10 +125,14 @@ function renderPagination(pagingInfo) {
 		}
 	}
 
-	// '다음 >' & '마지막 >>' 버튼
+	// '다음 >' 버튼
 	if (pagingInfo.currentPage < pagingInfo.totalPage) {
 		paginationHtml += `<a href="#" class="arrow" data-page="${pagingInfo.currentPage + 1}">&gt;</a>`;
+	} else {
+		paginationHtml += `<span class="arrow disabled">&gt;</span>`;
 	}
+
+	// '마지막 >>' 버튼
 	if (pagingInfo.hasNextBlock) {
 		paginationHtml += `<a href="#" class="arrow" data-page="${pagingInfo.totalPage}">&gt;&gt;</a>`;
 	}
