@@ -36,11 +36,8 @@ public class ProfileService {
         employerProfileMapper.updateUserName(profile.getUserId(), profile.getCeoName());
     }
 
-    public void updateProfileImage(Long userId, String storedName) {
-        EmployerProfilesVO vo = new EmployerProfilesVO();
-        vo.setUserId(userId);
-        vo.setProfileImage(storedName);
-        employerProfileMapper.updateProfileImage(vo);
+    public int updateProfileImage(Long userId, String storedName) {
+        return employerProfileMapper.updateProfileImage(userId,storedName);
     }
 
 }

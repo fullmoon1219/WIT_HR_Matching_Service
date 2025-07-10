@@ -1,21 +1,21 @@
 <div class="view-container" xmlns:th="http://www.thymeleaf.org">
     <!-- 채용공고명 -->
-    <h2 class="view-title" data-field="title" th:text="${post.title}">📍</h2>
+    <h2 class="view-title" th:text="${post.title}">📍</h2>
 
     <!-- 간단한 공고 정보 -->
     <table class="job-basic-info-table">
         <tbody>
         <tr>
             <th>고용형태</th>
-            <td data-field="employment_type" th:text="${post.employmentType}"></td>
+            <td th:text="${post.employmentType}"></td>
             <th>급여</th>
-            <td data-field="salary" th:text="${post.salary}"></td>
+            <td th:text="${post.salary}"></td>
         </tr>
         <tr>
             <th>근무지</th>
-            <td data-field="location" th:text="${post.location}"></td>
+            <td th:text="${post.location}"></td>
             <th>마감일</th>
-            <td data-field="deadline" th:text="${post.deadline}"></td>
+            <td th:text="${post.deadline}"></td>
         </tr>
         </tbody>
     </table>
@@ -23,23 +23,24 @@
     <!-- 상세설명 -->
     <div class="view-group">
         <h3>📍 상세설명 </h3>
-        <div class="view-value description"
-             data-field="description"
-             th:utext="${post.description}">
-        </div>
+        <div class="view-value description" th:utext="${post.description}"></div>
     </div>
 
+    <!-- 기술 스택 -->
     <div class="view-group">
         <h3>📍 기술 스택</h3>
         <div class="stack-tags">
-            <button type="button" class="stack-tag" th:each="stack : ${selectedStacks}" th:text="${stack}" disabled></button>
+            <button type="button" class="stack-tag"
+                    th:each="stack : ${selectedStacks}"
+                    th:text="${stack}" disabled></button>
         </div>
     </div>
 
+    <!-- 근무지 위치 -->
     <div class="view-group">
         <h3>📍 근무지 위치</h3>
-        <p class="view-value" data-field="workplace_address" th:text="${post.workplaceAddress}"></p>
-        <div id="workplaceMap" class="map-container"></div>
+        <p id="workplaceAddress" class="view-value" th:text="${post.workplaceAddress}"></p>
+        <div id="workplaceMap" class="view-value" style="width: 100%; height: 300px;"></div>
     </div>
 
     <div class="view-group">
@@ -86,5 +87,42 @@
 </div>
 
 <!-- 지도 API -->
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ff9c4ad26bc2db92ab2d0aa791d666f2&libraries=services"></script>
+<!--<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ff9c4ad26bc2db92ab2d0aa791d666f2&libraries=services"></script>-->
+<!--<script th:src="'//dapi.kakao.com/v2/maps/sdk.js?appkey=' + ${@environment.getProperty('kakao.api-key')} + '&amp;libraries=services&amp;autoload=false'"></script>-->
+
 <script src="/js/employer/post-view.js"></script>
+<!-- ✅ Kakao Maps SDK 동적 로딩 -->
+<!-- ✅ Kakao Maps SDK 동적 로딩 -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    //const kakaoApiKey = /*[[${@environment.getProperty('kakao.api-key')}]]*/ "";
+    if (typeof kakaoApiKey === 'undefined') {
+        var kakaoApiKey = /*[[${@environment.getProperty('kakao.api-key')}]]*/ "";
+    }
+    var script = document.createElement('script');
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoApiKey}&libraries=services&autoload=false`;
+    script.onload = function () {
+        kakao.maps.load(function () {
+            const address = document.getElementById('workplaceAddress')?.textContent?.trim();
+            if (!address) return;
+
+            const mapContainer = document.getElementById('workplaceMap');
+            const mapOption = {
+                center: new kakao.maps.LatLng(37.5665, 126.9780),
+                level: 3
+            };
+            const map = new kakao.maps.Map(mapContainer, mapOption);
+            const geocoder = new kakao.maps.services.Geocoder();
+
+            geocoder.addressSearch(address, function (result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                    new kakao.maps.Marker({ map, position: coords });
+                    map.setCenter(coords);
+                }
+            });
+        });
+    };
+    document.head.appendChild(script);
+    /*]]>*/
+</script>

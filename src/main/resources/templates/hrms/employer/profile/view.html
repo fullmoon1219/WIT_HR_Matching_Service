@@ -34,12 +34,12 @@
                 <tr>
                     <td rowspan="5" class="profile-image-cell">
                         <form id="imageUploadForm" enctype="multipart/form-data">
-                            <div class="image-preview-container">
+                            <!--<div class="image-preview-container">-->
                                 <img id="profileImagePreview"
                                      th:src="${profile.profileImage != null} ? ${'/uploads/' + profile.profileImage} : '/images/users/user_big_profile.png'"
                                      alt="기업 프로필 이미지"
                                      class="profile-image-preview">
-                            </div>
+                            <!--</div>-->
                             <input type="file" id="profileImageInput" name="profileImage" accept="image/*" hidden>
                             <button type="button" id="uploadImageButton" class="upload-button">사진 등록</button>
                         </form>

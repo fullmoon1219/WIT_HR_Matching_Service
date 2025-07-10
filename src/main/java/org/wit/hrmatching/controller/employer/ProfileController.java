@@ -2,6 +2,7 @@ package org.wit.hrmatching.controller.employer;
 
 import jakarta.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -102,7 +103,7 @@ public class ProfileController {
         else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비밀번호 변경 실패");
     }
 
-    @PostMapping("/profile/image-upload")
+    @PostMapping("/image-upload")
     @ResponseBody
     public Map<String, Object> uploadProfileImage(@RequestParam("profileImage") MultipartFile file,
                                                   @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -110,29 +111,29 @@ public class ProfileController {
         Long userId = userDetails.getUser().getId();
 
         try {
-            // 1. 저장 경로 설정
-            String uploadDir = "/uploads/";
-            String realPath = servletContext.getRealPath(uploadDir); // 실제 서버 저장 경로
+            // ✅ static/uploads 경로로 저장
+            String resourcePath = new ClassPathResource("static/uploads").getFile().getAbsolutePath();
             String originalFilename = file.getOriginalFilename();
             String storedName = UUID.randomUUID() + "_" + originalFilename;
 
-            // 2. 저장 폴더 생성
-            File directory = new File(realPath);
+            // 저장 경로 생성
+            File directory = new File(resourcePath);
             if (!directory.exists()) directory.mkdirs();
 
-            // 3. 파일 저장
-            File savedFile = new File(realPath, storedName);
+            // 저장
+            File savedFile = new File(directory, storedName);
             file.transferTo(savedFile);
 
-            // 4. DB 업데이트 (profile_image 컬럼)
+            // DB 저장
             profileService.updateProfileImage(userId, storedName);
 
-            // 5. 응답
+            // 응답
             result.put("success", true);
-            result.put("imageUrl", uploadDir + storedName);
+            result.put("imageUrl", "/uploads/" + storedName); // 정적 접근 경로
         } catch (Exception e) {
             result.put("success", false);
             result.put("message", e.getMessage());
+            e.printStackTrace(); // 로그 출력
         }
 
         return result;

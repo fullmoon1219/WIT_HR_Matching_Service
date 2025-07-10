@@ -64,23 +64,16 @@ $(document).ready(function () {
     });
 });
 
-// --------- 지도 초기화 함수 ---------
+// ✅ 지도 로드 함수 (주소 → 지도 표시)
 function initWorkplaceMap() {
-    const address = document.querySelector('[data-field="workplace_address"]')?.textContent.trim();
-
-    if (!window.kakao || !kakao.maps || !address) {
-        console.warn('지도 또는 주소 정보를 불러올 수 없습니다.');
-        return;
-    }
+    const address = document.querySelector('[data-field="workplace_address"]')?.textContent?.trim();
+    if (!window.kakao || !kakao.maps || !address) return;
 
     const mapContainer = document.getElementById('workplaceMap');
-    if (!mapContainer) {
-        console.warn("지도 컨테이너가 존재하지 않습니다.");
-        return;
-    }
+    if (!mapContainer) return;
 
     const mapOption = {
-        center: new kakao.maps.LatLng(37.5665, 126.9780), // 기본 위치 (서울)
+        center: new kakao.maps.LatLng(37.5665, 126.9780),
         level: 3
     };
 
@@ -90,26 +83,21 @@ function initWorkplaceMap() {
     geocoder.addressSearch(address, function (result, status) {
         if (status === kakao.maps.services.Status.OK) {
             const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-            new kakao.maps.Marker({
-                map: map,
-                position: coords
-            });
-
+            new kakao.maps.Marker({ map, position: coords });
             map.setCenter(coords);
         } else {
-            console.warn('주소 좌표 변환 실패:', status);
+            console.warn("주소 변환 실패", status);
         }
     });
 }
 
-// --------- Ajax 로드 후 지도 실행용 함수 (외부에서 호출) ---------
+// ✅ Ajax로 HTML 삽입 후 실행할 함수
 function afterAjaxLoaded() {
     if (window.kakao && kakao.maps && kakao.maps.load) {
-        kakao.maps.load(function () {
-            initWorkplaceMap();
-        });
+        setTimeout(() => {
+            kakao.maps.load(() => initWorkplaceMap());
+        }, 100); // DOM 반영 기다린 후 실행
     } else {
-        console.error("Kakao 지도 API가 로드되지 않았습니다.");
+        console.warn("Kakao 지도 SDK가 아직 로드되지 않았습니다.");
     }
 }

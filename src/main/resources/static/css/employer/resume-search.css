@@ -155,3 +155,37 @@
 .selected-tags .tag .remove-tag:hover {
     color: #f33;
 }
+
+/* ----------------------------------------검색 결과 테이블 */
+.resume-result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.resume-result-table thead {
+    background-color: #f1f3f5;
+    color: #333;
+}
+
+.resume-result-table th,
+.resume-result-table td {
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    text-align: center;
+    vertical-align: middle;
+    word-break: break-word;
+}
+
+/* 검색 결과 기술 스택 태그 */
+.skill-tag {
+    display: inline-block;
+    background-color: #e9f3ff;
+    color: #0053c7;
+    padding: 4px 10px;
+    margin: 2px 4px;
+    border-radius: 12px;
+    font-size: 12px;
+    border: 1px solid #aad1ff;
+}

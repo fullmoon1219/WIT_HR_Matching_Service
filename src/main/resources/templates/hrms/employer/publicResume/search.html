@@ -66,10 +66,39 @@
             </div>
 
             <!-- 검색 결과 영역 -->
-            <div class="results-container box">
-                <h3>검색 결과</h3>
-                <!-- Ajax 또는 서버 렌더링 -->
+            <div class="box result-container">
+                <h3>🔍 검색 결과</h3>
+
+                <table class="resume-result-table">
+                    <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>이력서 제목</th>
+                        <th>이름</th>
+                        <th>학력</th>
+                        <th>선호지역</th>
+                        <th>기술스택</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 반복 예시 -->
+                    <tr>
+                        <td>1</td>
+                        <td>백엔드 개발자 - Spring/JPA</td>
+                        <td>홍길동</td>
+                        <td>4년제 졸업</td>
+                        <td>서울, 경기</td>
+                        <td>
+                            <span class="skill-tag">Java</span>
+                            <span class="skill-tag">Spring</span>
+                            <span class="skill-tag">MySQL</span>
+                        </td>
+                    </tr>
+                    <!-- 추후 서버 또는 JS로 동적 렌더링 -->
+                    </tbody>
+                </table>
             </div>
+
         </div>
 
         <!-- ✅ JS 연결 -->

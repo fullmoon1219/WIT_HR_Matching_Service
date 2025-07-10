@@ -172,8 +172,15 @@ $(document).ready(function () {
         const formData = new FormData();
         formData.append("profileImage", this.files[0]);
 
+        // CSRF 토큰 가져오기
+        const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
         fetch("/employer/profile/image-upload", {
             method: "POST",
+            headers: {
+                [csrfHeader]: csrfToken
+            },
             body: formData
         })
             .then(response => {
@@ -186,6 +193,7 @@ $(document).ready(function () {
                     alert("이미지 업로드가 완료되었습니다!");
                 } else {
                     alert("업로드 실패: " + data.message);
+                    console.log(data.message);
                 }
             })
             .catch(err => {

@@ -63,9 +63,9 @@
         LIMIT 10;
     </select>
 
-    <update id="updateProfileImage" parameterType="EmployerProfilesVO">
+    <update id="updateProfileImage" parameterType="map">
         UPDATE employer_profiles
-        SET profile_image = #{profileImage}
+        SET profile_image = #{storedName}
         WHERE user_id = #{userId}
     </update>
 
