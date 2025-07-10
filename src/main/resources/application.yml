@@ -79,8 +79,8 @@ openai:
   api-url: https://api.openai.com/v1/chat/completions
   model: gpt-4o
 
-api-key:
-  kakao: "KakaoAK ff9c4ad26bc2db92ab2d0aa791d666f2"
+kakao:
+  api-key: 9950c9d97ca641daf098c1dd6659867f
 
 mybatis:
   mapper-locations: classpath:mappers/**/*.xml
