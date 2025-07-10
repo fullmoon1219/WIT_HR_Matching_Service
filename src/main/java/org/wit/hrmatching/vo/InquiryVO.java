@@ -13,6 +13,7 @@ public class InquiryVO {
 
     private Long id;
     private Long userId;
+    private Long reasonId;
     private String title;
     private String content;
     private String status;
@@ -23,4 +24,5 @@ public class InquiryVO {
 
     private String name;
     private String email;
+    private String reasonName;
 }

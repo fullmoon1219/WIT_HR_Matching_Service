@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.support.ReportMapper">
+
+    <!-- 필터 기반 리스트 -->
+    <select id="getReportList" resultType="org.wit.hrmatching.vo.ReportVO">
+        SELECT r.*, u.name AS reporterName, u.email AS reporterEmail
+        FROM reports r
+        JOIN users u ON r.reporter_user_id = u.id
+        WHERE 1 = 1
+        <if test="reportType != null and reportType != ''">
+            AND r.report_type = #{reportType}
+        </if>
+        <if test="status != null and status != ''">
+            AND r.status = #{status}
+        </if>
+        ORDER BY r.report_date DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="getReportTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM reports
+        WHERE 1 = 1
+        <if test="reportType != null and reportType != ''">
+            AND report_type = #{reportType}
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+    </select>
+
+
+
+    <!-- 통계 -->
+    <select id="getReportStats" resultType="map">
+        SELECT
+            COUNT(*) AS totalCount,
+            SUM(CASE WHEN status = 'PENDING' THEN 1 ELSE 0 END) AS pendingCount,
+            SUM(CASE WHEN status = 'REVIEWED' THEN 1 ELSE 0 END) AS reviewedCount
+        FROM reports
+    </select>
+
+</mapper>

@@ -190,3 +190,84 @@ button.answered {
     background-color: #28a745;
 }
 
+.filter-selected.value.user,
+button.user {
+    background-color: #007bff; /* 파란색 */
+}
+
+.filter-selected.value.job_post,
+button.job {
+    background-color: #28a745; /* 초록색 */
+}
+
+.filter-selected.value.community_post,
+button.community {
+    background-color: #ffc107; /* 노란색 */
+}
+
+.filter-selected.value.pending,
+button.waiting,
+button.pending {
+    background-color: #ffc107; /* 대기 - 노랑 */
+}
+
+.filter-selected.value.reviewed,
+button.answered,
+button.reviewed {
+    background-color: #28a745; /* 처리 완료 - 초록 */
+}
+
+.filter-selected.value.dismissed,
+button.dismissed {
+    background-color: #dc3545; /* 기각됨 - 빨강 */
+}
+
+.status-label {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    min-width: 80px;
+}
+
+.status-label.pending {
+    background-color: #ffc107;
+    color: black;
+}
+
+.status-label.reviewed {
+    background-color: #28a745;
+}
+
+.status-label.dismissed {
+    background-color: #dc3545;
+}
+
+/* 문의 사유 스타일 */
+.filter-selected.value.reason-1,
+button.reason-1 {
+    background-color: #007bff; /* 로그인 문제 - 파랑 */
+}
+
+.filter-selected.value.reason-2,
+button.reason-2 {
+    background-color: #6f42c1; /* 회원정보 수정 - 보라 */
+}
+
+.filter-selected.value.reason-3,
+button.reason-3 {
+    background-color: #17a2b8; /* 사이트 이용 문의 - 청록 */
+}
+
+.filter-selected.value.reason-4,
+button.reason-4 {
+    background-color: #fd7e14; /* 버그 신고 - 주황 */
+}
+
+.filter-selected.value.reason-5,
+button.reason-5 {
+    background-color: #6c757d; /* 기타 - 회색 */
+}

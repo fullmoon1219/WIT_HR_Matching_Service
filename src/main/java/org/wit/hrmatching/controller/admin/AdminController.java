@@ -41,4 +41,10 @@ public class AdminController {
         return "admin/inquiry-management";
     }
 
+    @GetMapping("/reports")
+    public String reportPage(Model model) {
+        model.addAttribute("pageTitle", "신고 내역 관리");
+        return "admin/report-management";
+    }
+
 }
