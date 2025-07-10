@@ -1,69 +1,69 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!--<!DOCTYPE html>-->
+<!--<html lang="ko" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
 
-<!-- 구직자 사진 & 프로필 -->
+<!--&lt;!&ndash; 구직자 사진 & 프로필 &ndash;&gt;-->
 
-<table border="1">
-    <h1>채용공고</h1>
-    <tr>
-        <th>공고제목</th>
-        <td th:text="${post.title}"></td>
-    </tr>
-    <tr>
-        <th>상세설명</th>
-        <td th:text="${post.description}"></td>
-    </tr>
-    <tr>
-        <th>요구기술</th>
-        <td th:text="${post.requiredSkills}"></td>
-    </tr>
-    <tr>
-        <th>연봉</th>
-        <td th:text="${post.salary}"></td>
-    </tr>
-    <tr>
-        <th>근무지</th>
-        <td th:text="${post.location}"></td>
-    </tr>
-    <tr>
-        <th>고용형태</th>
-        <td th:text="${post.employmentType}"></td>
-    </tr>
-    <tr>
-        <th>마감일</th>
-        <td th:text="${post.deadline}"></td>
-    </tr>
-    <tr>
-        <th>카테고리</th>
-        <td th:text="${post.jobCategory}"></td>
-    </tr>
-
+<!--<table border="1">-->
+<!--    <h1>채용공고</h1>-->
 <!--    <tr>-->
-<!--        <th>등록일</th>-->
-<!--        <td th:text="${post.createAt}"></td>-->
+<!--        <th>공고제목</th>-->
+<!--        <td th:text="${post.title}"></td>-->
 <!--    </tr>-->
-<!--    <tr th:if="${post.updatedAt != null and !resume.createAt.equals(post.updatedAt)}">-->
-<!--        <th>수정일</th>-->
-<!--        <td th:text="${post.updatedAt}"></td>-->
+<!--    <tr>-->
+<!--        <th>상세설명</th>-->
+<!--        <td th:text="${post.description}"></td>-->
 <!--    </tr>-->
-    <tr>
-        <th>조회수</th>
-        <td th:text="${post.viewCount}"></td>
-    </tr>
-    <tr>
-        <th>북마크 수</th>
-        <td th:text="${post.bookmarkCount}"></td>
-    </tr>
-</table>
+<!--    <tr>-->
+<!--        <th>요구기술</th>-->
+<!--        <td th:text="${post.requiredSkills}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th>연봉</th>-->
+<!--        <td th:text="${post.salary}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th>근무지</th>-->
+<!--        <td th:text="${post.location}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th>고용형태</th>-->
+<!--        <td th:text="${post.employmentType}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th>마감일</th>-->
+<!--        <td th:text="${post.deadline}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th>카테고리</th>-->
+<!--        <td th:text="${post.jobCategory}"></td>-->
+<!--    </tr>-->
 
-<a th:href="@{/employer/jobpost_list}">
-    <button type="button">목록</button>
-</a>
+<!--&lt;!&ndash;    <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;        <th>등록일</th>&ndash;&gt;-->
+<!--&lt;!&ndash;        <td th:text="${post.createAt}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;    </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;    <tr th:if="${post.updatedAt != null and !resume.createAt.equals(post.updatedAt)}">&ndash;&gt;-->
+<!--&lt;!&ndash;        <th>수정일</th>&ndash;&gt;-->
+<!--&lt;!&ndash;        <td th:text="${post.updatedAt}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;    </tr>&ndash;&gt;-->
+<!--    <tr>-->
+<!--        <th>조회수</th>-->
+<!--        <td th:text="${post.viewCount}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th>북마크 수</th>-->
+<!--        <td th:text="${post.bookmarkCount}"></td>-->
+<!--    </tr>-->
+<!--</table>-->
 
-</body>
-</html>
+<!--<a th:href="@{/employer/jobpost_list}">-->
+<!--    <button type="button">목록</button>-->
+<!--</a>-->
+
+<!--</body>-->
+<!--</html>-->

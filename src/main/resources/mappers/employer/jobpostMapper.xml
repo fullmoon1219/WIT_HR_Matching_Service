@@ -6,7 +6,7 @@
     <insert id="insertJobPost" parameterType="JobPostVO">
         INSERT INTO job_posts (
             user_id, title, description, required_skills, salary, location,
-            employment_type, deadline, job_category, tech_stacks, workplace_address
+            employment_type, deadline, job_category, required_skills , workplace_address
         ) VALUES (
                      #{userId}, #{title}, #{description}, #{requiredSkills}, #{salary}, #{location},
                      #{employmentType}, #{deadline}, #{jobCategory}, #{techStacks}, #{workplaceAddress}
@@ -61,8 +61,7 @@
         UPDATE job_posts
         SET title = #{title},
             description = #{description},
-            required_skills = #{requiredSkills},
-            tech_stacks = #{techStacks},
+            required_skills  = #{techStacks},
             workplace_address = #{workplaceAddress},
             salary = #{salary},
             location = #{location},

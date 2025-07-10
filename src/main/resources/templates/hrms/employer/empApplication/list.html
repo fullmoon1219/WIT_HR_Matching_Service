@@ -35,12 +35,6 @@
             <div class="post-list-header">
                 <h3 class="table-title">📄 지원자 목록</h3>
 
-<!--                검색하기-->
-<!--                <div class="post-list-actions">-->
-<!--                    <form th:action="@{/employer/applicant_list}" method="get" class="post-list-actions">-->
-<!--                        <input type="text" name="keyword" th:value="${keyword}" placeholder="공고명 또는 지원자 이름" class="search-input">-->
-<!--                        <button type="submit" class="action-button search-button">검색</button>-->
-
                 <form th:action="@{/employer/application/list}" method="get">
                     <input type="text" name="keyword" th:value="${keyword}" placeholder="공고명 또는 지원자 이름" class="search-input">
                     <button type="submit" class="action-button search-button">검색</button>

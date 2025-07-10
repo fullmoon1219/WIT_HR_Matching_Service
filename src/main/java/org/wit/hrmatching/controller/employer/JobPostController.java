@@ -91,7 +91,7 @@ public class JobPostController {
 
         List<String> selectedStackNames = new ArrayList<>();
 
-        String techStacks = jobPostVO.getTechStacks();
+        String techStacks = jobPostVO.getRequiredSkills();
         if (techStacks != null && !techStacks.trim().isEmpty()) {
             List<Long> stackIds = Arrays.stream(techStacks.split(","))
                     .map(String::trim)
@@ -119,9 +119,11 @@ public class JobPostController {
 
         // null 또는 빈 문자열 처리 추가
         List<String> selectedStacks = new ArrayList<>();
-        String stacks = jobPostVO.getTechStacks();
+        String stacks = jobPostVO.getRequiredSkills();
         if (stacks != null && !stacks.trim().isEmpty()) {
-            selectedStacks = Arrays.asList(stacks.split(","));
+            selectedStacks = Arrays.stream(stacks.split(","))
+                    .map(String::trim) // ← 공백 제거!
+                    .collect(Collectors.toList());
         }
 
         ModelAndView modelAndView = new ModelAndView("employer/jobpost/jobpost_edit");

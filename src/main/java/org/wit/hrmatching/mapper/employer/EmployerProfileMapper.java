@@ -18,4 +18,5 @@ public interface EmployerProfileMapper {
 
     List<EmployerRecentApplicantVO> selectEmployerRecentApplicantList(Long userId);
 
+    int updateProfileImage(Long userId, String storedName);
 }

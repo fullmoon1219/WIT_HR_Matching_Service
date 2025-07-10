@@ -5,7 +5,7 @@ $(document).ready(function () {
     const selectedStacks = new Set();
 
     $(document).on('click', '.stack-tag', function () {
-        const value = $(this).data('value');
+        const value = $(this).data('id');
 
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -75,7 +75,7 @@ $(document).ready(function () {
     $(document).on('dblclick', '#floatingOverlay', attemptCloseFloatingSidebar);
 
     // ✅ Quill 에디터 초기화 → 안전하게 DOM이 준비된 후 실행
-    setTimeout(() => {
+    /*setTimeout(() => {
         const editorElement = document.querySelector('#quillEditor');
         if (editorElement) {
             const quill = new Quill('#quillEditor', {
@@ -104,5 +104,5 @@ $(document).ready(function () {
                 document.getElementById('description').value = quill.root.innerHTML;
             });
         }
-    }, 100);
+    }, 100);*/
 });

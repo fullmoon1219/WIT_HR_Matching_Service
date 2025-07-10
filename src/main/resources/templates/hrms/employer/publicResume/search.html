@@ -1,49 +1,108 @@
 <!-- templates/employer/publicResume/search.html -->
-<div layout:decorate="~{layout/employer/employer-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:decorate="~{layout/employer/employer-template}" xmlns:layout="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org">
 
-    <!-- CSS 영역 -->
-    <th:block layout:fragment="styles">
-        <link rel="stylesheet" href="/css/employer/resume-search.css">
-    </th:block>
+    <div layout:fragment="content">
+        <!-- ✅ CSS 연결 -->
+        <link rel="stylesheet" th:href="@{/css/employer/resume-search.css}">
 
-    <!-- 본문 영역 -->
-    <section layout:fragment="content">
-        <div class="search-container">
-            <h2>🔍 이력서 검색</h2>
+        <div class="page-content">
+            <div class="search-container box">
+                <h2>📂 지원자 검색</h2>
 
-            <form class="search-form">
-                <div class="form-row">
-                    <label for="keyword">키워드</label>
-                    <input type="text" id="keyword" name="keyword" placeholder="기술명, 직무 등">
-                </div>
+                <form id="searchForm" method="GET">
 
-                <div class="form-row">
-                    <label for="location">지역</label>
-                    <select id="location" name="location">
-                        <option value="">전체</option>
-                        <option value="서울">서울</option>
-                        <option value="경기">경기</option>
-                        <option value="부산">부산</option>
-                    </select>
-                </div>
+                    <!-- ✅ 조건 1줄 정렬 영역 -->
+                    <div class="filter-row">
+                        <!-- 희망 근무지역 -->
+                        <div class="filter-item">
+                            <label>희망 근무지역</label>
+                            <div class="dropdown large-dropdown">
+                                <button type="button" class="dropdown-toggle" id="locationDropdownBtn">지역 선택</button>
+                                <div class="dropdown-content grid-dropdown" id="locationDropdown" style="display: none;">
+                                    <label><input type="checkbox" name="preferred_location" value="서울"> 서울</label>
+                                    <label><input type="checkbox" name="preferred_location" value="경기"> 경기</label>
+                                    <label><input type="checkbox" name="preferred_location" value="부산"> 부산</label>
+                                    <label><input type="checkbox" name="preferred_location" value="대전"> 대전</label>
+                                    <label><input type="checkbox" name="preferred_location" value="제주"> 제주</label>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="form-row">
-                    <label for="salary">희망 연봉</label>
-                    <input type="number" id="salary" name="salary" placeholder="예: 4000">
-                </div>
+                        <!-- 기술 스택 -->
+                        <div class="filter-item">
+                            <label>기술 스택</label>
+                            <div class="dropdown large-dropdown">
+                                <button type="button" class="dropdown-toggle" id="techDropdownBtn">기술 선택</button>
+                                <div class="dropdown-content grid-dropdown" id="techDropdown" style="display: none;">
+                                    <label><input type="checkbox" name="skills" value="Java"> Java</label>
+                                    <label><input type="checkbox" name="skills" value="Spring"> Spring</label>
+                                    <label><input type="checkbox" name="skills" value="MySQL"> MySQL</label>
+                                    <label><input type="checkbox" name="skills" value="JavaScript"> JavaScript</label>
+                                    <label><input type="checkbox" name="skills" value="React"> React</label>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="search-button">검색</button>
-                    <button type="reset" class="reset-button">초기화</button>
-                </div>
-            </form>
+                        <!-- 희망직무/역량 -->
+                        <div class="filter-item">
+                            <label>희망직무 / 핵심역량</label>
+                            <input type="text" name="keyword" class="keyword-input" placeholder="예: 백엔드, 리딩 등">
+                        </div>
 
-            <div class="result-section">
-                <h3>검색 결과</h3>
-                <div class="resume-card-list">
-                    <!-- 이력서 카드 목록이 여기에 표시될 예정 -->
-                </div>
+                        <!-- 검색 버튼 -->
+                        <div class="filter-item">
+                            <label>&nbsp;</label>
+                            <button type="submit" class="search-btn">검색</button>
+                        </div>
+                    </div>
+
+                    <!-- ✅ 선택 조건 미리보기 -->
+                    <div class="selected-conditions">
+                        <p class="selected-label">선택 조건</p>
+                        <div class="selected-tags" id="selectedTags"></div>
+                    </div>
+                </form>
             </div>
+
+            <!-- 검색 결과 영역 -->
+            <div class="box result-container">
+                <h3>🔍 검색 결과</h3>
+
+                <table class="resume-result-table">
+                    <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>이력서 제목</th>
+                        <th>이름</th>
+                        <th>학력</th>
+                        <th>선호지역</th>
+                        <th>기술스택</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 반복 예시 -->
+                    <tr>
+                        <td>1</td>
+                        <td>백엔드 개발자 - Spring/JPA</td>
+                        <td>홍길동</td>
+                        <td>4년제 졸업</td>
+                        <td>서울, 경기</td>
+                        <td>
+                            <span class="skill-tag">Java</span>
+                            <span class="skill-tag">Spring</span>
+                            <span class="skill-tag">MySQL</span>
+                        </td>
+                    </tr>
+                    <!-- 추후 서버 또는 JS로 동적 렌더링 -->
+                    </tbody>
+                </table>
+            </div>
+
         </div>
-    </section>
+
+        <!-- ✅ JS 연결 -->
+        <script src="/js/jquery-3.7.1.min.js"></script>
+        <script th:src="@{/js/employer/resume-search.js}"></script>
+    </div>
 </div>

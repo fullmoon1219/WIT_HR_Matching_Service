@@ -56,7 +56,7 @@ $(document).ready(function () {
         $('#techStacksInput').val(Array.from(selectedStacks).join(','));
     });
 
-    // -------- Quill 에디터 초기화 + 기존 값 바인딩 + 전송 처리 --------
+    /*// -------- Quill 에디터 초기화 + 기존 값 바인딩 + 전송 처리 --------
     const quill = new Quill('#quillEditor', {
         theme: 'snow',
         placeholder: '상세 설명을 입력하세요...',
@@ -72,9 +72,9 @@ $(document).ready(function () {
                 displaySize: true
             }
         }
-    });
+    });*/
 
-    // 상세설명 기존 내용 바인딩
+   /* // 상세설명 기존 내용 바인딩
     const descriptionContent = $('#description').val();
     quill.root.innerHTML = descriptionContent;
 
@@ -82,6 +82,6 @@ $(document).ready(function () {
     $('form').on('submit', function () {
         const html = quill.root.innerHTML;
         $('#description').val(html);
-    });
+    });*/
 
 });

@@ -6,7 +6,6 @@ $(document).ready(function () {
     const originalValues = {};
 
     $('#editButton').on('click', function () {
-        //편집 모드
         const $button = $(this);
 
         if (!isEditing) {
@@ -27,14 +26,12 @@ $(document).ready(function () {
             isEditing = true;
 
         } else {
-            // 비밀번호 입력하지 않았을때 return
             const password = $('#confirmPassword').val().trim();
             if (!password) {
                 alert('비밀번호를 입력해주세요.');
                 return;
             }
 
-            //비밀번호 입력했을 때
             const updatedData = {};
             $fields.each(function () {
                 const $td = $(this);
@@ -44,8 +41,6 @@ $(document).ready(function () {
             });
             updatedData.password = password;
 
-
-            // 서버로 수정 요청
             $.ajax({
                 type: 'POST',
                 url: '/employer/profile/edit',
@@ -54,7 +49,6 @@ $(document).ready(function () {
                 success: function () {
                     alert('기업 정보가 성공적으로 수정되었습니다.');
 
-                    // 화면에 새 데이터 반영
                     $fields.each(function () {
                         const $td = $(this);
                         const field = $td.data('field');
@@ -141,7 +135,7 @@ $(document).ready(function () {
             alert('새 비밀번호는 6자 이상이어야 합니다.');
             return;
         }
-        console.log(newPassword +"//"+ confirmPassword)
+
         if (newPassword !== confirmPassword) {
             alert('새 비밀번호가 일치하지 않습니다.');
             return;
@@ -169,4 +163,42 @@ $(document).ready(function () {
         $('#step2').hide();
     }
 
+    // ✅ 프로필 이미지 업로드 기능
+    $('#uploadImageButton').on('click', function () {
+        $('#profileImageInput').click();
+    });
+
+    $('#profileImageInput').on('change', function () {
+        const formData = new FormData();
+        formData.append("profileImage", this.files[0]);
+
+        // CSRF 토큰 가져오기
+        const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+        fetch("/employer/profile/image-upload", {
+            method: "POST",
+            headers: {
+                [csrfHeader]: csrfToken
+            },
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) throw new Error("이미지 업로드 실패");
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    $('#profileImagePreview').attr('src', data.imageUrl);
+                    alert("이미지 업로드가 완료되었습니다!");
+                } else {
+                    alert("업로드 실패: " + data.message);
+                    console.log(data.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("이미지 업로드 중 오류가 발생했습니다.");
+            });
+    });
 });
