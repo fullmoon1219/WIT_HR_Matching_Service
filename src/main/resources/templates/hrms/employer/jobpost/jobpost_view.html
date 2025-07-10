@@ -1,9 +1,8 @@
 <div class="view-container" xmlns:th="http://www.thymeleaf.org">
-
-<!--    채용공고명   -->
+    <!-- 채용공고명 -->
     <h2 class="view-title" data-field="title" th:text="${post.title}">📍</h2>
 
-<!--    간단한 공고 정보   -->
+    <!-- 간단한 공고 정보 -->
     <table class="job-basic-info-table">
         <tbody>
         <tr>
@@ -21,7 +20,7 @@
         </tbody>
     </table>
 
-    <!-- 에디터로 작성한 HTML 상세설명을 그대로 렌더링하기 위해 th:utext 사용 -->
+    <!-- 상세설명 -->
     <div class="view-group">
         <h3>📍 상세설명 </h3>
         <div class="view-value description"
@@ -31,7 +30,7 @@
     </div>
 
     <div class="view-group">
-        <h3>📍 사용 기술 스택</h3>
+        <h3>📍 기술 스택</h3>
         <div class="stack-tags">
             <button type="button" class="stack-tag" th:each="stack : ${selectedStacks}" th:text="${stack}" disabled></button>
         </div>
@@ -81,13 +80,11 @@
 
     <div class="form-actions">
         <button type="button" class="edit-button" th:data-id="${post.id}">수정</button>
-<!--        <button type="button" class="delete-button">삭제</button>-->
         <button type="button" class="delete-button" th:data-id="${post.id}">삭제</button>
         <button type="button" class="close-button">닫기</button>
     </div>
-
 </div>
 
 <!-- 지도 API -->
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_APP_KEY&libraries=services"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ff9c4ad26bc2db92ab2d0aa791d666f2&libraries=services"></script>
 <script src="/js/employer/post-view.js"></script>

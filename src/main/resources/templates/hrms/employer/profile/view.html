@@ -25,7 +25,7 @@
                     <button id="editButton" class="edit-button">기업 정보 수정</button>
                     <button id="cancelButton" class="cancel-button" style="display: none;">취소</button>
                     <button id="password-edit-button" class="password-edit-button">비밀번호변경</button>
-                    <button type="button" onclick="location.href='/users/delete'" class="a">회원탈퇴</button>
+                    <button id="user-delete-button" onclick="location.href='/users/delete'" class="user-delete-button">회원탈퇴</button>
                 </div>
 
             </div>
@@ -33,7 +33,16 @@
             <table class="profile-merged-table">
                 <tr>
                     <td rowspan="5" class="profile-image-cell">
-                        <img src="/images/users/user_big_profile.png" alt="기업 로고">
+                        <form id="imageUploadForm" enctype="multipart/form-data">
+                            <div class="image-preview-container">
+                                <img id="profileImagePreview"
+                                     th:src="${profile.profileImage != null} ? ${'/uploads/' + profile.profileImage} : '/images/users/user_big_profile.png'"
+                                     alt="기업 프로필 이미지"
+                                     class="profile-image-preview">
+                            </div>
+                            <input type="file" id="profileImageInput" name="profileImage" accept="image/*" hidden>
+                            <button type="button" id="uploadImageButton" class="upload-button">사진 등록</button>
+                        </form>
                     </td>
                     <th>회사명</th>
                     <td data-field="companyName" th:text="${profile.companyName}" >WIT</td>
@@ -65,7 +74,6 @@
                     <td data-field="foundedYear"  th:text="${profile.foundedYear}" >2019년</td>
                 </tr>
             </table>
-            <hr>
             <h3 class="table-title">⚙️ 시스템 정보</h3>
             <table class="profile-merged-table">
                 <tr>

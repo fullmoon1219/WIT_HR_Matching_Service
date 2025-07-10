@@ -1,9 +1,11 @@
 package org.wit.hrmatching.controller.employer;
 
+import jakarta.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.wit.hrmatching.service.UserService;
 import org.wit.hrmatching.service.employer.ProfileService;
@@ -15,8 +17,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.wit.hrmatching.vo.EmployerRecentApplicantVO;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,6 +30,7 @@ public class ProfileController {
 
     private final ProfileService profileService;
     private final UserService userService;
+    private final ServletContext servletContext;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -95,4 +101,41 @@ public class ProfileController {
         if (flag>0) return ResponseEntity.ok("비밀번호 변경 완료");
         else return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비밀번호 변경 실패");
     }
+
+    @PostMapping("/profile/image-upload")
+    @ResponseBody
+    public Map<String, Object> uploadProfileImage(@RequestParam("profileImage") MultipartFile file,
+                                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Map<String, Object> result = new HashMap<>();
+        Long userId = userDetails.getUser().getId();
+
+        try {
+            // 1. 저장 경로 설정
+            String uploadDir = "/uploads/";
+            String realPath = servletContext.getRealPath(uploadDir); // 실제 서버 저장 경로
+            String originalFilename = file.getOriginalFilename();
+            String storedName = UUID.randomUUID() + "_" + originalFilename;
+
+            // 2. 저장 폴더 생성
+            File directory = new File(realPath);
+            if (!directory.exists()) directory.mkdirs();
+
+            // 3. 파일 저장
+            File savedFile = new File(realPath, storedName);
+            file.transferTo(savedFile);
+
+            // 4. DB 업데이트 (profile_image 컬럼)
+            profileService.updateProfileImage(userId, storedName);
+
+            // 5. 응답
+            result.put("success", true);
+            result.put("imageUrl", uploadDir + storedName);
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("message", e.getMessage());
+        }
+
+        return result;
+    }
+
 }
