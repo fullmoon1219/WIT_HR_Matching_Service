@@ -34,14 +34,6 @@ public class ResumeService {
 		return resumeDAO.registerResume(resumeVO);
 	}
 
-	public ResumeVO getPublicResume(long userId) {
-		return resumeDAO.getPublicResume(userId);
-	}
-
-	public List<ResumeVO> getResumeList(long userId) {
-		return resumeDAO.getResumeList(userId);
-	}
-
 	public List<ResumeVO> getCompletedResumeList(Long userId) {
 
 		List<ResumeVO> completedList = new ArrayList<>();
@@ -108,8 +100,21 @@ public class ResumeService {
 		return resumeDAO.findOwnerIdByResumeId(resumeId);
 	}
 
-	public boolean editResume(ResumeVO resumeVO) {
-		return resumeDAO.editResume(resumeVO);
+	public String editResume(ResumeVO resumeVO) {
+
+		ResumeVO existingResume = resumeDAO.getResume(resumeVO.getId());
+
+		if (existingResume == null) {
+			return "NOT_FOUND";
+		}
+
+		boolean updateSuccess = resumeDAO.editResume(resumeVO);
+
+		if (updateSuccess) {
+			return "SUCCESS";
+		} else {
+			return "UPDATE_FAILED";
+		}
 	}
 
 	public boolean deleteResume(long resumeId) {

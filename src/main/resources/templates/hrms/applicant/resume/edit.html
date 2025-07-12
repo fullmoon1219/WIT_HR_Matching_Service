@@ -16,6 +16,15 @@
 
 	<script src="/js/applicant/common.js"></script>
 	<script src="/js/applicant/resume/resume_edit.js"></script>
+
+	<style>
+        .selection-area .select-btn.active {
+            background-color: #3366ff;
+            color: white;
+            font-weight: bold;
+            border-color: #3366ff;
+        }
+	</style>
 </head>
 <body style="display: none;">
 
@@ -71,32 +80,108 @@
 
 <form id="resumeForm">
 
-	제목 <input type="text" id="title" name="title" /><br />
-	<div class="error" id="error-title"></div>
+	<fieldset>
+		<legend>이력서 상세 내용</legend>
 
-	학력 <input type="text" id="education" name="education" /><br />
-	<div class="error" id="error-education"></div>
+		<div>
+			<label for="title">이력서 제목</label>
+			<input type="text" id="title" name="title" /><br />
+			<div class="error" id="error-title"></div>
+		</div>
 
-	경력 <input type="text" id="experience" name="experience" /><br />
-	<div class="error" id="error-experience"></div>
+		<div>
+			<label for="education">학력</label><br/>
+			<input type="text" id="education" name="education" />
+			<div class="error" id="error-education"></div>
+		</div>
 
-	기술 스택 <input type="text" id="skills" name="skills" /><br />
-	<div class="error" id="error-skills"></div>
+		<div>
+			<label for="experience">경력</label><br/>
+			<input type="text" id="experience" name="experience" />
+			<div class="error" id="error-experience"></div>
+		</div>
 
-	선호 지역 <input type="text" id="preferredLocation" name="preferredLocation" /><br />
-	<div class="error" id="error-preferredLocation"></div>
+		<div>
+			<label>기술 스택 (중복 선택 가능)</label>
+			<div id="stack-selection-area" class="selection-area">
+				<button type="button" class="select-btn" data-value="2">Java</button>
+				<button type="button" class="select-btn" data-value="5">Python</button>
+				<button type="button" class="select-btn" data-value="7">Kotlin</button>
+				<button type="button" class="select-btn" data-value="6">JavaScript</button>
+				<button type="button" class="select-btn" data-value="3">C</button>
+				<button type="button" class="select-btn" data-value="4">C++</button>
+				<button type="button" class="select-btn" data-value="8">SpringBoot</button>
+				<button type="button" class="select-btn" data-value="9">Node.js</button>
+				<button type="button" class="select-btn" data-value="10">React</button>
+				<button type="button" class="select-btn" data-value="11">Vue.js</button>
+				<button type="button" class="select-btn" data-value="16">JPA</button>
+				<button type="button" class="select-btn" data-value="15">MyBatis</button>
+				<button type="button" class="select-btn" data-value="12">MySQL</button>
+				<button type="button" class="select-btn" data-value="13">MariaDB</button>
+				<button type="button" class="select-btn" data-value="14">Oracle</button>
+				<button type="button" class="select-btn" data-value="22">AWS</button>
+				<button type="button" class="select-btn" data-value="19">Docker</button>
+				<button type="button" class="select-btn" data-value="20">Jenkins</button>
+				<button type="button" class="select-btn" data-value="23">NginX</button>
+				<button type="button" class="select-btn" data-value="21">Git</button>
+				<button type="button" class="select-btn" data-value="17">Maven</button>
+				<button type="button" class="select-btn" data-value="18">Gradle</button>
+				<button type="button" class="select-btn" data-value="1">Other</button>
+			</div>
+			<input type="hidden" name="skills" id="skills" />
+			<div class="error" id="error-skills"></div>
+		</div>
 
-	희망 연봉 <input type="text" id="salaryExpectation" name="salaryExpectation" /><br />
-	<div class="error" id="error-salaryExpectation"></div>
+		<div>
+			<label>선호 지역</label>
+			<div id="location-selection-area" class="selection-area">
+				<button type="button" class="select-btn" data-value="서울">서울</button>
+				<button type="button" class="select-btn" data-value="경기">경기</button>
+				<button type="button" class="select-btn" data-value="인천">인천</button>
+				<button type="button" class="select-btn" data-value="강원">강원</button>
+				<button type="button" class="select-btn" data-value="대전">대전</button>
+				<button type="button" class="select-btn" data-value="세종">세종</button>
+				<button type="button" class="select-btn" data-value="충남">충남</button>
+				<button type="button" class="select-btn" data-value="충북">충북</button>
+				<button type="button" class="select-btn" data-value="광주">광주</button>
+				<button type="button" class="select-btn" data-value="전남">전남</button>
+				<button type="button" class="select-btn" data-value="전북">전북</button>
+				<button type="button" class="select-btn" data-value="부산">부산</button>
+				<button type="button" class="select-btn" data-value="대구">대구</button>
+				<button type="button" class="select-btn" data-value="울산">울산</button>
+				<button type="button" class="select-btn" data-value="경남">경남</button>
+				<button type="button" class="select-btn" data-value="경북">경북</button>
+				<button type="button" class="select-btn" data-value="제주">제주</button>
+			</div>
+			<input type="hidden" name="preferredLocation" id="preferredLocation" />
+			<div class="error" id="error-preferredLocation"></div>
+		</div>
 
-	희망 직무 <input type="text" id="desiredPosition" name="desiredPosition" /><br />
-	<div class="error" id="error-desiredPosition"></div>
+		<div>
+			<label for="salaryExpectation">희망 연봉</label><br/>
+			<input type="text" id="salaryExpectation" name="salaryExpectation" /> 만원
+			<div class="error" id="error-salaryExpectation"></div>
+		</div>
 
-	지원 동기 <input type="text" id="motivation" name="motivation" /><br />
-	<div class="error" id="error-motivation"></div>
+		<div>
+			<label for="desiredPosition">희망 직무</label><br/>
+			<input type="text" id="desiredPosition" name="desiredPosition" />
+			<div class="error" id="error-desiredPosition"></div>
+		</div>
 
-	핵심 역량 <input type="text" id="coreCompetency" name="coreCompetency" /><br />
-	<div class="error" id="error-coreCompetency"></div>
+		<div>
+			<label for="motivation">지원 동기</label><br/>
+			<input type="text" id="motivation" name="motivation" />
+			<div class="error" id="error-motivation"></div>
+		</div>
+
+		<div>
+			<label for="coreCompetency">핵심 역량</label><br/>
+			<input type="text" id="coreCompetency" name="coreCompetency" />
+			<div class="error" id="error-coreCompetency"></div>
+		</div>
+
+	</fieldset>
 
 	<br />
 
