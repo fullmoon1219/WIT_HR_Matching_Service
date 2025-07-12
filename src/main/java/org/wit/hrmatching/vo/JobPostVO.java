@@ -15,6 +15,9 @@ public class JobPostVO {
     public enum EmploymentType {
         FULLTIME, PARTTIME, INTERN, FREELANCE
     }
+    public enum  ExperienceType{
+        NEWCOMER, EXPERIENCED, ANY
+    }
 
     private Long id;
     private Long userId;
@@ -53,4 +56,6 @@ public class JobPostVO {
     private String techStacks; // 콤마로 구분된 기술 스택들 저장
     private String applicantCntByJobpost; // 공고당 지원자 수
 
+    private ExperienceType experienceType;
+    private String experienceYears;
 }

@@ -58,7 +58,7 @@ public class SecurityConfig {
                                 "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**",
                                 "/api/users/email-exists", "/error/**", "/api/users", "/api/users/verify-email",
                                 "/users/delete-success", "/community/**", "/employer/**", "/users/mypage/**",
-                                "/recruit/**", "/api/recruit/**")
+                                "/recruit/**", "/api/recruit/**", "/api/tech-stacks")
                         .permitAll()  // 로그인 없이 접근 허용
                         .requestMatchers("/admin/**").hasAuthority("ADMIN") // 관리자 전용
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")

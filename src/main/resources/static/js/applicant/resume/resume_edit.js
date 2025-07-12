@@ -49,6 +49,18 @@ $(document).ready(function () {
 		$('#desiredPosition').val(resumeData.desiredPosition);
 		$('#motivation').val(resumeData.motivation);
 
+		if (resumeData.skills) {
+			const skillIds = resumeData.skills.split(',');
+			skillIds.forEach(id => {
+				$(`#stack-selection-area .select-btn[data-value="${id}"]`).addClass('active');
+			});
+		}
+
+		if (resumeData.preferredLocation) {
+			const location = resumeData.preferredLocation;
+			$(`#location-selection-area .select-btn[data-value="${location}"]`).addClass('active');
+		}
+
 		$('body').show();
 
 	}).fail(function (xhr) {
@@ -187,4 +199,30 @@ $(document).ready(function () {
 		});
 	});
 
+	$('#stack-selection-area').on('click', '.select-btn', function () {
+		// 클릭한 버튼의 'active' 클래스를 토글
+		$(this).toggleClass('active');
+
+		const selectedValues = $('#stack-selection-area .select-btn.active').map(function() {
+			return $(this).data('value');
+		}).get();
+		const valueString = selectedValues.join(',');
+
+		$('#skills').val(valueString);
+	});
+
+	$('#location-selection-area').on('click', '.select-btn', function () {
+		const clickedButton = $(this);
+
+		if (clickedButton.hasClass('active')) {
+			clickedButton.removeClass('active');
+			$('#preferredLocation').val('');
+
+		} else {
+			clickedButton.siblings('.select-btn').removeClass('active');
+			clickedButton.addClass('active');
+
+			$('#preferredLocation').val(clickedButton.data('value'));
+		}
+	});
 });
