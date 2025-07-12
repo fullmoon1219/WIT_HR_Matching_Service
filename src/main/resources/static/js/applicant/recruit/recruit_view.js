@@ -3,6 +3,7 @@
 $(document).ready(function () {
 
 	const jobPostId = getIdFromUrl();
+	let userInfo = null;
 
 	$.ajax({
 		url: `/api/recruit/${jobPostId}`,
@@ -13,6 +14,7 @@ $(document).ready(function () {
 			const employer = data.employer;
 			const isApplied = data.isApplied;
 			const isBookmarked = data.isBookmarked;
+			userInfo = data.userInfo;
 
 			$('#title').text(jobPost.title);
 			$('#description').text(jobPost.description);
@@ -63,10 +65,35 @@ $(document).ready(function () {
 	});
 
 	$('#applyBtn').on('click', function () {
+
+		// 사용자 권환 확인 후 안내
+		if (!userInfo || !userInfo.isLoggedIn) {
+			if (confirm('로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?')) {
+				window.open('/users/login', '_blank');
+			}
+			return;
+		}
+		if (userInfo.role !== 'APPLICANT') {
+			alert('개인 회원만 사용할 수 있는 기능입니다.');
+			return;
+		}
+
 		location.href = `/applicant/applications/apply/${jobPostId}`;
 	});
 
 	$('#scrapBtn').on('click', function () {
+
+		// 사용자 권환 확인 후 안내
+		if (!userInfo || !userInfo.isLoggedIn) {
+			if (confirm('로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?')) {
+				window.open('/users/login', '_blank');
+			}
+			return;
+		}
+		if (userInfo.role !== 'APPLICANT') {
+			alert('개인 회원만 사용할 수 있는 기능입니다.');
+			return;
+		}
 
 		const button = $(this);
 		let method = '';
@@ -113,7 +140,9 @@ $(document).ready(function () {
 			},
 			error: function (xhr) {
 				if (xhr.status === 403) {
-					location.href = '/error/access-denied';
+					if (confirm('로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?')) {
+						window.open('/users/login', '_blank');
+					}
 				} else if (xhr.status === 404) {
 					location.href = '/error/not-found';
 				} else {

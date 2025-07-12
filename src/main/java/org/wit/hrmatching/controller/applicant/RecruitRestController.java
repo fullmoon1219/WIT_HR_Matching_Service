@@ -69,6 +69,18 @@ public class RecruitRestController {
 			response.put("employer", new EmployerProfilesVO());
 		}
 
+		Map<String, Object> userInfo = new HashMap<>();
+		if (userDetails != null) {
+			// 사용자가 로그인한 경우
+			userInfo.put("isLoggedIn", true);
+			userInfo.put("role", userDetails.getAuthorities().iterator().next().getAuthority());
+		} else {
+			// 사용자가 로그인하지 않은 경우
+			userInfo.put("isLoggedIn", false);
+			userInfo.put("role", null);
+		}
+		response.put("userInfo", userInfo);
+
 		return ResponseEntity.ok(response);
 	}
 
