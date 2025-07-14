@@ -19,9 +19,11 @@ public class CommunityController {
     private final BoardService boardService;
 
     @GetMapping("/{boardCode}")
-    public String showBoardList(@PathVariable String boardCode) {
+    public String showBoardList(@PathVariable String boardCode, Model model) {
+        model.addAttribute("boardCode", boardCode);
         return "community/board-list";
     }
+
 
     @GetMapping("/{boardCode}/write")
     public String showWritePage(@PathVariable String boardCode, Model model) {
@@ -29,12 +31,15 @@ public class CommunityController {
             boardCode = "free";
         }
         model.addAttribute("boardCode", boardCode);
+        model.addAttribute("communityBoards", boardService.findAllBoards());
+        model.addAttribute("boardList", boardService.findAllBoards());
 
         return "community/board-write";
     }
 
-    @GetMapping("/posts/view/{id}")
-    public String getPostFragment(@PathVariable Long id) {
+    @GetMapping("/posts/view/{postId}")
+    public String getPostFragment(@PathVariable Long postId, Model model) {
+        model.addAttribute("postId", postId);
 
         return "community/board-view";
     }
