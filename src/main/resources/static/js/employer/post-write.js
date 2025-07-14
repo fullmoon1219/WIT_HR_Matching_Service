@@ -1,8 +1,10 @@
+// -------- 기술 스택 선택 기능 시작 --------
+const selectedStacks = new Set();
+
 $(document).ready(function () {
     let isClosing = false;
 
-    // -------- 기술 스택 선택 기능 시작 --------
-    const selectedStacks = new Set();
+
 
     $(document).on('click', '.stack-tag', function () {
         const value = $(this).data('id');

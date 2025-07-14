@@ -1,28 +1,6 @@
-<!-- /templates/hrms/employer/applicant-detail.html -->
+<!-- /templates/hrms/employer/resume-detail.html -->
 
 <div class="applicant-detail-wrapper">
-
-    <div class="action-button-group">
-        <div class="action-button-group">
-            <button class="action-button pass"
-                    th:data-status="'ACCEPTED'"
-                    th:data-id="${resume.applicationId}">
-                합격
-            </button>
-            <button class="action-button reject"
-                    th:data-status="'REJECTED'"
-                    th:data-id="${resume.applicationId}">
-                불합격
-            </button>
-            <button class="action-button wait"
-                    th:data-status="'APPLIED'"
-                    th:data-id="${resume.applicationId}">
-                대기
-            </button>
-            <button class="action-button close">닫기</button>
-        </div>
-    </div>
-
 
     <div class="applicant-profile-container">
         <div class="profile-header">
@@ -32,36 +10,18 @@
 
                 <p><strong>이메일:</strong> <span data-field="applicantName" th:text="${resume.email}">test@exam.com</span></p>
                 <p><strong>전화번호:</strong> <span data-field="phoneNumber" th:text="${resume.phoneNumber}">test@exam.com</span></p>
-                <p><strong>성별:</strong> <span data-field="gender" th:text="${resume.gender}">test@exam.com</span></p>
-                <p><strong>나이:</strong> <span data-field="age" th:text="${resume.age}">test@exam.com</span></p>
             </div>
         </div>
 
         <hr>
 
-        <div class="profile-details">
-            <h3>📍 주소</h3>
-            <p><span data-field="address" th:text="${resume.address}"></span></p>
-            <h3>📂 포트폴리오</h3>
-            <p>
-                <a data-field="portfolio_url"
-                   th:href="${resume.portfolio_url}"
-                   th:text="${resume.portfolio_url}"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                </a>
-            </p>
-        </div>
-    </div>
+
 
     <div class="additional-info-section">
+
         <div class="additional-info-group">
-            <h3>📝 자기소개</h3>
-            <p><span data-field="self_intro" th:text="${resume.self_intro}"></span></p>
-        </div>
-        <div class="additional-info-group">
-            <h3>지원 동기</h3>
-            <p><span data-field="motivation" th:text="${resume.motivation}"></span></p>
+            <h3>이력서 제목</h3>
+            <p><span data-field="title" th:text="${resume.title}"></span></p>
         </div>
     </div>
 
@@ -90,10 +50,10 @@
 
         <div class="resume-group">
             <h3>보유 기술</h3>
-            <ul>
-                <li th:each="skill : ${#strings.arraySplit(resume.skills, ',')}"
-                    th:text="${skill.trim()}">기술1</li>
-            </ul>
+            <span th:if="${resume.skillNames != null}"
+                  th:each="skill : ${resume.skillNames}"
+                  th:text="${skill}"
+                  class="skill-tag">기술명</span>
         </div>
 
         <div class="resume-group">

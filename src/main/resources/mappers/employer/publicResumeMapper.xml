@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.employer.PublicResumeMapper">
+
+    <select id="searchApplicants" resultType="org.wit.hrmatching.vo.PublicResumeVO">
+      SELECT A.ID AS RESUME_ID,
+             A.TITLE,
+             A.EDUCATION,
+             A.PREFERRED_LOCATION,
+             A.SKILLS,
+             B.NAME
+        FROM resumes A, USERS B
+       WHERE A.USER_ID = B.ID
+         AND A.is_public = 1
+        <!-- 희망 근무지역 -->
+        <if test="locations != null and !locations.isEmpty()">
+            AND A.PREFERRED_LOCATION IN
+            <foreach item="loc" collection="locations" open="(" separator="," close=")">
+                #{loc}
+            </foreach>
+        </if>
+
+        <!-- 기술 스택: 콤마로 저장된 required_skills 필드에 대해 FIND_IN_SET -->
+        <if test="skills != null and !skills.isEmpty()">
+            AND (
+            <foreach item="stackId" collection="skills" separator=" OR ">
+                FIND_IN_SET(#{stackId}, A.skills) > 0
+            </foreach>
+            )
+        </if>
+
+        <!-- 키워드: 제목 또는 핵심역량에서 LIKE 검색 -->
+        <if test="keyword != null and keyword != ''">
+            AND (
+            A.desired_position LIKE CONCAT('%', #{keyword}, '%')
+            OR A.core_competency LIKE CONCAT('%', #{keyword}, '%')
+            )
+        </if>
+
+        ORDER BY A.id DESC
+    </select>
+
+    <select id="selectResumeById" resultType="org.wit.hrmatching.vo.PublicResumeVO">
+        SELECT A.*, B.NAME AS applicantName, B.EMAIL, C.PHONE_NUMBER
+          FROM RESUMES A, USERS B, APPLICANT_PROFILES C
+         WHERE A.id = #{resumeId}
+           AND A.USER_ID = B.ID
+           AND B.ID = C.USER_ID
+    </select>
+
+
+</mapper>

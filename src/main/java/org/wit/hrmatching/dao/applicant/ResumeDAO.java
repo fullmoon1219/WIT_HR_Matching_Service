@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.wit.hrmatching.mapper.applicant.ResumeMapper;
 import org.wit.hrmatching.vo.ApplicantProfilesVO;
+import org.wit.hrmatching.vo.PublicResumeVO;
 import org.wit.hrmatching.vo.ResumeVO;
 import org.wit.hrmatching.vo.UserVO;
 
