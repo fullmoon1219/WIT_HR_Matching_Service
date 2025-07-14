@@ -35,4 +35,8 @@ public class ApplicationService {
 	public ApplicationDetailVO getApplication(long applicationId) {
 		return applicationDAO.getApplication(applicationId);
 	}
+
+	public Long findOwnerIdByApplicationId(long applicationId) {
+		return applicationDAO.findOwnerIdByApplicationId(applicationId);
+	}
 }

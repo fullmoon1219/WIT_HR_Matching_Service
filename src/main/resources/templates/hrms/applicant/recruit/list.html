@@ -3,9 +3,15 @@
 <head>
 	<meta charset="UTF-8">
 
+
 	<title>채용 공고 목록 및 검색</title>
 
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+	<link rel="stylesheet" href="/css/main/main.css">
+
+	<link rel="stylesheet" href="/css/main/header.css">
+	<link rel="stylesheet" href="/css/main/menu.css">
+	<link rel="stylesheet" href="/css/main/footer.css">
 
 	<script src="/js/jquery-3.7.1.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
@@ -17,7 +23,8 @@
 </head>
 <body>
 
-<h2>공고 목록</h2>
+<header th:replace="~{fragments/main/user-header :: header}"></header>
+<nav th:replace="~{fragments/main/user-menu :: menu}"></nav>
 
 <div id="main-filter-bar">
 	<div class="filter-wrapper" id="region-wrapper">
@@ -103,7 +110,9 @@
 </div>
 
 
-<hr />
+<div class="list-wrapper">
+<h2>공고 목록</h2>
+<hr class="divider-line">
 
 <div class="list-controls">
 	<span>총 <span id="totalRecord"></span>건</span>
@@ -119,6 +128,7 @@
 <section id="recruit-list">
 	<!-- JS로 채움 -->
 </section>
+</div>
 
 <div id="pagination" class="pagination"></div>
 
@@ -127,6 +137,8 @@
 	<button id="go-to-page-btn">이동</button>
 	<span id="total-page-info"></span>
 </div>
+
+<footer th:replace="~{fragments/main/user-footer :: footer}"></footer>
 
 </body>
 </html>
