@@ -49,6 +49,7 @@ public class RecruitService {
 		summary.put("location", jobPost.getLocation());
 		summary.put("employmentType", jobPost.getEmploymentType());
 		summary.put("deadline", jobPost.getDeadline());
+		summary.put("salary", jobPost.getSalary());
 
 		if (employer != null) {
 			summary.put("companyName", employer.getCompanyName());

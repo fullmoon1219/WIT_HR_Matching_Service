@@ -1,11 +1,53 @@
-/* 필터 바 */
+/* ---------------- 공통 레이아웃 ---------------- */
+.list-wrapper {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    padding: 30px 20px;
+    box-sizing: border-box;
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+h2 {
+    max-width: 1000px;
+    margin: 0 auto 10px auto;
+    padding: 0 10px;
+    font-size: 20px;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+hr.divider-line {
+    max-width: 1000px;
+    margin: 0 auto 20px auto;
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+/* ---------------- 필터 바 ---------------- */
+#main-filter-bar,
+.reset-btn-container,
+.list-controls,
+.filter-dropdown,
+#recruit-list,
+#pagination,
+#direct-page-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
 #main-filter-bar {
     display: flex;
     height: 50px;
     border: 1px solid #ccc;
+    padding: 0 10px;
+    background-color: #fff;
 }
 
-.filter-wrapper, #main-search-wrapper {
+.filter-wrapper,
+#main-search-wrapper {
     display: flex;
     align-items: center;
     position: relative;
@@ -13,56 +55,90 @@
     flex-basis: 0;
     min-width: 0;
 }
+
 #main-filter-bar > div:last-child {
     border-right: none;
 }
-.filter-wrapper { flex-grow: 1.5; } /* '지역', '기술', '상세'가 차지할 비율 */
-#main-search-wrapper { flex-grow: 2; } /* '검색창'이 차지할 비율 */
 
+.filter-wrapper { flex-grow: 1.5; }
+#main-search-wrapper { flex-grow: 2; }
 
-/* 필터 토글 버튼 */
 .filter-toggle {
-    background: none; border: none; width: 100%; height: 100%;
-    padding: 0 15px; font-size: 1rem; text-align: left; cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    height: 100%;
+    padding: 0 15px;
+    font-size: 1rem;
+    text-align: left;
+    cursor: pointer;
 }
+
 .filter-toggle.active {
     font-weight: bold;
     color: #3366ff;
 }
 
-/* 검색창 내부 스타일 */
+#main-search-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;  /* ⭐ input과 button 사이 여백 추가 */
+}
+
 #main-search {
-    width: 100%;
+    flex: 1;  /* ⭐ 남은 공간을 꽉 채움 */
     border: none;
     outline: none;
     font-size: 0.95rem;
-    padding: 0 15px;
+    padding: 0 10px;
 }
+
 #search-btn {
+    flex: 0 0 auto;
     background: none;
     border: none;
     cursor: pointer;
-    padding-right: 10px;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     color: #555;
+    white-space: nowrap;  /* ⭐ 텍스트 줄바꿈 방지 */
 }
 
-/* 드롭다운 */
+/* ---------------- 필터 초기화 버튼 ---------------- */
+.reset-btn-container {
+    padding: 10px 0;
+    text-align: right;
+}
+
+#reset-filters-btn {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#reset-filters-btn:hover {
+    background-color: #e0e0e0;
+}
+
+/* ---------------- 드롭다운 ---------------- */
 .filter-dropdown {
     display: none;
+    padding: 20px 10px;
     border: 1px solid #ccc;
     border-top: none;
-    padding: 20px;
-    background-color: white;
+    background-color: #fff;
 }
 
-/* 드롭다운 내부의 검색창 스타일 */
 .filter-search-wrapper {
     display: flex;
     align-items: center;
     border: 1px solid #ddd;
     margin-bottom: 15px;
 }
+
 .filter-search {
     width: 100%;
     border: none;
@@ -70,18 +146,19 @@
     padding: 10px;
     font-size: 0.9rem;
 }
+
 .filter-search-icon {
     padding: 0 10px;
     color: #777;
 }
 
-/* 드롭다운 내부 버튼 */
 .filter-options {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     border-top: 1px solid #ccc;
     border-left: 1px solid #ccc;
 }
+
 .filter-btn {
     background: none;
     border: none;
@@ -91,58 +168,166 @@
     text-align: center;
     cursor: pointer;
     font-size: 0.9rem;
-    box-sizing: border-box;
 }
+
 .filter-btn.active {
     font-weight: bold;
     background-color: #a9c3f6;
 }
 
-.recruit-card {
-    border: 1px solid #eee;
-    padding: 20px;
-    margin-bottom: 15px;
-    cursor: pointer;
+/* ---------------- 리스트 상단 컨트롤 ---------------- */
+.list-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0 10px 0;
+    font-size: 14px;
+    color: #555;
+    padding: 0 10px;
 }
+
+.list-controls select {
+    padding: 4px 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* ---------------- recruit-card 리스트 스타일 ---------------- */
+#recruit-list {
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.recruit-card {
+    display: grid;
+    grid-template-columns: 4fr 2fr 2fr 2fr 1fr;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.recruit-card:hover {
+    background-color: #f9fafb;
+}
+
+.card-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title h3 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #222;
+}
+
+.company-name-container {
+    font-size: 12px;
+    color: #888;
+    margin-top: 2px;
+}
+
+.work-location,
+.work-time,
+.salary,
+.reg-date {
+    text-align: center;
+    font-size: 13px;
+    color: #555;
+}
+
 .recruit-card a {
     text-decoration: none;
     color: inherit;
 }
-h3 { margin: 0 0 10px 0; }
 
-/* 상단 영역 */
-.card-top {
+.card-top,
+.card-middle,
+.card-bottom,
+.tags,
+.dates {
+    display: none !important;
+}
+
+/* ---------------- 페이징 디자인 ---------------- */
+/* 페이징 영역을 가운데 정렬 */
+#pagination {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-.company-name-container {
-    font-weight: bold;
-    text-align: right;
-    min-width: 120px;
-}
-
-/* 중간 메타 정보 */
-.card-middle {
-    margin-bottom: 15px;
-    font-size: 14px;
-    color: #555;
-}
-.card-middle .meta-item::after { content: '·'; margin: 0 6px; }
-.card-middle .meta-item:last-child::after { content: ''; }
-
-/* 하단 영역 */
-.card-bottom {
-    display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    font-size: 13px;
-    color: #888;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px auto;  /* ⭐ margin: auto로 가운데 정렬 */
+    max-width: 1000px;  /* ⭐ width 제한 */
+    padding: 0 10px;    /* ⭐ 좌우 padding 살짝 */
+    box-sizing: border-box;
 }
-.tags .tag {
+
+/* 페이징 버튼 스타일 */
+#pagination .page-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* 현재 페이지(active) 스타일 */
+#pagination .page-btn.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+/* hover 효과 */
+#pagination .page-btn:hover {
     background-color: #f0f0f0;
-    padding: 3px 8px;
-    border-radius: 3px;
-    margin-right: 5px;
 }
-.dates span { margin-left: 15px; }
+
+#direct-page-wrapper {
+    display: flex;
+    justify-content: flex-end;  /* ⭐ 오른쪽 정렬 */
+    align-items: center;
+    gap: 8px;
+    max-width: 1000px;
+    margin: 10px auto 30px auto;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+#direct-page-input {
+    width: 80px;       /* ⭐ 입력창 더 크게 */
+    padding: 5px 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#go-to-page-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#go-to-page-btn:hover {
+    background-color: #e0e0e0;
+}
+
+#total-page-info {
+    font-size: 14px;
+    color: #333;
+}
