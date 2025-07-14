@@ -3,70 +3,123 @@
 $(document).ready(function () {
 
 	const jobPostId = getIdFromUrl();
+	let userInfo = null;
 
-	$.ajax({
+	const recruitAjax = $.ajax({
 		url: `/api/recruit/${jobPostId}`,
-		method: 'GET',
-		success: function (data) {
+		method: 'GET'
+	});
 
-			const jobPost = data.jobPost;
-			const employer = data.employer;
-			const isApplied = data.isApplied;
-			const isBookmarked = data.isBookmarked;
+	const techStackAjax = $.ajax({
+		url: '/api/tech-stacks',
+		method: 'GET'
+	});
 
-			$('#title').text(jobPost.title);
-			$('#description').text(jobPost.description);
-			$('#requiredSkills').text(jobPost.requiredSkills);
-			$('#employmentType').text(translateEmploymentType(jobPost.employmentType));
-			$('#jobCategory').text(jobPost.jobCategory);
-			$('#salary').text(jobPost.salary);
-			$('#location').text(jobPost.location);
-			$('#deadline').text(jobPost.deadline);
-			$('#createAt').text(jobPost.createAt);
-			$('#viewCount').text(jobPost.viewCount);
-			$('#bookmarkCount').text(jobPost.bookmarkCount);
+	$.when(recruitAjax, techStackAjax).done(function(recruitResponse, techStackResponse) {
 
-			$('#companyName').text(employer.companyName);
-			$('#address').text(employer.address);
-			$('#phoneNumber').text(employer.phoneNumber);
-			$('#homepageUrl').text(employer.homepageUrl);
-			$('#industry').text(employer.industry);
-			$('#companySize').text(employer.companySize);
+		const data = recruitResponse[0];
+		const techStacks = techStackResponse[0];
 
-			if (isApplied === true) {
+		const jobPost = data.jobPost;
+		const employer = data.employer;
+		const isApplied = data.isApplied;
+		const isBookmarked = data.isBookmarked;
+		userInfo = data.userInfo;
 
-				$('#applyBtn')
-					.prop('disabled', true)     // 버튼 비활성
-					.text('지원 완료')            		// 버튼 내용 수정
-					.addClass('applied-style');		// 지원 완료 상태에서 스타일 적용을 위한 클래스
-			}
+		const skillMap = {};
+		if (techStacks) {
+			techStacks.forEach(stack => {
+				skillMap[stack.id] = stack.name;
+			});
+		}
 
-			if (isBookmarked === true) {
+		// 화면 표시 로직
+		$('#title').text(jobPost.title);
+		$('#description').text(jobPost.description);
+		$('#employmentType').text(translateEmploymentType(jobPost.employmentType));
+		$('#jobCategory').text(jobPost.jobCategory);
+		$('#salary').text(jobPost.salary);
+		$('#location').text(jobPost.location);
+		$('#deadline').text(jobPost.deadline);
+		$('#createAt').text(jobPost.createAt);
+		$('#viewCount').text(jobPost.viewCount);
+		$('#bookmarkCount').text(jobPost.bookmarkCount);
+		$('#experienceType').text(translateExperienceType(jobPost.experienceType));
+		$('#experienceYears').text(jobPost.experienceYears);
+		$('#workplaceAddress').text(jobPost.workplaceAddress);
 
-				// 스크랩 부분 버튼에서 이모지는 디자인 시 바꿔야함(현재 임시)
-				$('#scrapBtn')
-					.addClass('active')
-					.html('&#9733; 스크랩 완료');
-			}
+		$('#companyName').text(employer.companyName);
+		$('#address').text(employer.address);
+		$('#phoneNumber').text(employer.phoneNumber);
+		$('#homepageUrl').text(employer.homepageUrl);
+		$('#industry').text(employer.industry);
+		$('#companySize').text(employer.companySize);
+		$('#employerEmail').text(employer.email);
 
-		},
-		error: function (xhr) {
-			if (xhr.status === 403) {
-				location.href = '/error/access-denied';
-			} else if (xhr.status === 404) {
-				location.href = '/error/not-found';
-			} else {
-				location.href = '/error/db-access-denied';
-				console.error(xhr);
-			}
+		if (jobPost.requiredSkills) {
+			const skillNames = jobPost.requiredSkills.split(',')
+				.map(id => skillMap[id.trim()] || id.trim())
+				.join(', ');
+			$('#requiredSkills').text(skillNames);
+		} else {
+			$('#requiredSkills').text('-');
+		}
+
+		if (isApplied === true) {
+			$('#applyBtn')
+				.prop('disabled', true)     // 버튼 비활성
+				.text('지원 완료')            		// 버튼 내용 수정
+				.addClass('applied-style');		// 지원 완료 상태에서 스타일 적용을 위한 클래스
+		}
+
+		if (isBookmarked === true) {
+			// 스크랩 부분 버튼에서 이모지는 디자인 시 바꿔야함(현재 임시)
+			$('#scrapBtn')
+				.addClass('active')
+				.html('&#9733; 스크랩 완료');
+		}
+
+	}).fail(function (xhr) {
+		if (xhr.status === 403) {
+			location.href = '/error/access-denied';
+		} else if (xhr.status === 404) {
+			location.href = '/error/not-found';
+		} else {
+			location.href = '/error/db-access-denied';
+			console.error(xhr);
 		}
 	});
 
 	$('#applyBtn').on('click', function () {
+
+		// 사용자 권환 확인 후 안내
+		if (!userInfo || !userInfo.isLoggedIn) {
+			if (confirm('로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?')) {
+				window.open('/users/login', '_blank');
+			}
+			return;
+		}
+		if (userInfo.role !== 'APPLICANT') {
+			alert('개인 회원만 사용할 수 있는 기능입니다.');
+			return;
+		}
+
 		location.href = `/applicant/applications/apply/${jobPostId}`;
 	});
 
 	$('#scrapBtn').on('click', function () {
+
+		// 사용자 권환 확인 후 안내
+		if (!userInfo || !userInfo.isLoggedIn) {
+			if (confirm('로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?')) {
+				window.open('/users/login', '_blank');
+			}
+			return;
+		}
+		if (userInfo.role !== 'APPLICANT') {
+			alert('개인 회원만 사용할 수 있는 기능입니다.');
+			return;
+		}
 
 		const button = $(this);
 		let method = '';
@@ -113,7 +166,9 @@ $(document).ready(function () {
 			},
 			error: function (xhr) {
 				if (xhr.status === 403) {
-					location.href = '/error/access-denied';
+					if (confirm('로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?')) {
+						window.open('/users/login', '_blank');
+					}
 				} else if (xhr.status === 404) {
 					location.href = '/error/not-found';
 				} else {

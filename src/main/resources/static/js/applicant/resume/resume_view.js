@@ -14,13 +14,27 @@ $(document).ready(function () {
 		method: 'GET'
 	});
 
-	$.when(profileAjax, resumeAjax).done(function (profileResponse, resumeResponse) {
+	const techStackAjax = $.ajax({
+		url: '/api/tech-stacks',
+		method: 'GET'
+	});
+
+	$.when(profileAjax, resumeAjax, techStackAjax).done(function (profileResponse, resumeResponse, techStackResponse) {
 
 		const profileData = profileResponse[0];
 		const resumeData = resumeResponse[0];
 
 		const userInfo = profileData.userInfo;
 		const profile = profileData.profile;
+
+		const techStacks = techStackResponse[0];
+
+		const skillMap = {};
+		if (techStacks) {
+			techStacks.forEach(stack => {
+				skillMap[stack.id] = stack.name;
+			});
+		}
 
 		$('#name').text(userInfo.name);
 		$('#email').text(userInfo.email);
@@ -42,13 +56,21 @@ $(document).ready(function () {
 		$('#title').text(resumeData.title);
 		$('#education').text(resumeData.education);
 		$('#experience').text(resumeData.experience);
-		$('#skills').text(resumeData.skills);
 		$('#preferredLocation').text(resumeData.preferredLocation);
 		$('#salaryExpectation').text(resumeData.salaryExpectation);
 		$('#coreCompetency').text(resumeData.coreCompetency);
 		$('#desiredPosition').text(resumeData.desiredPosition);
 		$('#motivation').text(resumeData.motivation);
 		$('#createAt').text(resumeData.createAt);
+
+		if (resumeData.skills) {
+			const skillNames = resumeData.skills.split(',')
+				.map(id => skillMap[id.trim()] || id.trim())
+				.join(', ');
+			$('#skills').text(skillNames);
+		} else {
+			$('#skills').text('-');
+		}
 
 		if (resumeData.updatedAt && resumeData.updatedAt !== resumeData.createAt) {
 			$('#updatedAt').text(resumeData.updatedAt);

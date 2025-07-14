@@ -12,7 +12,6 @@ import org.wit.hrmatching.service.applicant.ResumeService;
 import org.wit.hrmatching.vo.CustomUserDetails;
 import org.wit.hrmatching.vo.ResumeVO;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +21,6 @@ import java.util.Map;
 public class ResumeRestController {
 
 	private final ResumeService resumeService;
-
-	// TODO: 구직자 정보(사진 포함) 추가 → 구직자 메인페이지 로직 완료 후 반영 (작성 화면용)
 
 	@GetMapping
 	public ResponseEntity<Map<String, Object>> getUserProfile(@AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -140,12 +137,20 @@ public class ResumeRestController {
 					"errors", bindingResult.getAllErrors()));
 		}
 
-		boolean result = resumeService.editResume(resumeVO);
+		String result = resumeService.editResume(resumeVO);
 
-		return result
-				? ResponseEntity.ok(Map.of("success", true, "id", resumeVO.getId()))
-				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(Map.of("success", false, "message", "DB 수정 실패"));
+		switch (result) {
+			case "SUCCESS":
+				return ResponseEntity.ok(Map.of("success", true, "id", resumeVO.getId()));
+
+			case "NOT_FOUND":
+				return ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body(Map.of("success", false, "message", "수정할 이력서를 찾을 수 없습니다."));
+
+			default:
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+						.body(Map.of("success", false, "message", "이력서 수정에 실패했습니다."));
+		}
 	}
 
 	// 이력서 수정 (임시 저장)
@@ -156,12 +161,20 @@ public class ResumeRestController {
 
 		resumeVO.setId(resumeId);
 
-		boolean result = resumeService.editResume(resumeVO);
+		String result = resumeService.editResume(resumeVO);
 
-		return result
-				? ResponseEntity.ok(Map.of("success", true))
-				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(Map.of("success", false, "message", "DB 저장 실패"));
+		switch (result) {
+			case "SUCCESS":
+				return ResponseEntity.ok(Map.of("success", true));
+
+			case "NOT_FOUND":
+				return ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body(Map.of("success", false, "message", "수정할 이력서를 찾을 수 없습니다."));
+
+			default:
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+						.body(Map.of("success", false, "message", "이력서 수정에 실패했습니다."));
+		}
 	}
 
 	// 이력서 삭제 (소프트 삭제)
