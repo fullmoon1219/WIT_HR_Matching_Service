@@ -12,6 +12,7 @@ import org.wit.hrmatching.service.applicant.ResumeService;
 import org.wit.hrmatching.vo.user.CustomUserDetails;
 import org.wit.hrmatching.vo.resume.ResumeVO;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

@@ -85,6 +85,7 @@
             ep.company_name as employerCompanyName,
             r.id as resumeId,
             r.title as resumeTitle,
+            r.deleted_at as resumeDeletedAt,
             MIN(av.viewed_at) as viewedAt
         from applications a
             left join job_posts jp on a.job_post_id = jp.id
