@@ -36,7 +36,7 @@
                         <form id="imageUploadForm" enctype="multipart/form-data">
                             <!--<div class="image-preview-container">-->
                                 <img id="profileImagePreview"
-                                     th:src="${profile.profileImage != null} ? ${'/uploads/' + profile.profileImage} : '/images/users/user_big_profile.png'"
+                                     th:src="${profile.profileImage != null} ? ${'/uploads/' + profile.profileImage} : '/images/users/user_small_profile.png'"
                                      alt="기업 프로필 이미지"
                                      class="profile-image-preview">
                             <!--</div>-->
@@ -112,7 +112,7 @@
                     <td th:text="${recentApplicant.title}">채용공고 제목</td>
                     <td th:text="${recentApplicant.applicantName}">지원자 이름</td>
                     <td th:text="${recentApplicant.email}">이메일</td>
-                    <td th:text="${recentApplicant.appliedAt}">지원일자</td>
+                    <td th:text="${#temporals.format(recentApplicant.appliedAt, 'yyyy-MM-dd')}">지원일자</td>
                     <td>
                         <span th:text="${recentApplicant.status}"
                               th:classappend="

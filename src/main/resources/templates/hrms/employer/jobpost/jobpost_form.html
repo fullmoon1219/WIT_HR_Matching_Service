@@ -1,4 +1,3 @@
-<!--<html lang="ko" xmlns:th="http://www.thymeleaf.org">-->
 <div class="write-container" xmlns:th="http://www.thymeleaf.org">
 
     <head>
@@ -22,12 +21,11 @@
                 <input type="text" id="jobCategory" name="jobCategory" placeholder="예: 백엔드 개발자" required>
             </div>
 
-            <!-- ✅ Quill 에디터 적용 -->
             <div class="form-group">
                 <label for="description">상세 설명</label>
-                <div id="quillEditor" style="height: 300px;"></div>
-                <input type="hidden" name="description" id="description">
+                <textarea id="description" name="description" class="form-control" rows="10" placeholder="상세 설명을 입력하세요"></textarea>
             </div>
+
 
             <div class="form-group">
                 <label>기술 스택</label>
@@ -40,7 +38,7 @@
                         </button>
                     </div>
                 </div>
-                <input type="hidden" name="techStacks" id="techStacksInput">
+                <input type="hidden" name="requiredSkills" id="techStacksInput">
             </div>
 
             <div class="form-row">
@@ -84,8 +82,6 @@
     </div>
 
     <script src="/js/employer/post-write.js"></script>
-
-
 
     </body>
 </div>

@@ -6,10 +6,10 @@
     <insert id="insertJobPost" parameterType="JobPostVO">
         INSERT INTO job_posts (
             user_id, title, description, required_skills, salary, location,
-            employment_type, deadline, job_category, required_skills , workplace_address
+            employment_type, deadline, job_category , workplace_address
         ) VALUES (
                      #{userId}, #{title}, #{description}, #{requiredSkills}, #{salary}, #{location},
-                     #{employmentType}, #{deadline}, #{jobCategory}, #{techStacks}, #{workplaceAddress}
+                     #{employmentType}, #{deadline}, #{jobCategory},  #{workplaceAddress}
                  )
     </insert>
 

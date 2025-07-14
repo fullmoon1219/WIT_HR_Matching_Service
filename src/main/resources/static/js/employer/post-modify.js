@@ -1,49 +1,61 @@
-// /js/employer/post-modify.js
+let isConfirming = false;
 
-$(document).ready(function () {
-    // -------- 수정 취소 버튼 기능 --------
-    $(document).off('click', '.cancel-button').on('click', '.cancel-button', function (e) {
-        e.preventDefault();
+function handleCancelClick(e) {
+    e.preventDefault();
 
-        const hasChanges = $('#floatingSidebarContent')
-            .find('input, textarea, select')
-            .toArray()
-            .some(el => el.value !== el.defaultValue);
+    if (isConfirming) return;
+    isConfirming = true;
 
-        if (hasChanges && !confirm('작성 중인 내용을 취소하시겠습니까?')) {
+    const hasChanges = $('#floatingSidebarContent')
+        .find('input, textarea, select')
+        .toArray()
+        .some(el => el.value !== el.defaultValue);
+
+    if (hasChanges) {
+        const confirmed = confirm('작성 중인 내용을 취소하시겠습니까?');
+        if (!confirmed) {
+            isConfirming = false;
             return;
         }
+    }
 
-        $.ajax({
-            url: `/employer/jobpost_list`,
-            method: 'GET',
-            success: function (html) {
-                $('#floatingSidebarContent').html(html);
-                $('#floatingOverlay').removeClass('show');
-                $('#floatingSidebar').removeClass('show');
-            },
-            error: function () {
-                alert('리스트 페이지를 불러오는 데 실패했습니다.');
-            }
-        });
+    $.ajax({
+        url: `/employer/jobpost_list`,
+        method: 'GET',
+        success: function (html) {
+            $('#floatingSidebarContent').html(html);
+            $('#floatingOverlay').removeClass('show');
+            $('#floatingSidebar').removeClass('show');
+        },
+        error: function () {
+            alert('리스트 페이지를 불러오는 데 실패했습니다.');
+        },
+        complete: function () {
+            isConfirming = false;
+        }
     });
+}
+
+$(document).ready(function () {
+    // -------- 이벤트 중복 방지 --------
+    $(document).off('click.cancel').on('click.cancel', '.cancel-button', handleCancelClick);
 
     // -------- 기술 스택 선택 기능 --------
     const selectedStacks = new Set(
         $('#techStacksInput').val().split(',').map(v => v.trim()).filter(v => v !== "")
     );
 
-    // 초기 selected 클래스 적용
+    // 초기 선택된 버튼에 selected 클래스 부여
     $('.stack-tag').each(function () {
-        const value = $(this).data('value').toString();
+        const value = $(this).data('value')?.toString(); // ← 이 value는 숫자형 ID 문자열
         if (selectedStacks.has(value)) {
             $(this).addClass('selected');
         }
     });
 
-    // 선택/해제 토글
-    $(document).on('click', '.stack-tag', function () {
-        const value = $(this).data('value').toString();
+    // 클릭 시 toggle
+    $(document).off('click.stack').on('click.stack', '.stack-tag', function () {
+        const value = $(this).data('value')?.toString();
 
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -55,33 +67,5 @@ $(document).ready(function () {
 
         $('#techStacksInput').val(Array.from(selectedStacks).join(','));
     });
-
-    /*// -------- Quill 에디터 초기화 + 기존 값 바인딩 + 전송 처리 --------
-    const quill = new Quill('#quillEditor', {
-        theme: 'snow',
-        placeholder: '상세 설명을 입력하세요...',
-        modules: {
-            toolbar: [
-                [{ header: [1, 2, false] }],
-                ['bold', 'italic', 'underline'],
-                ['image', 'code-block'],
-                [{ list: 'ordered' }, { list: 'bullet' }],
-                ['link']
-            ],
-            imageResize: {
-                displaySize: true
-            }
-        }
-    });*/
-
-   /* // 상세설명 기존 내용 바인딩
-    const descriptionContent = $('#description').val();
-    quill.root.innerHTML = descriptionContent;
-
-    // ✅ 폼 전송 시 Quill 내용을 hidden input에 저장
-    $('form').on('submit', function () {
-        const html = quill.root.innerHTML;
-        $('#description').val(html);
-    });*/
 
 });

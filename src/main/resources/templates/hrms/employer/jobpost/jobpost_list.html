@@ -79,7 +79,8 @@
 
                     <td th:text="${post.location}">지역</td>
                     <td th:text="${post.deadline}">마감일</td>
-                    <td th:text="${post.createAt}">등록일</td>
+                    <td th:text="${#temporals.format(post.createAt, 'yyyy-MM-dd')}">등록일</td>
+
                     <td>
                         <span th:text="${post.deadline != null and post.deadline.isBefore(T(java.time.LocalDate).now()) ? '마감' : '진행중'}"
                               th:classappend="${post.deadline != null and post.deadline.isBefore(T(java.time.LocalDate).now()) ? 'status-label status-closed' : 'status-label status-open'}">
