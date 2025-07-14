@@ -251,7 +251,7 @@ function makeRow(recruit) {
                 <span class="meta-item">🧭 ${recruit.location}</span>
                 <span class="meta-item">📈 ${translateExperienceType(recruit.experienceType)}</span>
                 <span class="meta-item">📄 ${translateEmploymentType(recruit.employmentType)}</span>
-                <span class="meta-item">${formatSalary(recruit.salary)}</span>
+                <span class="meta-item">💰 ${formatSalary(recruit.salary)}</span>
             </div>
 
             <div class="card-bottom">
@@ -267,22 +267,6 @@ function makeRow(recruit) {
     `;
 
 	return rowHtml;
-}
-
-function formatSalary(salary) {
-
-	// 비어있을 경우 빈 문자열 반환
-	if (!salary || String(salary).trim() === '') {
-		return '';
-	}
-
-	// 숫자 형태인지 확인 후 '만원' 추가
-	if (!isNaN(parseFloat(salary)) && isFinite(salary)) {
-		return `💰 ${salary}만원`;
-	}
-
-	// 숫자 형태가 아닌 경우
-	return `💰 ${salary}`;
 }
 
 // 메인 검색 함수
