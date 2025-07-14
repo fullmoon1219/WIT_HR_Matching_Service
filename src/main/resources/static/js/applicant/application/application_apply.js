@@ -221,10 +221,13 @@ function loadApplicantResumes() {
 
 function makeRow(resume) {
 	return `
-         <tr class="resume-row" data-resume-id="${resume.id}">
-            <td><input type="radio" name="selectedResume" value="${resume.id}"></td>
-            <td>${resume.isPublic ? ' <strong>(대표)</strong>' : ''}<span class="resume-title-text">${resume.title}</span></td>
-            <td>${resume.updatedAt}</td>
-        </tr>
+      <div class="resume-row" data-resume-id="${resume.id}">
+        <div class="resume-left">
+          <input type="radio" name="selectedResume" value="${resume.id}">
+          ${resume.isPublic ? '<span class="resume-represent">(대표)</span>' : ''}
+          <span class="resume-title-text">${resume.title}</span>
+        </div>
+        <div class="resume-updated">${resume.updatedAt}</div>
+      </div>
     `;
 }
