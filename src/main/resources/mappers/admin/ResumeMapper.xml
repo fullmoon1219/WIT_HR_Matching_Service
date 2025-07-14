@@ -11,7 +11,7 @@
         </foreach>
     </delete>
 
-    <resultMap id="ResumeWithEmailMap" type="org.wit.hrmatching.vo.ResumeVO">
+    <resultMap id="ResumeWithEmailMap" type="org.wit.hrmatching.vo.resume.ResumeVO">
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
         <result property="email" column="email"/>

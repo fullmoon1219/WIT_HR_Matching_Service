@@ -22,6 +22,11 @@ public class UserControllerTest {
     public String showApplicationResume() {
         return "/applicant/users/mypage_application_resume";
     }
+
+    @GetMapping("/list")
+    public String showApplicationlist() {
+        return "/applicant/users/mypage_application_list";
+    }
 }
 
 

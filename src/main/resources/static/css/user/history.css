@@ -32,55 +32,112 @@
 
 .job-recommend-card {
     width: 100%;
-    max-width: 1200px; /* 최대 너비 제한 */
-    margin: 40px auto; /* 가운데 정렬 + 위 여백 */
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    overflow: hidden;
-    padding: 10px;
-    min-height: 400px;
+    max-width: 1200px;
+    margin: 40px auto;
 }
 
-
 .recommend-box {
-    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 16px;
 }
 
 .recommend-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 20px;
+    padding: 0 4px 12px 4px;
     font-size: 18px;
     font-weight: bold;
-    background-color: #fafafa;
     border-bottom: 1px solid #ddd;
 }
 
+.recommend-header {
+    position: relative; /* 중요: position 기준으로 dropdown 위치 잡기 */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 4px 12px 4px;
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+.recommend-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px 12px 4px;
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    position: relative; /* 기준이 될 container */
+}
+
+.sort-container {
+    position: relative; /* dropdown 기준 */
+}
+
 .more-btn {
-    font-size: 13px;
+    font-size: 14px;
     background-color: #fff;
     border: 1px solid #999;
     border-radius: 4px;
-    padding: 2px 8px;
+    padding: 4px 10px;
     cursor: pointer;
 }
+
+.sort-options {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 4px 0;
+    min-width: 150px;
+    z-index: 100;
+}
+
+.sort-options a {
+    display: block;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    text-align: left;
+}
+
+.sort-options a:hover {
+    background-color: #f7f7f7;
+}
+
+
 
 .recommend-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #f9fbfc;
 }
 
 .recommend-table th {
     padding: 12px 8px;
-    font-weight: normal;
+    font-weight: bold;
     font-size: 14px;
-    color: #555;
+    color: #333;
     border-bottom: 1px solid #ddd;
-    background-color: #eef1f5;
+    background-color: #f7f9fb;
     text-align: center;
+}
+
+.recommend-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
 }
 
 .no-data {
@@ -90,15 +147,158 @@
     font-size: 15px;
 }
 
+.application-title-text {
+    cursor: pointer;
+    color: inherit; /* 기본 글자색 유지 */
+    text-decoration: none;
+}
+
+.application-title-text:hover {
+    color: #007bff; /* 하늘색으로 변경 */
+}
+
+
+#custom-pagination {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+#custom-pagination button {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 32px;
+}
+
+#custom-pagination button.active {
+    background: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+
+
+/*광고 영역*/
 .ad-banner {
     max-width: 1200px;
-    margin: 40px auto; /* ✅ 가운데 정렬 + 위아래 여백 */
+    margin: 40px auto;
     text-align: center;
 }
 
 .ad-banner img {
     display: block;
-    margin: 0 auto;      /* ✅ 이미지 가운데 정렬 */
+    margin: 0 auto;
     max-width: 100%;
     height: auto;
 }
+
+
+/* 전체 모달 영역 */
+#application-modal {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+/* 모달 헤더 */
+#application-modal h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 8px;
+}
+
+/* 섹션 제목 스타일 */
+#application-modal h3 {
+    font-size: 17px;
+    font-weight: bold;
+    color: #333;
+    margin: 20px 0 8px;
+}
+
+#application-modal h4 {
+    font-size: 15px;
+    font-weight: bold;
+    color: #444;
+    margin: 14px 0 6px;
+}
+
+/* 일반 텍스트 */
+#application-modal p {
+    font-size: 14px;
+    color: #555;
+    margin: 4px 0;
+}
+
+#application-modal p strong {
+    font-size: 14px;
+    color: #333;
+}
+
+/* 강조 텍스트 */
+#application-modal strong {
+    font-size: 16px;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+#application-modal em {
+    font-size: 13px;
+    color: #888;
+    cursor: pointer;
+    display: inline-block;
+    transition: color 0.2s;
+}
+
+#application-modal em:hover {
+    color: #333;
+}
+
+/* 구분선 */
+#application-modal hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 16px 0;
+}
+
+/* 섹션 박스 스타일 */
+#application-modal .modal-link-section {
+    background-color: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+/* 타임라인 감각적으로 개선 */
+#application-modal .timeline-entry {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+#application-modal .timeline-entry p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* 스크롤바 스타일 (크롬 전용) */
+#application-modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+#application-modal::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+

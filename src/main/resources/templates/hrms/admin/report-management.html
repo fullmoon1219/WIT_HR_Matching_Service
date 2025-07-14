@@ -1,0 +1,95 @@
+<!-- templates/hrms/admin/report-management.html -->
+
+<div layout:decorate="~{layout/admin/admin-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/admin/user-management/user-management.css">
+        <link rel="stylesheet" href="/css/admin/resumes/details.css">
+        <link rel="stylesheet" href="/css/admin/filter.css">
+    </th:block>
+
+    <div layout:fragment="content">
+        <div class="card-grid">
+            <div class="card"><h3>총 신고</h3><div class="value" id="reportCount"></div></div>
+            <div class="card"><h3>검토 전</h3><div class="value" id="pendingCount"></div></div>
+            <div class="card"><h3>처리 완료</h3><div class="value" id="reviewedCount"></div></div>
+        </div>
+
+        <div class="section">
+            <div class="table-header">
+                <h2>신고 내역</h2>
+                <div class="user-control-panel">
+                    <div class="search">
+                        <label><input type="text" id="searchKeyword" placeholder="신고자 이름, 이메일, 사유로 검색..." /></label>
+                        <button id="searchButton">검색</button>
+                        <button id="deleteButton">삭제</button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="user-table">
+                <colgroup>
+                    <col style="width: 3%">
+                    <col style="width: 5%">
+                    <col style="width: 15%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 15%">
+                    <col style="width: 12%">
+                    <col style="width: 10%">
+                    <col style="width: 2%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" id="checkAll"></th>
+                    <th>ID</th>
+
+                    <!-- 🔽 신고 대상 유형 필터 추가 -->
+                    <th class="filter-toggle" data-filter="reportType" style="position: relative;" id="th-type">
+                        신고 대상
+                        <span>▼</span>
+                        <div class="filter-selected value reportType" data-type="reportType" style="display: none;"></div>
+                        <div class="filter-popup" data-type="reportType" style="display: none;">
+                            <button class="default" data-value="">전체</button>
+                            <button class="user" data-value="USER">사용자</button>
+                            <button class="job" data-value="JOB_POST">공고</button>
+                            <button class="community" data-value="COMMUNITY_POST">게시물</button>
+                        </div>
+                    </th>
+
+                    <th>신고자</th>
+                    <th>이메일</th>
+                    <th>사유</th>
+                    <th>신고일</th>
+
+                    <!-- 기존 상태 필터 -->
+                    <th class="filter-toggle" data-filter="status" style="position: relative;" id="th-status">
+                        상태
+                        <span>▼</span>
+                        <div class="filter-selected value status" data-type="status" style="display: none;"></div>
+                        <div class="filter-popup" data-type="status" style="display: none;">
+                            <button class="default" data-value="">전체</button>
+                            <button class="waiting" data-value="PENDING">검토 전</button>
+                            <button class="answered" data-value="REVIEWED">처리 완료</button>
+                            <button class="dismissed" data-value="DISMISSED">기각됨</button>
+                        </div>
+                    </th>
+
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="reportTableBody">
+                <!-- AJAX로 데이터 삽입 -->
+                </tbody>
+            </table>
+
+            <div id="paginationContainer" class="pagination"></div>
+        </div>
+    </div>
+</div>
+
+<!-- JS 파일 -->
+<script src="/js/admin/reportManagement/report-management-ajax.js"></script>
+<script src="/js/admin/reportManagement/report-management.js"></script>
+<script src="/js/admin/reportManagement/report-processing.js"></script>
+<script src="/js/admin/reportManagement/filter.js"></script>
+<script src="/js/admin/table.js"></script>

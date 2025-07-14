@@ -7,8 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.dto.admin.AdminDashboardStatsDTO;
 import org.wit.hrmatching.mapper.admin.AdminMapper;
-import org.wit.hrmatching.vo.JobPostVO;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.job.JobPostVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

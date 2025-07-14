@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.wit.hrmatching.service.employer.TechStackService;
-import org.wit.hrmatching.vo.TechStackVO;
+import org.wit.hrmatching.vo.job.TechStackVO;
 
 import java.util.List;
 

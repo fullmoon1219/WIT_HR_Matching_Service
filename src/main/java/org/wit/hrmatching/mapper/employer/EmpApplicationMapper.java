@@ -2,8 +2,8 @@ package org.wit.hrmatching.mapper.employer;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.wit.hrmatching.vo.EmpApplicationVO;
-import org.wit.hrmatching.vo.EmployerRecentApplicantVO;
+import org.wit.hrmatching.vo.application.EmpApplicationVO;
+import org.wit.hrmatching.vo.application.EmployerRecentApplicantVO;
 
 import java.util.List;
 import java.util.Map;

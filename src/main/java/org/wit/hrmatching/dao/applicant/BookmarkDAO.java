@@ -3,7 +3,7 @@ package org.wit.hrmatching.dao.applicant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.wit.hrmatching.mapper.applicant.BookmarkMapper;
-import org.wit.hrmatching.vo.BookmarkListVO;
+import org.wit.hrmatching.vo.bookmark.BookmarkListVO;
 import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
 
 import java.util.List;

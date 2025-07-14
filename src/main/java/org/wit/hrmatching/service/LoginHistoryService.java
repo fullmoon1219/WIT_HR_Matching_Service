@@ -3,7 +3,7 @@ package org.wit.hrmatching.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.mapper.LoginHistoryMapper;
-import org.wit.hrmatching.vo.LoginHistoryVO;
+import org.wit.hrmatching.vo.user.LoginHistoryVO;
 
 @Service
 @RequiredArgsConstructor

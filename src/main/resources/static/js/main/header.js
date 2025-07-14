@@ -13,9 +13,9 @@ $(document).ready(function () {
         if (role === 'ADMIN') {
             window.location.href = '/admin/dashboard';
         } else if (role === 'EMPLOYER') {
-            window.location.href = '/employer/main';
+            window.location.href = '/employer/profile/view';
         } else if (role === 'APPLICANT') {
-            window.location.href = '/users/main';
+            window.location.href = '/applicant/main';
         }
     });
 });

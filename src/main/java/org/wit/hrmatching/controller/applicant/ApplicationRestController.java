@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.service.applicant.ApplicationService;
-import org.wit.hrmatching.vo.ApplicationDetailVO;
-import org.wit.hrmatching.vo.CustomUserDetails;
+import org.wit.hrmatching.vo.application.ApplicationDetailVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
 import org.wit.hrmatching.vo.applicantPaging.PageResponseVO;
 import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
 

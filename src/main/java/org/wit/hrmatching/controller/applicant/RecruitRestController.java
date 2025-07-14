@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.service.applicant.BookmarkService;
 import org.wit.hrmatching.service.applicant.RecruitService;
 import org.wit.hrmatching.service.applicant.ResumeService;
-import org.wit.hrmatching.vo.*;
 import org.wit.hrmatching.vo.applicantPaging.PageResponseVO;
 import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
+import org.wit.hrmatching.vo.application.ApplicationsVO;
+import org.wit.hrmatching.vo.job.JobPostVO;
+import org.wit.hrmatching.vo.job.RecruitListVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
+import org.wit.hrmatching.vo.user.EmployerProfilesVO;
 
 import java.util.HashMap;
 import java.util.Map;

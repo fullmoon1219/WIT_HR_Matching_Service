@@ -4,7 +4,7 @@
 <mapper namespace="org.wit.hrmatching.mapper.ProfileMapper">
 
     <!-- 유저 ID로 기업 프로필 정보 조회 -->
-    <select id="employerFindByUserId" resultType="org.wit.hrmatching.vo.EmployerProfilesVO">
+    <select id="employerFindByUserId" resultType="org.wit.hrmatching.vo.user.EmployerProfilesVO">
         SELECT
         user_id,
         company_name,
@@ -22,7 +22,7 @@
     </select>
 
     <!-- 기업 프로필 삽입 -->
-    <insert id="insertEmployerProfile" parameterType="org.wit.hrmatching.vo.EmployerProfilesVO">
+    <insert id="insertEmployerProfile" parameterType="org.wit.hrmatching.vo.user.EmployerProfilesVO">
         INSERT INTO employer_profiles (user_id, company_name, business_number, address, phone_number,
                                        homepage_url, industry, founded_year, company_size)
         VALUES (#{userId}, #{companyName}, #{businessNumber}, #{address}, #{phoneNumber},

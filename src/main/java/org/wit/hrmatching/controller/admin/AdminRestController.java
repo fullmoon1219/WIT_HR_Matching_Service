@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.dto.admin.AdminDashboardStatsDTO;
 import org.wit.hrmatching.dto.admin.PagedResponseDTO;
 import org.wit.hrmatching.service.admin.AdminService;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

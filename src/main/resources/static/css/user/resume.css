@@ -1,6 +1,5 @@
-/* =====================
-   레이아웃 / 컨테이너
-===================== */
+/* 📦 user/resume.css + 기본정보 한 줄/자기소개 구분 개선 (깔끔하게 정렬) */
+
 .resume-container {
     display: flex;
     max-width: 1200px;
@@ -16,39 +15,23 @@
     width: 250px;
     position: sticky;
     top: 20px;
-}
-
-/* =====================
-   업로드 영역
-===================== */
-.upload-box {
-    background: #f5f5f5;
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 24px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.upload-btn {
-    background-color: #facc15;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-}
-
-/* =====================
-   공통 섹션 스타일
-===================== */
 .resume-section {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
     margin-bottom: 40px;
 }
 
 .resume-section h2 {
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 .required {
@@ -62,266 +45,124 @@
     margin-bottom: 12px;
 }
 
-/* =====================
-   기본정보 영역
-===================== */
+/* ===================== 기본정보 개선 ===================== */
 .basic-info-box {
     display: flex;
-    gap: 30px;
+    gap: 20px;
     border: 1px solid #eee;
-    border-radius: 10px;
-    padding: 20px;
-    background-color: #fafafa;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #f9f9f9;
     align-items: flex-start;
 }
 
 .photo-box {
-    width: 120px;
+    width: 80px;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .profile-img {
-    width: 100px;
-    height: 100px;
+    width: 64px;
+    height: 64px;
     object-fit: cover;
     border-radius: 50%;
     border: 1px solid #ddd;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .photo-upload-btn {
-    padding: 4px 10px;
-    font-size: 13px;
-    background-color: #f1f1f1;
+    background-color: #f5f5f5;
     border: 1px solid #ccc;
+    padding: 4px 8px;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 12px;
 }
 
 .info-fields {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 6px;
+    font-size: 14px;
 }
 
 .info-row {
     display: flex;
     align-items: center;
-    gap: 16px;
-    font-size: 14px;
+    gap: 12px;
 }
 
 .info-row label {
     width: 80px;
     font-weight: bold;
     color: #333;
+    flex-shrink: 0;
 }
 
 .info-value {
-    flex-grow: 1;
+    color: #333;
 }
 
-.btn-auth {
-    padding: 4px 8px;
-    font-size: 12px;
-    background-color: #fef08a;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.blue-label {
+.info-value a {
     color: #2b77f6;
-    font-size: 12px;
-    margin-left: auto;
+    text-decoration: underline;
 }
 
-.input-homepage {
-    flex-grow: 1;
-    padding: 6px 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 13px;
-}
-
-/* =====================
-   이력서 제목 입력
-===================== */
-.title-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-/* =====================
-   최종학력 드롭다운
-===================== */
-.select-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 24px;
-}
-
-.select-row label {
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-.select-row select {
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-/* =====================
-   학력 상세 리스트
-===================== */
-.edu-detail-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.edu-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #eee;
-}
-
-.add-btn {
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 4px 10px;
-    font-size: 13px;
-    cursor: pointer;
-}
-
-/* 입력 폼 영역 */
-.edu-form {
-    border: 1px solid #ddd;
-    background: #f9f9f9;
-    padding: 16px;
-    margin-top: 12px;
-    border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.edu-form input,
-.edu-form select,
-.edu-form textarea {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-}
-
-.edu-form textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-
-.select-row {
-    display: flex;
-    gap: 20px;
-    align-items: center;
+.photo-box {
+    width: 80px;
+    text-align: center;
     margin-bottom: 12px;
 }
 
-.input-pair {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
+.profile-img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    margin-bottom: 6px;
 }
 
-.input-pair label {
-    font-weight: bold;
-    font-size: 14px;
-    white-space: nowrap;
-}
-
-.year-input {
-    width: 100px;
-    padding: 6px 8px;
-    font-size: 14px;
+.photo-upload-btn {
+    background-color: #f5f5f5;
     border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-
-
-/* 저장/취소 버튼 라인 */
-.form-bottom {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 8px;
-}
-
-.edu-cancel-btn,
-.edu-save-btn {
-    padding: 6px 12px;
-    font-size: 14px;
-    border: 1px solid #ccc;
+    padding: 4px 8px;
     border-radius: 4px;
     cursor: pointer;
-}
-
-.edu-save-btn {
-    background-color: #ffe600;
-    border-color: #e5c700;
-    font-weight: bold;
-}
-
-/* 숨김 처리 */
-.hidden {
-    display: none;
-}
-
-
-.info-icon {
-    font-style: normal;
-    font-size: 14px;
-    color: #666;
-    margin-right: 6px;
-}
-
-/*희망근무*/
-.resume-section {
-    margin-bottom: 40px;
-}
-
-.resume-section h2 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.required {
-    color: red;
-    margin-left: 4px;
-}
-
-.desc {
-    font-size: 13px;
-    color: #777;
-    margin-bottom: 20px;
-}
-
-.small {
     font-size: 12px;
-    color: #aaa;
+}
+
+/* ===================== 공통 폼 요소 ===================== */
+input[type="text"],
+textarea,
+.input-homepage,
+.year-input {
+    width: 100%;
+    max-width: 500px; /* 기본적으로 폭 제한 */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* 이력서 제목 칸은 예외적으로 전체 폭 사용 */
+.title-input {
+    width: 100%;
+    max-width: none; /* 폭 제한 해제 */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+textarea,
+.cover-letter-textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.6;
+    max-width: 500px; /* textarea도 제한 */
 }
 
 .field-row {
@@ -337,6 +178,7 @@
 .input-with-button {
     display: flex;
     gap: 8px;
+    max-width: 500px;
 }
 
 .input-with-button input {
@@ -346,55 +188,31 @@
     border-radius: 4px;
 }
 
-.select-btn {
-    padding: 8px 12px;
-    background-color: #f9f9f9;
-    border: 1px solid #999;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.selected-tag {
-    margin-top: 8px;
-    font-size: 14px;
-    color: #2b77f6;
-}
-
-.checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    font-size: 14px;
-}
-
-.radio-button-group {
+/* 다중 선택 버튼 영역 */
+.selection-area {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    margin-top: 8px;
 }
 
-.radio-button-group button {
+.select-btn {
     padding: 6px 14px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 20px;
     background-color: #fff;
-    color: #333;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.radio-button-group button.active {
+.select-btn.active {
     background-color: #2b77f6;
-    color: white;
+    color: #fff;
     border-color: #2b77f6;
 }
 
 
-
-/* =====================
-   사이드바 버튼 및 체크리스트
-===================== */
 .btn-save {
     width: 100%;
     padding: 12px;
@@ -402,7 +220,6 @@
     border: none;
     border-radius: 4px;
     font-weight: bold;
-    margin-bottom: 12px;
 }
 
 .btn-outline {
@@ -411,36 +228,37 @@
     background: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-bottom: 12px;
+    cursor: pointer;
 }
 
-.checklist h3 {
-    font-size: 16px;
-    margin-top: 24px;
-}
-
-.checklist ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-.checklist li {
+/* ===================== 경력 요약 스타일 ===================== */
+.resume-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     font-size: 14px;
-    margin-bottom: 6px;
-}
-
-.check {
-    color: #2196f3;
-    margin-right: 6px;
-}
-
-.cover-letter-textarea {
-    width: 100%;
-    min-height: 250px;
-    padding: 12px;
+    background: #fff;
     border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    line-height: 1.6;
-    resize: vertical;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+
+.resume-summary .summary-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.resume-summary .summary-label {
+    width: 100px; /* 고정 너비로 두 줄로 내려가지 않게 */
+    font-weight: bold;
+    color: #333;
+    flex-shrink: 0;
+}
+
+.resume-summary .summary-value {
+    flex: 1;
+    color: #333;
+    word-break: break-word;
 }

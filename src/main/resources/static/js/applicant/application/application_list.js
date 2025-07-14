@@ -234,7 +234,7 @@ function loadApplicationList(newCriteria = {}) {
 			}
 
 			// 페이징 UI 그리는 함수 호출
-			renderPagination(pagingInfo);
+			// renderPagination(pagingInfo);
 
 			if (!currentCriteria.status || currentCriteria.status.length === 0) {
 				$('#count-all').text(pagingInfo.totalRecord);
@@ -279,3 +279,12 @@ function makeRow(application, rowNumber) {
         </tr>
     `;
 }
+
+$('#custom-pagination').on('click', 'button', function() {
+	const page = $(this).data('page');
+	loadApplicationList({ page: page });
+
+	// active 스타일 갱신
+	$('#custom-pagination button').removeClass('active');
+	$(this).addClass('active');
+});

@@ -3,9 +3,9 @@ package org.wit.hrmatching.service.applicant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.dao.applicant.ResumeDAO;
-import org.wit.hrmatching.vo.ApplicantProfilesVO;
-import org.wit.hrmatching.vo.ResumeVO;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.user.ApplicantProfilesVO;
+import org.wit.hrmatching.vo.resume.ResumeVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -3,7 +3,7 @@
 
 <mapper namespace="org.wit.hrmatching.mapper.LoginHistoryMapper">
 
-    <insert id="insertLoginHistory" parameterType="org.wit.hrmatching.vo.LoginHistoryVO">
+    <insert id="insertLoginHistory" parameterType="org.wit.hrmatching.vo.user.LoginHistoryVO">
         INSERT INTO login_history (user_id, ip_address, user_agent)
         VALUES (#{userId}, #{ipAddress}, #{userAgent})
     </insert>

@@ -1,3 +1,5 @@
+// /js/admin/userManagement/user-management.js
+
 // 경고 수에 따라 클래스 지정
 function getWarningClass(count) {
     if (count >= 3) return 'warning-3';

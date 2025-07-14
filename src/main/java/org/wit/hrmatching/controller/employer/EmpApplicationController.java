@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.wit.hrmatching.service.employer.EmpApplicationService;
 import org.wit.hrmatching.service.employer.JobPostService;
-import org.wit.hrmatching.vo.*;
+import org.wit.hrmatching.vo.application.EmpApplicationVO;
+import org.wit.hrmatching.vo.application.EmployerRecentApplicantVO;
+import org.wit.hrmatching.vo.job.JobPostVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
 
 import java.util.HashMap;
 import java.util.List;

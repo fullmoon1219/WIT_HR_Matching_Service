@@ -10,9 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.wit.hrmatching.vo.CustomUserDetails;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
 import org.wit.hrmatching.enums.UserStatus;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 @Slf4j
 @Service

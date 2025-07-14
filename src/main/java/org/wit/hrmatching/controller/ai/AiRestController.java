@@ -13,7 +13,7 @@ import org.wit.hrmatching.config.ai.JsonConverter;
 import org.wit.hrmatching.config.ai.OpenAiResponseParser;
 import org.wit.hrmatching.service.admin.AdminResumeService;
 import org.wit.hrmatching.service.ai.AiService;
-import org.wit.hrmatching.vo.ResumeVO;
+import org.wit.hrmatching.vo.resume.ResumeVO;
 
 @RestController
 @RequestMapping("/api/ai")

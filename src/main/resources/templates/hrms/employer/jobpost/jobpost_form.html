@@ -1,4 +1,3 @@
-<!--<html lang="ko" xmlns:th="http://www.thymeleaf.org">-->
 <div class="write-container" xmlns:th="http://www.thymeleaf.org">
 
     <head>
@@ -22,12 +21,11 @@
                 <input type="text" id="jobCategory" name="jobCategory" placeholder="예: 백엔드 개발자" required>
             </div>
 
-            <!-- ✅ Quill 에디터 적용 -->
             <div class="form-group">
                 <label for="description">상세 설명</label>
-                <div id="quillEditor" style="height: 300px;"></div>
-                <input type="hidden" name="description" id="description">
+                <textarea id="description" name="description" class="form-control" rows="10" placeholder="상세 설명을 입력하세요"></textarea>
             </div>
+
 
             <div class="form-group">
                 <label>기술 스택</label>
@@ -40,7 +38,7 @@
                         </button>
                     </div>
                 </div>
-                <input type="hidden" name="techStacks" id="techStacksInput">
+                <input type="hidden" name="requiredSkills" id="techStacksInput">
             </div>
 
             <div class="form-row">
@@ -68,11 +66,11 @@
             <div class="form-row">
                 <div class="form-group half">
                     <label for="location">근무지 (지역)</label>
-                    <input type="text" id="location" name="location" placeholder="예: 서울 용산구" required>
+                    <input type="text" id="location" name="location" placeholder="예: 서울, 경기, 충북" required>
                 </div>
                 <div class="form-group half">
                     <label for="workplaceAddress">근무지 상세 주소</label>
-                    <input type="text" id="workplaceAddress" name="workplaceAddress" placeholder="예: 남산공원길 105">
+                    <input type="text" id="workplaceAddress" name="workplaceAddress" placeholder="예: 마포구 합정동 114">
                 </div>
             </div>
 
@@ -84,8 +82,6 @@
     </div>
 
     <script src="/js/employer/post-write.js"></script>
-
-
 
     </body>
 </div>

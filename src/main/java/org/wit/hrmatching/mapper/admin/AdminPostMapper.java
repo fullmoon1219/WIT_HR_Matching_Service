@@ -2,7 +2,7 @@ package org.wit.hrmatching.mapper.admin;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
-import org.wit.hrmatching.vo.JobPostVO;
+import org.wit.hrmatching.vo.job.JobPostVO;
 
 import java.util.List;
 

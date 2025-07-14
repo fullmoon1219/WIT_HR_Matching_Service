@@ -1,0 +1,94 @@
+/* /css/admin/inquiryManagement/inquiry-detail.css */
+
+.inquiry-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #f3f9ff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.inquiry-detail-table th,
+.inquiry-detail-table td {
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+    vertical-align: top;
+    text-align: center;
+}
+
+.inquiry-content {
+    width: 50%;
+    white-space: pre-wrap;
+    text-align: center;
+}
+
+.inquiry-reply {
+    width: 50%;
+    text-align: center;
+}
+
+/* 전체 박스 */
+.reply-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 16px;
+    background-color: #fff;
+    text-align: left;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* 텍스트 영역 */
+.reply-text {
+    white-space: pre-wrap;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+/* 텍스트에디터 */
+.reply-textarea {
+    width: 100%;
+    min-height: 120px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+    box-sizing: border-box;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+
+/* 버튼 그룹 공통 */
+.reply-action-btns,
+.reply-submit-btns {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* 버튼 스타일 */
+.reply-action-btns button,
+.reply-submit-btns button {
+    min-width: 60px;
+    padding: 6px 14px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    background-color: #0d6efd;
+    color: white;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+}
+
+.reply-action-btns button:hover,
+.reply-submit-btns button:hover {
+    background-color: #0b5ed7;
+}
