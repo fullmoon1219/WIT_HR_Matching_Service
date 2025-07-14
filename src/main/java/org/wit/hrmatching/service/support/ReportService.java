@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.mapper.support.ReportMapper;
-import org.wit.hrmatching.vo.ReportVO;
+import org.wit.hrmatching.vo.support.ReportVO;
 
 import java.util.HashMap;
 import java.util.List;

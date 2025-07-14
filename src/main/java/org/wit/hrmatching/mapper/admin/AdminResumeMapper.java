@@ -3,7 +3,7 @@ package org.wit.hrmatching.mapper.admin;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.wit.hrmatching.vo.ResumeVO;
+import org.wit.hrmatching.vo.resume.ResumeVO;
 
 import java.util.List;
 

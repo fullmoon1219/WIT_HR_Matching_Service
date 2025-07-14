@@ -1,8 +1,7 @@
 package org.wit.hrmatching.mapper.support;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.wit.hrmatching.vo.InquiryReasonVO;
-import org.wit.hrmatching.vo.InquiryVO;
+import org.wit.hrmatching.vo.support.InquiryVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

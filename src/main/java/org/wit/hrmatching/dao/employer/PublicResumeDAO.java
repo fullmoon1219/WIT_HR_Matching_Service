@@ -3,7 +3,7 @@ package org.wit.hrmatching.dao.employer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.wit.hrmatching.mapper.employer.PublicResumeMapper;
-import org.wit.hrmatching.vo.PublicResumeVO;
+import org.wit.hrmatching.vo.resume.PublicResumeVO;
 
 import java.util.List;
 

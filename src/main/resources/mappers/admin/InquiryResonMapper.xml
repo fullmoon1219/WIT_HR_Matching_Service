@@ -3,7 +3,7 @@
 
 <mapper namespace="org.wit.hrmatching.mapper.support.InquiryReasonMapper">
 
-    <select id="selectAll" resultType="org.wit.hrmatching.vo.InquiryReasonVO">
+    <select id="selectAll" resultType="org.wit.hrmatching.vo.support.InquiryReasonVO">
         SELECT id, name, description, sort_order AS sortOrder, created_at AS createdAt
         FROM inquiry_reasons
         ORDER BY sort_order ASC

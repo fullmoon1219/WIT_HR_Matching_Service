@@ -6,13 +6,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.wit.hrmatching.service.applicant.ResumeService;
 import org.wit.hrmatching.service.employer.PublicResumeService;
 import org.wit.hrmatching.service.employer.TechStackService;
-import org.wit.hrmatching.vo.CustomUserDetails;
-import org.wit.hrmatching.vo.PublicResumeVO;
-import org.wit.hrmatching.vo.ResumeVO;
-import org.wit.hrmatching.vo.TechStackVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
+import org.wit.hrmatching.vo.resume.PublicResumeVO;
+import org.wit.hrmatching.vo.job.TechStackVO;
 
 import java.util.*;
 import java.util.stream.Collectors;

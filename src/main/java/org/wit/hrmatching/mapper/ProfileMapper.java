@@ -2,8 +2,8 @@ package org.wit.hrmatching.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.wit.hrmatching.vo.ApplicantProfilesVO;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
+import org.wit.hrmatching.vo.user.ApplicantProfilesVO;
+import org.wit.hrmatching.vo.user.EmployerProfilesVO;
 
 @Mapper
 public interface ProfileMapper {

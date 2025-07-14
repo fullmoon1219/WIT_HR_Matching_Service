@@ -12,7 +12,7 @@
         SELECT COUNT(*) FROM inquiries WHERE status = #{status}
     </select>
 
-    <select id="selectById" resultType="org.wit.hrmatching.vo.InquiryVO">
+    <select id="selectById" resultType="org.wit.hrmatching.vo.support.InquiryVO">
         SELECT i.*,
                u.name AS name,
                u.email AS email
@@ -34,7 +34,7 @@
 
 
     <!-- 페이징된 목록 조회 -->
-    <select id="selectAll" resultType="org.wit.hrmatching.vo.InquiryVO">
+    <select id="selectAll" resultType="org.wit.hrmatching.vo.support.InquiryVO">
         SELECT i.*, u.name AS name, u.email AS email,
         r.name AS reasonName
         FROM inquiries i

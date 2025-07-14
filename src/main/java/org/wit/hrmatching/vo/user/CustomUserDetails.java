@@ -1,4 +1,4 @@
-package org.wit.hrmatching.vo;
+package org.wit.hrmatching.vo.user;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

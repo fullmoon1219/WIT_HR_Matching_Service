@@ -4,7 +4,7 @@
 <mapper namespace="org.wit.hrmatching.mapper.support.ReportMapper">
 
     <!-- 필터 기반 리스트 -->
-    <select id="getReportList" resultType="org.wit.hrmatching.vo.ReportVO">
+    <select id="getReportList" resultType="org.wit.hrmatching.vo.support.ReportVO">
         SELECT r.*, u.name AS reporterName, u.email AS reporterEmail
         FROM reports r
         JOIN users u ON r.reporter_user_id = u.id

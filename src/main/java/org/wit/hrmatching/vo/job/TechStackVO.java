@@ -1,4 +1,4 @@
-package org.wit.hrmatching.vo;
+package org.wit.hrmatching.vo.job;
 
 import lombok.Data;
 

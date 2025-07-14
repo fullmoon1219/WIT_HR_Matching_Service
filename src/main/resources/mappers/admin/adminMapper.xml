@@ -18,7 +18,7 @@
     </select>
 
     <!-- 최근 가입한 사용자 -->
-    <select id="getRecentUsers" resultType="org.wit.hrmatching.vo.UserVO">
+    <select id="getRecentUsers" resultType="org.wit.hrmatching.vo.user.UserVO">
         SELECT id, email, create_at AS createAt, role, name, login_type AS loginType
         FROM users
         ORDER BY create_at DESC
@@ -26,7 +26,7 @@
     </select>
 
     <!-- 최근 등록된 공고 5건 -->
-    <select id="getRecentJobPosts" resultType="org.wit.hrmatching.vo.JobPostVO">
+    <select id="getRecentJobPosts" resultType="org.wit.hrmatching.vo.job.JobPostVO">
         SELECT
             jp.id,
             jp.title,
@@ -83,7 +83,7 @@
     </select>
 
     <!-- 사용자 + 지원자/기업 프로필 함께 조회 -->
-    <resultMap id="UserWithProfilesMap" type="org.wit.hrmatching.vo.UserVO">
+    <resultMap id="UserWithProfilesMap" type="org.wit.hrmatching.vo.user.UserVO">
         <id property="id" column="id"/>
         <result property="email" column="email"/>
         <result property="password" column="password"/>
@@ -101,7 +101,7 @@
         <result property="loginType" column="login_type"/>
 
         <!-- applicantProfile -->
-        <association property="applicantProfile" javaType="org.wit.hrmatching.vo.ApplicantProfilesVO">
+        <association property="applicantProfile" javaType="org.wit.hrmatching.vo.user.ApplicantProfilesVO">
             <result property="userId" column="a_user_id"/>
             <result property="age" column="age"/>
             <result property="address" column="a_address"/>
@@ -115,7 +115,7 @@
         </association>
 
         <!-- employerProfile -->
-        <association property="employerProfile" javaType="org.wit.hrmatching.vo.EmployerProfilesVO">
+        <association property="employerProfile" javaType="org.wit.hrmatching.vo.user.EmployerProfilesVO">
             <result property="userId" column="e_user_id"/>
             <result property="companyName" column="company_name"/>
             <result property="businessNumber" column="business_number"/>

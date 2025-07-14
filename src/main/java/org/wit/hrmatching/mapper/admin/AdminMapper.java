@@ -2,12 +2,9 @@ package org.wit.hrmatching.mapper.admin;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.wit.hrmatching.dto.admin.AdminDashboardStatsDTO;
-import org.wit.hrmatching.vo.JobPostVO;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.job.JobPostVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.time.LocalDate;
 import java.util.List;

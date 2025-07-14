@@ -3,10 +3,10 @@ package org.wit.hrmatching.dao.applicant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.wit.hrmatching.mapper.applicant.RecruitMapper;
-import org.wit.hrmatching.vo.ApplicationsVO;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
-import org.wit.hrmatching.vo.JobPostVO;
-import org.wit.hrmatching.vo.RecruitListVO;
+import org.wit.hrmatching.vo.application.ApplicationsVO;
+import org.wit.hrmatching.vo.user.EmployerProfilesVO;
+import org.wit.hrmatching.vo.job.JobPostVO;
+import org.wit.hrmatching.vo.job.RecruitListVO;
 import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
 
 import java.util.List;

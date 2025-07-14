@@ -2,7 +2,7 @@ package org.wit.hrmatching.mapper.employer;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.wit.hrmatching.vo.TechStackVO;
+import org.wit.hrmatching.vo.job.TechStackVO;
 
 import java.util.List;
 

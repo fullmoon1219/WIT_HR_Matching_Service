@@ -11,9 +11,9 @@ import org.wit.hrmatching.enums.UserRole;
 import org.wit.hrmatching.mapper.ProfileMapper;
 import org.wit.hrmatching.mapper.UserMapper;
 import org.wit.hrmatching.service.mail.MailService;
-import org.wit.hrmatching.vo.ApplicantProfilesVO;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.user.ApplicantProfilesVO;
+import org.wit.hrmatching.vo.user.EmployerProfilesVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -3,7 +3,7 @@
 
 <mapper namespace="org.wit.hrmatching.mapper.employer.PublicResumeMapper">
 
-    <select id="searchApplicants" resultType="org.wit.hrmatching.vo.PublicResumeVO">
+    <select id="searchApplicants" resultType="org.wit.hrmatching.vo.resume.PublicResumeVO">
       SELECT A.ID AS RESUME_ID,
              A.TITLE,
              A.EDUCATION,
@@ -41,7 +41,7 @@
         ORDER BY A.id DESC
     </select>
 
-    <select id="selectResumeById" resultType="org.wit.hrmatching.vo.PublicResumeVO">
+    <select id="selectResumeById" resultType="org.wit.hrmatching.vo.resume.PublicResumeVO">
         SELECT A.*, B.NAME AS applicantName, B.EMAIL, C.PHONE_NUMBER
           FROM RESUMES A, USERS B, APPLICANT_PROFILES C
          WHERE A.id = #{resumeId}

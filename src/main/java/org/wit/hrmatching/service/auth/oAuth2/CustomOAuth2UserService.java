@@ -11,7 +11,7 @@ import org.wit.hrmatching.config.auth.oAuth2.CustomOAuth2User;
 import org.wit.hrmatching.config.auth.oAuth2.OAuth2UserInfoFactory;
 import org.wit.hrmatching.mapper.UserMapper;
 import org.wit.hrmatching.service.auth.AuthService;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.util.Map;
 

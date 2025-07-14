@@ -3,7 +3,7 @@ package org.wit.hrmatching.service.support;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.mapper.support.InquiryReasonMapper;
-import org.wit.hrmatching.vo.InquiryReasonVO;
+import org.wit.hrmatching.vo.support.InquiryReasonVO;
 
 import java.util.List;
 

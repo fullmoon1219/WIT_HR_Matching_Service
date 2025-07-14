@@ -1,7 +1,7 @@
 package org.wit.hrmatching.mapper.support;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.wit.hrmatching.vo.ReportVO;
+import org.wit.hrmatching.vo.support.ReportVO;
 
 import java.util.List;
 import java.util.Map;

@@ -6,8 +6,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.wit.hrmatching.controller.admin.AdminController;
-import org.wit.hrmatching.vo.CustomUserDetails;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
+import org.wit.hrmatching.vo.user.UserVO;
 
 //@ControllerAdvice(basePackages = "org.wit.hrmatching.controller.admin")
 @ControllerAdvice(assignableTypes = {AdminController.class})

@@ -3,9 +3,12 @@ package org.wit.hrmatching.service.applicant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.dao.applicant.RecruitDAO;
-import org.wit.hrmatching.vo.*;
 import org.wit.hrmatching.vo.applicantPaging.PageResponseVO;
 import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
+import org.wit.hrmatching.vo.application.ApplicationsVO;
+import org.wit.hrmatching.vo.job.JobPostVO;
+import org.wit.hrmatching.vo.job.RecruitListVO;
+import org.wit.hrmatching.vo.user.EmployerProfilesVO;
 
 import java.util.Collections;
 import java.util.HashMap;

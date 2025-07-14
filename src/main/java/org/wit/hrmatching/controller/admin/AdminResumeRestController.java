@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.dto.admin.PagedResponseDTO;
 import org.wit.hrmatching.service.admin.AdminResumeService;
-import org.wit.hrmatching.vo.ResumeVO;
+import org.wit.hrmatching.vo.resume.ResumeVO;
 
 import java.util.List;
 import java.util.Map;

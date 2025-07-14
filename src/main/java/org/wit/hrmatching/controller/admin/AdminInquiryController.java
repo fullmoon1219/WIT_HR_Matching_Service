@@ -5,8 +5,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.service.support.InquiryReasonService;
 import org.wit.hrmatching.service.support.InquiryService;
-import org.wit.hrmatching.vo.InquiryReasonVO;
-import org.wit.hrmatching.vo.InquiryVO;
+import org.wit.hrmatching.vo.support.InquiryReasonVO;
+import org.wit.hrmatching.vo.support.InquiryVO;
 
 import java.util.HashMap;
 import java.util.List;

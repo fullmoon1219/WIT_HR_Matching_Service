@@ -1,8 +1,8 @@
 package org.wit.hrmatching.config.auth.oAuth2;
 
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.wit.hrmatching.vo.CustomUserDetails;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.util.Map;
 

@@ -2,9 +2,9 @@ package org.wit.hrmatching.mapper.employer;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
-import org.wit.hrmatching.vo.EmployerRecentApplicantVO;
-import org.wit.hrmatching.vo.JobPostVO;
+import org.wit.hrmatching.vo.user.EmployerProfilesVO;
+import org.wit.hrmatching.vo.application.EmployerRecentApplicantVO;
+
 import java.util.List;
 
 @Mapper

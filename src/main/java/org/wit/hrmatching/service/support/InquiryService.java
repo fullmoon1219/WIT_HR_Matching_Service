@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.mapper.support.InquiriesMapper;
 import org.wit.hrmatching.service.mail.MailService;
-import org.wit.hrmatching.vo.InquiryVO;
+import org.wit.hrmatching.vo.support.InquiryVO;
 
 import java.util.List;
 import java.util.Map;

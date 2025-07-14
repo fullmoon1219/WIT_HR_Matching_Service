@@ -2,7 +2,7 @@ package org.wit.hrmatching.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 @Mapper
 public interface UserMapper {

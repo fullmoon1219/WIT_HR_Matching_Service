@@ -10,13 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.wit.hrmatching.service.UserService;
 import org.wit.hrmatching.service.employer.ProfileService;
-import org.wit.hrmatching.vo.CustomUserDetails;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
+import org.wit.hrmatching.vo.user.EmployerProfilesVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.wit.hrmatching.vo.EmployerRecentApplicantVO;
+import org.wit.hrmatching.vo.application.EmployerRecentApplicantVO;
 
 import java.io.File;
 import java.util.HashMap;

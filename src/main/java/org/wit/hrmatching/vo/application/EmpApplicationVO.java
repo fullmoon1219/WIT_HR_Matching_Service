@@ -1,8 +1,6 @@
-package org.wit.hrmatching.vo;
+package org.wit.hrmatching.vo.application;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.time.LocalDateTime;

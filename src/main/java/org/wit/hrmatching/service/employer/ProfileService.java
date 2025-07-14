@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wit.hrmatching.mapper.employer.EmployerProfileMapper;
-import org.wit.hrmatching.vo.EmployerProfilesVO;
-import org.wit.hrmatching.vo.EmployerRecentApplicantVO;
+import org.wit.hrmatching.vo.user.EmployerProfilesVO;
+import org.wit.hrmatching.vo.application.EmployerRecentApplicantVO;
 
 import java.util.List;
 
