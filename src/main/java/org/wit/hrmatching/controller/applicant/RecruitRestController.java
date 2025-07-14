@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.wit.hrmatching.exception.DuplicateApplicationException;
 import org.wit.hrmatching.service.applicant.BookmarkService;
 import org.wit.hrmatching.service.applicant.RecruitService;
 import org.wit.hrmatching.service.applicant.ResumeService;
@@ -122,14 +123,17 @@ public class RecruitRestController {
 		long userId = userDetails.getId();
 		long resumeId = application.getResumeId();
 
-		int result = recruitService.applyApplication(userId, jobPostId, resumeId);
-
-		if (result == 0) {
+		try {
+			recruitService.applyApplication(userId, jobPostId, resumeId);
 			return ResponseEntity.ok().build();
-		} else if (result == 1) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+		} catch (DuplicateApplicationException e) {
+			// 서비스에서 '중복 지원 예외'가 발생
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+
+		} catch (RuntimeException e) {
+			// 그 외 다른 예외(DB 오류 등)가 발생
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 	}
 
