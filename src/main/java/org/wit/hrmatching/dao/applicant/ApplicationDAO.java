@@ -29,4 +29,8 @@ public class ApplicationDAO {
 	public ApplicationDetailVO getApplication(long applicationId) {
 		return applicationMapper.selectApplication(applicationId);
 	}
+
+	public Long findOwnerIdByApplicationId(long applicationId) {
+		return applicationMapper.findUserIdByApplicationId(applicationId);
+	}
 }

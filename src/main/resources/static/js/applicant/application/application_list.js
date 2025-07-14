@@ -100,13 +100,22 @@ $(document).ready(function() {
 
 				modalContentHtml += '<hr />';
 
-				// 본문 1: 지원 정보
-				modalContentHtml += '<div id="resumeInfo" class="modal-link-section" data-resume-id="' + resume.resumeId + '">';;
-				modalContentHtml += '<h4>[내가 제출한 정보]</h4>';
-				modalContentHtml +=   '<p><strong>제출 이력서:</strong> ' + resume.resumeTitle + '</p>';
-				modalContentHtml +=   '<p><strong>지원 일시:</strong> ' + resume.appliedAt + '</p>';
-				modalContentHtml +=   '<p><em>(클릭 시 제출한 이력서를 확인합니다)</em></p>';
-				modalContentHtml += '</div>';
+				// 본문 1: 지원 정보 (이력서 삭제 여부에 따라 내용을 다르게 표시)
+				if (resume.resumeDeletedAt) {
+					modalContentHtml += '<div class="modal-info-section">'; // 클릭 기능이 없는 일반 정보 섹션
+					modalContentHtml += '    <h4>[내가 제출한 정보]</h4>';
+					modalContentHtml += '    <p><strong>제출 이력서:</strong> ' + resume.resumeTitle + '</p>';
+					modalContentHtml += '    <p><strong>지원 일시:</strong> ' + resume.appliedAt + '</p>';
+					modalContentHtml += '    <p><em>(해당 이력서는 삭제되어 내용을 확인할 수 없습니다.)</em></p>';
+					modalContentHtml += '</div>';
+				} else {
+					modalContentHtml += '<div id="resumeInfo" class="modal-link-section" data-resume-id="' + resume.resumeId + '">';
+					modalContentHtml += '    <h4>[내가 제출한 정보]</h4>';
+					modalContentHtml += '    <p><strong>제출 이력서:</strong> ' + resume.resumeTitle + '</p>';
+					modalContentHtml += '    <p><strong>지원 일시:</strong> ' + resume.appliedAt + '</p>';
+					modalContentHtml += '    <p><em>(클릭 시 제출한 이력서를 확인합니다)</em></p>';
+					modalContentHtml += '</div>';
+				}
 
 				modalContentHtml += '<hr />';
 
