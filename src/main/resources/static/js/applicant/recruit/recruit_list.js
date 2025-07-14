@@ -193,28 +193,6 @@ function renderPagination(pagingInfo) {
 	const currentPage = pagingInfo.currentPage || pagingInfo.page;  // 둘 다 대응
 	const totalPage = pagingInfo.totalPage;
 
-	for (let i = 1; i <= totalPage; i++) {
-		const $btn = $('<a>')
-			.attr('href', '#')
-			.addClass('page-btn')
-			.attr('data-page', i)
-			.text(i);
-
-		if (i === currentPage) {
-			$btn.addClass('active');  // ⭐ active 클래스를 여기서 정확히 추가
-		}
-
-		pagination.append($btn);
-	}
-}
-
-
-function formatSalary(salary) {
-	if (!salary || String(salary).trim() === '') return '';
-	if (!isNaN(parseFloat(salary)) && isFinite(salary)) return `💰 ${salary}만원`;
-	return `💰 ${salary}`;
-}
-
 function performSearch() {
 	const keyword = $('#main-search').val();
 	currentFilters = {

@@ -2,6 +2,7 @@ package org.wit.hrmatching.controller.applicant;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.service.applicant.ApplicationService;
@@ -29,6 +30,7 @@ public class ApplicationRestController {
 	}
 
 	@GetMapping("/{applicationId}")
+	@PreAuthorize("@permission.isApplicationOwner(#applicationId, authentication)")
 	public ResponseEntity<?> getApplication(@PathVariable long applicationId) {
 
 		return ResponseEntity.ok(applicationService.getApplication(applicationId));

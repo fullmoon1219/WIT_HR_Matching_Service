@@ -141,6 +141,22 @@ function renderPagination(pagingInfo) {
 
 }
 
+function formatSalary(salary) {
+
+	// 비어있을 경우 빈 문자열 반환
+	if (!salary || String(salary).trim() === '') {
+		return '-';
+	}
+
+	// 숫자 형태인지 확인 후 '만원' 추가
+	if (!isNaN(parseFloat(salary)) && isFinite(salary)) {
+		return `${salary}만원`;
+	}
+
+	// 숫자 형태가 아닌 경우
+	return `${salary}`;
+}
+
 
 $(document).ready(function() {
 	showToastOnLoad();
