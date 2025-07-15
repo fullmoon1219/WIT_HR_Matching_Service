@@ -55,3 +55,6 @@
     font-weight: bold;
 }
 
+.fa-heart.liked {
+    color: red;
+}

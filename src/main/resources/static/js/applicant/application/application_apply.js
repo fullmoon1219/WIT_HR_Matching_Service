@@ -56,6 +56,7 @@ $(document).ready(function () {
 			$('#jobPost-location').text(summary.location);
 			$('#jobPost-employmentType').text(translateEmploymentType(summary.employmentType));
 			$('#jobPost-deadline').text(summary.deadline);
+			$('#jobPost-salary').text(formatSalary(summary.salary));
 
 			// 이력서 목록 불러오기
 			loadApplicantResumes();
