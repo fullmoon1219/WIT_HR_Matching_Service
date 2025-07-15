@@ -119,6 +119,8 @@ $("form").on("submit", function (e) {
                 url: `/community/posts/view/${postId}`,
                 method: "GET",
                 success: function (html) {
+                    location.reload();
+
                     $("#floatingSidebarContent").html(html);
                     $("#floatingSidebar").addClass("show");
                     $("#floatingOverlay").addClass("show");

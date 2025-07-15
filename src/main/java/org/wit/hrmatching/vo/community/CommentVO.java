@@ -1,31 +1,44 @@
 package org.wit.hrmatching.vo.community;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.ALWAYS)
 @Data
 public class CommentVO {
     private Long id;
     private Long postId;
     private Long userId;
-    private Long parentId; // null이면 최상위 댓글
+    private Long parentId;
     private String content;
     private int likeCount;
     private boolean isDeleted;
     private LocalDateTime createdAt;
 
-    // 사용자 정보 (조인 결과 포함)
     private String writerName;
     private String email;
-    private boolean isWriter; // 게시글 작성자인 경우 true
 
-    // 자식 댓글
+    @JsonProperty("isWriter")
+    private boolean isWriter;
+
+    @JsonProperty("isLiked")
+    private boolean liked;
+
+
     private List<CommentVO> children = new ArrayList<>();
 
     public void setIsWriter(boolean isWriter) {
         this.isWriter = isWriter;
     }
+
+    @JsonProperty("isLiked")
+    public boolean getIsLiked() {
+        return this.liked;
+    }
+
 }

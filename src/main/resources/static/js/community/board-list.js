@@ -1,7 +1,7 @@
 // /js/community/board-list.js
 
 const boardCode = $(".write-button").data("board-code") || "";
-let boardMap = {};
+var boardMap = {};
 
 $(document).ready(function () {
     // 1. 전체 게시판 목록 불러와 boardMap 초기화

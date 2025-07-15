@@ -101,3 +101,20 @@ textarea {
     border-radius: 4px;
 }
 
+.file-preview-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.file-preview-list li {
+    margin-bottom: 5px;
+}
+
+.file-preview-list button {
+    margin-left: 10px;
+    color: red;
+    border: none;
+    background: none;
+    cursor: pointer;
+}

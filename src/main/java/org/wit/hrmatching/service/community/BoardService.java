@@ -38,7 +38,6 @@ public class BoardService {
                 String originalName = file.getOriginalFilename();
 
                 if (originalName == null || originalName.trim().isEmpty()) {
-                    System.out.println("⚠️ 원본 파일명이 null 혹은 빈 문자열이라 건너뜀");
                     continue;
                 }
 
@@ -137,21 +136,28 @@ public class BoardService {
         }
 
         List<AttachmentVO> attachments = boardMapper.selectAttachmentsByPostId(postId);
-        List<CommentVO> flatComments = boardMapper.selectCommentsByPostId(postId);
+        List<CommentVO> flatComments = boardMapper.selectCommentsByPostId(postId, userId);
+
+        Set<Long> likedCommentIds = new HashSet<>(boardMapper.getUserLikedCommentIds(postId, userId));
 
         for (CommentVO comment : flatComments) {
-            comment.setIsWriter(post.getWriterName().equals(comment.getWriterName()));
+            comment.setIsWriter(post.getWriterId().equals(comment.getUserId()));
+            comment.setLiked(likedCommentIds.contains(comment.getId()));
         }
 
         List<CommentVO> commentTree = buildCommentTree(flatComments);
         post.setAttachments(attachments);
         post.setComments(commentTree);
 
-        // ✅ 좋아요 여부 추가
+        // 게시글 좋아요 여부
         boolean liked = boardMapper.hasUserLikedPost(postId, userId);
         post.setLiked(liked);
 
         return post;
+    }
+
+    public void softDeletePost(Long postId, Long userId) {
+        boardMapper.softDeletePost(postId, userId);
     }
 
 
@@ -181,7 +187,6 @@ public class BoardService {
         boardMapper.incrementViewCount(postId);
     }
 
-    @Transactional
     public boolean togglePostLike(Long postId, Long userId) {
         if (boardMapper.hasUserLikedPost(postId, userId)) {
             // 좋아요 취소
@@ -198,6 +203,150 @@ public class BoardService {
 
     public int getPostLikeCount(Long postId) {
         return boardMapper.countPostLikes(postId);
+    }
+
+
+    public List<CommentVO> getCommentsWithReplies(Long postId, Long postWriterId, Long currentUserId) {
+        List<CommentVO> parents = boardMapper.getParentComments(postId, postWriterId);
+        List<CommentVO> result = new ArrayList<>();
+
+        for (CommentVO parent : parents) {
+            parent.setIsWriter(parent.getUserId().equals(postWriterId));
+
+            if (currentUserId != null) {
+                boolean liked = boardMapper.hasUserLikedComment(parent.getId(), currentUserId);
+                parent.setLiked(liked);
+            }
+
+            // 대댓글 처리
+            List<CommentVO> children = boardMapper.getChildComments(parent.getId(), postWriterId);
+            for (CommentVO child : children) {
+                child.setIsWriter(child.getUserId().equals(postWriterId));
+
+                if (currentUserId != null) {
+                    boolean childLiked = boardMapper.hasUserLikedComment(child.getId(), currentUserId);
+                    child.setLiked(childLiked);
+                }
+            }
+
+            parent.setChildren(children);
+
+            if (parent.isDeleted() && children.isEmpty()) {
+                continue;
+            }
+
+            result.add(parent);
+        }
+
+        return result;
+    }
+
+
+
+    public void addComment(CommentVO comment) {
+        boardMapper.insertComment(comment);
+    }
+
+    public void deleteComment(Long id) {
+        boardMapper.deleteComment(id);
+    }
+
+    public void updateComment(CommentVO comment) {
+        boardMapper.updateComment(comment);
+    }
+
+    public PostVO getPostById(Long postId) {
+        return boardMapper.selectPostWriter(postId);
+    }
+
+    public boolean toggleCommentLike(Long commentId, Long userId) {
+        if (boardMapper.hasUserLikedComment(commentId, userId)) {
+            boardMapper.deleteCommentLike(commentId, userId);
+            boardMapper.decreaseCommentLikeCount(commentId);
+            return false;
+        } else {
+            boardMapper.insertCommentLike(commentId, userId);
+            boardMapper.increaseCommentLikeCount(commentId);
+            return true;
+        }
+    }
+
+    public int getCommentLikeCount(Long commentId) {
+        return boardMapper.getCommentLikeCount(commentId);
+    }
+
+    public AttachmentVO getAttachmentById(Long id) {
+        return boardMapper.selectAttachmentById(id);
+    }
+
+    public PostVO getPostWithBoard(Long postId) {
+        return boardMapper.selectPostWithBoard(postId);
+    }
+
+    @Transactional
+    public void updatePostWithFiles(Long postId, String title, Long boardId, String content,
+                                    List<Long> existingFileIds, MultipartFile[] files) {
+
+        // 1. 게시글 본문/제목/게시판 수정
+        boardMapper.updatePost(postId, title, boardId, content);
+
+        // 2. 기존 파일 목록 조회
+        List<Long> dbFileIds = boardMapper.findAttachmentIdsByPostId(postId);
+
+        // 3. 유지되지 않은 파일 ID들 추출 → 삭제 대상
+        List<Long> toDeleteIds = dbFileIds.stream()
+                .filter(id -> existingFileIds == null || !existingFileIds.contains(id))
+                .toList();
+
+        // 4. 실제 파일 삭제 + DB 삭제
+        for (Long id : toDeleteIds) {
+            AttachmentVO file = boardMapper.selectAttachmentById(id);
+            if (file != null) {
+                String path = fileUploadProperties.getPostDir() + file.getStoredName();
+                File f = new File(path);
+                if (f.exists()) {
+                    f.delete();
+                }
+            }
+        }
+        if (!toDeleteIds.isEmpty()) {
+            boardMapper.deleteAttachmentsByIds(toDeleteIds);
+        }
+
+        // 5. 새 파일 업로드
+        if (files != null) {
+            for (MultipartFile file : files) {
+                String originalName = file.getOriginalFilename();
+
+                if (originalName == null || originalName.trim().isEmpty()) continue;
+
+                try {
+                    originalName = Paths.get(originalName).getFileName().toString();
+                    String storedName = UUID.randomUUID() + "_" + originalName;
+                    String baseDir = fileUploadProperties.getPostDir().replaceAll("[/\\\\]?$", "/");
+                    String uploadPath = baseDir + storedName;
+
+                    File targetFile = new File(uploadPath);
+                    File parentDir = targetFile.getParentFile();
+                    if (!parentDir.exists() && !parentDir.mkdirs()) {
+                        throw new RuntimeException("업로드 디렉토리 생성 실패: " + parentDir.getAbsolutePath());
+                    }
+
+                    file.transferTo(targetFile);
+
+                    AttachmentVO attachment = new AttachmentVO();
+                    attachment.setPostId(postId);
+                    attachment.setOriginalName(originalName);
+                    attachment.setStoredName(storedName);
+                    attachment.setFileSize(file.getSize());
+
+                    boardMapper.insertAttachment(attachment);
+
+                } catch (IOException e) {
+                    throw new RuntimeException("파일 저장 실패: " + originalName, e);
+                }
+            }
+        }
     }
 
 }

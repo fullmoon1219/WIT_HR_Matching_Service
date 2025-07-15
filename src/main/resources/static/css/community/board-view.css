@@ -335,3 +335,42 @@ hr {
 .heart-icon.liked {
     color: red;
 }
+
+.reply-toggle {
+    color: #007bff;
+    cursor: pointer;
+    margin-left: 60px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.replies {
+    margin-left: 60px;
+    border-left: 2px solid #eee;
+    padding-left: 10px;
+}
+
+.comments-show-more,
+.replies-show-more {
+    cursor: pointer;
+    color: #007bff;
+    font-size: 14px;
+    margin: 10px 0 10px 60px;
+}
+
+a.like-button {
+    color: gray !important;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+a.like-button.liked {
+    color: red !important;
+}
+
+.deleted {
+    color: #999;
+    font-style: italic;
+}
+
