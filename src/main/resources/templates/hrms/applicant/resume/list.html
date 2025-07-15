@@ -1,61 +1,45 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-	<meta name="_csrf" th:content="${_csrf.token}" />
-	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+        <link rel="stylesheet" href="/css/user/list.css">
+    </th:block>
 
-	<title>내 이력서 목록</title>
+    <section layout:fragment="content">
+        <section class="resume-management">
+            <h2>이력서 관리</h2>
+            <ul class="guide-text">
+                <li>이력서는 <b>저장</b> 또는 <b>임시저장</b>할 수 있으며, 언제든 작성을 이어갈 수 있습니다.</li>
+                <li>대표 이력서를 설정하지 않아도 모든 공고에 자유롭게 지원할 수 있습니다.</li>
+                <li>지원 시 이력서 내용은 제출 시점을 기준으로 저장되므로, 이후 원본을 수정해도 지원 내역에는 반영되지 않습니다.</li>
+                <li><b>대표 이력서</b>는 기업의 채용 제안을 받기 위해 이력서를 공개하는 기능이며, <b>오직 하나만 설정</b>할 수 있습니다.</li>
+                <li>대표 이력서로 설정하면 해당 이력서는 수정 및 삭제가 불가능해집니다.</li>
+                <li>이력서를 삭제할 경우, <b>지원 현황</b>에서도 해당 이력서를 확인할 수 없으니 신중하게 결정해주세요.</li>
+            </ul>
 
-	<script src="/js/jquery-3.7.1.min.js"></script>
-	<script src="/js/csrf-setup.js"></script>
+            <div class="notice-button" onclick="location.href='/applicant/resume/register'">
+                <strong>이력서 작성 ✍️</strong>
+                <p>언제든 쉽게 이력서 작성이 가능합니다.</p>
+            </div>
 
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+            <div class="resume-list">
+                <h3>내 이력서 목록</h3>
+                <ul class="resume-items" id="completedResumeList">
+                </ul>
+            </div>
 
-	<script src="/js/applicant/common.js"></script>
-	<script src="/js/applicant/resume/resume_list.js"></script>
-</head>
-<body>
+            <div class="resume-list">
+                <h3>임시 저장된 이력서 목록</h3>
+                <ul class="resume-items" id="draftResumeList">
+                </ul>
+            </div>
+        </section>
 
 
-<a href="/applicant/resume/register">새 이력서 작성</a>
+<!--건들지 말기-->
+    </section>
 
-<br /><br />
+</div>
 
-<h3>이력서 목록</h3>
-<table border="1" cellspacing="0" id="resumeTable">
-	<thead>
-	<tr>
-		<th>대표 이력서 설정</th>
-		<th>제목</th>
-		<th>마지막 업데이트</th>
-		<th></th> <!-- 수정 버튼 -->
-		<th></th> <!-- 삭제 버튼 -->
-	</tr>
-	</thead>
-	<tbody id="resumeListBody">
-	<!-- JS에서 채움 -->
-	</tbody>
-</table>
-
-<br /><br />
-
-<h3>임시 저장된 이력서 목록</h3>
-<table border="1" cellspacing="0" id="draftTable">
-	<thead>
-	<tr>
-		<th>제목</th>
-		<th>마지막 업데이트</th>
-		<th></th> <!-- 수정 버튼 -->
-		<th></th> <!-- 삭제 버튼 -->
-	</tr>
-	</thead>
-	<tbody id="draftListBody">
-	<!-- JS에서 채움 -->
-	</tbody>
-</table>
-
-</body>
-</html>
+<script src="/js/applicant/common.js"></script>
+<script src="/js/applicant/resume/resume_list.js"></script>

@@ -2,7 +2,10 @@ package org.wit.hrmatching.service.applicant;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.wit.hrmatching.dao.applicant.ResumeDAO;
+import org.wit.hrmatching.exception.IncompleteProfileException;
+import org.wit.hrmatching.exception.ResumeNotFoundException;
 import org.wit.hrmatching.vo.user.ApplicantProfilesVO;
 import org.wit.hrmatching.vo.resume.ResumeVO;
 import org.wit.hrmatching.vo.user.UserVO;
@@ -63,12 +66,16 @@ public class ResumeService {
 		return resumeDAO.updatePrivateResume(resumeId);
 	}
 
-	public boolean setResumeAsPublic(long resumeId, long userId) {
+	@Transactional
+	public void setResumeAsPublic(long resumeId, long userId) {
+
+		if (!confirmProfile(userId)) {
+			throw new IncompleteProfileException("개인정보 입력이 완료되지 않았습니다.");
+		}
 
 		resumeDAO.resetPublicResume(userId);
 		resumeDAO.updatePrimaryResume(resumeId, userId);
-
-		return resumeDAO.updatePublicResume(resumeId);
+		resumeDAO.updatePublicResume(resumeId);
 	}
 
 	public boolean confirmProfile(long userId) {
@@ -100,20 +107,19 @@ public class ResumeService {
 		return resumeDAO.findOwnerIdByResumeId(resumeId);
 	}
 
-	public String editResume(ResumeVO resumeVO) {
+	@Transactional
+	public void editResume(ResumeVO resumeVO) {
 
 		ResumeVO existingResume = resumeDAO.getResume(resumeVO.getId());
 
 		if (existingResume == null) {
-			return "NOT_FOUND";
+			throw new ResumeNotFoundException("수정할 이력서를 찾을 수 없습니다.");
 		}
 
 		boolean updateSuccess = resumeDAO.editResume(resumeVO);
 
-		if (updateSuccess) {
-			return "SUCCESS";
-		} else {
-			return "UPDATE_FAILED";
+		if (!updateSuccess) {
+			throw new RuntimeException("이력서 수정 중 데이터베이스 오류가 발생했습니다.");
 		}
 	}
 

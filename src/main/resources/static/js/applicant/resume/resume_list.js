@@ -13,18 +13,18 @@ function loadResumes() {
         method: 'GET',
         success: function (resumes) {
 
-            const tbody = $('#resumeListBody');
-            tbody.empty();
+            const listContainer = $('#completedResumeList');
+            listContainer.empty();
 
             if (!resumes || resumes.length === 0) {
-                const emptyRow = '<tr><td colspan="5" style="text-align: center;">작성된 이력서가 없습니다.</td></tr>';
-                tbody.append(emptyRow);
+                const emptyItem = '<li class="empty-list">작성된 이력서가 없습니다.</li>';
+                listContainer.append(emptyItem);
                 return;
             }
 
             resumes.forEach(resume => {
-                const row = makeRow(resume, resume.isPublic);
-                tbody.append(row);
+                const listItem = makeCompletedListItem(resume);
+                listContainer.append(listItem);
             });
         },
         error: function (xhr) {
@@ -41,68 +41,77 @@ function loadResumes() {
 
 }
 
-function makeRow(resume, isPublic) {
+function makeCompletedListItem(resume) {
 
-    const icon = isPublic ? '<span>◆</span>' : '<span>◇</span>';
-    const titleLink = `<a href="/applicant/resume/view/${resume.id}">${resume.title}</a>`;
+    const isPublic = resume.isPublic;
+    const starButton = isPublic
+        ? `<button class="star-button selected" title="대표 이력서 해제" onclick="handlePublicClick(${resume.id}, true)">★</button>`
+        : `<button class="star-button" title="대표 이력서로 설정" onclick="handlePublicClick(${resume.id}, false)">☆</button>`;
 
-    const editButton = isPublic
-        ? `<button class="btn btn-secondary" disabled>수정</button>`
-        : `<button class="btn btn-primary" onclick="location.href='/applicant/resume/edit/${resume.id}'">수정</button>`;
-
-    const deleteButton = isPublic
-        ? `<button class="btn btn-secondary" disabled>삭제</button>`
-        : `<button class="btn btn-danger" onclick="deleteResume(${resume.id})">삭제</button>`;
+    // 대표 이력서(isPublic=true)는 수정/삭제 버튼을 비활성화
+    const actionButtons = isPublic
+        ? `<button class="btn-small" disabled>수정</button> <button class="btn-small" disabled>삭제</button>`
+        : `<button class="btn-small" onclick="location.href='/applicant/resume/edit/${resume.id}'">수정</button>
+           <button class="btn-small" onclick="deleteResume(${resume.id})">삭제</button>`;
 
     return `
-        <tr>
-            <td onclick="handlePublicClick(${resume.id}, ${isPublic})" style="cursor: pointer; text-align: center;">
-                ${icon}
-            </td>
-            <td>${titleLink}</td>
-            <td>${resume.updatedAt}</td>
-            <td>${editButton}</td>
-            <td>${deleteButton}</td>
-        </tr>
+        <li>
+            <div class="resume-main-select">${starButton}</div>
+            <div class="resume-info">
+                <a href="/applicant/resume/view/${resume.id}" class="resume-title-link">
+                    <div class="resume-title">${resume.title}</div>
+                </a>
+                <div class="resume-date">${resume.updatedAt}</div>
+            </div>
+            <div class="resume-actions-inline">${actionButtons}</div>
+        </li>
     `;
 }
+
 
 function loadDraftResumes() {
     $.ajax({
         url: '/api/resumes/draft',
         method: 'GET',
         success: function (drafts) {
-            const tbody = $('#draftListBody');
-            tbody.empty();
+            const listContainer = $('#draftResumeList');
+            listContainer.empty();
 
             if (!drafts || drafts.length === 0) {
-                const emptyRow = `
-                    <tr>
-                        <td colspan="4" style="text-align: center;">임시 저장된 이력서가 없습니다</td>
-                    </tr>
-                `;
-                tbody.append(emptyRow);
-                return; // 데이터 없으면 여기서 끝
+                const emptyItem = '<li class="empty-list">임시 저장된 이력서가 없습니다.</li>';
+                listContainer.append(emptyItem);
+                return;
             }
 
             drafts.forEach(draft => {
-                const row = `
-                    <tr>
-                        <td><a href="/applicant/resume/view/${draft.id}">${draft.title}</a></td>
-                        <td>${draft.updatedAt}</td>
-                        <td><a href="/applicant/resume/edit/${draft.id}">수정</a></td>
-                        <td><button onclick="deleteResume(${draft.id})">삭제</button></td>
-                    </tr>
-                `;
-                tbody.append(row);
+                const listItem = makeDraftListItem(draft);
+                listContainer.append(listItem);
             });
         },
         error: function (xhr) {
-            console.log('임시 저장 이력서 로드 실패: ', xhr);
+            console.log('임시 저장 이력서 로딩 중 오류: ', xhr);
             location.href = '/error/db-access-denied';
         }
     });
 }
+
+function makeDraftListItem(draft) {
+    return `
+        <li>
+            <div class="resume-info">
+                 <a href="/applicant/resume/edit/${draft.id}" class="resume-title-link">
+                    <div class="resume-title">${draft.title}</div>
+                </a>
+                <div class="resume-date">${draft.updatedAt}</div>
+            </div>
+            <div class="resume-actions-inline">
+                <button class="btn-small" onclick="location.href='/applicant/resume/edit/${draft.id}'">수정</button>
+                <button class="btn-small" onclick="deleteResume(${draft.id})">삭제</button>
+            </div>
+        </li>
+    `;
+}
+
 
 function deleteResume(resumeId) {
 
