@@ -30,8 +30,10 @@
             </div>
 
             <div class="form-group">
-                <label for="content">내용</label>
-                <textarea id="content" name="content" placeholder="내용을 입력하세요" rows="12" required></textarea>
+                <label for="editor">내용</label>
+                <div id="editor"></div>
+                <!-- 실제 form 전송용 hidden 필드 -->
+                <input type="hidden" name="content" id="content">
             </div>
 
             <div class="form-group">
@@ -48,7 +50,10 @@
 </div>
 <script src="/js/community/board-write.js"></script>
 <script th:inline="javascript">
-    const boardMap = {};
+    if (typeof boardMap === 'undefined') {
+        var boardMap = {};
+    }
+
     /*<![CDATA[*/
     [[${boardList}]].forEach(board => {
         boardMap[board.id] = {

@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.wit.hrmatching.config.auth.CustomAuthenticationFailureHandler;
 import org.wit.hrmatching.config.auth.CustomAuthenticationProvider;
 import org.wit.hrmatching.config.auth.CustomLoginSuccessHandler;
@@ -47,12 +48,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> {})
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(
+                                new AntPathRequestMatcher("/api/community/image-upload"),
+                                new AntPathRequestMatcher("/api/community/delete-temp-images")
+                        )
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/users/login", "/users/register", "/users/register-success", "/users/verify",
                                 "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**",
                                 "/api/users/email-exists", "/error/**", "/api/users", "/api/users/verify-email",
-                                "/users/delete-success", "/community/**", "/employer/**", "/users/mypage/**",
+                                "/users/delete-success", "/employer/**", "/users/mypage/**",
                                 "/recruit/**", "/api/recruit/**", "/api/tech-stacks")
                         .permitAll()  // 로그인 없이 접근 허용
                         .requestMatchers("/admin/**").hasAuthority("ADMIN") // 관리자 전용

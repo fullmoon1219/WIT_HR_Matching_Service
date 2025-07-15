@@ -37,13 +37,13 @@
 }
 
 .post-title {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 600;
     margin-bottom: 8px;
 }
 
 .post-meta {
-    font-size: 13px;
+    font-size: 14px;
     color: #666;
 }
 
@@ -312,4 +312,26 @@ hr {
 
 .comment-actions a:hover {
     text-decoration: underline;
+}
+
+.post-content img {
+    max-width: 100%;     /* 부모 요소 너비를 넘지 않음 */
+    height: auto;        /* 비율 유지 */
+    display: block;
+    margin: 10px 0;
+}
+
+.edit-btn,
+.delete-btn {
+    display: none;
+}
+
+.heart-icon {
+    cursor: pointer;
+    color: gray;
+    transition: color 0.2s ease;
+}
+
+.heart-icon.liked {
+    color: red;
 }

@@ -14,4 +14,146 @@
         ORDER BY id ASC
     </select>
 
+    <insert id="insertPost" parameterType="org.wit.hrmatching.vo.community.PostVO"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO community_post (board_id, user_id, title, content)
+        VALUES (#{boardId}, #{userId}, #{title}, #{content})
+    </insert>
+
+    <insert id="insertAttachment" parameterType="org.wit.hrmatching.vo.community.AttachmentVO">
+        INSERT INTO community_attachment (post_id, original_name, stored_name, file_size)
+        VALUES (#{postId}, #{originalName}, #{storedName}, #{fileSize})
+    </insert>
+
+    <select id="getCommunityPostList" resultType="org.wit.hrmatching.dto.community.CommunityPostListDTO">
+        SELECT
+        p.id,
+        b.name AS boardName,
+        p.title,
+        u.name AS writerName,
+        DATE_FORMAT(p.updated_at, '%Y-%m-%d') AS updatedAt,
+        p.view_count,
+        p.like_count,
+        COUNT(c.id) AS commentCount,
+        CASE
+        WHEN EXISTS (
+        SELECT 1
+        FROM community_post_like pl
+        WHERE pl.post_id = p.id
+        AND pl.user_id = #{userId}
+        )
+        THEN TRUE
+        ELSE FALSE
+        END AS liked
+        FROM community_post p
+        JOIN community_board b ON p.board_id = b.id
+        JOIN users u ON p.user_id = u.id
+        LEFT JOIN community_comment c ON p.id = c.post_id AND c.is_deleted = 0
+        WHERE p.is_deleted = 0
+        <choose>
+            <when test="boardCode != null and boardCode != '' and boardCode != 'all'">
+                AND b.code = #{boardCode}
+            </when>
+        </choose>
+        GROUP BY p.id, b.name, p.title, u.name, p.updated_at, p.view_count, p.like_count
+        ORDER BY p.updated_at DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+
+    <select id="getCommunityPostCount" resultType="long">
+        SELECT COUNT(*)
+        FROM community_post p
+        JOIN community_board b ON p.board_id = b.id
+        WHERE p.is_deleted = 0
+        <choose>
+            <when test="boardCode != null and boardCode != '' and boardCode != 'all'">
+                AND b.code = #{boardCode}
+            </when>
+        </choose>
+    </select>
+
+    <!-- 게시글 + 작성자 + 게시판 정보 -->
+    <select id="selectPostDetail" resultType="org.wit.hrmatching.dto.community.PostDetailDTO">
+        SELECT
+            p.id,
+            p.title,
+            p.content,
+            p.view_count AS viewCount,
+            p.like_count AS likeCount,
+            DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i') AS createdAt,
+            u.name AS writerName,
+            u.id AS writerId,
+            b.code AS boardCode,
+            b.name AS boardName,
+            b.description AS boardDescription
+        FROM community_post p
+                 JOIN users u ON p.user_id = u.id
+                 JOIN community_board b ON p.board_id = b.id
+        WHERE p.id = #{postId}
+    </select>
+
+    <!-- 첨부파일 목록 -->
+    <select id="selectAttachmentsByPostId" resultType="org.wit.hrmatching.vo.community.AttachmentVO">
+        SELECT
+            id, post_id AS postId, original_name AS originalName,
+            stored_name AS storedName, file_size AS fileSize, uploaded_at
+        FROM community_attachment
+        WHERE post_id = #{postId}
+    </select>
+
+    <!-- 댓글 목록 (평면 구조) -->
+    <select id="selectCommentsByPostId" resultType="org.wit.hrmatching.vo.community.CommentVO">
+        SELECT
+            c.id, c.post_id AS postId, c.user_id AS userId, c.parent_id AS parentId,
+            c.content, c.like_count AS likeCount, c.is_deleted AS isDeleted,
+            c.created_at,
+            u.name AS writerName,
+            u.email
+        FROM community_comment c
+                 JOIN users u ON c.user_id = u.id
+        WHERE c.post_id = #{postId}
+        ORDER BY c.created_at ASC
+    </select>
+
+    <update id="incrementViewCount">
+        UPDATE community_post
+        SET view_count = view_count + 1
+        WHERE id = #{postId}
+    </update>
+
+    <select id="hasUserLikedPost" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM community_post_like
+        WHERE post_id = #{postId} AND user_id = #{userId}
+    </select>
+
+    <insert id="insertPostLike">
+        INSERT INTO community_post_like (post_id, user_id)
+        VALUES (#{postId}, #{userId})
+    </insert>
+
+    <delete id="deletePostLike">
+        DELETE FROM community_post_like
+        WHERE post_id = #{postId} AND user_id = #{userId}
+    </delete>
+
+    <select id="countPostLikes" resultType="int">
+        SELECT COUNT(*)
+        FROM community_post_like
+        WHERE post_id = #{postId}
+    </select>
+
+    <update id="increasePostLikeCount">
+        UPDATE community_post
+        SET like_count = like_count + 1
+        WHERE id = #{postId}
+    </update>
+
+    <update id="decreasePostLikeCount">
+        UPDATE community_post
+        SET like_count = like_count - 1
+        WHERE id = #{postId} AND like_count > 0
+    </update>
+
 </mapper>
