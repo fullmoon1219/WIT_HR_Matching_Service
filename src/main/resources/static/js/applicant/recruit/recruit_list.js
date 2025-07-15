@@ -28,14 +28,14 @@ $(document).ready(function () {
 		targetDropdown.toggle();
 	});
 
-	$(document).on('click', '.recruit-card', function(e) {
+	$(document).on('click', '.recruit-card', function (e) {
 		if ($(e.target).is('a, a *')) return;
 
 		const jobPostId = $(this).data('jobpost-id');
 		if (jobPostId) window.open(`/recruit/view/${jobPostId}`, '_blank');
 	});
 
-	$('#pagination').on('click', '.page-btn', function(e) {
+	$('#pagination').on('click', '.page-btn', function (e) {
 		e.preventDefault();
 		const page = $(this).data('page');
 		currentFilters.page = page;
@@ -62,7 +62,7 @@ $(document).ready(function () {
 		loadRecruitList(currentFilters);
 	});
 
-	$('#reset-filters-btn').on('click', function() {
+	$('#reset-filters-btn').on('click', function () {
 		currentFilters = {
 			region: '',
 			techStacks: [],
@@ -149,7 +149,7 @@ function loadRecruitList(currentFilters) {
 			if (!recruits || recruits.length === 0) {
 				tbody.append('<div style="text-align: center;">공고가 없습니다.</div>');
 			} else {
-				recruits.forEach(function(recruit) {
+				recruits.forEach(function (recruit) {
 					const row = makeRow(recruit);
 					tbody.append(row);
 				});
@@ -192,6 +192,7 @@ function renderPagination(pagingInfo) {
 
 	const currentPage = pagingInfo.currentPage || pagingInfo.page;  // 둘 다 대응
 	const totalPage = pagingInfo.totalPage;
+}
 
 function performSearch() {
 	const keyword = $('#main-search').val();
