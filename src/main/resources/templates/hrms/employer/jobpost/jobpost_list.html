@@ -1,4 +1,4 @@
-<!-- /templates/hrms/employer/mypagge/post-list.html -->
+<!-- /templates/hrms/employer/jobpost_list.html -->
 
 <div layout:decorate="~{layout/employer/employer-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
@@ -25,20 +25,17 @@
             </div>
         </div>
 
-
         <div class="post-list-container">
             <div class="post-list-header">
-                <h3 class="table-title">📄 채용공고 목록</h3>
+                <h3 class="table-title">채용공고 목록</h3>
 
                 <div class="post-list-actions">
                     <input type="text" id="searchInput" th:value="${keyword}" placeholder="공고명 검색" class="search-input">
                     <button type="button" id="searchBtn" class="action-button">검색</button>
-
                     <button type="button" class="action-button register-button" id="openWriteFormBtn">공고 등록</button>
                     <button type="button" class="action-button delete-button" id="deleteJobPost">공고 삭제</button>
                 </div>
             </div>
-
 
             <table class="post-list-table">
                 <colgroup>
@@ -92,7 +89,6 @@
             </table>
 
             <div id="paginationContainer" class="pagination-container"></div>
-
 
         </div>
 

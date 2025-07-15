@@ -288,7 +288,7 @@
 .banner-text {
     position: absolute;
     top: 50%;
-    left: 30%;
+    left: 35%;
     transform: translate(-50%, -50%);
     color: white;
     font-size: 28px;
@@ -301,7 +301,7 @@
 .banner-text1 {
     position: absolute;
     top: 50%;
-    left: 30%;
+    left: 35%;
     transform: translate(-50%, -50%);
     text-align: center;
     color: #222;
@@ -311,9 +311,9 @@
 
 /* 텍스트 제목 (before 사용) */
 .banner-text1::before {
-    content: "필요한 인재를 직접 찾고, 바로 제안하세요 !";
+    content: "필요한 인재를 직접 찾고, 바로 제안하세요";
     display: block;
-    font-size: 35px;
+    font-size: 30px;
     font-weight: 700;
     margin-bottom: 10px;
     color: #111;
@@ -321,9 +321,9 @@
 
 /* 텍스트 부제목 (after 사용) */
 .banner-text1::after {
-    content: "우리 기업에 꼭 맞는 인재를 지금 바로 검색해보세요.";
+    content: "우리 기업에 꼭 맞는 인재를 지금 바로 검색할 수 있습니다.";
     display: block;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 400;
     color: #444;
 }

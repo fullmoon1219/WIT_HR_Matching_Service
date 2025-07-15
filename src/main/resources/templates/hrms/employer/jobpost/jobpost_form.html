@@ -1,87 +1,76 @@
-<div class="write-container" xmlns:th="http://www.thymeleaf.org">
+<!-- /templates/hrms/employer/jobpost_form.html -->
 
-    <head>
-        <meta charset="UTF-8">
-        <title>신규 채용 공고</title>
+<div class="write-container">
+    <h2 class="write-title">📢 신규 채용 공고 </h2>
 
-    </head>
-    <body>
+    <form th:action="@{/employer/jobpost}" method="post">
+        <div class="form-group">
+            <label for="title">공고명</label>
+            <input type="text" id="title" name="title" required>
+        </div>
 
-    <div class="write-container">
-        <h2 class="write-title">📢 신규 채용 공고 </h2>
+        <div class="form-group">
+            <label for="jobCategory">직무</label>
+            <input type="text" id="jobCategory" name="jobCategory" placeholder="예: 백엔드 개발자" required>
+        </div>
 
-        <form th:action="@{/employer/jobpost}" method="post">
-            <div class="form-group">
-                <label for="title">공고명</label>
-                <input type="text" id="title" name="title" required>
-            </div>
+        <div class="form-group">
+            <label for="description">상세 설명</label>
+            <textarea id="description" name="description" class="form-control" rows="10" placeholder="상세 설명을 입력하세요"></textarea>
+        </div>
 
-            <div class="form-group">
-                <label for="jobCategory">직무</label>
-                <input type="text" id="jobCategory" name="jobCategory" placeholder="예: 백엔드 개발자" required>
-            </div>
-
-            <div class="form-group">
-                <label for="description">상세 설명</label>
-                <textarea id="description" name="description" class="form-control" rows="10" placeholder="상세 설명을 입력하세요"></textarea>
-            </div>
-
-
-            <div class="form-group">
-                <label>기술 스택</label>
-                <div id="stack-container">
-                    <div th:each="stack : ${stackList}" style="display:inline-block; margin: 2px;">
-                        <button type="button"
-                                class="stack-tag"
-                                th:data-id="${stack.id}"
-                                th:text="${stack.name}">
-                        </button>
-                    </div>
-                </div>
-                <input type="hidden" name="requiredSkills" id="techStacksInput">
-            </div>
-
-            <div class="form-row">
-                <div class="form-group half">
-                    <label for="salary">급여</label>
-                    <input type="text" id="salary" name="salary" placeholder="예: 연 4,000만원">
-                </div>
-
-                <div class="form-group half">
-                    <label for="employmentType">고용형태</label>
-                    <select id="employmentType" name="employmentType">
-                        <option value="FULLTIME" selected>정규직</option>
-                        <option value="PARTTIME">파트타임</option>
-                        <option value="INTERN">인턴</option>
-                        <option value="FREELANCE">프리랜서</option>
-                    </select>
-                </div>
-
-                <div class="form-group half">
-                    <label for="deadline">마감일</label>
-                    <input type="date" id="deadline" name="deadline" required>
+        <div class="form-group">
+            <label>기술 스택</label>
+            <div id="stack-container">
+                <div th:each="stack : ${stackList}" style="display:inline-block; margin: 2px;">
+                    <button type="button"
+                            class="stack-tag"
+                            th:data-id="${stack.id}"
+                            th:text="${stack.name}">
+                    </button>
                 </div>
             </div>
+            <input type="hidden" name="requiredSkills" id="techStacksInput">
+        </div>
 
-            <div class="form-row">
-                <div class="form-group half">
-                    <label for="location">근무지 (지역)</label>
-                    <input type="text" id="location" name="location" placeholder="예: 서울, 경기, 충북" required>
-                </div>
-                <div class="form-group half">
-                    <label for="workplaceAddress">근무지 상세 주소</label>
-                    <input type="text" id="workplaceAddress" name="workplaceAddress" placeholder="예: 마포구 합정동 114">
-                </div>
+        <div class="form-row">
+            <div class="form-group half">
+                <label for="salary">급여</label>
+                <input type="text" id="salary" name="salary" placeholder="예: 연 4,000만원">
             </div>
 
-            <div class="form-actions">
-                <button type="submit" class="submit-button">등록하기</button>
-                <button type="button" class="cancel-button">취소</button>
+            <div class="form-group half">
+                <label for="employmentType">고용형태</label>
+                <select id="employmentType" name="employmentType">
+                    <option value="FULLTIME" selected>정규직</option>
+                    <option value="PARTTIME">파트타임</option>
+                    <option value="INTERN">인턴</option>
+                    <option value="FREELANCE">프리랜서</option>
+                </select>
             </div>
-        </form>
-    </div>
 
-    <script src="/js/employer/post-write.js"></script>
+            <div class="form-group half">
+                <label for="deadline">마감일</label>
+                <input type="date" id="deadline" name="deadline" required>
+            </div>
+        </div>
 
-    </body>
+        <div class="form-row">
+            <div class="form-group half">
+                <label for="location">근무지 (지역)</label>
+                <input type="text" id="location" name="location" placeholder="예: 서울, 경기, 충북" required>
+            </div>
+            <div class="form-group half">
+                <label for="workplaceAddress">근무지 상세 주소</label>
+                <input type="text" id="workplaceAddress" name="workplaceAddress" placeholder="예: 마포구 합정동 114">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="submit-button">등록하기</button>
+            <button type="button" class="cancel-button">취소</button>
+        </div>
+    </form>
 </div>
+
+<script src="/js/employer/post-write.js"></script>
