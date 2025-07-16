@@ -12,7 +12,8 @@ $(document).ready(function () {
         previewStyle: 'vertical'
     });
 
-    const postId = $("#postId").val();  // 숨겨진 필드 또는 URL로부터 postId 확보
+    const postId = $("#postId").val();  // 수정 시 사용
+    const boardCode = $("#boardCode").val(); // 게시판 코드 (숨겨진 필드)
     const $select = $("#board");
     const $desc = $("#board-description");
 
@@ -57,12 +58,10 @@ $(document).ready(function () {
         selectedFiles.splice(index, 1);
         $(this).parent().remove();
 
-        // input 초기화 및 재설정
         const dataTransfer = new DataTransfer();
         selectedFiles.forEach(file => dataTransfer.items.add(file));
         $("#file")[0].files = dataTransfer.files;
 
-        // 인덱스 재설정
         $("#selectedFileList li").each((i, el) => $(el).attr("data-index", i));
     });
 
@@ -75,7 +74,6 @@ $(document).ready(function () {
                 $("#title").val(post.title);
                 editor.setMarkdown(post.content);
 
-                // 기존 첨부파일 보여주기
                 if (post.attachments && post.attachments.length > 0) {
                     $("#existingFileList").empty();
                     post.attachments.forEach(file => {
@@ -94,7 +92,7 @@ $(document).ready(function () {
         });
     }
 
-    // ✅ 기존 첨부파일 제거 클릭 시
+    // ✅ 기존 첨부파일 제거
     $(document).on("click", ".remove-existing-file-btn", function () {
         $(this).parent().remove();
     });
@@ -105,7 +103,7 @@ $(document).ready(function () {
 
         const title = $("#title").val().trim();
         const boardId = $("#board").val();
-        const content = editor.getMarkdown(); // 또는 .getHTML() 사용 가능
+        const content = editor.getMarkdown();
 
         if (!title || !content) {
             alert("제목과 내용을 모두 입력해주세요.");
@@ -117,12 +115,10 @@ $(document).ready(function () {
         formData.append("boardId", boardId);
         formData.append("content", content);
 
-        // 새로 선택된 파일 추가
         selectedFiles.forEach(file => {
             formData.append("files", file);
         });
 
-        // 기존 첨부파일 중 유지할 파일 ID만 추가
         $("#existingFileList li").each(function () {
             const fileId = $(this).data("id");
             formData.append("existingFileIds", fileId);
@@ -137,26 +133,10 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             data: formData,
-            success: function () {
+            success: function (savedPostId) {
                 alert(postId ? "수정이 완료되었습니다." : "등록이 완료되었습니다.");
-
-                // 수정이면 상세 페이지로 돌아가기
-                if (postId) {
-                    $.ajax({
-                        url: `/community/posts/view/${postId}`,
-                        method: "GET",
-                        success: function (html) {
-                            $("#floatingSidebarContent").html(html);
-                            $("#floatingSidebar").addClass("show");
-                            $("#floatingOverlay").addClass("show");
-                            if (typeof loadPostDetail === "function") {
-                                loadPostDetail(postId);
-                            }
-                        }
-                    });
-                } else {
-                    location.reload();
-                }
+                // 상세 페이지로 이동
+                location.href = `/community/${boardCode}/view/${savedPostId || postId}`;
             },
             error: function () {
                 alert("게시글 " + (postId ? "수정" : "등록") + "에 실패했습니다.");
@@ -164,34 +144,10 @@ $(document).ready(function () {
         });
     });
 
-
-    // ✅ 취소 버튼: 수정 화면일 경우 플로팅바로 돌아감
+    // ✅ 취소 버튼: 게시판 목록으로 이동
     $("#cancelModify").on("click", function () {
-        const postId = $("#postId").val();
-
-        if (!postId) {
-            alert("게시글 ID가 없습니다.");
-            return;
+        if (confirm("작성을 취소하고 목록으로 돌아가시겠습니까?")) {
+            location.href = `/community/${boardCode}`;
         }
-
-        $.ajax({
-            url: `/community/posts/view/${postId}`,
-            method: "GET",
-            success: function (html) {
-                $("#floatingSidebarContent").html(html);
-                $("#floatingSidebar").addClass("show");
-                $("#floatingOverlay").addClass("show");
-
-                if (typeof loadPostDetail === "function") {
-                    loadPostDetail(postId);
-                } else {
-                    console.warn("⚠ loadPostDetail 함수가 정의되어 있지 않습니다.");
-                }
-            },
-            error: function () {
-                alert("게시글 상세 페이지를 불러오지 못했습니다.");
-            }
-        });
     });
-
 });

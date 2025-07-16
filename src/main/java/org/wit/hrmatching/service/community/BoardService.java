@@ -187,6 +187,7 @@ public class BoardService {
         boardMapper.incrementViewCount(postId);
     }
 
+    @Transactional
     public boolean togglePostLike(Long postId, Long userId) {
         if (boardMapper.hasUserLikedPost(postId, userId)) {
             // 좋아요 취소
@@ -259,6 +260,7 @@ public class BoardService {
         return boardMapper.selectPostWriter(postId);
     }
 
+    @Transactional
     public boolean toggleCommentLike(Long commentId, Long userId) {
         if (boardMapper.hasUserLikedComment(commentId, userId)) {
             boardMapper.deleteCommentLike(commentId, userId);

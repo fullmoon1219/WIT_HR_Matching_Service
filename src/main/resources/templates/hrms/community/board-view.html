@@ -1,62 +1,70 @@
 <!-- /templates/hrms/community/board-view.html -->
 
-<div class="view-container">
-    <div class="view-header">
-        <span class="view-title" id="viewBoardTitle">게시판 이름</span>
-        <br>
-        <span class="view-description" id="viewBoardDescription">게시판 설명</span>
-    </div>
+<div layout:decorate="~{layout/community/community-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-    <div class="view-content">
-        <!-- 게시글 헤더 -->
-        <div class="post-header">
-            <input type="hidden" id="postId" th:value="${postId}" />
-            <h3 class="post-title" id="viewPostTitle">제목</h3>
-            <div class="post-meta">
-                <span id="viewWriterName">작성자</span> |
-                <span id="viewCreatedAt">작성일</span> |
-                <span id="viewViewCount">조회수</span> |
-                <span id="viewLikeCount" class="heart-icon">♥</span>
-            </div>
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/community/board-view.css">
+    </th:block>
+
+    <section layout:fragment="content">
+        <input type="hidden" id="boardCode" th:value="${boardCode}" />
+        <div class="view-header">
+            <span class="view-title" id="viewBoardTitle">게시판 이름</span>
+            <br>
+            <span class="view-description" id="viewBoardDescription">게시판 설명</span>
         </div>
 
-        <hr>
-
-        <!-- 게시글 본문 -->
-        <div class="post-content" id="viewPostContent"></div>
-
-        <!-- 첨부파일 영역 -->
-        <div class="post-files" id="viewAttachments" style="display:none">
-            <h4>📎 첨부파일</h4>
-            <ul id="attachmentList"></ul>
-        </div>
-
-        <!-- 댓글 목록 -->
-        <div class="post-comments">
-            <h4>💬 댓글</h4>
-
-            <!-- 댓글 작성 영역 -->
-            <div class="comment-input-box">
-                <div class="comment-user" id="currentUser">이름(이메일)</div>
-                <textarea class="comment-textarea" placeholder="댓글을 남겨보세요"></textarea>
-                <div class="comment-footer">
-                    <div class="comment-actions">
-                        <button class="comment-icon"><i class="fa-regular fa-image"></i></button>
-                    </div>
-                    <button class="submit-comment">등록</button>
+        <div class="view-content">
+            <!-- 게시글 헤더 -->
+            <div class="post-header">
+                <input type="hidden" id="postId" th:value="${postId}" />
+                <h3 class="post-title" id="viewPostTitle">제목</h3>
+                <div class="post-meta">
+                    <span id="viewWriterName">작성자</span> |
+                    <span id="viewCreatedAt">작성일</span> |
+                    <span id="viewViewCount">조회수</span> |
+                    <span id="viewLikeCount" class="heart-icon">♥</span>
                 </div>
             </div>
 
-            <div id="commentList"></div>
-        </div>
+            <hr>
 
-        <!-- 버튼 영역 -->
-        <div class="view-buttons">
-            <button class="edit-btn" id="editPostBtn">수정</button>
-            <button class="delete-btn" id="deletePostBtn">삭제</button>
-            <button class="back-btn" id="closeFloatingSidebar">목록</button>
+            <!-- 게시글 본문 -->
+            <div class="post-content" id="viewPostContent"></div>
+
+            <!-- 첨부파일 영역 -->
+            <div class="post-files" id="viewAttachments" style="display:none">
+                <h4>📎 첨부파일</h4>
+                <ul id="attachmentList"></ul>
+            </div>
+
+            <!-- 댓글 목록 -->
+            <div class="post-comments">
+                <h4>💬 댓글</h4>
+
+                <!-- 댓글 작성 영역 -->
+                <div class="comment-input-box">
+                    <div class="comment-user" id="currentUser">이름(이메일)</div>
+                    <textarea class="comment-textarea" placeholder="댓글을 남겨보세요"></textarea>
+                    <div class="comment-footer">
+                        <div class="comment-actions">
+                            <button class="comment-icon"><i class="fa-regular fa-image"></i></button>
+                        </div>
+                        <button class="submit-comment">등록</button>
+                    </div>
+                </div>
+
+                <div id="commentList"></div>
+            </div>
+
+            <!-- 버튼 영역 -->
+            <div class="view-buttons">
+                <button class="edit-btn" id="editPostBtn">수정</button>
+                <button class="delete-btn" id="deletePostBtn">삭제</button>
+                <button class="back-btn" id="closeFloatingSidebar">목록</button>
+            </div>
         </div>
-    </div>
+    </section>
 </div>
 
 <script src="/js/community/board-view.js"></script>

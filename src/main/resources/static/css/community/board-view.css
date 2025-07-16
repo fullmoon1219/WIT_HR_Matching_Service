@@ -315,8 +315,8 @@ hr {
 }
 
 .post-content img {
-    max-width: 100%;     /* 부모 요소 너비를 넘지 않음 */
-    height: auto;        /* 비율 유지 */
+    max-width: 40%;
+    height: auto;
     display: block;
     margin: 10px 0;
 }

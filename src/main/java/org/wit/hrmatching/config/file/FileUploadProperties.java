@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "upload")
 @Data
 public class FileUploadProperties {
+    private String userProfile;
     private String postDir;
     private String resumeDir;
     private String jobDir;

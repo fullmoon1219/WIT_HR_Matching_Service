@@ -38,12 +38,19 @@ public class CommunityController {
         return "community/board-write";
     }
 
-    @GetMapping("/posts/view/{postId}")
-    public String getPostFragment(@PathVariable Long postId, Model model) {
-        model.addAttribute("postId", postId);
+    @GetMapping("/{boardCode}/view/{postId}")
+    public String showPostView(@PathVariable String boardCode,
+                               @PathVariable Long postId,
+                               Model model) {
+        PostVO post = boardService.getPostWithBoard(postId);
 
-        return "community/board-view";
+        model.addAttribute("postId", postId);
+        model.addAttribute("post", post);
+        model.addAttribute("boardCode", boardCode);
+
+        return "community/board-view"; // 전체 페이지 템플릿
     }
+
 
     @GetMapping("/{boardCode}/edit/{postId}")
     public String showPostModify(@PathVariable String boardCode,
