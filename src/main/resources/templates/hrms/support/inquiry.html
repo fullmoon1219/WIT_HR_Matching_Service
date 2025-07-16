@@ -1,0 +1,45 @@
+<!-- /templates/hrms/support/inquiry.html -->
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>문의 등록</title>
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+
+    <link rel="stylesheet" href="/css/support/inquiry.css">
+
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/support/inquiry.js"></script>
+
+</head>
+<body>
+
+<div class="inquiry-form-container">
+    <h2>문의하기</h2>
+
+    <form id="inquiryForm">
+        <div class="form-group">
+            <label>문의 제목</label>
+            <input type="text" name="title" id="title" required>
+        </div>
+
+        <div class="form-group">
+            <label>문의 사유</label>
+            <select name="reasonId" id="reasonId" required>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>문의 내용</label>
+            <textarea id="content" name="content" rows="6" required></textarea>
+        </div>
+
+        <button type="submit">문의 등록</button>
+    </form>
+</div>
+</body>
+</html>
