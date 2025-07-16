@@ -32,4 +32,7 @@ public interface UserMapper {
     void updateLastLogin(Long id);
 
     int updatePassword(@Param("userId")Long userId, @Param("encodedPassword")String encodedPassword);
+
+    void updateVerificationToken(UserVO user);
+
 }

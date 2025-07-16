@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <title>Novi</title>
 
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <!-- CSS -->
     <link rel="stylesheet" href="/css/main/header.css">
     <link rel="stylesheet" href="/css/main/menu.css">

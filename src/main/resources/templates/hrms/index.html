@@ -11,6 +11,7 @@
             <div class="banner-text">
                 <span class="icon">&#x2139;</span>
                 메일 인증이 필요한 사용자입니다.
+                <span id="resendEmailBtn" class="resend-link" th:data-email="${userDetails.email}">메일 재전송</span>
             </div>
         </div>
 
@@ -114,6 +115,8 @@
 
 </div>
 
+<script src="/js/jquery-3.7.1.min.js"></script>
 <script src="/js/main/right-nav.js"></script>
 <script src="/js/main/banner-slider.js"></script>
 <script src="/js/main/header.js"></script>
+<script src="/js/main/index.js"></script>

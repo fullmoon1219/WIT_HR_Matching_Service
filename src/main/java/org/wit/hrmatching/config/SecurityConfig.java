@@ -61,6 +61,9 @@ public class SecurityConfig {
                                 "/users/delete-success", "/employer/**", "/users/mypage/**",
                                 "/recruit/**", "/api/recruit/**", "/api/tech-stacks")
                         .permitAll()  // 로그인 없이 접근 허용
+
+                        .requestMatchers("/api/auth/resend-verification").authenticated()
+
                         .requestMatchers("/admin/**").hasAuthority("ADMIN") // 관리자 전용
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
 //                        .requestMatchers("/employer/**").hasAuthority("EMPLOYER")

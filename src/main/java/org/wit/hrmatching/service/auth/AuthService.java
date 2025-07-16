@@ -170,4 +170,29 @@ public class AuthService {
     public void updateLastLoginTime(Long userId) {
         userMapper.updateLastLogin(userId);
     }
+
+    // 이메일 인증 토큰 재생성 및 이메일 재전송
+    public void resendVerificationEmail(String email) {
+        UserVO user = userMapper.findByEmail(email);
+
+        if (user == null) {
+            throw new IllegalArgumentException("존재하지 않는 이메일입니다.");
+        }
+
+        if (user.isEmailVerified()) {
+            throw new IllegalStateException("이미 이메일 인증이 완료된 사용자입니다.");
+        }
+
+        // 새 토큰 생성 및 저장
+        String newToken = UUID.randomUUID().toString();
+        LocalDateTime newExpiration = LocalDateTime.now().plusMinutes(30);
+
+        user.setVerificationToken(newToken);
+        user.setTokenExpiration(newExpiration);
+        userMapper.updateVerificationToken(user);
+
+        // 이메일 재전송
+        mailService.sendVerificationMail(email, newToken);
+    }
+
 }
