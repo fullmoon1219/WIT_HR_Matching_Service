@@ -1,9 +1,10 @@
-<!-- /templates/hrms/employer/mypagge/applcant-list.html -->
+<!-- /templates/hrms/employer/empApplication/list.html -->
 
 <div layout:decorate="~{layout/employer/employer-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
     <th:block layout:fragment="styles">
         <link rel="stylesheet" href="/css/employer/post-view.css">
+        <link rel="stylesheet" href="/css/employer/applicant_post-detail.css">
         <link rel="stylesheet" href="/css/employer/applicant-list.css">
         <link rel="stylesheet" href="/css/employer/applicant-detail.css">
         <link rel="stylesheet" href="/css/employer/fragment/pagination.css">
@@ -106,7 +107,7 @@
                         </td>
                         <td class="post-resume-link" th:data-id="${applicant.resumeId}" th:data-post-id="${applicant.jobPostId}"  th:text="${applicant.applicantName}">이름</td>
                         <td class="post-resume-link" th:data-id="${applicant.resumeId}" th:data-post-id="${applicant.jobPostId}"  th:text="${applicant.email}">이메일</td>
-                        <td th:text="${applicant.appliedAt}">신청일</td>
+                        <td th:text="${#temporals.format(applicant.appliedAt, 'yyyy-MM-dd')}">신청일</td>
 
                         <!-- 열람 여부 -->
                         <td>
