@@ -39,4 +39,13 @@ public interface InquiriesMapper {
     void updateReplyAndStatus(InquiryVO inquiry);
 
     List<Map<String, Object>> countByReason();
+
+    void insertInquiry(InquiryVO inquiryVO);
+
+    List<InquiryVO> getInquiriesByUserId(@Param("userId") Long userId,
+                                         @Param("size") int size,
+                                         @Param("offset") int offset);
+
+    long countInquiriesByUserId(@Param("userId") Long userId);
+
 }
