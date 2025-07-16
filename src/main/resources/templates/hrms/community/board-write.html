@@ -1,53 +1,62 @@
 <!-- /templates/hrms/community/board-write.html -->
 
+<div layout:decorate="~{layout/community/community-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-<div class="write-container">
-    <div class="write-header">
-        <span class="write-title">✍️ 글쓰기</span>
-        <br>
-        <span class="write-description" id="board-description" th:text="${description}"></span>
-        <br>
-        <span class="write-description">게시판에 자유롭게 의견을 남겨주세요.</span>
-    </div>
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/community/board-write.css">
+    </th:block>
 
-    <div class="write-content">
-        <form action="#" method="post" enctype="multipart/form-data">
+    <section layout:fragment="content">
+        <div class="write-header">
+            <span class="write-title">✍️ 글쓰기</span>
+            <br>
+            <span class="write-description" id="board-description" th:text="${description}"></span>
+            <br>
+            <span class="write-description">게시판에 자유롭게 의견을 남겨주세요.</span>
+        </div>
 
-            <div class="form-group">
-                <label for="board" class="form-label-inline">게시판 선택</label>
-                <select id="board" name="boardId" required class="form-select-inline">
-                    <option th:each="board : ${communityBoards}"
-                            th:value="${board.id}"
-                            th:text="${board.name}"
-                            th:selected="${board.code == boardCode}">
-                    </option>
-                </select>
-            </div>
+        <div class="write-content">
+            <form action="#" method="post" enctype="multipart/form-data">
 
-            <div class="form-group">
-                <label for="title">제목</label>
-                <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
-            </div>
+                <div class="form-group">
+                    <label for="board" class="form-label-inline">게시판 선택</label>
+                    <select id="board" name="boardId" required class="form-select-inline">
+                        <option th:each="board : ${communityBoards}"
+                                th:value="${board.id}"
+                                th:text="${board.name}"
+                                th:selected="${board.code == boardCode}"
+                                th:attr="data-code=${board.code}">
+                        </option>
+                    </select>
 
-            <div class="form-group">
-                <label for="editor">내용</label>
-                <div id="editor"></div>
-                <!-- 실제 form 전송용 hidden 필드 -->
-                <input type="hidden" name="content" id="content">
-            </div>
+                </div>
 
-            <div class="form-group">
-                <label for="file">첨부파일</label>
-                <input type="file" id="file" name="files" multiple>
-            </div>
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
+                </div>
 
-            <div class="form-buttons">
-                <button type="submit" class="submit-btn">등록</button>
-                <a href="javascript:void(0)" class="cancel-btn" id="cancelWrite">취소</a>
-            </div>
-        </form>
-    </div>
+                <div class="form-group">
+                    <label for="editor">내용</label>
+                    <div id="editor"></div>
+                    <!-- 실제 form 전송용 hidden 필드 -->
+                    <input type="hidden" name="content" id="content">
+                </div>
+
+                <div class="form-group">
+                    <label for="file">첨부파일</label>
+                    <input type="file" id="file" name="files" multiple>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="submit-btn">등록</button>
+                    <a href="javascript:void(0)" class="cancel-btn" id="cancelWrite">취소</a>
+                </div>
+            </form>
+        </div>
+    </section>
 </div>
+
 <script src="/js/community/board-write.js"></script>
 <script th:inline="javascript">
     if (typeof boardMap === 'undefined') {

@@ -10,6 +10,14 @@
         )
     </insert>
 
+    <update id="updateVerificationToken">
+        UPDATE users
+        SET verification_token = #{verificationToken},
+            token_expiration = #{tokenExpiration}
+        WHERE email = #{email}
+    </update>
+
+
     <select id="existsByEmail" resultType="boolean">
         SELECT EXISTS (
             SELECT 1 FROM users WHERE email = #{email}

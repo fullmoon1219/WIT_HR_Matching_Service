@@ -31,7 +31,7 @@ public interface BoardMapper {
 
     List<AttachmentVO> selectAttachmentsByPostId(@Param("postId") Long postId);
 
-    List<CommentVO> selectCommentsByPostId(@Param("postId") Long postId);
+    List<CommentVO> selectCommentsByPostId(@Param("postId") Long postId, @Param("userId") Long userId);
 
     void incrementViewCount(@Param("postId") Long postId);
 
@@ -43,4 +43,38 @@ public interface BoardMapper {
     void increasePostLikeCount(Long postId);
     void decreasePostLikeCount(Long postId);
 
+    int softDeletePost(@Param("postId") Long postId, @Param("userId") Long userId);
+
+    List<CommentVO> getParentComments(@Param("postId") Long postId, @Param("postWriterId") Long postWriterId);
+    List<CommentVO> getChildComments(@Param("parentId") Long parentId, @Param("postWriterId") Long postWriterId);
+
+
+    void insertComment(CommentVO comment);
+    void deleteComment(Long id);
+    void updateComment(CommentVO comment);
+
+    PostVO selectPostWriter(Long postId);
+
+    boolean hasUserLikedComment(@Param("commentId") Long commentId, @Param("userId") Long userId);
+    void insertCommentLike(@Param("commentId") Long commentId, @Param("userId") Long userId);
+    void deleteCommentLike(@Param("commentId") Long commentId, @Param("userId") Long userId);
+    void increaseCommentLikeCount(Long commentId);
+    void decreaseCommentLikeCount(Long commentId);
+
+    int getCommentLikeCount(Long commentId);
+    List<Long> getUserLikedCommentIds(@Param("postId") Long postId, @Param("userId") Long userId);
+
+    AttachmentVO selectAttachmentById(Long id);
+
+    PostVO selectPostWithBoard(Long postId);
+
+
+    void updatePost(@Param("postId") Long postId,
+                    @Param("title") String title,
+                    @Param("boardId") Long boardId,
+                    @Param("content") String content);
+
+    List<Long> findAttachmentIdsByPostId(@Param("postId") Long postId);
+
+    void deleteAttachmentsByIds(@Param("ids") List<Long> ids);
 }

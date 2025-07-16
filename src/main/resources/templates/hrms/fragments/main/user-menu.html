@@ -72,11 +72,12 @@
             <li class="dropdown">
                 <a th:href="@{/community/all}">커뮤니티</a>
                 <ul class="submenu">
-                    <li><a href="#">메뉴1</a></li>
-                    <li><a href="#">메뉴2</a></li>
-                    <li><a href="#">메뉴3</a></li>
-                    <li><a href="#">메뉴4</a></li>
-                    <li><a href="#">메뉴5</a></li>
+                    <li><a th:href="@{/community/all}">전체 게시판</a></li>
+                    <li><a th:href="@{/community/free}">자유 게시판</a></li>
+                    <li><a th:href="@{/community/qna}">Q&A 게시판</a></li>
+                    <li><a th:href="@{/community/study}">스터디 게시판</a></li>
+                    <li><a th:href="@{/community/feddback}">피드백 게시판</a></li>
+                    <li><a th:href="@{/community/jobshare}">채용 정보 게시판</a></li>
                 </ul>
             </li>
         </ul>

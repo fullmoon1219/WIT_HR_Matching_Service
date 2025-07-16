@@ -109,4 +109,10 @@ public class UserAuthRestController {
         boolean exists = userService.emailExists(email);
         return ResponseEntity.ok(Map.of("exists", exists));
     }
+
+    @PostMapping("/resend-verification")
+    public ResponseEntity<?> resendVerification(@RequestParam String email) {
+        authService.resendVerificationEmail(email);
+        return ResponseEntity.ok("인증 메일이 재전송되었습니다.");
+    }
 }

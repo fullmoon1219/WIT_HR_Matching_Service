@@ -74,6 +74,7 @@ spring:
             user-name-attribute: response
 
 upload:
+  user-profile: C:/Java/upload/users/profile/
   post-dir: C:/Java/upload/posts/attachments/
   post-image-dir: C:/Java/upload/posts/contents/
   resume-dir: C:/Java/upload/resumes/
