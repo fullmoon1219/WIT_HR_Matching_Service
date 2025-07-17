@@ -20,7 +20,8 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#pagination').on('click', 'a', function(e) {
+	// 기존 페이징 이벤트는 버튼 스타일로 변경될 예정이므로 'a' 대신 '.page-btn'
+	$('#pagination').on('click', '.page-btn', function(e) {
 		e.preventDefault();
 
 		const page = $(this).data('page');
@@ -94,7 +95,7 @@ $(document).ready(function() {
 	});
 
 	$('#resetBtn').on('click', function() {
-		loadBookmarkList({ keyword: '', page: 1 })
+		loadBookmarkList({ keyword: '', page: 1 });
 	});
 });
 
@@ -131,11 +132,12 @@ function loadBookmarkList(newCriteria = {}) {
 				});
 			}
 
-			// 페이징 UI 그리는 함수 호출
-			renderPagination(pagingInfo);
-
+			// 총 레코드 수 표시
 			const totalRecord = pagingInfo.totalRecord;
 			$('#totalRecord').html(totalRecord);
+
+			// 페이징 UI 그리는 함수 호출
+			renderPagination(pagingInfo);
 
 		},
 		error: function (xhr) {
@@ -144,7 +146,7 @@ function loadBookmarkList(newCriteria = {}) {
 			} else if (xhr.status === 404) {
 				location.href = '/error/not-found';
 			} else {
-				alert('스크랩 목록 불러오기에 실패했습니다. 나중에 다시 시도해주세요.')
+				alert('스크랩 목록 불러오기에 실패했습니다. 나중에 다시 시도해주세요.');
 				console.error("스크랩 목록 로딩 중 오류 발생:", xhr);
 			}
 		}
@@ -153,7 +155,7 @@ function loadBookmarkList(newCriteria = {}) {
 
 function makeRow(bookmark, rowNumber) {
 
-	//console.log("makeRow 함수로 전달된 bookmark 객체:", bookmark);
+	// console.log("makeRow 함수로 전달된 bookmark 객체:", bookmark);
 
 	return `
          <tr class="bookmark-row" data-jobPost-id="${bookmark.jobPostId}">
@@ -164,4 +166,23 @@ function makeRow(bookmark, rowNumber) {
             <td><button type="button" class="delete-bookmark-btn">삭제</button></td>
         </tr>
     `;
+}
+
+// ⭐ 페이징 버튼 디자인을 위한 renderPagination 함수
+function renderPagination(pagingInfo) {
+	const pagination = $('#pagination');
+	pagination.empty();
+
+	const currentPage = pagingInfo.currentPage || pagingInfo.page;
+	const totalPage = pagingInfo.totalPage;
+
+	if (totalPage <= 1) {
+		return;  // 페이지가 1 이하이면 페이징 표시 안함
+	}
+
+	for (let i = 1; i <= totalPage; i++) {
+		// 현재 페이지에 active 클래스 추가
+		const activeClass = (i === currentPage) ? 'active' : '';
+		pagination.append(`<button class="page-btn ${activeClass}" data-page="${i}">${i}</button>`);
+	}
 }
