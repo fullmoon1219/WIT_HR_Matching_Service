@@ -26,96 +26,180 @@
 <header th:replace="~{fragments/main/user-header :: header}"></header>
 <nav th:replace="~{fragments/main/user-menu :: menu}"></nav>
 
-<div id="main-filter-bar">
-	<div class="filter-wrapper" id="region-wrapper">
-		<button class="filter-toggle" data-type="region">지역 선택</button>
-	</div>
-
-	<div class="filter-wrapper" id="stack-wrapper">
-		<button class="filter-toggle" data-type="stack">기술 선택</button>
-	</div>
-
-	<div id="main-search-wrapper">
-		<input type="text" id="main-search" placeholder="공고명 또는 키워드 입력" />
-		<button id="search-btn">🔍 검색</button>
-	</div>
-
-	<div class="filter-wrapper" id="detail-wrapper">
-		<button class="filter-toggle" data-type="detail">+ 상세 조건</button>
-	</div>
+<div class="page-title-container">
+	<h2>채용 공고 및 검색</h2>
 </div>
 
-<div id="filter-dropdown-container">
-	<div class="filter-dropdown" id="region-dropdown">
-		<div class="filter-search-wrapper">
-			<input type="text" class="filter-search" data-type="region" placeholder="지역 입력" />
-			<span class="filter-search-icon">🔍</span>
-		</div>
-		<div class="filter-options" id="region-options">
-			<button class="filter-btn" data-value="서울">서울</button>
-			<button class="filter-btn" data-value="경기">경기</button>
-			<button class="filter-btn" data-value="인천">인천</button>
-			<button class="filter-btn" data-value="강원">강원</button>
-			<button class="filter-btn" data-value="대전">대전</button>
-			<button class="filter-btn" data-value="세종">세종</button>
-			<button class="filter-btn" data-value="충남">충남</button>
-			<button class="filter-btn" data-value="충북">충북</button>
-			<button class="filter-btn" data-value="광주">광주</button>
-			<button class="filter-btn" data-value="전남">전남</button>
-			<button class="filter-btn" data-value="전북">전북</button>
-			<button class="filter-btn" data-value="부산">부산</button>
-			<button class="filter-btn" data-value="대구">대구</button>
-			<button class="filter-btn" data-value="울산">울산</button>
-			<button class="filter-btn" data-value="경남">경남</button>
-			<button class="filter-btn" data-value="경북">경북</button>
-			<button class="filter-btn" data-value="제주">제주</button>
-		</div>
-	</div>
+<div class="filter-control-panel-card">
 
-	<div class="filter-dropdown" id="stack-dropdown">
-		<div class="filter-options" id="stack-options">
-			<button class="filter-btn" data-value="2">Java</button>
-			<button class="filter-btn" data-value="5">Python</button>
-			<button class="filter-btn" data-value="7">Kotlin</button>
-			<button class="filter-btn" data-value="6">JavaScript</button>
-			<button class="filter-btn" data-value="3">C</button>
-			<button class="filter-btn" data-value="4">C++</button>
-			<button class="filter-btn" data-value="8">SpringBoot</button>
-			<button class="filter-btn" data-value="9">Node.js</button>
-			<button class="filter-btn" data-value="10">React</button>
-			<button class="filter-btn" data-value="11">Vue.js</button>
-			<button class="filter-btn" data-value="16">JPA</button>
-			<button class="filter-btn" data-value="15">MyBatis</button>
-			<button class="filter-btn" data-value="12">MySQL</button>
-			<button class="filter-btn" data-value="13">MariaDB</button>
-			<button class="filter-btn" data-value="14">Oracle</button>
-			<button class="filter-btn" data-value="22">AWS</button>
-			<button class="filter-btn" data-value="19">Docker</button>
-			<button class="filter-btn" data-value="20">Jenkins</button>
-			<button class="filter-btn" data-value="23">NginX</button>
-			<button class="filter-btn" data-value="21">Git</button>
-			<button class="filter-btn" data-value="17">Maven</button>
-			<button class="filter-btn" data-value="18">Gradle</button>
-			<button class="filter-btn" data-value="1">Other</button>
+	<div id="main-filter-bar">
+
+		<div class="filter-wrapper" id="region-wrapper">
+			<button class="filter-toggle" data-type="region">
+				<span>지역 선택</span>
+				<span class="toggle-icon">
+	            <svg class="icon-down" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+	                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+	            </svg>
+	            <svg class="icon-up" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+	                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+	            </svg>
+	        </span>
+			</button>
+		</div>
+
+		<div class="filter-wrapper" id="stack-wrapper">
+			<button class="filter-toggle" data-type="stack">
+				<span>기술 선택</span>
+				<span class="toggle-icon">
+	            <svg class="icon-down" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+	                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+	            </svg>
+	            <svg class="icon-up" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+	                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+	            </svg>
+	        </span>
+			</button>
+		</div>
+
+		<div id="main-search-wrapper">
+			<input type="text" id="main-search" placeholder="검색어 입력" />
+			<button id="search-btn">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+				</svg>
+			</button>
+		</div>
+
+		<div class="filter-wrapper" id="detail-wrapper">
+			<button class="filter-toggle" data-type="detail">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+				     width="16" height="16">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+				</svg>
+				상세 조건</button>
 		</div>
 	</div>
 
-	<div class="filter-dropdown" id="detail-dropdown">
-		<div>(상세 조건 영역)</div>
+	<div id="filter-dropdown-container">
+		<div class="filter-dropdown" id="region-dropdown">
+			<div class="filter-search-wrapper">
+				<input type="text" class="filter-search" data-type="region" placeholder="지역 입력" />
+				<span class="filter-search-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </span>
+			</div>
+			<div class="filter-options" id="region-options">
+				<button class="filter-btn" data-value="서울">서울</button>
+				<button class="filter-btn" data-value="경기">경기</button>
+				<button class="filter-btn" data-value="인천">인천</button>
+				<button class="filter-btn" data-value="강원">강원</button>
+				<button class="filter-btn" data-value="대전">대전</button>
+				<button class="filter-btn" data-value="세종">세종</button>
+				<button class="filter-btn" data-value="충남">충남</button>
+				<button class="filter-btn" data-value="충북">충북</button>
+				<button class="filter-btn" data-value="광주">광주</button>
+				<button class="filter-btn" data-value="전남">전남</button>
+				<button class="filter-btn" data-value="전북">전북</button>
+				<button class="filter-btn" data-value="부산">부산</button>
+				<button class="filter-btn" data-value="대구">대구</button>
+				<button class="filter-btn" data-value="울산">울산</button>
+				<button class="filter-btn" data-value="경남">경남</button>
+				<button class="filter-btn" data-value="경북">경북</button>
+				<button class="filter-btn" data-value="제주">제주</button>
+			</div>
+		</div>
+
+		<div class="filter-dropdown" id="stack-dropdown">
+			<div class="filter-options" id="stack-options">
+				<button class="filter-btn" data-value="2">Java</button>
+				<button class="filter-btn" data-value="5">Python</button>
+				<button class="filter-btn" data-value="7">Kotlin</button>
+				<button class="filter-btn" data-value="6">JavaScript</button>
+				<button class="filter-btn" data-value="3">C</button>
+				<button class="filter-btn" data-value="4">C++</button>
+				<button class="filter-btn" data-value="8">SpringBoot</button>
+				<button class="filter-btn" data-value="9">Node.js</button>
+				<button class="filter-btn" data-value="10">React</button>
+				<button class="filter-btn" data-value="11">Vue.js</button>
+				<button class="filter-btn" data-value="16">JPA</button>
+				<button class="filter-btn" data-value="15">MyBatis</button>
+				<button class="filter-btn" data-value="12">MySQL</button>
+				<button class="filter-btn" data-value="13">MariaDB</button>
+				<button class="filter-btn" data-value="14">Oracle</button>
+				<button class="filter-btn" data-value="22">AWS</button>
+				<button class="filter-btn" data-value="19">Docker</button>
+				<button class="filter-btn" data-value="20">Jenkins</button>
+				<button class="filter-btn" data-value="23">NginX</button>
+				<button class="filter-btn" data-value="21">Git</button>
+				<button class="filter-btn" data-value="17">Maven</button>
+				<button class="filter-btn" data-value="18">Gradle</button>
+				<button class="filter-btn" data-value="1">Other</button>
+			</div>
+		</div>
+
+		<div class="filter-dropdown" id="detail-dropdown">
+			<div class="detail-filters-wrapper">
+
+				<div class="detail-filter-group">
+					<h4 class="filter-group-title">고용 형태</h4>
+					<div class="filter-options" id="employment-type-options">
+						<button class="filter-btn" data-type="employmentTypes" data-value="FULLTIME">정규직</button>
+						<button class="filter-btn" data-type="employmentTypes" data-value="PARTTIME">파트타임</button>
+						<button class="filter-btn" data-type="employmentTypes" data-value="INTERN">인턴</button>
+						<button class="filter-btn" data-type="employmentTypes" data-value="FREELANCE">프리랜서</button>
+					</div>
+				</div>
+
+				<div class="detail-filter-group">
+					<h4 class="filter-group-title">경력</h4>
+					<div class="filter-options" id="experience-type-options">
+						<button class="filter-btn" data-type="experienceTypes" data-value="NEWCOMER">신입</button>
+						<button class="filter-btn" data-type="experienceTypes" data-value="EXPERIENCED">경력</button>
+						<button class="filter-btn" data-type="experienceTypes" data-value="ANY">경력무관</button>
+					</div>
+				</div>
+
+				<div class="detail-filter-group">
+					<h4 class="filter-group-title">연봉정보</h4>
+					<div class="checkbox-options">
+						<div class="checkbox-item">
+							<input type="checkbox" id="salary-only" name="salaryOnly" value="true">
+							<label for="salary-only">연봉 정보가 있는 공고만 보기</label>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
 	</div>
-</div>
 
-<div class="reset-btn-container">
-	<button id="reset-filters-btn">🔄️ 필터 초기화</button>
-</div>
+	<div id="selected-filters-area" style="display: none;">
 
+		<div id="selected-tags-wrapper">
+		</div>
+
+		<div class="filter-actions">
+			<button type="button" id="reset-filters-btn" class="reset-link">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+				</svg>
+				<span>전체 해제</span>
+			</button>
+			<button type="button" id="apply-filters-btn" disabled>
+				선택한 조건으로 검색
+			</button>
+		</div>
+
+	</div>
+
+</div>
 
 <div class="list-wrapper">
-<h2>공고 목록</h2>
-<hr class="divider-line">
 
 <div class="list-controls">
-	<span>총 <span id="totalRecord"></span>건</span>
 	<select id="sort-order-select">
 		<option value="latest">최신 등록순</option>
 		<option value="oldest">오래된순</option>
@@ -123,6 +207,7 @@
 		<option value="views">조회수 높은순</option>
 		<option value="scraps">스크랩 많은순</option>
 	</select>
+	<span>총 <span id="totalRecord"></span>건</span>
 </div>
 
 <section id="recruit-list">
@@ -133,9 +218,9 @@
 <div id="pagination" class="pagination"></div>
 
 <div id="direct-page-wrapper">
-	<input type="number" id="direct-page-input" />
-	<button id="go-to-page-btn">이동</button>
+	<input type="number" id="direct-page-input" min="1" />
 	<span id="total-page-info"></span>
+	<button id="go-to-page-btn">이동</button>
 </div>
 
 <footer th:replace="~{fragments/main/user-footer :: footer}"></footer>
