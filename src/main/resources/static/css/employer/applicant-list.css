@@ -1,60 +1,159 @@
-/* /css/employer/applicant-list.css */
-
-.action-button {
-    padding: 6px 12px;
-    font-size: 13px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+/* ✅ 통계 카드 그리드 영역 (총 지원자, 미확인 등) */
+.card-grid {
+    display: grid; /* CSS Grid로 카드 배치 */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 최소 250px 단위로 자동 반복 */
+    gap: 20px; /* 카드 사이 간격 */
+    margin-bottom: 32px; /* 아래 여백 */
 }
 
+/* ✅ 개별 카드 스타일 */
+.card {
+    background: white; /* 배경 흰색 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    padding: 20px; /* 내부 여백 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* 그림자 효과 */
+}
+
+/* ✅ 카드 내부 타이틀 스타일 */
+.card h3 {
+    margin: 0 0 10px 0; /* 아래 여백 10px */
+    font-size: 20px;
+    color: #666; /* 회색 계열 */
+}
+
+/* ✅ 카드 안의 수치 값 표시 스타일 */
+.card .value {
+    font-size: 30px;
+    font-weight: bold;
+    color: #333; /* 진한 글씨 */
+}
+
+
+/* ✅ 테이블, 검색 등을 감싸는 전체 컨테이너 */
+.post-list-container {
+    max-width: 1400px; /* 최대 너비 */
+    margin: 20px auto; /* 위아래 여백 + 가운데 정렬 */
+    padding: 5px 24px 24px 24px; /* 상:5, 좌우:24, 하:24 */
+    background-color: #ffffff; /* 배경 흰색 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* 그림자 */
+}
+
+
+/* ✅ 제목과 검색창을 양쪽 정렬하는 헤더 */
+.post-list-header {
+    display: flex; /* 가로 정렬 */
+    justify-content: space-between; /* 양쪽 정렬 */
+    align-items: center; /* 수직 정렬 */
+    flex-wrap: wrap; /* 화면 좁을 때 줄바꿈 허용 */
+    margin-bottom: 20px; /* 아래 간격 */
+}
+
+/* ✅ 테이블 제목 텍스트 */
+.table-title {
+    font-size: 25px;
+    font-weight: bold;
+    color: #333;
+}
+
+
+/* ✅ 검색창 인풋 */
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 240px;
+    margin-right: 8px; /* 버튼과 간격 */
+}
+
+/* ✅ 검색 버튼 */
 .search-button {
-    background-color: #007bff;
+    padding: 8px 14px;
+    font-size: 14px;
+    background-color: #007bff; /* 파란색 */
     color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease; /* 호버 전환 효과 */
 }
 
+/* ✅ 검색 버튼 호버 시 색상 변경 */
 .search-button:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* 더 진한 파랑 */
 }
 
-.post-resume-link {
-    cursor: pointer;
-    color: #11b600;
+
+/* ✅ 지원자 목록 테이블 */
+.post-list-table {
+    width: 100%; /* 전체 너비 */
+    border-collapse: collapse; /* 셀 경계 병합 */
+    font-size: 14px;
+    margin-top: 10px; /* 위 요소와 간격 */
 }
 
-.status-label {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 500;
+/* ✅ 테이블 셀 기본 스타일 (헤더와 데이터 공통) */
+.post-list-table th,
+.post-list-table td {
+    padding: 12px 10px;
     text-align: center;
-    min-width: 60px;
-    color: #fff;
+    border: 1px solid #ddd; /* 회색 테두리 */
 }
 
-.filter-toggle {
+/* ✅ 테이블 헤더 스타일 */
+.post-list-table th {
+    background-color: #f7f9fc; /* 연한 회색 배경 */
+    font-weight: 600;
+    color: #333;
+}
+
+
+/* ✅ 공고명, 이름 링크 스타일 */
+.post-title-link,
+.post-resume-link {
+    color: #007bff; /* 파란색 텍스트 */
+    text-decoration: none;
     cursor: pointer;
 }
 
-/* 상태별 스타일 */
-.status-label.unread {
-    background-color: #6c757d; /* 회색 */
+/* ✅ 링크에 마우스 올렸을 때 밑줄 */
+.post-title-link:hover,
+.post-resume-link:hover {
+    text-decoration: underline;
 }
 
+
+/* ✅ 상태 라벨 공통 스타일 */
+.status-label {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* ✅ 상태별 색상 구분 */
 .status-label.read {
-    background-color: #17a2b8; /* 청록 */
+    background-color: #e1f0ff;
+    color: #3178c6;
+}
+
+.status-label.unread {
+    background-color: #fff0f0;
+    color: #d33;
 }
 
 .status-label.waiting {
-    background-color: #ffc107; /* 노랑 */
-    color: #212529;
+    background-color: #fff8e1;
+    color: #d18c00;
 }
 
 .status-label.accepted {
-    background-color: #28a745; /* 초록 */
+    background-color: #e2f7e1;
+    color: #2e8540;
 }
 
 .status-label.rejected {
-    background-color: #dc3545; /* 빨강 */
+    background-color: #fce4e4;
+    color: #c0392b;
 }

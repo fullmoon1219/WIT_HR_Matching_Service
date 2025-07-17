@@ -15,4 +15,6 @@ public class PostVO {
     private boolean isDeleted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    private BoardVO board;
 }

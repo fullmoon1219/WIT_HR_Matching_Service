@@ -54,13 +54,13 @@ $(document).ready(function () {
         }
     });
 
-    // ✅ 취소 버튼 클릭 시 플로팅 바 닫기 및 이미지 삭제
+    // ✅ 취소 버튼 클릭 시 뒤로가기 또는 목록 이동
     $("#cancelWrite").on("click", async function () {
         const hasInput =
             $("#title").val().trim() !== "" ||
             editor.getMarkdown().trim() !== "";
 
-        if (hasInput && !confirm("작성 중인 내용이 삭제됩니다. 정말 닫으시겠습니까?")) return;
+        if (hasInput && !confirm("작성 중인 내용이 삭제됩니다. 정말 취소하시겠습니까?")) return;
 
         if (uploadedTempImages.length > 0) {
             try {
@@ -77,69 +77,46 @@ $(document).ready(function () {
             }
         }
 
-        $("#floatingSidebar").removeClass("show");
-        $("#floatingOverlay").removeClass("show");
-        $("#floatingSidebarContent").empty();
+        // 글쓰기 취소 후 이전 페이지로 이동
+        history.back();
+        // 또는 location.href = "/community/해당게시판코드"; 로 명시 이동
     });
 
+    // ✅ 게시물 제출 처리
+    $("form").on("submit", function (e) {
+        e.preventDefault();
 
-    $(document).on('keydown', function (e) {
-        if (e.key === "Escape") {
-            $("#floatingSidebar").removeClass("show");
-            $("#floatingOverlay").removeClass("show");
+        $("#content").val(editor.getHTML());
+
+        const boardId = $("#board").val();
+        const boardCode = $("#board option:selected").data("code"); // <option data-code="free">
+
+        const formData = new FormData(this);
+
+        $.ajax({
+            url: `/api/community/${boardCode}/write`,
+            method: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (postId) {
+                uploadedTempImages = [];
+
+                // ✅ 작성 성공 시 상세 페이지로 이동
+                location.href = `/community/${boardCode}/view/${postId}`;
+            },
+            error: function () {
+                alert("게시물 등록 중 오류가 발생했습니다.");
+            }
+        });
+    });
+
+    // ✅ 페이지 이탈 시 임시 이미지 삭제 (브라우저 종료, 새로고침 등)
+    $(window).on("beforeunload", function () {
+        if (uploadedTempImages.length > 0) {
+            const payload = JSON.stringify({ images: uploadedTempImages });
+            const blob = new Blob([payload], { type: "application/json" });
+            navigator.sendBeacon("/api/community/delete-temp-images", blob);
         }
     });
-
-    $(document).on('dblclick', '#floatingOverlay', function () {
-        $("#floatingSidebar").removeClass("show");
-        $("#floatingOverlay").removeClass("show");
-    });
-});
-
-// ✅ 게시물 제출 처리
-$("form").on("submit", function (e) {
-    e.preventDefault();
-
-    $("#content").val(editor.getHTML());
-
-    const boardId = $("#board").val();
-    const boardCode = $("#board option:selected").text().trim();
-    const formData = new FormData(this);
-
-    $.ajax({
-        url: `/api/community/${boardCode}/write`,
-        method: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (postId) {
-            uploadedTempImages = [];
-
-            $.ajax({
-                url: `/community/posts/view/${postId}`,
-                method: "GET",
-                success: function (html) {
-                    $("#floatingSidebarContent").html(html);
-                    $("#floatingSidebar").addClass("show");
-                    $("#floatingOverlay").addClass("show");
-                },
-                error: function () {
-                    alert("작성된 게시글을 불러오지 못했습니다.");
-                }
-            });
-        },
-        error: function () {
-            alert("게시물 등록 중 오류가 발생했습니다.");
-        }
-    });
-});
-
-$(window).on("beforeunload", function () {
-    if (uploadedTempImages.length > 0) {
-        const payload = JSON.stringify({ images: uploadedTempImages });
-
-        const blob = new Blob([payload], { type: "application/json" });
-
-        navigator.sendBeacon("/api/community/delete-temp-images", blob);
-    }
 });

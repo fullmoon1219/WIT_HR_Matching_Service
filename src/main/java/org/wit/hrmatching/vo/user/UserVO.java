@@ -29,6 +29,7 @@ public class UserVO {
     private LocalDateTime tokenExpiration;
     private LocalDateTime updatedAt;
     private String loginType; // "EMAIL", "NAVER", "GOOGLE"
+    private boolean deleted;
 
     private ApplicantProfilesVO applicantProfile;
     private EmployerProfilesVO employerProfile;

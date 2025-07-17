@@ -1,64 +1,131 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>채용 공고 상세</title>
-    <link rel="stylesheet" th:href="@{/css/employer/applicant_post-detail.css}">
-</head>
-<body>
-<div class="write-container">
-    <h2 class="write-title">📢 채용 공고</h2>
+<!-- /templates/hrms/employer/jobpost/jobpost_view.html -->
 
-    <div class="form-group">
-        <label>공고명</label>
-        <p th:text="${jobPost.title}">공고명</p>
+<div class="view-container">
+
+    <!-- 채용공고명 -->
+    <h2 class="view-title" th:text="${jobPost.title}">📍</h2>
+
+    <!-- 간단한 공고 정보 -->
+    <table class="job-basic-info-table">
+        <tbody>
+        <tr>
+            <th>고용형태</th>
+            <td th:text="${jobPost.employmentType}"></td>
+            <th>급여</th>
+            <td th:text="${jobPost.salary}"></td>
+        </tr>
+        <tr>
+            <th>근무지</th>
+            <td th:text="${jobPost.location}"></td>
+            <th>마감일</th>
+            <td th:text="${jobPost.deadline}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 상세설명 -->
+    <div class="view-group">
+        <h3>📍 상세설명</h3>
+        <div class="view-value description" th:utext="${jobPost.description}"></div>
     </div>
 
-    <div class="form-group">
-        <label>직무</label>
-        <p th:text="${jobPost.jobCategory}">직무</p>
-    </div>
-
-    <div class="form-group">
-        <label>공고 설명</label>
-        <p th:text="${jobPost.description}">설명</p>
-    </div>
-
-    <div class="form-group">
-        <label>요구 기술</label>
-        <p th:text="${jobPost.requiredSkills}">기술</p>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group half">
-            <label>급여</label>
-            <p th:text="${jobPost.salary}">급여</p>
-        </div>
-        <div class="form-group half">
-            <label>고용형태</label>
-            <p th:text="${jobPost.employmentType}">고용형태</p>
-        </div>
-        <div class="form-group half">
-            <label>마감일</label>
-            <p th:text="${#temporals.format(jobPost.deadline, 'yyyy-MM-dd')}">마감일</p>
+    <!-- 기술 스택 -->
+    <div class="view-group">
+        <h3>📍 기술 스택</h3>
+        <div class="stack-tags">
+            <button type="button" class="stack-tag"
+                    th:each="stack : ${selectedStacks}"
+                    th:text="${stack}"
+                    disabled>
+            </button>
         </div>
     </div>
 
-    <div class="form-row">
-        <div class="form-group half">
-            <label>근무지 (지역)</label>
-            <p th:text="${jobPost.location}">지역</p>
-        </div>
-        <div class="form-group half">
-            <label>근무지 상세 주소</label>
-            <p th:text="${jobPost.workplaceAddress}">주소</p>
-        </div>
+    <!-- 근무지 위치 -->
+    <div class="view-group">
+        <h3>📍 근무지 위치</h3>
+        <p id="workplaceAddress" class="view-value" th:text="${jobPost.workplaceAddress}"></p>
+        <div id="workplaceMap" class="map-container"></div>
     </div>
 
+    <!-- 기업 정보 -->
+    <div class="view-group">
+        <h3>🏢 기업 정보</h3>
+        <table class="profile-merged-table">
+            <tr>
+                <th>회사명</th>
+                <td th:text="${employerProfile.companyName}"></td>
+                <th>대표자명</th>
+                <td th:text="${employerProfile.ceoName}"></td>
+            </tr>
+            <tr>
+                <th>사업자 번호</th>
+                <td th:text="${employerProfile.businessNumber}"></td>
+                <th>이메일</th>
+                <td th:text="${employerProfile.email}"></td>
+            </tr>
+            <tr>
+                <th>대표 전화번호</th>
+                <td th:text="${employerProfile.phoneNumber}"></td>
+                <th>홈페이지</th>
+                <td>
+                    <a th:href="'https://' + ${employerProfile.homepageUrl}" target="_blank"
+                       th:text="${employerProfile.homepageUrl}"></a>
+                </td>
+            </tr>
+            <tr>
+                <th>회사 주소</th>
+                <td th:text="${employerProfile.address}"></td>
+                <th>기업 규모</th>
+                <td th:text="${employerProfile.companySize}"></td>
+            </tr>
+            <tr>
+                <th>업종</th>
+                <td th:text="${employerProfile.industry}"></td>
+                <th>설립연도</th>
+                <td th:text="${employerProfile.foundedYear}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 하단 버튼 -->
     <div class="form-actions">
-        <button type="button" class="cancel-button" onclick="window.location.href='/employer/application/list'">닫기</button>
+        <button type="button" class="close-button">닫기</button>
     </div>
+
 </div>
 
-</body>
-</html>
+<!-- 지도 API 로딩 -->
+<script src="/js/employer/post-view.js"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    if (typeof kakaoApiKey === 'undefined') {
+        var kakaoApiKey = /*[[${@environment.getProperty('kakao.api-key')}]]*/ "";
+    }
+    var script = document.createElement('script');
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoApiKey}&libraries=services&autoload=false`;
+    script.onload = function () {
+        kakao.maps.load(function () {
+            const address = document.getElementById('workplaceAddress')?.textContent?.trim();
+            if (!address) return;
+
+            const mapContainer = document.getElementById('workplaceMap');
+            const map = new kakao.maps.Map(mapContainer, {
+                center: new kakao.maps.LatLng(37.5665, 126.9780),
+                level: 3
+            });
+
+            const geocoder = new kakao.maps.services.Geocoder();
+            geocoder.addressSearch(address, function (result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                    new kakao.maps.Marker({ map, position: coords });
+                    map.setCenter(coords);
+                }
+            });
+        });
+    };
+    document.head.appendChild(script);
+    /*]]>*/
+</script>

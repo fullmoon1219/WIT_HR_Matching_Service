@@ -2,6 +2,7 @@ package org.wit.hrmatching.service.support;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.wit.hrmatching.dto.admin.PagedResponseDTO;
 import org.wit.hrmatching.mapper.support.InquiriesMapper;
 import org.wit.hrmatching.service.mail.MailService;
 import org.wit.hrmatching.vo.support.InquiryVO;
@@ -69,5 +70,27 @@ public class InquiryService {
     }
 
 
+    public void registerInquiry(InquiryVO inquiryVO) {
+        inquiriesMapper.insertInquiry(inquiryVO);
+    }
+
+    public PagedResponseDTO<InquiryVO> getPagedInquiriesByUserId(Long userId, int page, int size) {
+        int offset = page * size;
+        List<InquiryVO> content = inquiriesMapper.getInquiriesByUserId(userId, size, offset);
+        long total = inquiriesMapper.countInquiriesByUserId(userId);
+        int totalPages = (int) Math.ceil((double) total / size);
+
+        return PagedResponseDTO.<InquiryVO>builder()
+                .content(content)
+                .totalElements(total)
+                .totalPages(totalPages)
+                .size(size)
+                .number(page)
+                .first(page == 0)
+                .last(page >= totalPages - 1)
+                .numberOfElements(content.size())
+                .empty(content.isEmpty())
+                .build();
+    }
 
 }

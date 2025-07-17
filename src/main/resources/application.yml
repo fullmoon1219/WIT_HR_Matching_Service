@@ -74,6 +74,7 @@ spring:
             user-name-attribute: response
 
 upload:
+  user-profile: C:/Java/upload/users/profile/
   post-dir: C:/Java/upload/posts/attachments/
   post-image-dir: C:/Java/upload/posts/contents/
   resume-dir: C:/Java/upload/resumes/
@@ -114,6 +115,7 @@ logging:
     org.springframework.web: warn
     org.springframework.boot.context.config: warn
     org.wit.hrmatching.mapper: warn
+    org.wit.hrmatching.mapper.admin: warn
     org.mybatis: warn
     org.wit.hrmatching.config.auth: warn
 

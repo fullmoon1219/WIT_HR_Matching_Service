@@ -132,13 +132,14 @@ public class AdminService {
                                       String status,
                                       String warning,
                                       String verified,
+                                      Boolean deleted,
                                       String keyword) {
 
         int limit = pageable.getPageSize();
         int offset = (int) pageable.getOffset();
 
-        int total = adminMapper.countUsersWithFilter(userId, role, status, warning, verified, keyword);
-        List<UserVO> users = adminMapper.getPagedUsersWithFilter(limit, offset, userId, role, status, warning, verified, keyword);
+        int total = adminMapper.countUsersWithFilter(userId, role, status, warning, verified, deleted, keyword);
+        List<UserVO> users = adminMapper.getPagedUsersWithFilter(limit, offset, userId, role, status, warning, verified, deleted, keyword);
 
         return new PageImpl<>(users, pageable, total);
     }

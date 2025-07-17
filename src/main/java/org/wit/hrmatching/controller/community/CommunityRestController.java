@@ -2,6 +2,7 @@ package org.wit.hrmatching.controller.community;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/community")
+@PreAuthorize("isAuthenticated()")
 @RequiredArgsConstructor
 public class CommunityRestController {
 
@@ -96,4 +98,24 @@ public class CommunityRestController {
 
         return ResponseEntity.ok(result);
     }
+
+    @DeleteMapping("/posts/{postId}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId,
+                                           @AuthenticationPrincipal CustomUserDetails userDetails) {
+        boardService.softDeletePost(postId, userDetails.getId());
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/posts/{postId}")
+    public ResponseEntity<Void> updatePost(@PathVariable Long postId,
+                                           @RequestParam String title,
+                                           @RequestParam Long boardId,
+                                           @RequestParam String content,
+                                           @RequestParam(required = false) List<Long> existingFileIds,
+                                           @RequestParam(required = false) MultipartFile[] files) {
+
+        boardService.updatePostWithFiles(postId, title, boardId, content, existingFileIds, files);
+        return ResponseEntity.ok().build();
+    }
+
 }

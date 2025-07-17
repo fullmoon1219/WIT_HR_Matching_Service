@@ -18,6 +18,16 @@ body {
     align-items: center;
 }
 
+.resend-link {
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+.resend-link:hover {
+    color: #0056b3;
+}
+
 .banner-text {
     display: flex;
     align-items: center;

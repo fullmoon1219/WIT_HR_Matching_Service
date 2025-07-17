@@ -48,6 +48,7 @@ $(document).ready(function () {
 		$('#experienceYears').text(jobPost.experienceYears);
 		$('#workplaceAddress').text(jobPost.workplaceAddress);
 
+		$('#headerCompanyName').text(employer.companyName);
 		$('#companyName').text(employer.companyName);
 		$('#address').text(employer.address);
 		$('#phoneNumber').text(employer.phoneNumber);

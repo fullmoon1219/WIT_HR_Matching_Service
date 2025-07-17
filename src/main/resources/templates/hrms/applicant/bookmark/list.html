@@ -1,68 +1,56 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-	<meta charset="UTF-8">
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-	<meta name="_csrf" th:content="${_csrf.token}" />
-	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+	<th:block layout:fragment="styles">
+		<link rel="stylesheet" href="/css/employer/profile.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+		<link rel="stylesheet" href="/css/applicant/bookmark_list.css">
 
-	<title>내 스크랩</title>
+	</th:block>
 
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+	<section layout:fragment="content">
 
-	<script src="/js/jquery-3.7.1.min.js"></script>
-	<script src="/js/csrf-setup.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+		<h2>내가 스크랩한 공고</h2>
 
-	<script src="/js/applicant/common.js"></script>
-	<script src="/js/applicant/bookmark/bookmark_list.js"></script>
+		<div class="recommend-box">
+			<div class="recommend-header">
+				<span>내 스크랩 목록</span>
+				<div>
+					<select name="sort" id="sort-order">
+						<option value="latest">최신순</option>
+						<option value="oldest">오래된순</option>
+						<option value="deadline">마감일 임박순</option>
+					</select>
+					<input type="text" id="searchKeyword" placeholder="검색">
+					<button id="searchBtn">검색</button>
+					<button id="resetBtn">초기화</button>
+				</div>
+			</div>
 
-	<style>
-        .ui-dialog {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-	</style>
-</head>
-<body>
+			<table class="recommend-table">
+				<thead>
+				<tr>
+					<th>번호</th>
+					<th>공고명</th>
+					<th>기업명</th>
+					<th>마감일</th>
+					<th></th>
+				</tr>
+				</thead>
+				<tbody id="bookmarkListBody">
+				<!-- JS에서 데이터 채워짐 -->
+				</tbody>
+			</table>
 
-<h2>내가 스크랩한 공고</h2>
+			<div id="pagination" class="pagination"></div>
+		</div>
 
-<div>
-	<select name="sort" id="sort-order">
-		<option value="latest">최신순</option>
-		<option value="oldest">오래된순</option>
-		<option value="deadline">마감일 임박순</option>
-	</select>
+	</section>
 </div>
 
-<div>
-	검색: <input type="text" id="searchKeyword">
-	<button id="searchBtn">검색</button>
-	<button id="resetBtn">초기화</button>
-</div>
 
-<br />
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script src="/js/csrf-setup.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-전체 갯수: <span id="totalRecord"></span>건
-<table border="1" cellspacing="0">
-	<thead>
-	<tr>
-		<th>번호</th>
-		<th>공고명</th>
-		<th>기업명</th>
-		<th>마감일</th>
-		<th></th>
-	</tr>
-	</thead>
-	<tbody id="bookmarkListBody">
-	<!-- JS에서 채움 -->
-	</tbody>
-</table>
-
-<div id="pagination" class="pagination"></div>
-
-</body>
-</html>
+<script src="/js/applicant/common.js"></script>
+<script src="/js/applicant/bookmark/bookmark_list.js"></script>

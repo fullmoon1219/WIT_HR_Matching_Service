@@ -1,7 +1,7 @@
 // /js/community/board-list.js
 
 const boardCode = $(".write-button").data("board-code") || "";
-let boardMap = {};
+var boardMap = {};
 
 $(document).ready(function () {
     // 1. 전체 게시판 목록 불러와 boardMap 초기화
@@ -21,46 +21,22 @@ $(document).ready(function () {
         }
     });
 
-    // 글쓰기 버튼 클릭 시 플로팅바 열기
+    // 글쓰기 버튼 클릭 시 페이지 이동
     $(".write-button").on("click", function () {
         const boardCode = $(this).data("board-code");
-
-        $.ajax({
-            url: `/community/${boardCode}/write`,
-            method: "GET",
-            success: function (html) {
-                $("#floatingSidebarContent").html(html);
-                $("#floatingSidebar").addClass("show");
-                $("#floatingOverlay").addClass("show");
-            },
-            error: function () {
-                alert("글쓰기 화면을 불러오지 못했습니다.");
-            }
-        });
+        location.href = `/community/${boardCode}/write`;
     });
 
-    // 게시글 제목 클릭 시 플로팅바 열기
+
+    // 게시글 제목 클릭 시 페이지 이동
     $(document).on("click", ".post-link", function (e) {
         e.preventDefault();
 
         const postId = $(this).data("id");
-
-        $.ajax({
-            url: `/community/posts/view/${postId}`,
-            method: "GET",
-            success: function (html) {
-                $("#floatingSidebarContent").html(html);
-                $("#floatingSidebar").addClass("show");
-                $("#floatingOverlay").addClass("show");
-
-                // ✅ 여기서 호출!
-                loadPostDetail(postId);
-            },
-            error: function () {
-                alert("게시글을 불러오지 못했습니다.");
-            }
-        });
+        const boardCode = $(".write-button").data("board-code"); // 또는 data 속성에서 직접 추출
+        location.href = `/community/${boardCode}/view/${postId}`;
     });
+
 });
 
 

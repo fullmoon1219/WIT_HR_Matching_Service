@@ -51,6 +51,7 @@ public interface AdminMapper {
                                          @Param("status") String status,
                                          @Param("warning") String warning,
                                          @Param("verified") String verified,
+                                         @Param("deleted") Boolean deleted,
                                          @Param("keyword") String keyword);
 
 
@@ -59,5 +60,6 @@ public interface AdminMapper {
                              @Param("status") String status,
                              @Param("warning") String warning,
                              @Param("verified") String verified,
+                             @Param("deleted") Boolean deleted,
                              @Param("keyword") String keyword);
 }

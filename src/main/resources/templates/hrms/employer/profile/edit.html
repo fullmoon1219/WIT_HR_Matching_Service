@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>기업정보 수정</title>
-    <style>
-        .edit-mode { display: none; }
-        .profile-table-container { padding: 20px; width: 100%; }
-        .table-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; }
-        .profile-merged-table { width: 100%; border-collapse: collapse; }
-        .profile-merged-table th, .profile-merged-table td {
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-        .action-buttons { text-align: right; margin-top: 10px; }
-    </style>
-</head>
-<body>
+<!-- /templates/hrms/employer/profile/edit.html -->
 
 <form th:action="@{/employer/profile/edit}" method="post">
     <div class="profile-table-container">
@@ -120,6 +103,3 @@
         editBtn.style.display = 'inline-block';
     });
 </script>
-
-</body>
-</html>
