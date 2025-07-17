@@ -58,16 +58,15 @@ public class SecurityConfig {
                         .requestMatchers("/", "/users/login", "/users/register", "/users/register-success", "/users/verify",
                                 "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**",
                                 "/api/users/email-exists", "/error/**", "/api/users", "/api/users/verify-email",
-                                "/users/delete-success", "/employer/**", "/users/mypage/**",
-                                "/recruit/**", "/api/recruit/**", "/api/tech-stacks")
+                                "/users/delete-success", "/recruit/**", "/api/recruit/**", "/api/tech-stacks")
                         .permitAll()  // 로그인 없이 접근 허용
 
                         .requestMatchers("/api/auth/resend-verification").authenticated()
 
                         .requestMatchers("/admin/**").hasAuthority("ADMIN") // 관리자 전용
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
-//                        .requestMatchers("/employer/**").hasAuthority("EMPLOYER")
-//                        .requestMatchers("/applicant/**").hasAuthority("APPLICANT")
+                        .requestMatchers("/employer/**").hasAuthority("EMPLOYER")
+                        .requestMatchers("/applicant/**").hasAuthority("APPLICANT")
                         .anyRequest().authenticated()  // 그 외에는 인증 필요
                 )
                 .exceptionHandling(ex -> ex
