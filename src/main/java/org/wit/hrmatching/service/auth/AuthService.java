@@ -164,8 +164,9 @@ public class AuthService {
             profileMapper.deleteEmployerProfileByUserId(userId);
         }
 
-        userMapper.deleteUserById(userId);
+        userMapper.softDeleteUserById(userId);
     }
+
 
     public void updateLastLoginTime(Long userId) {
         userMapper.updateLastLogin(userId);

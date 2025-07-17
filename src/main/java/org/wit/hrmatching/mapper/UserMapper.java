@@ -25,14 +25,16 @@ public interface UserMapper {
     // 이메일 인증 관련 정보 업데이트
     void updateUser(UserVO user);
 
-    // 회원 탈퇴
-    void deleteUserById(Long id);
+    // 소프트 삭제
+    void softDeleteUserById(@Param("id") Long id);
 
     // 최종 로그인
-    void updateLastLogin(Long id);
+    void updateLastLogin(@Param("id") Long id);
 
-    int updatePassword(@Param("userId")Long userId, @Param("encodedPassword")String encodedPassword);
+    // 비밀번호 변경
+    int updatePassword(@Param("userId") Long userId,
+                       @Param("encodedPassword") String encodedPassword);
 
+    // 인증 토큰 갱신
     void updateVerificationToken(UserVO user);
-
 }

@@ -115,6 +115,7 @@ logging:
     org.springframework.web: warn
     org.springframework.boot.context.config: warn
     org.wit.hrmatching.mapper: warn
+    org.wit.hrmatching.mapper.admin: warn
     org.mybatis: warn
     org.wit.hrmatching.config.auth: warn
 

@@ -99,6 +99,7 @@
         <result property="tokenExpiration" column="token_expiration"/>
         <result property="updatedAt" column="updated_at"/>
         <result property="loginType" column="login_type"/>
+        <result property="deleted" column="is_deleted"/>
 
         <!-- applicantProfile -->
         <association property="applicantProfile" javaType="org.wit.hrmatching.vo.user.ApplicantProfilesVO">
@@ -133,7 +134,7 @@
         u.id, u.email, u.password, u.name, u.role,
         u.create_at, u.status, u.last_login, u.profile_image,
         u.email_verified, u.verification_token, u.token_expiration,
-        u.updated_at, u.login_type, u.warning_count,
+        u.updated_at, u.login_type, u.warning_count, u.is_deleted,
 
         a.user_id AS a_user_id, a.age, a.address AS a_address, a.phone_number AS a_phone_number,
         a.gender, a.portfolio_url, a.self_intro, a.job_type, a.experience_years, a.primary_resume_id,
@@ -165,6 +166,12 @@
                     <otherwise>0</otherwise>
                 </choose>
             </if>
+            <if test="deleted != null">
+                AND u.is_deleted = #{deleted}
+            </if>
+
+
+
 
             <if test="keyword != null and keyword != ''">
                 AND (u.name LIKE CONCAT('%', #{keyword}, '%')
@@ -200,6 +207,12 @@
                     <otherwise>0</otherwise>
                 </choose>
             </if>
+            <if test="deleted != null">
+                AND u.is_deleted = #{deleted}
+            </if>
+
+
+
             <if test="keyword != null and keyword != ''">
                 AND (
                 u.name LIKE CONCAT('%', #{keyword}, '%')
@@ -216,7 +229,7 @@
             u.id, u.email, u.password, u.name, u.role,
             u.create_at, u.status, u.warning_count, u.last_login,
             u.profile_image, u.email_verified, u.verification_token, u.token_expiration,
-            u.updated_at, u.login_type,
+            u.updated_at, u.login_type, u.is_deleted,
 
             a.user_id AS a_user_id, a.age, a.address AS a_address, a.phone_number AS a_phone_number,
             a.gender, a.portfolio_url, a.self_intro, a.job_type, a.experience_years, a.primary_resume_id,

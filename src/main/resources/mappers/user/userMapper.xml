@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.wit.hrmatching.mapper.UserMapper">
+
+    <!-- 회원가입 -->
     <insert id="insertUser" parameterType="org.wit.hrmatching.vo.user.UserVO" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO users (
-            email, password, name, role, email_verified, verification_token, token_expiration, login_type
+            email, password, name, role, email_verified,
+            verification_token, token_expiration, login_type, is_deleted
         ) VALUES (
-            #{email}, #{password}, #{name}, #{role}, #{emailVerified}, #{verificationToken}, #{tokenExpiration}, #{loginType}
-        )
+                     #{email}, #{password}, #{name}, #{role}, #{emailVerified},
+                     #{verificationToken}, #{tokenExpiration}, #{loginType}, 0
+                 )
     </insert>
 
+    <!-- 이메일 인증 토큰 갱신 -->
     <update id="updateVerificationToken">
         UPDATE users
         SET verification_token = #{verificationToken},
             token_expiration = #{tokenExpiration}
         WHERE email = #{email}
+          AND is_deleted = 0
     </update>
 
-
+    <!-- 이메일 중복 확인 -->
     <select id="existsByEmail" resultType="boolean">
         SELECT EXISTS (
-            SELECT 1 FROM users WHERE email = #{email}
+            SELECT 1 FROM users WHERE email = #{email} AND is_deleted = 0
         )
     </select>
 
+    <!-- 이메일로 유저 조회 -->
     <select id="findByEmail" resultType="UserVO">
         SELECT
-            id,
-            email,
-            password,
-            name,
-            role,
-            create_at AS createAt,
-            status,
+            id, email, password, name, role,
+            create_at AS createAt, status,
             warning_count AS warningCount,
             last_login AS lastLogin,
             profile_image AS profileImage,
@@ -43,18 +46,14 @@
             token_expiration AS tokenExpiration
         FROM users
         WHERE email = #{email}
+          AND is_deleted = 0
     </select>
 
     <!-- 유저 ID로 유저 정보 조회 -->
     <select id="findByUserId" resultType="UserVO">
         SELECT
-            id,
-            email,
-            password,
-            name,
-            role,
-            create_at AS createAt,
-            status,
+            id, email, password, name, role,
+            create_at AS createAt, status,
             warning_count AS warningCount,
             last_login AS lastLogin,
             profile_image AS profileImage,
@@ -65,33 +64,59 @@
             token_expiration AS tokenExpiration
         FROM users
         WHERE id = #{userId}
+          AND is_deleted = 0
     </select>
 
+    <!-- 토큰으로 유저 찾기 (인증용) -->
     <select id="findByToken" parameterType="string" resultType="UserVO">
-        SELECT * FROM users WHERE verification_token = #{token}
+        SELECT
+            id, email, password, name, role,
+            create_at AS createAt, status,
+            warning_count AS warningCount,
+            last_login AS lastLogin,
+            profile_image AS profileImage,
+            email_verified AS emailVerified,
+            updated_at AS updatedAt,
+            login_type AS loginType,
+            verification_token AS verificationToken,
+            token_expiration AS tokenExpiration
+        FROM users
+        WHERE verification_token = #{token}
+          AND is_deleted = 0
     </select>
 
+    <!-- 인증 완료 처리 -->
     <update id="updateUser" parameterType="UserVO">
         UPDATE users
         SET email_verified = #{emailVerified},
             verification_token = #{verificationToken},
             token_expiration = #{tokenExpiration}
         WHERE id = #{id}
+          AND is_deleted = 0
     </update>
 
-<!--    데이터 삭제 -->
-    <delete id="deleteUserById" parameterType="long">
-        DELETE FROM users WHERE id = #{id}
-    </delete>
+    <!-- 소프트 삭제 -->
+    <update id="softDeleteUserById" parameterType="long">
+        UPDATE users
+        SET is_deleted = 1,
+            status = 'WITHDRAWN'
+        WHERE id = #{id}
+    </update>
 
-<!--    최종 로그인 -->
+    <!-- 최종 로그인 시간 갱신 -->
     <update id="updateLastLogin">
-        UPDATE users SET last_login = NOW() WHERE id = #{id}
+        UPDATE users
+        SET last_login = NOW()
+        WHERE id = #{id}
+          AND is_deleted = 0
     </update>
 
+    <!-- 비밀번호 수정 -->
     <update id="updatePassword" parameterType="map">
-        UPDATE users SET password = #{encodedPassword} WHERE id = #{userId}
+        UPDATE users
+        SET password = #{encodedPassword}
+        WHERE id = #{userId}
+          AND is_deleted = 0
     </update>
-
 
 </mapper>

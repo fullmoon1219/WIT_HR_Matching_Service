@@ -29,10 +29,20 @@ public class AdminRestController {
                                              @RequestParam(required = false) String status,
                                              @RequestParam(required = false) String warning,
                                              @RequestParam(required = false) String verified,
+                                             @RequestParam(required = false) String deleted,
                                              @RequestParam(required = false) String keyword) {
 
+        Boolean deletedBool = null;
+        if (deleted != null) {
+            if (deleted.equalsIgnoreCase("true") || deleted.equals("1")) {
+                deletedBool = true;
+            } else if (deleted.equalsIgnoreCase("false") || deleted.equals("0")) {
+                deletedBool = false;
+            }
+        }
+
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<UserVO> pageResult = adminService.getPagedUsers(pageable, null, role, status, warning, verified, keyword);
+        Page<UserVO> pageResult = adminService.getPagedUsers(pageable, null, role, status, warning, verified, deletedBool, keyword);
 
         return PagedResponseDTO.<UserVO>builder()
                 .content(pageResult.getContent())
@@ -46,6 +56,7 @@ public class AdminRestController {
                 .empty(pageResult.isEmpty())
                 .build();
     }
+
 
     // 2. 단일 사용자 조회
     @GetMapping("/users/{id}")

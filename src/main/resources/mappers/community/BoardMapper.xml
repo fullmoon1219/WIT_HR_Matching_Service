@@ -30,7 +30,7 @@
         p.id,
         b.name AS boardName,
         p.title,
-        u.name AS writerName,
+        COALESCE(u.name, '탈퇴한 사용자') AS writerName,
         DATE_FORMAT(p.updated_at, '%Y-%m-%d') AS updatedAt,
         p.view_count,
         p.like_count,
@@ -41,13 +41,12 @@
         FROM community_post_like pl
         WHERE pl.post_id = p.id
         AND pl.user_id = #{userId}
-        )
-        THEN TRUE
+        ) THEN TRUE
         ELSE FALSE
         END AS liked
         FROM community_post p
         JOIN community_board b ON p.board_id = b.id
-        JOIN users u ON p.user_id = u.id
+        LEFT JOIN users u ON p.user_id = u.id  <!-- ✅ 변경됨 -->
         LEFT JOIN community_comment c ON p.id = c.post_id AND c.is_deleted = 0
         WHERE p.is_deleted = 0
         <choose>
@@ -59,7 +58,6 @@
         ORDER BY p.updated_at DESC
         LIMIT #{offset}, #{pageSize}
     </select>
-
 
     <select id="getCommunityPostCount" resultType="long">
         SELECT COUNT(*)
@@ -82,16 +80,17 @@
             p.view_count AS viewCount,
             p.like_count AS likeCount,
             DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i') AS createdAt,
-            u.name AS writerName,
-            u.id AS writerId,
+            COALESCE(u.name, '(탈퇴한 사용자)') AS writerName,
+            p.user_id AS writerId,
             b.code AS boardCode,
             b.name AS boardName,
             b.description AS boardDescription
         FROM community_post p
-                 JOIN users u ON p.user_id = u.id
+                 LEFT JOIN users u ON p.user_id = u.id
                  JOIN community_board b ON p.board_id = b.id
         WHERE p.id = #{postId}
     </select>
+
 
     <!-- 첨부파일 목록 -->
     <select id="selectAttachmentsByPostId" resultType="org.wit.hrmatching.vo.community.AttachmentVO">
@@ -113,7 +112,7 @@
             c.like_count AS likeCount,
             c.is_deleted AS isDeleted,
             c.created_at,
-            u.name AS writerName,
+            COALESCE(u.name, '탈퇴한 사용자') AS writerName,
             u.email,
             (
                 SELECT COUNT(*) > 0
@@ -121,10 +120,11 @@
                 WHERE cl.comment_id = c.id AND cl.user_id = #{userId}
             ) AS isLiked
         FROM community_comment c
-                 JOIN users u ON c.user_id = u.id
+                 LEFT JOIN users u ON c.user_id = u.id
         WHERE c.post_id = #{postId}
         ORDER BY c.created_at ASC
     </select>
+
 
 
     <update id="incrementViewCount">
@@ -185,16 +185,16 @@
             c.like_count AS likeCount,
             c.is_deleted AS isDeleted,
             c.created_at,
-            u.name AS writerName,
+            COALESCE(u.name, '탈퇴한 사용자') AS writerName,
             u.email AS email,
             CASE WHEN c.user_id = #{postWriterId} THEN true ELSE false END AS is_writer
-
         FROM community_comment c
-                 JOIN users u ON c.user_id = u.id
+                 LEFT JOIN users u ON c.user_id = u.id
         WHERE c.post_id = #{postId}
           AND c.parent_id IS NULL
         ORDER BY c.created_at ASC
     </select>
+
 
 
     <!-- 대댓글 목록 조회 -->
@@ -208,15 +208,15 @@
             c.like_count AS likeCount,
             c.is_deleted AS isDeleted,
             c.created_at,
-            u.name AS writerName,
+            COALESCE(u.name, '탈퇴한 사용자') AS writerName,
             u.email AS email,
             CASE WHEN c.user_id = #{postWriterId} THEN true ELSE false END AS is_writer
-
         FROM community_comment c
-                 JOIN users u ON c.user_id = u.id
+                 LEFT JOIN users u ON c.user_id = u.id
         WHERE c.parent_id = #{parentId}
         ORDER BY c.created_at ASC
     </select>
+
 
 
     <!-- 댓글 등록 -->
