@@ -163,7 +163,6 @@ $(document).ready(function () {
         $('#step2').hide();
     }
 
-    // ✅ 프로필 이미지 업로드 기능
     $('#uploadImageButton').on('click', function () {
         $('#profileImageInput').click();
     });
@@ -172,7 +171,6 @@ $(document).ready(function () {
         const formData = new FormData();
         formData.append("profileImage", this.files[0]);
 
-        // CSRF 토큰 가져오기
         const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
         const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
@@ -189,11 +187,19 @@ $(document).ready(function () {
             })
             .then(data => {
                 if (data.success) {
-                    $('#profileImagePreview').attr('src', data.imageUrl);
+                    const timestamp = new Date().getTime();
+                    const $newImage = $('<img>', {
+                        id: 'profileImagePreview',
+                        src: data.imageUrl + '?t=' + timestamp,
+                        alt: '기업 프로필 이미지',
+                        class: 'profile-image-preview'
+                    });
+
+                    // 기존 이미지 태그 교체
+                    $('#profileImagePreview').replaceWith($newImage);
                     alert("이미지 업로드가 완료되었습니다!");
                 } else {
                     alert("업로드 실패: " + data.message);
-                    console.log(data.message);
                 }
             })
             .catch(err => {

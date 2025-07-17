@@ -7,10 +7,22 @@
 
 /* 제목 */
 .view-title {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
-    margin-bottom: 25px;
-    color: #333;
+    color: white;
+
+    background-image: url('/images/test4.png'); /* 배경 이미지 경로 */
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 50px 30px;
+    margin-bottom: 20px;
+    margin-top: 0;
+    text-align: center;
 }
 
 /* 기본 정보 테이블 */

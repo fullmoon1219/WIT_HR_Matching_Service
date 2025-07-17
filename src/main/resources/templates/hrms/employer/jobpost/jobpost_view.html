@@ -1,4 +1,7 @@
-<div class="view-container" xmlns:th="http://www.thymeleaf.org">
+<!-- /templates/hrms/employer/jobpost/jobpost_view.html -->
+
+<div class="view-container">
+
     <!-- 채용공고명 -->
     <h2 class="view-title" th:text="${post.title}">📍</h2>
 
@@ -22,7 +25,7 @@
 
     <!-- 상세설명 -->
     <div class="view-group">
-        <h3>📍 상세설명 </h3>
+        <h3>📍 상세설명</h3>
         <div class="view-value description" th:utext="${post.description}"></div>
     </div>
 
@@ -32,7 +35,9 @@
         <div class="stack-tags">
             <button type="button" class="stack-tag"
                     th:each="stack : ${selectedStacks}"
-                    th:text="${stack}" disabled></button>
+                    th:text="${stack}"
+                    disabled>
+            </button>
         </div>
     </div>
 
@@ -40,62 +45,63 @@
     <div class="view-group">
         <h3>📍 근무지 위치</h3>
         <p id="workplaceAddress" class="view-value" th:text="${post.workplaceAddress}"></p>
-        <div id="workplaceMap" class="view-value" style="width: 100%; height: 300px;"></div>
+        <div id="workplaceMap" class="map-container"></div>
     </div>
 
+    <!-- 기업 정보 -->
     <div class="view-group">
         <h3>🏢 기업 정보</h3>
         <table class="profile-merged-table">
             <tr>
                 <th>회사명</th>
-                <td data-field="companyName" th:text="${employerProfile.companyName}">WIT</td>
+                <td th:text="${employerProfile.companyName}"></td>
                 <th>대표자명</th>
-                <td data-field="ceoName" th:text="${employerProfile.ceoName}">홍길동</td>
+                <td th:text="${employerProfile.ceoName}"></td>
             </tr>
             <tr>
                 <th>사업자 번호</th>
-                <td data-field="businessNumber" th:text="${employerProfile.businessNumber}">123-45-67890</td>
+                <td th:text="${employerProfile.businessNumber}"></td>
                 <th>이메일</th>
-                <td data-field="email" th:text="${employerProfile.email}">wit@exam.com</td>
+                <td th:text="${employerProfile.email}"></td>
             </tr>
             <tr>
                 <th>대표 전화번호</th>
-                <td data-field="phone" th:text="${employerProfile.phoneNumber}">02-1234-5678</td>
+                <td th:text="${employerProfile.phoneNumber}"></td>
                 <th>홈페이지</th>
-                <td data-field="homepage" th:text="${employerProfile.homepageUrl}"><a href="https://www.wit.co.kr" target="_blank">www.wit.co.kr</a></td>
+                <td>
+                    <a th:href="'https://' + ${employerProfile.homepageUrl}" target="_blank"
+                       th:text="${employerProfile.homepageUrl}"></a>
+                </td>
             </tr>
             <tr>
                 <th>회사 주소</th>
-                <td data-field="address" th:text="${employerProfile.address}">서울시 강남구 테헤란로 123</td>
+                <td th:text="${employerProfile.address}"></td>
                 <th>기업 규모</th>
-                <td data-field="size" th:text="${employerProfile.companySize}">중소기업 (50명)</td>
+                <td th:text="${employerProfile.companySize}"></td>
             </tr>
             <tr>
                 <th>업종</th>
-                <td data-field="industry" th:text="${employerProfile.industry}">IT / 소프트웨어</td>
+                <td th:text="${employerProfile.industry}"></td>
                 <th>설립연도</th>
-                <td data-field="founded" th:text="${employerProfile.foundedYear}">2019년</td>
+                <td th:text="${employerProfile.foundedYear}"></td>
             </tr>
         </table>
     </div>
 
+    <!-- 하단 버튼 -->
     <div class="form-actions">
         <button type="button" class="edit-button" th:data-id="${post.id}">수정</button>
         <button type="button" class="delete-button" th:data-id="${post.id}">삭제</button>
         <button type="button" class="close-button">닫기</button>
     </div>
+
 </div>
 
-<!-- 지도 API -->
-<!--<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ff9c4ad26bc2db92ab2d0aa791d666f2&libraries=services"></script>-->
-<!--<script th:src="'//dapi.kakao.com/v2/maps/sdk.js?appkey=' + ${@environment.getProperty('kakao.api-key')} + '&amp;libraries=services&amp;autoload=false'"></script>-->
-
+<!-- 지도 API 로딩 -->
 <script src="/js/employer/post-view.js"></script>
-<!-- ✅ Kakao Maps SDK 동적 로딩 -->
-<!-- ✅ Kakao Maps SDK 동적 로딩 -->
+
 <script th:inline="javascript">
     /*<![CDATA[*/
-    //const kakaoApiKey = /*[[${@environment.getProperty('kakao.api-key')}]]*/ "";
     if (typeof kakaoApiKey === 'undefined') {
         var kakaoApiKey = /*[[${@environment.getProperty('kakao.api-key')}]]*/ "";
     }
@@ -107,13 +113,12 @@
             if (!address) return;
 
             const mapContainer = document.getElementById('workplaceMap');
-            const mapOption = {
+            const map = new kakao.maps.Map(mapContainer, {
                 center: new kakao.maps.LatLng(37.5665, 126.9780),
                 level: 3
-            };
-            const map = new kakao.maps.Map(mapContainer, mapOption);
-            const geocoder = new kakao.maps.services.Geocoder();
+            });
 
+            const geocoder = new kakao.maps.services.Geocoder();
             geocoder.addressSearch(address, function (result, status) {
                 if (status === kakao.maps.services.Status.OK) {
                     const coords = new kakao.maps.LatLng(result[0].y, result[0].x);

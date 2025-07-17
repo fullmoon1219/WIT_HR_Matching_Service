@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.wit.hrmatching.config.file.FileUploadProperties;
 import org.wit.hrmatching.service.UserService;
 import org.wit.hrmatching.service.employer.ProfileService;
 import org.wit.hrmatching.vo.user.CustomUserDetails;
@@ -32,6 +33,7 @@ public class ProfileController {
     private final ProfileService profileService;
     private final UserService userService;
     private final ServletContext servletContext;
+    private final FileUploadProperties fileUploadProperties;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -43,9 +45,14 @@ public class ProfileController {
         EmployerProfilesVO profile = profileService.getEmployerProfile(userId);
         List<EmployerRecentApplicantVO> vo = profileService.selectEmployerRecentApplicantList(userId);
 
+        String imageUrl = (profile.getProfileImage() != null)
+                ? "/uploads/users/profile/" + profile.getProfileImage()
+                : "/images/users/user_small_profile.png";
+
         ModelAndView modelAndView = new ModelAndView("employer/profile/view");
         modelAndView.addObject("profile", profile);
         modelAndView.addObject("recentApplicantList", vo);
+        modelAndView.addObject("profileImageUrl", imageUrl);
 
         return modelAndView;
     }
@@ -111,32 +118,35 @@ public class ProfileController {
         Long userId = userDetails.getUser().getId();
 
         try {
-            // ✅ static/uploads 경로로 저장
-            String resourcePath = new ClassPathResource("static/uploads").getFile().getAbsolutePath();
+            // ✅ yml에서 설정한 경로 사용
+            String baseDir = fileUploadProperties.getUserProfile().replaceAll("[/\\\\]?$", "/");
             String originalFilename = file.getOriginalFilename();
             String storedName = UUID.randomUUID() + "_" + originalFilename;
 
-            // 저장 경로 생성
-            File directory = new File(resourcePath);
-            if (!directory.exists()) directory.mkdirs();
+            String uploadPath = baseDir + storedName;
 
-            // 저장
-            File savedFile = new File(directory, storedName);
-            file.transferTo(savedFile);
+            // ✅ 디렉토리 확인 및 생성
+            File targetFile = new File(uploadPath);
+            File parentDir = targetFile.getParentFile();
+            if (!parentDir.exists() && !parentDir.mkdirs()) {
+                throw new RuntimeException("업로드 디렉토리 생성 실패: " + parentDir.getAbsolutePath());
+            }
 
-            // DB 저장
+            // ✅ 저장
+            file.transferTo(targetFile);
+
+            // ✅ DB 저장
             profileService.updateProfileImage(userId, storedName);
 
-            // 응답
+            // ✅ 응답
             result.put("success", true);
-            result.put("imageUrl", "/uploads/" + storedName); // 정적 접근 경로
+            result.put("imageUrl", "/uploads/" + storedName); // 프론트에서 이 경로로 접근할 수 있도록 설정 필요
         } catch (Exception e) {
             result.put("success", false);
             result.put("message", e.getMessage());
-            e.printStackTrace(); // 로그 출력
+            e.printStackTrace();
         }
 
         return result;
     }
-
 }

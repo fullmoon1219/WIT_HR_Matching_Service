@@ -1,4 +1,6 @@
-<!-- /templates/hrms/employer/resume-detail.html -->
+<!-- /templates/hrms/employer/publicResume/resume-detail.html -->
+
+<link rel="stylesheet" th:href="@{/css/employer/resume_dtail.css}">
 
 <div class="applicant-detail-wrapper">
 
@@ -7,63 +9,59 @@
             <img class="profile-image" src="/images/users/user_small_profile.png" alt="프로필 이미지">
             <div class="profile-basic-info">
                 <h2 data-field="applicantName" th:text="${resume.applicantName}">📍</h2>
-
-                <p><strong>이메일:</strong> <span data-field="applicantName" th:text="${resume.email}">test@exam.com</span></p>
-                <p><strong>전화번호:</strong> <span data-field="phoneNumber" th:text="${resume.phoneNumber}">test@exam.com</span></p>
+                <p><strong>이메일:</strong> <span data-field="email" th:text="${resume.email}">test@exam.com</span></p>
+                <p><strong>전화번호:</strong> <span data-field="phoneNumber" th:text="${resume.phoneNumber}">010-0000-0000</span></p>
             </div>
         </div>
 
         <hr>
 
-
-
-    <div class="additional-info-section">
-
-        <div class="additional-info-group">
-            <h3>이력서 제목</h3>
-            <p><span data-field="title" th:text="${resume.title}"></span></p>
-        </div>
-    </div>
-
-    <div class="resume-section">
-        <h2>📄 이력서 정보</h2>
-
-        <div class="resume-group">
-            <h3>🛠 희망 직무</h3>
-            <p><span data-field="desiredPosition" th:text="${resume.desiredPosition}"></span></p>
+        <div class="additional-info-section">
+            <div class="additional-info-group">
+                <h3>이력서 제목</h3>
+                <p><span data-field="title" th:text="${resume.title}"></span></p>
+            </div>
         </div>
 
-        <div class="resume-group">
-            <h3>핵심 역량</h3>
-            <p><span data-field="coreCompetency" th:text="${resume.coreCompetency}"></span></p>
-        </div>
+        <div class="resume-section">
+            <h2>📄 이력서 정보</h2>
 
-        <div class="resume-group">
-            <h3>학력</h3>
-            <p><span data-field="education" th:text="${resume.education}"></span></p>
-        </div>
-
-        <div class="resume-group">
-            <h3>경력</h3>
-            <p><span data-field="experience" th:text="${resume.experience}"></span></p>
-        </div>
-
-        <div class="resume-group">
-            <h3>보유 기술</h3>
-            <span th:if="${resume.skillNames != null}"
-                  th:each="skill : ${resume.skillNames}"
-                  th:text="${skill}"
-                  class="skill-tag">기술명</span>
-        </div>
-
-        <div class="resume-group">
-            <h3>희망 근무지</h3>
-            <p><span data-field="preferredLocation" th:text="${resume.preferredLocation}"></span></p>
-        </div>
-
-        <div class="resume-group">
-            <h3>희망 연봉</h3>
-            <p><span data-field="salaryExpectation" th:text="${resume.salaryExpectation}"></span></p>
+            <table class="resume-info-table">
+                <tr>
+                    <th>희망 직무</th>
+                    <td><span data-field="desiredPosition" th:text="${resume.desiredPosition}"></span></td>
+                </tr>
+                <tr>
+                    <th>핵심 역량</th>
+                    <td><span data-field="coreCompetency" th:text="${resume.coreCompetency}"></span></td>
+                </tr>
+                <tr>
+                    <th>학력</th>
+                    <td><span data-field="education" th:text="${resume.education}"></span></td>
+                </tr>
+                <tr>
+                    <th>경력</th>
+                    <td><span data-field="experience" th:text="${resume.experience}"></span></td>
+                </tr>
+                <tr>
+                    <th>보유 기술</th>
+                    <td>
+                        <span th:if="${resume.skillNames != null}"
+                              th:each="skill : ${resume.skillNames}"
+                              th:text="${skill}"
+                              class="skill-tag"
+                              style="display: inline-block; margin-right: 8px;">기술명</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>희망 근무지</th>
+                    <td><span data-field="preferredLocation" th:text="${resume.preferredLocation}"></span></td>
+                </tr>
+                <tr>
+                    <th>희망 연봉</th>
+                    <td><span data-field="salaryExpectation" th:text="${resume.salaryExpectation}"></span></td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
