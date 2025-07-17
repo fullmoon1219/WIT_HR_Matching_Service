@@ -1,126 +1,115 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-	<meta name="_csrf" th:content="${_csrf.token}" />
-	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+	<th:block layout:fragment="styles">
+		<link rel="stylesheet" href="/css/employer/profile.css">
+		<link rel="stylesheet" href="/css/applicant/resume_view.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+	</th:block>
 
-	<title>내 이력서 상세보기</title>
+	<section layout:fragment="content">
 
-	<script src="/js/jquery-3.7.1.min.js"></script>
-	<script src="/js/csrf-setup.js"></script>
+		<div class="resume-container">
+			<div class="resume-left">
+				<!-- 기본정보 -->
+				<section class="resume-section basic-info">
+					<h2>기본정보</h2>
+					<div class="basic-info-box">
+						<div class="photo-box">
+							<img src="/images/users/user_big_profile.png" alt="프로필 사진" class="profile-img">
+							<button class="photo-upload-btn">사진등록</button>
+						</div>
+						<div class="info-fields">
+							<div class="info-row"><label>이름</label><div class="info-value" id="name"></div></div>
+							<div class="info-row"><label>나이</label><div class="info-value" id="age"></div></div>
+							<div class="info-row"><label>성별</label><div class="info-value" id="gender"></div></div>
+							<div class="info-row"><label>이메일</label><div class="info-value" id="email"></div></div>
+							<div class="info-row"><label>연락처</label><div class="info-value" id="phoneNumber"></div></div>
+							<div class="info-row"><label>주소</label><div class="info-value" id="address"></div></div>
+							<div class="info-row"><label>포트폴리오</label><div class="info-value"><a href="#" id="portfolioUrl" target="_blank"></a></div></div>
+						</div>
+					</div>
+				</section>
 
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+				<!-- 요약정보 -->
+				<div class="resume-summary">
+					<div class="summary-row">
+						<div class="summary-label">자기소개</div>
+						<div class="summary-value" id="selfIntro"></div>
+					</div>
+					<div class="summary-row">
+						<div class="summary-label">총 경력</div>
+						<div class="summary-value"><span id="experienceYears"></span>년</div>
+					</div>
+					<div class="summary-row">
+						<div class="summary-label">희망 근무 형태</div>
+						<div class="summary-value" id="jobType"></div>
+					</div>
+				</div>
 
-	<script src="/js/applicant/common.js"></script>
-	<script src="/js/applicant/resume/resume_view.js"></script>
-</head>
-<body style="display: none;">
+				<!-- 이력서 상세 내용 -->
+				<div class="resume-section">
+					<h2>이력서 상세 내용</h2>
 
-<!-- 구직자 사진 & 프로필 -->
-<fieldset>
-	<legend>기본 정보</legend>
-	<div>
-		<strong>이름:</strong>
-		<span id="name"></span>
-	</div>
-	<div>
-		<strong>나이:</strong>
-		<span id="age"></span>
-	</div>
-	<div>
-		<strong>성별:</strong>
-		<span id="gender"></span>
-	</div>
-	<div>
-		<strong>이메일:</strong>
-		<span id="email"></span>
-	</div>
-	<div>
-		<strong>연락처:</strong>
-		<span id="phoneNumber"></span>
-	</div>
-	<div>
-		<strong>주소:</strong>
-		<span id="address"></span>
-	</div>
-	<div>
-		<strong>포트폴리오:</strong>
-		<a href="#" id="portfolioUrl" target="_blank"></a>
-	</div>
-</fieldset>
-<hr>
+					<div class="field-row">
+						<label>이력서 제목</label>
+						<div id="title"></div>
+					</div>
+					<div class="field-row">
+						<label>학력</label>
+						<div id="education"></div>
+					</div>
+					<div class="field-row">
+						<label>경력</label>
+						<div id="experience"></div>
+					</div>
+					<div class="field-row">
+						<label>희망 직무</label>
+						<div id="desiredPosition"></div>
+					</div>
+					<div class="field-row">
+						<label>기술 스택</label>
+						<div id="skills"></div>
+					</div>
+					<div class="field-row">
+						<label>선호 지역</label>
+						<div id="preferredLocation"></div>
+					</div>
+					<div class="field-row">
+						<label>희망 연봉</label>
+						<div id="salaryExpectation"></div>
+					</div>
+					<div class="field-row">
+						<label>핵심 역량</label>
+						<div id="coreCompetency"></div>
+					</div>
+					<div class="field-row">
+						<label>지원 동기</label>
+						<div id="motivation"></div>
+					</div>
+					<div class="field-row">
+						<label>등록일</label>
+						<div id="createAt"></div>
+					</div>
+					<div class="field-row" id="updatedAtRow" style="display: none;">
+						<label>수정일</label>
+						<div id="updatedAt"></div>
+					</div>
+				</div>
 
-<fieldset>
-	<legend>경력 및 희망 직무 요약</legend>
-	<div>
-		<strong>자기소개 (한 줄 요약):</strong>
-		<p id="selfIntro" style="margin-top: 5px;"></p>
-	</div>
-	<div>
-		<strong>총 경력:</strong>
-		<span id="experienceYears"></span> 년
-	</div>
-	<div>
-		<strong>희망 근무 형태:</strong>
-		<span id="jobType"></span>
-	</div>
-</fieldset>
-<hr />
+			</div>
 
-<!-- 이력서 작성 부분 -->
-<table border="1">
-	<tr>
-		<th>이력서 제목</th>
-		<td id="title"></td>
-	</tr>
-	<tr>
-		<th>학력</th>
-		<td id="education"></td>
-	</tr>
-	<tr>
-		<th>경력</th>
-		<td id="experience"></td>
-	</tr>
-	<tr>
-		<th>희망 직무</th>
-		<td id="desiredPosition"></td>
-	</tr>
-	<tr>
-		<th>기술 스택</th>
-		<td id="skills"></td>
-	</tr>
-	<tr>
-		<th>선호 지역</th>
-		<td id="preferredLocation"></td>
-	</tr>
-	<tr>
-		<th>희망 연봉</th>
-		<td id="salaryExpectation"></td>
-	</tr>
-	<tr>
-		<th>핵심 역량</th>
-		<td id="coreCompetency"></td>
-	</tr>
-	<tr>
-		<th>지원 동기</th>
-		<td id="motivation"></td>
-	</tr>
-	<tr>
-		<th>등록일</th>
-		<td id="createAt"></td>
-	</tr>
-	<tr id="updatedAtRow" style="display: none;">
-		<th>수정일</th>
-		<td id="updatedAt"></td>
-	</tr>
-</table>
+			<aside class="resume-sidebar">
+				<button type="button" id="editBtn" class="btn-outline">수정</button>
+				<button type="button" id="deleteBtn" class="btn-outline">삭제</button>
+				<button type="button" class="btn-outline" onclick="location.href='/applicant/resume/list'">목록으로</button>
+			</aside>
+		</div>
 
-<button type="button" id="editBtn">수정</button>
-<button type="button" id="deleteBtn">삭제</button>
-<button type="button" onclick="location.href='/applicant/resume/list'">목록으로</button>
+	</section>
+</div>
 
-</body>
-</html>
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script src="/js/csrf-setup.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="/js/applicant/common.js"></script>
+<script src="/js/applicant/resume/resume_view.js"></script>

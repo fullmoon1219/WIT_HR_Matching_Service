@@ -263,6 +263,8 @@ body {
 
 
 /* ===== 마감 임박 공고 영역 ===== */
+
+
 .urgent-section {
     max-width: 1200px;
     margin: 60px auto;
@@ -290,27 +292,43 @@ body {
 }
 
 .urgent-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    color: #333;
-
     background-color: #ffffff;
+    padding: 16px;
+    border-radius: 10px;
     border: 1px solid #ddd;
-    border-radius: 12px;
+    min-height: 200px;
     height: 200px;
-    padding: 20px;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.urgent-card .company {
+    font-weight: bold;
+    color: #2b77f6;
+    margin-bottom: 6px;
+}
+
+.urgent-card .reward,
+.urgent-card .dday {
+    font-size: 13px;
+    margin-top: 10px;
+    color: #888;
+}
+
+.urgent-card .highlight {
+    color: #2b77f6;
+    font-weight: bold;
 }
 
 .urgent-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
     color: #0078ff;
 }
 
