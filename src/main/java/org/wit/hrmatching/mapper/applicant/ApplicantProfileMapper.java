@@ -7,7 +7,7 @@ import org.wit.hrmatching.dto.applicant.ProfileDTO;
 import org.wit.hrmatching.dto.applicant.ProfileUpdateRequestDTO;
 
 @Mapper
-public interface ProfileMapper {
+public interface ApplicantProfileMapper {
 
 	ProfileDTO selectUserProfile(long userId);
 

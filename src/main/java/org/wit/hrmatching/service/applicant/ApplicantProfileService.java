@@ -5,25 +5,25 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.wit.hrmatching.dao.applicant.ProfileDAO;
+import org.wit.hrmatching.dao.applicant.ApplicantProfileDAO;
 import org.wit.hrmatching.dto.applicant.ProfileDTO;
 import org.wit.hrmatching.dto.applicant.ProfileUpdateRequestDTO;
 
 @Service
 @RequiredArgsConstructor
-public class ProfileService {
+public class ApplicantProfileService {
 
-	private final ProfileDAO profileDAO;
+	private final ApplicantProfileDAO applicantProfileDAO;
 	private final PasswordEncoder passwordEncoder;
 
 	public ProfileDTO getUserProfile(long userId) {
-		return profileDAO.getUserProfile(userId);
+		return applicantProfileDAO.getUserProfile(userId);
 	}
 
 	@Transactional
 	public void updateUserProfile(long userId, ProfileUpdateRequestDTO dto) {
 
-		String encodedPasswordFromDB = profileDAO.findPasswordById(userId);
+		String encodedPasswordFromDB = applicantProfileDAO.findPasswordById(userId);
 
 		boolean isMatch = passwordEncoder.matches(dto.getPassword(), encodedPasswordFromDB);
 
@@ -32,6 +32,6 @@ public class ProfileService {
 		}
 
 		dto.setUserId(userId);
-		profileDAO.updateUserProfile(dto);
+		applicantProfileDAO.updateUserProfile(dto);
 	}
 }

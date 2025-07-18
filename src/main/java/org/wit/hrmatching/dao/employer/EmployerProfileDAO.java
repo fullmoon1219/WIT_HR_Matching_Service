@@ -6,7 +6,7 @@ import org.wit.hrmatching.mapper.employer.EmployerProfileMapper;
 
 @Repository
 @RequiredArgsConstructor
-public class ProfileDAO {
+public class EmployerProfileDAO {
 
     private final EmployerProfileMapper employerProfileMapper;
 

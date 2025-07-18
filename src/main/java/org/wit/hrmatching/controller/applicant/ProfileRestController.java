@@ -8,7 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.dto.applicant.ProfileDTO;
 import org.wit.hrmatching.dto.applicant.ProfileUpdateRequestDTO;
-import org.wit.hrmatching.service.applicant.ProfileService;
+import org.wit.hrmatching.service.applicant.ApplicantProfileService;
 import org.wit.hrmatching.vo.user.CustomUserDetails;
 
 @RestController
@@ -16,14 +16,14 @@ import org.wit.hrmatching.vo.user.CustomUserDetails;
 @RequestMapping("/profile")
 public class ProfileRestController {
 
-	private final ProfileService profileService;
+	private final ApplicantProfileService applicantProfileService;
 
 	@GetMapping
 	public ResponseEntity<?> getUserProfile(@AuthenticationPrincipal CustomUserDetails userDetails) {
 
 		long userId = userDetails.getId();
 
-		ProfileDTO profile = profileService.getUserProfile(userId);
+		ProfileDTO profile = applicantProfileService.getUserProfile(userId);
 
 		return ResponseEntity.ok(profile);
 	}
@@ -34,7 +34,7 @@ public class ProfileRestController {
 
 		try {
 			long userId = userDetails.getId();
-			profileService.updateUserProfile(userId, profileUpdateRequestDTO);
+			applicantProfileService.updateUserProfile(userId, profileUpdateRequestDTO);
 
 			return ResponseEntity.ok().build();
 

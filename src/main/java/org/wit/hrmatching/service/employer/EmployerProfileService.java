@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProfileService {
+public class EmployerProfileService {
 
     private final EmployerProfileMapper employerProfileMapper;
 

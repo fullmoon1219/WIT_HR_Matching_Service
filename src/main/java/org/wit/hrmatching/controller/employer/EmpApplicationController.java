@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.wit.hrmatching.service.employer.EmpApplicationService;
 import org.wit.hrmatching.service.employer.JobPostService;
-import org.wit.hrmatching.service.employer.ProfileService;
+import org.wit.hrmatching.service.employer.EmployerProfileService;
 import org.wit.hrmatching.service.employer.TechStackService;
 import org.wit.hrmatching.vo.application.EmpApplicationVO;
 import org.wit.hrmatching.vo.application.EmployerRecentApplicantVO;
@@ -28,7 +28,7 @@ public class EmpApplicationController {
     private final EmpApplicationService empApplicationService;
 
     private final JobPostService jobPostService;
-    private final ProfileService profileService;
+    private final EmployerProfileService employerProfileService;
     private final TechStackService techStackService;
 
     @GetMapping("/list")
@@ -87,7 +87,7 @@ public class EmpApplicationController {
     @GetMapping("/jobpost_detail")
     public ModelAndView showJobPostDetail(@RequestParam("postId") Long postId) {
         JobPostVO jobPostVO = jobPostService.selectJobPostDetail(postId);
-        EmployerProfilesVO eVO = profileService.getEmployerProfile(jobPostVO.getUserId());
+        EmployerProfilesVO eVO = employerProfileService.getEmployerProfile(jobPostVO.getUserId());
 
         List<String> selectedStackNames = new ArrayList<>();
         String techStacks = jobPostVO.getRequiredSkills();
