@@ -13,7 +13,8 @@ import org.wit.hrmatching.vo.user.CustomUserDetails;
 import org.wit.hrmatching.vo.user.UserVO;
 
 //@ControllerAdvice(basePackages = "org.wit.hrmatching.controller.admin")
-@ControllerAdvice(assignableTypes = {CommunityController.class, CommunityRestController.class, SupportController.class})
+@ControllerAdvice(assignableTypes = {CommunityController.class, CommunityRestController.class, SupportController.class},
+        basePackages = {"org.wit.hrmatching.controller.applicant", "org.wit.hrmatching.controller.common"})
 @RequiredArgsConstructor
 public class UserGlobalModelAttributeAdvice {
 
