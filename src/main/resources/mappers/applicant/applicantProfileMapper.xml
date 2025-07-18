@@ -68,4 +68,23 @@
         where user_id = #{userId};
     </update>
 
+    <insert id="insertFile" parameterType="ApplicantProfileImageVO">
+        INSERT INTO files
+        (user_id, related_type, related_id, original_name, stored_name, file_size, upload_path)
+        VALUES
+            (#{userId}, #{relatedType}, #{relatedId}, #{originalName}, #{storedName}, #{fileSize}, #{uploadPath})
+    </insert>
+
+    <update id="updateUserProfileImage">
+        UPDATE users
+        SET profile_image = #{profileImage}
+        WHERE id = #{userId}
+    </update>
+
+    <select id="findProfileImageByUserId" parameterType="long" resultType="string">
+        SELECT profile_image
+        FROM users
+        WHERE id = #{userId}
+    </select>
+
 </mapper>
