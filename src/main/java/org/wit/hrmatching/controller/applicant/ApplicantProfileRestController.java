@@ -53,22 +53,22 @@ public class ApplicantProfileRestController {
 		}
 	}
 
-	@PostMapping("/image")
-	public ResponseEntity<?> uploadProfileImage(@RequestParam("file") MultipartFile file,
-												@AuthenticationPrincipal CustomUserDetails userDetails) {
-
-		if (file.isEmpty()) {
-			return ResponseEntity.badRequest().body("업로드할 파일이 없습니다.");
-		}
-
-		try {
-			// Service에서 파일 저장
-			String savedFilePath = profileService.updateProfileImage(userDetails.getId(), file);
-			return ResponseEntity.ok().body(savedFilePath);
-
-		} catch (IOException e) {
-			// 파일 저장 중 에러 발생 시
-			return ResponseEntity.internalServerError().body("파일 저장 중 오류가 발생했습니다.");
-		}
-	}
+//	@PostMapping("/image")
+//	public ResponseEntity<?> uploadProfileImage(@RequestParam("file") MultipartFile file,
+//												@AuthenticationPrincipal CustomUserDetails userDetails) {
+//
+//		if (file.isEmpty()) {
+//			return ResponseEntity.badRequest().body("업로드할 파일이 없습니다.");
+//		}
+//
+//		try {
+//			// Service에서 파일 저장
+//			String savedFilePath = applicantProfileService.updateProfileImage(userDetails.getId(), file);
+//			return ResponseEntity.ok().body(savedFilePath);
+//
+//		} catch (IOException e) {
+//			// 파일 저장 중 에러 발생 시
+//			return ResponseEntity.internalServerError().body("파일 저장 중 오류가 발생했습니다.");
+//		}
+//	}
 }
