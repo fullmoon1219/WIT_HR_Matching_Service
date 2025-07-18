@@ -6,15 +6,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.wit.hrmatching.dto.applicant.ProfileDTO;
-import org.wit.hrmatching.dto.applicant.ProfileUpdateRequestDTO;
+import org.springframework.web.multipart.MultipartFile;
+import org.wit.hrmatching.dto.applicant.ApplicantProfileDTO;
+import org.wit.hrmatching.dto.applicant.ApplicantProfileUpdateRequestDTO;
 import org.wit.hrmatching.service.applicant.ApplicantProfileService;
 import org.wit.hrmatching.vo.user.CustomUserDetails;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/profile")
-public class ProfileRestController {
+public class ApplicantProfileRestController {
 
 	private final ApplicantProfileService applicantProfileService;
 
@@ -23,18 +26,18 @@ public class ProfileRestController {
 
 		long userId = userDetails.getId();
 
-		ProfileDTO profile = applicantProfileService.getUserProfile(userId);
+		ApplicantProfileDTO profile = applicantProfileService.getUserProfile(userId);
 
 		return ResponseEntity.ok(profile);
 	}
 
 	@PutMapping
 	public ResponseEntity<?> updateUserProfile(@AuthenticationPrincipal CustomUserDetails userDetails,
-											   @RequestBody ProfileUpdateRequestDTO profileUpdateRequestDTO) {
+											   @RequestBody ApplicantProfileUpdateRequestDTO applicantProfileUpdateRequestDTO) {
 
 		try {
 			long userId = userDetails.getId();
-			applicantProfileService.updateUserProfile(userId, profileUpdateRequestDTO);
+			applicantProfileService.updateUserProfile(userId, applicantProfileUpdateRequestDTO);
 
 			return ResponseEntity.ok().build();
 
@@ -47,6 +50,25 @@ public class ProfileRestController {
 			return ResponseEntity
 					.internalServerError() // 500 Internal Server Error
 					.body("프로필 수정 중 오류가 발생했습니다.");
+		}
+	}
+
+	@PostMapping("/image")
+	public ResponseEntity<?> uploadProfileImage(@RequestParam("file") MultipartFile file,
+												@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+		if (file.isEmpty()) {
+			return ResponseEntity.badRequest().body("업로드할 파일이 없습니다.");
+		}
+
+		try {
+			// Service에서 파일 저장
+			String savedFilePath = profileService.updateProfileImage(userDetails.getId(), file);
+			return ResponseEntity.ok().body(savedFilePath);
+
+		} catch (IOException e) {
+			// 파일 저장 중 에러 발생 시
+			return ResponseEntity.internalServerError().body("파일 저장 중 오류가 발생했습니다.");
 		}
 	}
 }

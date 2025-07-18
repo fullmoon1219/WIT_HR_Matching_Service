@@ -3,7 +3,7 @@
 
 <mapper namespace="org.wit.hrmatching.mapper.applicant.ApplicantProfileMapper">
 
-    <select id="selectUserProfile" resultType="org.wit.hrmatching.dto.applicant.ProfileDTO">
+    <select id="selectUserProfile" resultType="org.wit.hrmatching.dto.applicant.ApplicantProfileDTO">
         select
             u.email as email,
             u.name as name,
@@ -29,7 +29,7 @@
         where u.id = #{userId}
     </select>
 
-    <update id="updateUserProfile" parameterType="org.wit.hrmatching.dto.applicant.ProfileUpdateRequestDTO">
+    <update id="updateUserProfile" parameterType="org.wit.hrmatching.dto.applicant.ApplicantProfileUpdateRequestDTO">
         update users
         <set>
             <if test="name != null and name != ''">

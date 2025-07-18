@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class ProfileDTO {
+public class ApplicantProfileDTO {
 
 	private String email;
 	private String name;

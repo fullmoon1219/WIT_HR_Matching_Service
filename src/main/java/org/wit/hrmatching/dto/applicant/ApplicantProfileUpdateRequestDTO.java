@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProfileUpdateRequestDTO {
+public class ApplicantProfileUpdateRequestDTO {
 
 	private String name;
 	private int age;

@@ -5,9 +5,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.wit.hrmatching.config.file.FileUploadProperties;
 import org.wit.hrmatching.dao.applicant.ApplicantProfileDAO;
-import org.wit.hrmatching.dto.applicant.ProfileDTO;
-import org.wit.hrmatching.dto.applicant.ProfileUpdateRequestDTO;
+import org.wit.hrmatching.dto.applicant.ApplicantProfileDTO;
+import org.wit.hrmatching.dto.applicant.ApplicantProfileUpdateRequestDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -15,13 +16,14 @@ public class ApplicantProfileService {
 
 	private final ApplicantProfileDAO applicantProfileDAO;
 	private final PasswordEncoder passwordEncoder;
+	private final FileUploadProperties fileUploadProperties;
 
-	public ProfileDTO getUserProfile(long userId) {
+	public ApplicantProfileDTO getUserProfile(long userId) {
 		return applicantProfileDAO.getUserProfile(userId);
 	}
 
 	@Transactional
-	public void updateUserProfile(long userId, ProfileUpdateRequestDTO dto) {
+	public void updateUserProfile(long userId, ApplicantProfileUpdateRequestDTO dto) {
 
 		String encodedPasswordFromDB = applicantProfileDAO.findPasswordById(userId);
 
@@ -34,4 +36,5 @@ public class ApplicantProfileService {
 		dto.setUserId(userId);
 		applicantProfileDAO.updateUserProfile(dto);
 	}
+
 }
