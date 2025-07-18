@@ -13,6 +13,8 @@ import org.wit.hrmatching.service.applicant.ApplicantProfileService;
 import org.wit.hrmatching.vo.user.CustomUserDetails;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -53,22 +55,26 @@ public class ApplicantProfileRestController {
 		}
 	}
 
-//	@PostMapping("/image")
-//	public ResponseEntity<?> uploadProfileImage(@RequestParam("file") MultipartFile file,
-//												@AuthenticationPrincipal CustomUserDetails userDetails) {
-//
-//		if (file.isEmpty()) {
-//			return ResponseEntity.badRequest().body("업로드할 파일이 없습니다.");
-//		}
-//
-//		try {
-//			// Service에서 파일 저장
-//			String savedFilePath = applicantProfileService.updateProfileImage(userDetails.getId(), file);
-//			return ResponseEntity.ok().body(savedFilePath);
-//
-//		} catch (IOException e) {
-//			// 파일 저장 중 에러 발생 시
-//			return ResponseEntity.internalServerError().body("파일 저장 중 오류가 발생했습니다.");
-//		}
-//	}
+	@PostMapping("/image")
+	public ResponseEntity<?> uploadProfileImage(@RequestParam("file") MultipartFile file,
+												@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+		if (file.isEmpty()) {
+			return ResponseEntity.badRequest().body("업로드할 파일이 없습니다.");
+		}
+
+		try {
+			// Service에서 파일 저장
+			String savedFilePath = applicantProfileService.updateProfileImage(userDetails.getId(), file);
+
+			Map<String, String> response = new HashMap<>();
+			response.put("filePath", savedFilePath);
+			return ResponseEntity.ok(response);
+
+		} catch (RuntimeException e) {
+			// 파일 저장 중 에러 발생 시
+			System.out.println("파일 저장 실패: " + e.getMessage());
+			return ResponseEntity.internalServerError().body("파일 저장 중 오류가 발생했습니다.");
+		}
+	}
 }

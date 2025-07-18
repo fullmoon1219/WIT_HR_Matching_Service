@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.wit.hrmatching.dto.applicant.ApplicantProfileDTO;
 import org.wit.hrmatching.dto.applicant.ApplicantProfileUpdateRequestDTO;
+import org.wit.hrmatching.vo.user.ApplicantProfileImageVO;
 
 @Mapper
 public interface ApplicantProfileMapper {
@@ -15,4 +16,8 @@ public interface ApplicantProfileMapper {
 
 	@Select("SELECT password FROM users WHERE id = #{userId}")
 	String findPasswordById(@Param("userId") long userId);
+
+	int insertFile(ApplicantProfileImageVO applicantProfileImageVO);
+	int updateUserProfileImage(String profileImage, long userId);
+	String findProfileImageByUserId(long userId);
 }
