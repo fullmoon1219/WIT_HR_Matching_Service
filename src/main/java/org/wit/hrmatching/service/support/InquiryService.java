@@ -56,7 +56,6 @@ public class InquiryService {
         inquiry.setStatus("ANSWERED");
         inquiriesMapper.updateReplyAndStatus(inquiry);
 
-        // 문의 답변 등록 메일 발송
 //        mailService.sendInquiryAnswerNotification(
 //                inquiry.getEmail(),
 //                inquiry.getName(),

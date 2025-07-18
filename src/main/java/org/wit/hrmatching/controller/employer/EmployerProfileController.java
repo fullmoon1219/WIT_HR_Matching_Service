@@ -2,7 +2,6 @@ package org.wit.hrmatching.controller.employer;
 
 import jakarta.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +27,7 @@ import java.util.UUID;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/employer/profile")
-public class ProfileController {
+public class EmployerProfileController {
 
     private final ProfileService profileService;
     private final UserService userService;
