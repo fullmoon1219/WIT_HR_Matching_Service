@@ -79,8 +79,77 @@ $(document).ready(function() {
 			url: `/api/applications/${applicationId}`,
 			method: 'GET',
 			success: function (resume) {
-				// 모달 내용 작성 (생략: 기존 코드 그대로)
-				// ...
+				let modalContentHtml = '';
+
+				// 헤더 부분
+				modalContentHtml += '<h3>' + resume.employerCompanyName + '</h3>';
+				modalContentHtml += '<h2>' + resume.jobPostTitle + '</h2>';
+				modalContentHtml += '<h4>지원 상태: ' + translateApplicationStatus(resume.status) + '</h4>';
+				modalContentHtml += '<hr />';
+
+				// 본문 1: 지원 정보
+				modalContentHtml += '<div id="resumeInfo" class="modal-link-section" data-resume-id="' + resume.resumeId + '">';
+				modalContentHtml += '<h4>[내가 제출한 정보]</h4>';
+				modalContentHtml += '<p><strong>제출 이력서:</strong> ' + resume.resumeTitle + '</p>';
+				modalContentHtml += '<p><strong>지원 일시:</strong> ' + resume.appliedAt + '</p>';
+				modalContentHtml += '<p><em>(클릭 시 제출한 이력서를 확인합니다)</em></p>';
+				modalContentHtml += '</div>';
+				modalContentHtml += '<hr />';
+
+				// 본문 2: 공고 정보
+				if (resume.jobPostDeletedAt) {
+					modalContentHtml += '<div id="jobPostInfo">';
+					modalContentHtml += '<h4>[지원한 기업 정보]</h4>';
+					modalContentHtml += '<p><strong>지원한 기업: </strong>' + resume.employerCompanyName + '</p>';
+					modalContentHtml += '<p>이 공고는 마감되었거나, 더 이상 확인할 수 없습니다.</p>';
+					modalContentHtml += '</div>';
+				} else {
+					modalContentHtml += '<div id="jobPostInfo" class="modal-link-section" data-job-post-id="' + resume.jobPostId + '">';
+					modalContentHtml += '<h4>[지원한 기업 정보]</h4>';
+					modalContentHtml += '<p><strong>지원한 기업: </strong>' + resume.employerCompanyName + '</p>';
+					modalContentHtml += '<p><strong>근무 지역: </strong>' + resume.jobPostLocation + '</p>';
+					modalContentHtml += '<p><strong>고용 형태: </strong>' + resume.jobPostJobCategory + '</p>';
+					modalContentHtml += '<p><strong>마감일: </strong>' + resume.jobPostDeadline + '</p>';
+					modalContentHtml += '<p><em>(클릭 시 상세 공고를 확인합니다)</em></p>';
+					modalContentHtml += '</div>';
+				}
+
+				modalContentHtml += '<hr />';
+
+				// 본문 3: 전형 진행 과정
+				modalContentHtml += '<div>';
+				modalContentHtml += '<h3>[전형 진행 과정]</h3>';
+
+				// 지원 완료
+				modalContentHtml += '<div>';
+				modalContentHtml += '<p><strong>😎 지원 완료:</strong> ' + resume.appliedAt + '</p>';
+				modalContentHtml += '<p>회원님의 이력서가 기업에 안전하게 전달되었어요.</p>';
+				modalContentHtml += '</div>';
+
+				// 기업 열람
+				if (resume.viewedAt) {
+					modalContentHtml += '<div>';
+					modalContentHtml += '<p><strong>🖥️ 기업 열람:</strong> ' + resume.viewedAt + '</p>';
+					modalContentHtml += '<p>인사담당자가 회원님의 이력서를 확인했어요. 좋은 소식을 기다려보세요!</p>';
+					modalContentHtml += '</div>';
+				}
+
+				// 최종 결과
+				if (resume.status === 'ACCEPTED') {
+					modalContentHtml += '<div>';
+					modalContentHtml += '<p><strong>🎉 최종 합격:</strong> ' + resume.updatedAt + '</p>';
+					modalContentHtml += '<p>축하합니다! 서류 전형에 최종 합격하셨습니다.</p>';
+					modalContentHtml += '</div>';
+				} else if (resume.status === 'REJECTED') {
+					modalContentHtml += '<div>';
+					modalContentHtml += '<p><strong>✉️ 최종 결과:</strong> ' + resume.updatedAt + '</p>';
+					modalContentHtml += '<p>안타깝게도 이번 채용과는 인연이 닿지 않았습니다. 더 좋은 기회가 회원님을 기다리고 있을 거예요.</p>';
+					modalContentHtml += '</div>';
+				}
+
+				modalContentHtml += '</div>';
+
+				$('#application-modal').html(modalContentHtml);
 			}
 		});
 	});
