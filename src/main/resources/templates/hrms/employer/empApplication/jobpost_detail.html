@@ -61,12 +61,6 @@
             <tr>
                 <th>사업자 번호</th>
                 <td th:text="${employerProfile.businessNumber}"></td>
-                <th>이메일</th>
-                <td th:text="${employerProfile.email}"></td>
-            </tr>
-            <tr>
-                <th>대표 전화번호</th>
-                <td th:text="${employerProfile.phoneNumber}"></td>
                 <th>홈페이지</th>
                 <td>
                     <a th:href="'https://' + ${employerProfile.homepageUrl}" target="_blank"
@@ -74,16 +68,22 @@
                 </td>
             </tr>
             <tr>
+                <th>대표 전화번호</th>
+                <td th:text="${employerProfile.phoneNumber}"></td>
                 <th>회사 주소</th>
                 <td th:text="${employerProfile.address}"></td>
-                <th>기업 규모</th>
-                <td th:text="${employerProfile.companySize}"></td>
             </tr>
             <tr>
                 <th>업종</th>
                 <td th:text="${employerProfile.industry}"></td>
+                <th>기업 규모</th>
+                <td th:text="${employerProfile.companySize}"></td>
+            </tr>
+            <tr>
                 <th>설립연도</th>
                 <td th:text="${employerProfile.foundedYear}"></td>
+                <th></th>
+                <td></td>
             </tr>
         </table>
     </div>
