@@ -34,7 +34,13 @@
 
                 <p><strong>이메일:</strong> <span data-field="applicantName" th:text="${resume.email}">test@exam.com</span></p>
                 <p><strong>전화번호:</strong> <span data-field="phoneNumber" th:text="${resume.phoneNumber}">test@exam.com</span></p>
-                <p><strong>성별:</strong> <span data-field="gender" th:text="${resume.gender}">test@exam.com</span></p>
+                <p><strong>성별:</strong>
+                    <span data-field="gender" th:switch="${resume.gender}">
+                    <span th:case="'MALE'">남성</span>
+                    <span th:case="'FEMALE'">여성</span>
+                    <span th:case="*">기타</span>
+                    </span>
+                </p>
                 <p><strong>나이:</strong> <span data-field="age" th:text="${resume.age}">test@exam.com</span></p>
             </div>
         </div>

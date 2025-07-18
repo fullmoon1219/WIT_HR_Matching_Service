@@ -1,0 +1,161 @@
+/* ✅ 전체 request-container */
+.request-container {
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* ✅ request-box: 흰 박스 가득 채우도록 */
+.request-box {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 24px;
+    min-height: 700px;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* ✅ wrapper for 전체 내용 좌측 여백 통일 */
+.content-wrapper {
+    padding: 0 16px; /* 좌우 여백 16px (원하는 크기로 조절) */
+}
+
+/* ✅ h2 제목 스타일 (내부 여백 적용) */
+.content-wrapper h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* ✅ request-header (내 문의 목록) */
+.request-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 18px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+}
+
+/* ✅ table */
+.request-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.request-table th, .request-table td {
+    padding: 10px 8px;
+    font-size: 16px;
+    color: #333;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    text-decoration: none;
+}
+
+.request-table th {
+    background-color: #f7f9fb;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+
+/* 링크의 기본 상태를 일반 글씨처럼 */
+.request-table td a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.request-table td a:hover {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+/* ✅ inquiry-button-wrapper: 버튼을 request-box 오른쪽 하단에 고정 */
+.inquiry-button-wrapper {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+}
+
+/* ✅ 문의하기 버튼 */
+#inquiryBtn {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: 1px solid #007bff;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#inquiryBtn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* ✅ select, input, 검색/초기화 버튼 */
+#sort-order, #searchKeyword, #searchBtn, #resetBtn {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+#searchKeyword {
+    width: 160px;
+}
+
+#searchBtn, #resetBtn {
+    padding: 6px 12px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#searchBtn:hover, #resetBtn:hover {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+/* ✅ pagination */
+#pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px auto;
+    max-width: 1000px;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+#pagination .page-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#pagination .page-btn.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+#pagination .page-btn:hover {
+    background-color: #f0f0f0;
+}

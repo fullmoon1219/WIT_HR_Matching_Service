@@ -216,11 +216,18 @@ textarea,
 .btn-save {
     width: 100%;
     padding: 12px;
-    background-color: #ffe600;
+    background-color: #2b77f6;
     border: none;
     border-radius: 4px;
     font-weight: bold;
+    color: #fff;
+    cursor: pointer;
 }
+
+.btn-save:hover {
+    background-color: #1a5cd8; /* 선택: hover시 색상 변화 */
+}
+
 
 .btn-outline {
     width: 100%;
@@ -231,12 +238,17 @@ textarea,
     cursor: pointer;
 }
 
+.btn-outline:hover {
+    background-color: #f8f8f8; /* 선택: hover시 색상 변화 */
+}
+
+
 /* ===================== 경력 요약 스타일 ===================== */
 .resume-summary {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    font-size: 14px;
+    font-size: 16px;
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -247,7 +259,7 @@ textarea,
 .resume-summary .summary-row {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 20px;
 }
 
 .resume-summary .summary-label {

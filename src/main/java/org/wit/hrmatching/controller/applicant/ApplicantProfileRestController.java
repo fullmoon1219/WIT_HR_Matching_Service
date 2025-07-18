@@ -17,7 +17,7 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/profile")
-public class ProfileRestController {
+public class ApplicantProfileRestController {
 
 	private final ProfileService profileService;
 

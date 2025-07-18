@@ -13,9 +13,9 @@ public class UserControllerTest {
         return "/applicant/users/mypage";       // 💡 반환할 뷰 이름
     }
 
-    @GetMapping("/history")
+    @GetMapping("/request")
     public String showApplicationHistory() {
-        return "/applicant/users/mypage_application_history";
+        return "/applicant/users/mypage_request";
     }
 
     @GetMapping("/resume")

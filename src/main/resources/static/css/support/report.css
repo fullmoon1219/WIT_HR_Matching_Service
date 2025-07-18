@@ -1,11 +1,11 @@
-/* /css/support/inquiry.css */
+/* /css/support/report.css */
 
 body {
     margin: 0;
     padding: 0;
 }
 
-.inquiry-form-container {
+.report-form-container {
     width: 600px;
     margin: 50px auto;
 }

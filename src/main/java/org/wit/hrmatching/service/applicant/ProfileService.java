@@ -37,5 +37,4 @@ public class ProfileService {
 		profileDAO.updateUserProfile(dto);
 	}
 
-
 }

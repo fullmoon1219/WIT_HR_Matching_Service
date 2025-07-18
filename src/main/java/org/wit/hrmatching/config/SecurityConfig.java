@@ -58,7 +58,8 @@ public class SecurityConfig {
                         .requestMatchers("/", "/users/login", "/users/register", "/users/register-success", "/users/verify",
                                 "/users/logout-success", "/oauth2/**", "/css/**", "/js/**", "/images/**", "/static/**",
                                 "/api/users/email-exists", "/error/**", "/api/users", "/api/users/verify-email",
-                                "/users/delete-success", "/recruit/**", "/api/recruit/**", "/api/tech-stacks")
+                                "/users/delete-success", "/recruit/**", "/api/recruit/**", "/api/tech-stacks",
+                                "/support/**")
                         .permitAll()  // 로그인 없이 접근 허용
 
                         .requestMatchers("/api/auth/resend-verification").authenticated()
