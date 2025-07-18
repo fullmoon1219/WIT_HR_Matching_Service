@@ -7,9 +7,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.wit.hrmatching.dto.applicant.ProfileDTO;
-import org.wit.hrmatching.dto.applicant.ProfileUpdateRequestDTO;
-import org.wit.hrmatching.service.applicant.ProfileService;
+import org.wit.hrmatching.dto.applicant.ApplicantProfileDTO;
+import org.wit.hrmatching.dto.applicant.ApplicantProfileUpdateRequestDTO;
+import org.wit.hrmatching.service.applicant.ApplicantProfileService;
 import org.wit.hrmatching.vo.user.CustomUserDetails;
 
 import java.io.IOException;
@@ -19,25 +19,25 @@ import java.io.IOException;
 @RequestMapping("/profile")
 public class ApplicantProfileRestController {
 
-	private final ProfileService profileService;
+	private final ApplicantProfileService applicantProfileService;
 
 	@GetMapping
 	public ResponseEntity<?> getUserProfile(@AuthenticationPrincipal CustomUserDetails userDetails) {
 
 		long userId = userDetails.getId();
 
-		ProfileDTO profile = profileService.getUserProfile(userId);
+		ApplicantProfileDTO profile = applicantProfileService.getUserProfile(userId);
 
 		return ResponseEntity.ok(profile);
 	}
 
 	@PutMapping
 	public ResponseEntity<?> updateUserProfile(@AuthenticationPrincipal CustomUserDetails userDetails,
-											   @RequestBody ProfileUpdateRequestDTO profileUpdateRequestDTO) {
+											   @RequestBody ApplicantProfileUpdateRequestDTO applicantProfileUpdateRequestDTO) {
 
 		try {
 			long userId = userDetails.getId();
-			profileService.updateUserProfile(userId, profileUpdateRequestDTO);
+			applicantProfileService.updateUserProfile(userId, applicantProfileUpdateRequestDTO);
 
 			return ResponseEntity.ok().build();
 

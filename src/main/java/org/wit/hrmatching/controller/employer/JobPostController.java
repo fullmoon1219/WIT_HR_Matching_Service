@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.wit.hrmatching.service.employer.ProfileService;
+import org.wit.hrmatching.service.employer.EmployerProfileService;
 import org.wit.hrmatching.service.employer.TechStackService;
 import org.wit.hrmatching.service.employer.JobPostService;
 import org.wit.hrmatching.vo.job.JobPostVO;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class JobPostController {
 
     private final JobPostService jobPostService;
-    private final ProfileService profileService;
+    private final EmployerProfileService employerProfileService;
     private final TechStackService techStackService;
 
 //    채용공고 작성하기
@@ -90,7 +90,7 @@ public class JobPostController {
     @RequestMapping("/jobpost_view")
     public ModelAndView selectJobPostview(@RequestParam Long jobPostId) {
         JobPostVO jobPostVO = jobPostService.selectJobPostDetail(jobPostId);
-        EmployerProfilesVO eVO = profileService.getEmployerProfile(jobPostVO.getUserId());
+        EmployerProfilesVO eVO = employerProfileService.getEmployerProfile(jobPostVO.getUserId());
 
         List<String> selectedStackNames = new ArrayList<>();
 

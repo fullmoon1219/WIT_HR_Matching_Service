@@ -6,26 +6,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.wit.hrmatching.config.file.FileUploadProperties;
-import org.wit.hrmatching.dao.applicant.ProfileDAO;
-import org.wit.hrmatching.dto.applicant.ProfileDTO;
-import org.wit.hrmatching.dto.applicant.ProfileUpdateRequestDTO;
+import org.wit.hrmatching.dao.applicant.ApplicantProfileDAO;
+import org.wit.hrmatching.dto.applicant.ApplicantProfileDTO;
+import org.wit.hrmatching.dto.applicant.ApplicantProfileUpdateRequestDTO;
 
 @Service
 @RequiredArgsConstructor
-public class ProfileService {
+public class ApplicantProfileService {
 
-	private final ProfileDAO profileDAO;
+	private final ApplicantProfileDAO applicantProfileDAO;
 	private final PasswordEncoder passwordEncoder;
 	private final FileUploadProperties fileUploadProperties;
 
-	public ProfileDTO getUserProfile(long userId) {
-		return profileDAO.getUserProfile(userId);
+	public ApplicantProfileDTO getUserProfile(long userId) {
+		return applicantProfileDAO.getUserProfile(userId);
 	}
 
 	@Transactional
-	public void updateUserProfile(long userId, ProfileUpdateRequestDTO dto) {
+	public void updateUserProfile(long userId, ApplicantProfileUpdateRequestDTO dto) {
 
-		String encodedPasswordFromDB = profileDAO.findPasswordById(userId);
+		String encodedPasswordFromDB = applicantProfileDAO.findPasswordById(userId);
 
 		boolean isMatch = passwordEncoder.matches(dto.getPassword(), encodedPasswordFromDB);
 
@@ -34,7 +34,7 @@ public class ProfileService {
 		}
 
 		dto.setUserId(userId);
-		profileDAO.updateUserProfile(dto);
+		applicantProfileDAO.updateUserProfile(dto);
 	}
 
 }

@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.wit.hrmatching.config.file.FileUploadProperties;
 import org.wit.hrmatching.service.UserService;
-import org.wit.hrmatching.service.employer.ProfileService;
+import org.wit.hrmatching.service.employer.EmployerProfileService;
 import org.wit.hrmatching.vo.user.CustomUserDetails;
 import org.wit.hrmatching.vo.user.EmployerProfilesVO;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ import java.util.UUID;
 @RequestMapping("/employer/profile")
 public class EmployerProfileController {
 
-    private final ProfileService profileService;
+    private final EmployerProfileService employerProfileService;
     private final UserService userService;
     private final ServletContext servletContext;
     private final FileUploadProperties fileUploadProperties;
@@ -41,8 +41,8 @@ public class EmployerProfileController {
     @GetMapping("/view")
     public ModelAndView viewProfile(@AuthenticationPrincipal CustomUserDetails userDetails) {
         Long userId = userDetails.getUser().getId();
-        EmployerProfilesVO profile = profileService.getEmployerProfile(userId);
-        List<EmployerRecentApplicantVO> vo = profileService.selectEmployerRecentApplicantList(userId);
+        EmployerProfilesVO profile = employerProfileService.getEmployerProfile(userId);
+        List<EmployerRecentApplicantVO> vo = employerProfileService.selectEmployerRecentApplicantList(userId);
 
         String imageUrl = (profile.getProfileImage() != null)
                 ? "/uploads/users/profile/" + profile.getProfileImage()
@@ -72,7 +72,7 @@ public class EmployerProfileController {
         profile.setUserId(userId);
 
         // ✅ 여기에서 updateFullProfile 사용
-        profileService.updateFullProfile(profile);
+        employerProfileService.updateFullProfile(profile);
 
         return ResponseEntity.ok("기업 정보가 성공적으로 수정되었습니다.");
     }
@@ -135,7 +135,7 @@ public class EmployerProfileController {
             file.transferTo(targetFile);
 
             // ✅ DB 저장
-            profileService.updateProfileImage(userId, storedName);
+            employerProfileService.updateProfileImage(userId, storedName);
 
             // ✅ 응답
             result.put("success", true);
