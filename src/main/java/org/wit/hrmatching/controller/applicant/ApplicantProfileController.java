@@ -10,7 +10,7 @@ public class ApplicantProfileController {
 
 	@GetMapping("/main")
 	public String main() {
-		return "applicant/mypage/main";
+		return "applicant/users/mypage";
 	}
 
 	@GetMapping("/profile")
