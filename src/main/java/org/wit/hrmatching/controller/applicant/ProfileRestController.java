@@ -6,10 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.wit.hrmatching.dto.applicant.ProfileDTO;
 import org.wit.hrmatching.dto.applicant.ProfileUpdateRequestDTO;
 import org.wit.hrmatching.service.applicant.ProfileService;
 import org.wit.hrmatching.vo.user.CustomUserDetails;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,6 +50,25 @@ public class ProfileRestController {
 			return ResponseEntity
 					.internalServerError() // 500 Internal Server Error
 					.body("프로필 수정 중 오류가 발생했습니다.");
+		}
+	}
+
+	@PostMapping("/image")
+	public ResponseEntity<?> uploadProfileImage(@RequestParam("file") MultipartFile file,
+												@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+		if (file.isEmpty()) {
+			return ResponseEntity.badRequest().body("업로드할 파일이 없습니다.");
+		}
+
+		try {
+			// Service에서 파일 저장
+			String savedFilePath = profileService.updateProfileImage(userDetails.getId(), file);
+			return ResponseEntity.ok().body(savedFilePath);
+
+		} catch (IOException e) {
+			// 파일 저장 중 에러 발생 시
+			return ResponseEntity.internalServerError().body("파일 저장 중 오류가 발생했습니다.");
 		}
 	}
 }

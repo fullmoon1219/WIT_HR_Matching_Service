@@ -5,6 +5,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.wit.hrmatching.config.file.FileUploadProperties;
 import org.wit.hrmatching.dao.applicant.ProfileDAO;
 import org.wit.hrmatching.dto.applicant.ProfileDTO;
 import org.wit.hrmatching.dto.applicant.ProfileUpdateRequestDTO;
@@ -15,6 +16,7 @@ public class ProfileService {
 
 	private final ProfileDAO profileDAO;
 	private final PasswordEncoder passwordEncoder;
+	private final FileUploadProperties fileUploadProperties;
 
 	public ProfileDTO getUserProfile(long userId) {
 		return profileDAO.getUserProfile(userId);
@@ -34,4 +36,6 @@ public class ProfileService {
 		dto.setUserId(userId);
 		profileDAO.updateUserProfile(dto);
 	}
+
+
 }
