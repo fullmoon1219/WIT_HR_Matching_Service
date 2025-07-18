@@ -34,4 +34,8 @@ public class ReportService {
     public Map<String, Object> getReportStats() {
         return reportMapper.getReportStats();
     }
+
+    public void registerReport(ReportVO report) {
+        reportMapper.insertReport(report);
+    }
 }
