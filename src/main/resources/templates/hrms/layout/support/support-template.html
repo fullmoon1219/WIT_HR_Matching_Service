@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Novi</title>
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/support/header.css">
+    <link rel="stylesheet" href="/css/main/footer.css">
+
+    <th:block layout:fragment="styles"></th:block>
+
+    <!-- JS -->
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/main/header.js"></script>
+</head>
+<body>
+<div class="main-layout">
+
+    <header th:replace="~{fragments/main/user-header :: header}"></header>
+
+    <section class="main-area" layout:fragment="content"></section>
+
+    <footer th:replace="~{fragments/main/user-footer :: footer}"></footer>
+
+
+    </div>
+
+</body>
+</html>

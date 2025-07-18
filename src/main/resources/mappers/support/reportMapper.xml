@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.support.ReportMapper">
+
+    <insert id="insertReport" parameterType="org.wit.hrmatching.vo.support.ReportVO">
+        INSERT INTO reports (
+            reporter_user_id,
+            reported_user_id,
+            report_type,
+            target_id,
+            reason,
+            description
+        )
+        VALUES (
+                   #{reporterUserId},
+                   #{reportedUserId},
+                   #{reportType},
+                   #{targetId},
+                   #{reason},
+                   #{description}
+               )
+    </insert>
+
+</mapper>

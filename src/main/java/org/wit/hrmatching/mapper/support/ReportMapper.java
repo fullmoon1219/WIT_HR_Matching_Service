@@ -13,4 +13,6 @@ public interface ReportMapper {
     int getReportTotalCount(Map<String, Object> filter);
 
     Map<String, Object> getReportStats();
+
+    void insertReport(ReportVO report);
 }
