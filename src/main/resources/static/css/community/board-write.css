@@ -118,3 +118,8 @@ textarea {
     background: none;
     cursor: pointer;
 }
+
+.toastui-editor-contents img {
+    max-width: 40%;
+    height: auto;
+}
