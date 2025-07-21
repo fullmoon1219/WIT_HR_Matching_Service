@@ -1,25 +1,41 @@
 package org.wit.hrmatching.config.ai;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
 public class OpenAiResponseParser {
 
-    private final ObjectMapper objectMapper;
+    public static JsonNode parseJsonResponse(String gptRaw) {
+        String raw = gptRaw.trim();
+        if (raw.startsWith("```json")) {
+            raw = raw.replaceFirst("```json", "").trim();
+        }
+        if (raw.endsWith("```")) {
+            raw = raw.substring(0, raw.lastIndexOf("```")).trim();
+        }
 
-    public JsonNode parse(String rawJson) {
         try {
-            return objectMapper.readTree(rawJson);
-        } catch (Exception e) {
-            // 파싱 실패 시 에러 JSON 반환
-            ObjectNode errorNode = objectMapper.createObjectNode();
-            errorNode.put("error", "OpenAI 응답 파싱 실패");
-            return errorNode;
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readTree(raw);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("GPT 응답을 JSON으로 파싱할 수 없습니다", e);
+        }
+    }
+
+    public static String extractContentFromGptChoices(String gptJson) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(gptJson);
+            return root
+                    .path("choices")
+                    .get(0)
+                    .path("message")
+                    .path("content")
+                    .asText()
+                    .trim();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("GPT 응답에서 요약을 추출하지 못했습니다", e);
         }
     }
 }

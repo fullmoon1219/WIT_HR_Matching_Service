@@ -48,6 +48,8 @@ function loadPostDetail(postId) {
             $("#viewViewCount").text("조회수 " + post.viewCount);
             $("#viewLikeCount").text(`♥ ${post.likeCount}`)
                 .toggleClass("liked", post.liked);
+            $("#reportPostBtn").data("target-id", post.id);
+            $("#reportPostBtn").data("user-id", post.writerId);
             $("#viewPostContent").html(post.content);
 
             if (post.attachments?.length > 0) {
@@ -111,7 +113,9 @@ function renderComments(comments) {
                                 <span>${child.createdAt}</span>
                                 ${!child.deleted ? `
                                     | <a href="#" class="like-button ${likedClass}">♥ ${child.likeCount}</a>
+                                    <a href="#" class="report-button" data-type="USER" data-target-id="${child.id}" data-user-id="${child.userId}">신고</a>
                                     ${isChildWriter ? `<a href="#" class="reply-edit">수정</a><a href="#" class="reply-delete">삭제</a>` : ""}
+
                                 ` : ""}
                             </div>
                         </div>
@@ -146,8 +150,10 @@ function renderComments(comments) {
                             <span>${comment.createdAt}</span>
                             ${!comment.deleted ? `
                                 | <a href="#" class="like-button ${likedClass}">♥ ${comment.likeCount}</a>
+                                <a href="#" class="report-button" data-type="USER" data-target-id="${comment.id}" data-user-id="${comment.userId}">신고</a>
                                 <a href="#" class="reply-link">답글</a>
                                 ${isCommentWriter ? `<a href="#" class="reply-edit">수정</a><a href="#" class="reply-delete">삭제</a>` : ""}
+
                             ` : ""}
                         </div>
                     </div>
@@ -172,8 +178,52 @@ function renderComments(comments) {
     }
 }
 
+$(document).on("click", ".report-button", function (e) {
+    e.preventDefault();
 
+    const type = $(this).data("type");
+    const targetId = $(this).data("target-id");
+    const reportedUserId = $(this).data("user-id");
 
+    const csrfToken = $('meta[name="_csrf"]').attr('content');
+    const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+
+    const form = $('<form>', {
+        method: 'POST',
+        action: '/support/report'
+    });
+
+    form.append($('<input>', { type: 'hidden', name: 'type', value: type }));
+    form.append($('<input>', { type: 'hidden', name: 'targetId', value: targetId }));
+    form.append($('<input>', { type: 'hidden', name: 'reportedUserId', value: reportedUserId }));
+    form.append($('<input>', { type: 'hidden', name: '_csrf', value: csrfToken }));
+
+    $('body').append(form);
+    form.submit();
+});
+
+$(document).on("click", "#reportPostBtn", function (e) {
+    e.preventDefault();
+
+    const type = $(this).data("type"); // COMMUNITY_POST
+    const targetId = $(this).data("target-id");
+    const reportedUserId = $(this).data("user-id");
+
+    const csrfToken = $('meta[name="_csrf"]').attr('content');
+
+    const form = $('<form>', {
+        method: 'POST',
+        action: '/support/report'
+    });
+
+    form.append($('<input>', { type: 'hidden', name: 'type', value: type }));
+    form.append($('<input>', { type: 'hidden', name: 'targetId', value: targetId }));
+    form.append($('<input>', { type: 'hidden', name: 'reportedUserId', value: reportedUserId }));
+    form.append($('<input>', { type: 'hidden', name: '_csrf', value: csrfToken }));
+
+    $('body').append(form);
+    form.submit();
+});
 
 
 function toggleReplies(button, count) {

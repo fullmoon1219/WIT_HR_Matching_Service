@@ -1,5 +1,8 @@
 package org.wit.hrmatching.service.applicant;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -126,4 +129,29 @@ public class ResumeService {
 	public boolean deleteResume(long resumeId) {
 		return resumeDAO.deleteResume(resumeId);
 	}
+
+	public JsonNode getResumeJsonById(Long resumeId) {
+		ResumeVO resume = getResume(resumeId);
+		if (resume == null) {
+			throw new ResumeNotFoundException("해당 이력서를 찾을 수 없습니다.");
+		}
+
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode content = mapper.createObjectNode();
+
+		content.put("education", resume.getEducation());
+		content.put("experience", resume.getExperience());
+		content.put("skills", resume.getSkills());
+		content.put("preferredLocation", resume.getPreferredLocation());
+		content.put("salaryExpectation", resume.getSalaryExpectation());
+		content.put("desiredPosition", resume.getDesiredPosition());
+		content.put("coreCompetency", resume.getCoreCompetency());
+		content.put("motivation", resume.getMotivation());
+
+		ObjectNode root = mapper.createObjectNode();
+		root.set("content", mapper.createArrayNode().add(content));
+
+		return root;
+	}
+
 }
