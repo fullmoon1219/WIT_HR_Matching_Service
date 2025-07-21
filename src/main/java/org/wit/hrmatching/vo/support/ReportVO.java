@@ -15,7 +15,10 @@ public class ReportVO {
     private LocalDateTime reportDate;
     private String status;         // PENDING, REVIEWED, DISMISSED
     private Long reviewedByAdminId;
+    private String reviewedByAdminName;
+    private String reviewedByAdminEmail;
     private LocalDateTime reviewedAt;
+    private String actionTaken;
 
     // 추가: 사용자 이름/이메일용 필드 (JOIN 용도)
     private String reporterName;

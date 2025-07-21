@@ -374,3 +374,32 @@ a.like-button.liked {
     font-style: italic;
 }
 
+a.report-button {
+    color: gray !important;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    margin-left: 6px;
+}
+
+a.report-button:hover {
+    color: red !important;
+}
+
+/* 신고 버튼 스타일 (like-button과 통일) */
+.report-button {
+    background: none;
+    border: none;
+    color: gray !important;
+    font-size: 12px;
+    margin-left: 8px;
+    cursor: pointer;
+    padding: 0;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.report-button:hover {
+    color: red !important;
+    text-decoration: underline;
+}

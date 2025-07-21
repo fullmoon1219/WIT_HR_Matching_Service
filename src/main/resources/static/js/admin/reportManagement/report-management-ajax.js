@@ -58,13 +58,25 @@ function renderReportTable(reportList) {
             <tr>
                 <td><input type="checkbox" data-id="${report.id}"></td>
                 <td>${report.id}</td>
-                <td>${getReportTypeLabel(report.reportType)} #${report.targetId}</td>
+                <td>
+                  <a href="#" class="target-link"
+                     data-type="${report.reportType}"
+                     data-id="${report.targetId}">
+                     ${getReportTypeLabel(report.reportType)} #${report.targetId}
+                  </a>
+                </td>
+
                 <td class="reporter-user-info" data-userid="${report.reporterUserId}">${report.reporterName || '-'}</td>
                 <td class="reporter-user-info" data-userid="${report.reporterUserId}">${report.reporterEmail || '-'}</td>
-                <td class="report-reason" data-reportid="${report.id}">${report.reason}</td>
+                <td class="report-reason"
+                    data-reportid="${report.id}"
+                    data-reporttype="${report.reportType}"
+                    data-targetid="${report.targetId}">
+                    ${report.reason}
+                </td>
+
                 <td>${formatDate(report.reportDate)}</td>
                 <td>${getStatusLabelWithClass(report.status)}</td>
-                <td><button class="view-btn" data-id="${report.id}">보기</button></td>
             </tr>
         `;
         $tbody.append(row);
@@ -74,6 +86,33 @@ function renderReportTable(reportList) {
 function formatDate(dateTimeString) {
     return new Date(dateTimeString).toLocaleDateString();
 }
+
+$(document).on("click", ".target-link", function (e) {
+    e.preventDefault();
+
+    const type = $(this).data("type");
+    const id = $(this).data("id");
+
+    if (type === 'JOB_POST') {
+        // 예: /jobs/공고번호
+        window.open(`/recruit/view/${id}`, '_blank');
+    } else if (type === 'COMMUNITY_POST') {
+        // 예: /community/view/게시물번호
+        window.open(`/community/all/view/${id}`, '_blank');
+    } else if (type === 'USER') {
+        // 댓글 ID로 댓글 조회 → 댓글의 postId를 얻고 이동
+        $.get(`/api/admin/reports/contents/comments/${id}`, function (res) {
+            if (res && res.postId) {
+                window.open(`/community/all/view/${res.postId}#comment-${res.id}`, '_blank');
+            } else {
+                alert("댓글 정보가 존재하지 않습니다.");
+            }
+        }).fail(() => {
+            alert("댓글 정보를 불러오지 못했습니다.");
+        });
+    }
+});
+
 
 function getStatusLabelWithClass(status) {
     switch (status) {
