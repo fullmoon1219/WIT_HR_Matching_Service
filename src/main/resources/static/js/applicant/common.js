@@ -61,6 +61,14 @@ function translateGender(code) {
 	}
 }
 
+function translateGender2(code) {
+	switch (code) {
+		case 'MALE': return '남';
+		case 'FEMALE': return '여';
+		default: return '기타';
+	}
+}
+
 function validateResumeForm() {
 	const requiredFields = [
 		{ name: 'title', label: '제목' },

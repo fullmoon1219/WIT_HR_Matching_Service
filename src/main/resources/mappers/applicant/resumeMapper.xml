@@ -98,4 +98,10 @@
         where user_id=#{userId}
     </update>
 
+    <select id="countCompletedResumes" parameterType="long" resultType="int">
+        SELECT count(*)
+        FROM resumes
+        WHERE user_id=#{userId} AND is_completed=true AND deleted_at IS NULL
+    </select>
+
 </mapper>

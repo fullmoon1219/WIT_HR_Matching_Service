@@ -8,21 +8,31 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.wit.hrmatching.config.file.FileUploadProperties;
 import org.wit.hrmatching.dao.applicant.ApplicantProfileDAO;
+import org.wit.hrmatching.dao.applicant.ApplicationDAO;
+import org.wit.hrmatching.dao.applicant.BookmarkDAO;
+import org.wit.hrmatching.dao.applicant.ResumeDAO;
 import org.wit.hrmatching.dto.applicant.ApplicantProfileDTO;
 import org.wit.hrmatching.dto.applicant.ApplicantProfileUpdateRequestDTO;
+import org.wit.hrmatching.dto.applicant.DashboardDTO;
+import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
 import org.wit.hrmatching.vo.user.ApplicantProfileImageVO;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ApplicantProfileService {
 
-	private final ApplicantProfileDAO applicantProfileDAO;
 	private final PasswordEncoder passwordEncoder;
 	private final FileUploadProperties fileUploadProperties;
+
+	private final ApplicantProfileDAO applicantProfileDAO;
+	private final ApplicationDAO applicationDAO;
+	private final ResumeDAO resumeDAO;
+	private final BookmarkDAO bookmarkDAO;
 
 	public ApplicantProfileDTO getUserProfile(long userId) {
 		return applicantProfileDAO.getUserProfile(userId);
@@ -91,5 +101,27 @@ public class ApplicantProfileService {
 		}
 
 		return fullPath;
+	}
+
+	@Transactional(readOnly = true)
+	public DashboardDTO getDashboard(long userId) {
+
+		DashboardDTO dashboard = new DashboardDTO();
+
+		// 사용자 프로필
+		dashboard.setUserProfile(applicantProfileDAO.getUserProfile(userId));
+
+		// 진행 중인 지원 갯수
+		List<String> inProgressStatus = List.of("APPLIED");
+		dashboard.setApplicationCount(applicationDAO.selectCountByStatusList(userId, inProgressStatus));
+		// 작성 완료 이력서 갯수
+		dashboard.setResumeCount(resumeDAO.countCompletedResumes(userId));
+		// 스크랩한 공고 갯수
+		dashboard.setBookmarkCount(bookmarkDAO.countBookmarkList(userId, new SearchCriteria()));
+
+		// 지원 현황 3개 목록
+		dashboard.setRecentApplicationList(applicationDAO.getRecentApplicationsForDashboard(userId));
+
+		return dashboard;
 	}
 }

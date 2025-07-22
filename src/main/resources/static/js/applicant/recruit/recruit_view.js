@@ -86,7 +86,7 @@ $(document).ready(function () {
 		} else if (xhr.status === 404) {
 			location.href = '/error/not-found';
 		} else {
-			location.href = '/error/db-access-denied';
+			alert('공고 정보를 불러오기에 실패했습니다. 나중에 다시 시도해주세요.');
 			console.error(xhr);
 		}
 	});

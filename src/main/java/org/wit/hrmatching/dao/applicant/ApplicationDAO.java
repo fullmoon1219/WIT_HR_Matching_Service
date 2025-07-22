@@ -33,4 +33,8 @@ public class ApplicationDAO {
 	public Long findOwnerIdByApplicationId(long applicationId) {
 		return applicationMapper.findUserIdByApplicationId(applicationId);
 	}
+
+	public List<ApplicationDetailVO> getRecentApplicationsForDashboard(long userId) {
+		return applicationMapper.selectRecentApplicationsForDashboard(userId);
+	}
 }

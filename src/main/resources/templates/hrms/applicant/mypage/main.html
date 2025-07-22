@@ -1,0 +1,109 @@
+<!-- /templates/hrms/employer/mypagge/profile.html -->
+
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+        <link rel="stylesheet" href="/css/user/userprofile.css">
+        <link rel="stylesheet" href="/css/main/footer.css">
+
+    </th:block>
+
+    <section layout:fragment="content">
+
+        <div class="mypage-summary">
+            <div class="userprofile-info">
+                <div class="userprofile-profile-img">
+                    <img id="profile-image" src="/images/users/user_big_profile.png" alt="기본 프로필 이미지">
+<!--                    <button class="userprofile-change-photo">사진변경</button>-->
+                </div>
+                <div class="userprofile-name">
+                    <strong></strong>
+                    <p></p>
+                </div>
+            </div>
+
+            <div class="userprofile-summary-panel">
+                <div class="userprofile-stats">
+                    <div class="userprofile-stat">
+                        <div class="userprofile-stat-value" id="applicationCount">0</div>
+                        <div class="userprofile-stat-label" id="application-stat">진행 중인 지원</div>
+                    </div>
+                    <div class="userprofile-stat">
+                        <div class="userprofile-stat-value" id="resumeCount">0</div>
+                        <div class="userprofile-stat-label" id="resume-stat">작성 완료 이력서</div>
+                    </div>
+                    <div class="userprofile-stat">
+                        <div class="userprofile-stat-value" id="bookmarkCount">0</div>
+                        <div class="userprofile-stat-label" id="bookmark-stat">스크랩한 공고</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <a href="/applicant/resume/list" class="resume-type-card">
+                <img src="/images/users/resume-paper.png" class="resume-icon" alt="이력서 아이콘">
+                <h4 class="resume-title">새 이력서 작성하기</h4>
+                <p class="resume-desc">첫 이력서를 완성하고<br>구직 활동을 시작해보세요!</p>
+            </a>
+
+            <div class="job-recommend-card">
+                <div class="recommend-box">
+                    <div class="recommend-header">
+                        <h3>지원 현황</h3>
+                    </div>
+                    <div class="recommend-list">
+                        <div class="recommend-list-header">
+                            <div class="cell">공고명</div>
+                            <div class="cell">기업</div>
+                            <div class="cell">근무지</div>
+                            <div class="cell">마감일</div>
+                            <div class="cell">상태</div>
+                        </div>
+                        <div id="applicationListBody" class="recommend-list-body">
+                        </div>
+                    </div>
+                    <div class="no-data">
+                        현재 지원한 공고가 없습니다.
+                    </div>
+                    <div class="more-btn-container">
+                        <button class="more-btn">
+                            <span>더보기</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-wrapper">
+            <a href="/clean-campaign" class="feature-card blue">
+                <h3>공고 조회수 TOP20</h3>
+                <p>아직 지원한 공고가 없다면? <br><strong>조회수 TOP20 공고</strong> 지금 확인해보세요!</p>
+                <div class="arrow-btn">→</div>
+            </a>
+            <a href="/open-interview" class="feature-card green">
+                <h3>북마크 TOP20</h3>
+                <p>구직자들이 눈여겨 본 <strong>북마크 TOP 20</strong><br>놓지치 마세요!</p>
+                <div class="arrow-btn">→</div>
+            </a>
+            <a href="/smart-tool" class="feature-card dark">
+                <h3>관리자 문의</h3>
+                <p>도움이 필요하신가요?<br><strong>관리자에게 직접 문의해보세요!</strong></p>
+                <div class="arrow-btn">→</div>
+            </a>
+        </div>
+
+        <!-- 지원 상세 내용 확인할 모달창 구역 -->
+        <div id="application-modal" title="지원 상세 내용" style="display:none;">
+            <!-- JS에서 채움 -->
+        </div>
+
+    </section>
+</div>
+
+<script src="/js/applicant/common.js"></script>
+<script src="/js/applicant/mypage/main.js"></script>

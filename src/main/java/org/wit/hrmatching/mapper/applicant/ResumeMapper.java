@@ -36,4 +36,6 @@ public interface ResumeMapper {
 
 	void updatePrimaryResume(long resumeId, long userId);
 	void clearPrimaryResume(long userId);
+
+	int countCompletedResumes(long userId);
 }

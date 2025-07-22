@@ -46,7 +46,13 @@ public class RecruitRestController {
 			session.setAttribute(key, now);
 		}
 
-		JobPostVO jobPost = recruitService.viewRecruit(jobPostId);
+		boolean isAdmin = false;
+		if (userDetails != null && userDetails.getAuthorities().stream()
+				.anyMatch(auth -> auth.getAuthority().equals("ADMIN"))) {
+			isAdmin = true;
+		}
+
+		JobPostVO jobPost = recruitService.viewRecruit(jobPostId, isAdmin);
 		if (jobPost == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -93,7 +99,13 @@ public class RecruitRestController {
 	public ResponseEntity<Map<String, Object>> getJobPostSummary(@PathVariable long jobPostId,
 																 @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-		Map<String, Object> summary = recruitService.getJobPostSummary(jobPostId);
+		boolean isAdmin = false;
+		if (userDetails != null && userDetails.getAuthorities().stream()
+				.anyMatch(auth -> auth.getAuthority().equals("ADMIN"))) {
+			isAdmin = true;
+		}
+
+		Map<String, Object> summary = recruitService.getJobPostSummary(jobPostId, isAdmin);
 		if (summary == null) {
 			return ResponseEntity.notFound().build();
 		}
