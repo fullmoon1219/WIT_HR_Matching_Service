@@ -25,41 +25,13 @@
             <!-- 2. 콘텐츠 영역 -->
             <div class="content-container">
 
-                <!-- 공고 카드 그리드 -->
+                <!-- 공고 카드 그리드: 랜덤 3개 AJAX로 삽입 -->
                 <div class="card-grid">
                     <div class="image-card">
                         <img src="/images/today-banner.png" alt="합격축하금 배너">
                     </div>
-
-                    <a href="/job-detail/123" class="job-card-link">
-                        <div class="job-card">
-                            <div class="company">㈜랜덤공고1</div>
-                            <h3>[수도권] 제약영업 팀장급</h3>
-                            <p>리프레시 휴가, 도서 구입비</p>
-                            <div class="reward">💰 100만원</div>
-                            <div class="dday">D-30</div>
-                        </div>
-                    </a>
-
-                    <a href="/job-detail/123" class="job-card-link">
-                    <div class="job-card">
-                        <div class="company">랜덤공고2</div>
-                        <h3>LLM 개발자</h3>
-                        <p>합격축하금 100만원</p>
-                        <div class="dday">D-22</div>
-                    </div>
-                    </a>
-
-                    <a href="/job-detail/123" class="job-card-link">
-                    <div class="job-card">
-                        <div class="company">랜덤공고3</div>
-                        <h3>프론트엔드 개발자 (React)</h3>
-                        <p>명절선물 / Google Analytics</p>
-                        <div class="dday">D-57</div>
-                    </div>
-                    </a>
+                    <!-- 랜덤 공고가 AJAX로 여기에 추가됨 -->
                 </div>
-
             </div>
         </section>
 
@@ -90,85 +62,9 @@
             <h2 class="urgent-title">마감 임박</h2>
             <div class="urgent-divider"></div>
             <div class="urgent-card-grid">
-                <div class="job-card">
-                    <div class="company">㈜공고1</div>
-                    <h3>[수도권] 제약영업 팀장급</h3>
-                    <p>리프레시 휴가, 도서 구입비</p>
-                    <div class="reward">💰 100만원</div>
-                    <div class="dday">D-30</div>
-                </div>
-                </a>
-
-                <a href="/job-detail/123" class="job-card-link">
-                    <div class="job-card">
-                        <div class="company">공고2</div>
-                        <h3>LLM 개발자</h3>
-                        <p>합격축하금 100만원</p>
-                        <div class="dday">D-22</div>
-                    </div>
-                </a>
-
-                <a href="/job-detail/123" class="job-card-link">
-                    <div class="job-card">
-                        <div class="company">공고3</div>
-                        <h3>프론트엔드 개발자 (React)</h3>
-                        <p>명절선물 / Google Analytics</p>
-                        <div class="dday">D-57</div>
-                    </div>
-                </a>
-                <div class="job-card">
-                    <div class="company">㈜공고1</div>
-                    <h3>[수도권] 제약영업 팀장급</h3>
-                    <p>리프레시 휴가, 도서 구입비</p>
-                    <div class="reward">💰 100만원</div>
-                    <div class="dday">D-30</div>
-                </div>
-                </a>
-
-                <a href="/job-detail/123" class="job-card-link">
-                    <div class="job-card">
-                        <div class="company">공고2</div>
-                        <h3>LLM 개발자</h3>
-                        <p>합격축하금 100만원</p>
-                        <div class="dday">D-22</div>
-                    </div>
-                </a>
-
-                <a href="/job-detail/123" class="job-card-link">
-                    <div class="job-card">
-                        <div class="company">공고3</div>
-                        <h3>프론트엔드 개발자 (React)</h3>
-                        <p>명절선물 / Google Analytics</p>
-                        <div class="dday">D-57</div>
-                    </div>
-                </a>
-                <div class="job-card">
-                    <div class="company">㈜공고1</div>
-                    <h3>[수도권] 제약영업 팀장급</h3>
-                    <p>리프레시 휴가, 도서 구입비</p>
-                    <div class="reward">💰 100만원</div>
-                    <div class="dday">D-30</div>
-                </div>
-                </a>
-
-                <a href="/job-detail/123" class="job-card-link">
-                    <div class="job-card">
-                        <div class="company">공고2</div>
-                        <h3>LLM 개발자</h3>
-                        <p>합격축하금 100만원</p>
-                        <div class="dday">D-22</div>
-                    </div>
-                </a>
-
-                <a href="/job-detail/123" class="job-card-link">
-                    <div class="job-card">
-                        <div class="company">공고3</div>
-                        <h3>프론트엔드 개발자 (React)</h3>
-                        <p>명절선물 / Google Analytics</p>
-                        <div class="dday">D-57</div>
-                    </div>
-                </a>
+                <!-- 마감 임박 공고가 AJAX로 삽입됨 -->
             </div>
+            <div id="paginationContainerUrgent" class="paginate_regular"></div>
         </section>
 
         <!-- 우측 네비게이션 -->
@@ -189,3 +85,6 @@
 <script src="/js/main/banner-slider.js"></script>
 <script src="/js/main/header.js"></script>
 <script src="/js/main/index.js"></script>
+<script src="/js/csrf-setup.js"></script>
+<script src="/js/community/pagination.js"></script>
+<script src="/js/main/job-loader.js"></script>

@@ -3,14 +3,8 @@
     background-color: white;
     border-bottom: 1px solid #ddd;
     padding: 20px 50px;
-
-    position: fixed;
-    top: 60px; /* 헤더 높이만큼 띄움 */
-    left: 0;
     width: 100%;
-    z-index: 999;
 }
-
 
 .menu-wrapper {
     display: flex;
@@ -20,16 +14,6 @@
     overflow: visible;
 }
 
-/*전체 메뉴용 햄버거 버튼 만들었는데 자꾸 오류나서 전체 메뉴 패스했습니다
-혹시 원하실까봐 일단 코드는 안 지우고 남겨둡니다*/
-/*.hamburger {
-    font-size: 22px;
-    cursor: pointer;
-    padding-right: 20px;
-    user-select: none;
-}*/
-
-/* 메뉴 항목 */
 .menu-wrapper > ul {
     list-style: none;
     display: flex;
@@ -48,7 +32,6 @@
     font-weight: bold;
 }
 
-/* 드롭다운 구성 */
 .dropdown {
     position: relative;
 }
