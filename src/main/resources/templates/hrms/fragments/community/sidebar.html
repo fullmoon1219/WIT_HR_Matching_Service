@@ -31,7 +31,14 @@
     <!-- 하단: 관리자 정보 -->
     <div class="sidebar-footer">
       <div class="user-info" th:if="${userDetails != null}">
-        <img th:src="${userDetails.profileImage ?: '/images/users/user_small_profile.png'}" alt="프로필 이미지">
+        <img th:if="${userDetails.profileImage != null}"
+             th:src="@{'/uploads/users/profile/' + ${userDetails.profileImage}}"
+             alt="프로필 이미지"
+             style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
+        <img th:if="${userDetails.profileImage == null}"
+             th:src="@{/images/users/user_small_profile.png}"
+             alt="기본 이미지"
+             style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
         <span th:text="${userDetails.name}"></span>
       </div>
       <div class="user-info" th:if="${userDetails == null}">

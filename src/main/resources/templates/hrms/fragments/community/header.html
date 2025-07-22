@@ -38,7 +38,7 @@
         <div class="header-auth" id="profileArea" th:if="${userDetails != null}"
              style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
             <img th:if="${userDetails.profileImage != null}"
-                 th:src="@{${userDetails.profileImage}}"
+                 th:src="@{'/uploads/users/profile/' + ${userDetails.profileImage}}"
                  alt="프로필 이미지"
                  style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
             <img th:if="${userDetails.profileImage == null}"
