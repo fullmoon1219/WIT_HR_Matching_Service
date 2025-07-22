@@ -138,8 +138,14 @@ h3 {
     transition: background-color 0.2s;
 }
 
-
 .btn-secondary-small:hover {
     background-color: #007bff;
     color: #fff;
+}
+
+.description-content img {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    max-width: 100%;
 }

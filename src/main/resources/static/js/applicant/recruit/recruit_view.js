@@ -35,7 +35,7 @@ $(document).ready(function () {
 
 		// 화면 표시 로직
 		$('#title').text(jobPost.title);
-		$('#description').text(jobPost.description);
+		$('#description').html(jobPost.description);
 		$('#employmentType').text(translateEmploymentType(jobPost.employmentType));
 		$('#jobCategory').text(jobPost.jobCategory);
 		$('#salary').text(jobPost.salary);
