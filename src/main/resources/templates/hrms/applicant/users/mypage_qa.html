@@ -1,0 +1,52 @@
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+        <link rel="stylesheet" href="/css/user/qa.css">
+    </th:block>
+
+    <section layout:fragment="content">
+        <div class="board-container">
+            <button class="btn delete-btn-top-right">삭제</button>
+            <div class="section-title">Q. 문의할 내용 제목</div>
+
+            <table class="info-table">
+                <tr>
+                    <th>이름</th>
+                    <td>이름(아이디)</td>
+                    <th>등록일</th>
+                    <td>20nn/0n/0n</td>
+                </tr>
+                <tr>
+                    <th>답변여부</th>
+                    <td colspan="3">완료</td>
+                </tr>
+            </table>
+
+            <div>
+                <div class="content-text">
+                    문의게시판 예시입니다
+
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet eos eum placeat repudiandae voluptatem. Accusantium ad autem deserunt, non nostrum quas quasi rem sapiente tenetur voluptates. Ea numquam pariatur perspiciatis?
+
+                </div>
+            </div>
+
+            <div class="qa-section">
+                <div class="qa-label">A. 답변내용</div>
+                <div class="qa-content">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda natus odio porro, recusandae sequi totam. Architecto blanditiis deserunt eaque maiores nesciunt, nobis obcaecati pariatur perferendis provident quidem, rem sapiente temporibus!
+                </div>
+                <div class="reply-time">답변시간: 2010/02/04 08:27:08</div>
+            </div>
+
+        </div>
+
+        <div class="return-wrapper">
+            <a href="/list" class="return-btn">목록으로 돌아가기</a>
+        </div>
+
+    </section>
+</div>
+
+

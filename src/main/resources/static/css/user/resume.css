@@ -1,276 +1,79 @@
-/* 📦 user/resume.css + 기본정보 한 줄/자기소개 구분 개선 (깔끔하게 정렬) */
-
-.resume-container {
-    display: flex;
-    max-width: 1200px;
-    margin: 40px auto;
-    gap: 40px;
-}
-
-.resume-left {
-    flex: 1;
-}
-
-.resume-sidebar {
-    width: 250px;
-    position: sticky;
-    top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.resume-section {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+.resume-list {
+    max-width: 1400px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     padding: 20px;
-    margin-bottom: 40px;
 }
 
-.resume-section h2 {
+.resume-list h3 {
     font-size: 18px;
-    font-weight: bold;
     margin-bottom: 12px;
 }
 
-.required {
-    color: red;
-    margin-left: 4px;
+.resume-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-.desc {
-    font-size: 13px;
-    color: #777;
-    margin-bottom: 12px;
-}
-
-/* ===================== 기본정보 개선 ===================== */
-.basic-info-box {
-    display: flex;
-    gap: 20px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    padding: 16px;
-    background-color: #f9f9f9;
-    align-items: flex-start;
-}
-
-.photo-box {
-    width: 80px;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.profile-img {
-    width: 64px;
-    height: 64px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    margin-bottom: 6px;
-}
-
-.photo-upload-btn {
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-}
-
-.info-fields {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    font-size: 14px;
-}
-
-.info-row {
+.resume-items li {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding: 12px 0;
 }
 
-.info-row label {
-    width: 80px;
-    font-weight: bold;
-    color: #333;
-    flex-shrink: 0;
+.resume-main-select {
+    flex: 0 0 auto;
+    margin-right: 8px;
 }
 
-.info-value {
-    color: #333;
+
+.resume-info {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.info-value a {
-    color: #2b77f6;
-    text-decoration: underline;
+.resume-title {
+    font-weight: 500;
+    font-size: 14px;
+    color: #222;
 }
 
-.photo-box {
-    width: 80px;
-    text-align: center;
-    margin-bottom: 12px;
+.resume-date {
+    font-size: 13px;
+    color: #888;
 }
 
-.profile-img {
-    width: 64px;
-    height: 64px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    margin-bottom: 6px;
+.resume-actions-inline {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 6px;
 }
 
-.photo-upload-btn {
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
+.btn-small {
+    font-size: 13px;
     padding: 4px 8px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 12px;
-}
-
-/* ===================== 공통 폼 요소 ===================== */
-input[type="text"],
-textarea,
-.input-homepage,
-.year-input {
-    width: 100%;
-    max-width: 500px; /* 기본적으로 폭 제한 */
-    padding: 8px;
+    background-color: #f5f5f5;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
 }
 
-/* 이력서 제목 칸은 예외적으로 전체 폭 사용 */
-.title-input {
-    width: 100%;
-    max-width: none; /* 폭 제한 해제 */
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-textarea,
-.cover-letter-textarea {
-    min-height: 100px;
-    resize: vertical;
-    line-height: 1.6;
-    max-width: 500px; /* textarea도 제한 */
-}
-
-.field-row {
-    margin-bottom: 24px;
-}
-
-.field-row label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 6px;
-}
-
-.input-with-button {
-    display: flex;
-    gap: 8px;
-    max-width: 500px;
-}
-
-.input-with-button input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* 다중 선택 버튼 영역 */
-.selection-area {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 8px;
-}
-
-.select-btn {
-    padding: 6px 14px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    background-color: #fff;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.select-btn.active {
-    background-color: #2b77f6;
-    color: #fff;
-    border-color: #2b77f6;
-}
-
-
-.btn-save {
-    width: 100%;
-    padding: 12px;
-    background-color: #2b77f6;
+.star-button {
+    font-size: 18px;
+    background: none;
     border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    color: #fff;
     cursor: pointer;
+    color: #bbb; /* 빈 별 기본 색상 */
+    padding: 0;
 }
 
-.btn-save:hover {
-    background-color: #1a5cd8; /* 선택: hover시 색상 변화 */
-}
-
-
-.btn-outline {
-    width: 100%;
-    padding: 12px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.btn-outline:hover {
-    background-color: #f8f8f8; /* 선택: hover시 색상 변화 */
-}
-
-
-/* ===================== 경력 요약 스타일 ===================== */
-.resume-summary {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    font-size: 16px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 40px;
-}
-
-.resume-summary .summary-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-}
-
-.resume-summary .summary-label {
-    width: 100px; /* 고정 너비로 두 줄로 내려가지 않게 */
-    font-weight: bold;
-    color: #333;
-    flex-shrink: 0;
-}
-
-.resume-summary .summary-value {
-    flex: 1;
-    color: #333;
-    word-break: break-word;
+.star-button.selected {
+    color: #ffc107; /* 노란 별 (대표 이력서) */
 }

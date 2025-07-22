@@ -1,5 +1,3 @@
-// /js/employer/profile.js
-
 $(document).ready(function () {
     let isEditing = false;
     const $fields = $('td[data-field]');
@@ -47,7 +45,7 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 data: JSON.stringify(updatedData),
                 success: function () {
-                    alert('기업 정보가 성공적으로 수정되었습니다.');
+                    showFlashMessage('success', '프로필이 성공적으로 업데이트되었습니다.');
 
                     $fields.each(function () {
                         const $td = $(this);
@@ -69,7 +67,7 @@ $(document).ready(function () {
                 },
                 error: function (xhr) {
                     const message = xhr.responseText || '수정 중 오류가 발생했습니다.';
-                    alert(message);
+                    showFlashMessage('error', message);
                 }
             });
         }
@@ -95,7 +93,6 @@ $(document).ready(function () {
         isEditing = false;
     });
 
-    // ✅ 비밀번호 변경 모달 처리
     $('#password-edit-button').on('click', function () {
         $('#passwordModal').fadeIn();
     });
@@ -195,7 +192,6 @@ $(document).ready(function () {
                         class: 'profile-image-preview'
                     });
 
-                    // 기존 이미지 태그 교체
                     $('#profileImagePreview').replaceWith($newImage);
                     alert("이미지 업로드가 완료되었습니다!");
                 } else {
@@ -207,4 +203,28 @@ $(document).ready(function () {
                 alert("이미지 업로드 중 오류가 발생했습니다.");
             });
     });
+
+    // ✅ 메시지 출력 함수 추가
+    function showFlashMessage(type, message) {
+        const $container = $('.flash-message-container');
+        const $success = $container.find('.alert-success');
+        const $error = $container.find('.alert-danger');
+
+        $success.hide();
+        $error.hide();
+
+        if (type === 'success') {
+            $success.find('p').text(message);
+            $success.show();
+        } else if (type === 'error') {
+            $error.find('p').text(message);
+            $error.show();
+        }
+
+        $container.show();
+
+        setTimeout(() => {
+            $container.fadeOut();
+        }, 3000);
+    }
 });
