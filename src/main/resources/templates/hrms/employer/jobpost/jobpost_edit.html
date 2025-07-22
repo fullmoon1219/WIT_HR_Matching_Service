@@ -20,8 +20,8 @@
         <!-- 상세 설명 에디터 -->
         <div class="form-group">
             <label for="description">상세 설명</label>
-            <!--<div id="quillEditor" style="height: 300px;"></div>-->
-            <textarea id="description" rows="6" th:field="*{description}" required></textarea>
+            <div id="editor"></div>
+            <input type="hidden" id="description" name="description" th:value="*{description}" />
         </div>
 
         <div class="form-group">
