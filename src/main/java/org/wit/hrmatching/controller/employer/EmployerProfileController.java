@@ -47,7 +47,7 @@ public class EmployerProfileController {
         String imageUrl = (profile.getProfileImage() != null)
                 ? "/uploads/users/profile/" + profile.getProfileImage()
                 : "/images/users/user_small_profile.png";
-
+        System.out.println(imageUrl+"%%%%%%%%%%%%%%%%%%%%%");
         ModelAndView modelAndView = new ModelAndView("employer/profile/view");
         modelAndView.addObject("profile", profile);
         modelAndView.addObject("recentApplicantList", vo);

@@ -12,7 +12,8 @@
         <select id="selectEmployerProfiles" resultType="EmployerProfilesVO">
             SELECT
                 ep.*,
-                u.name AS ceo_name
+                u.name AS ceo_name,
+                u.profile_image
             FROM employer_profiles ep
                  JOIN users u ON ep.user_id = u.id
             WHERE ep.user_id = #{userId}
@@ -64,9 +65,9 @@
     </select>
 
     <update id="updateProfileImage" parameterType="map">
-        UPDATE employer_profiles
+        UPDATE users
         SET profile_image = #{storedName}
-        WHERE user_id = #{userId}
+        WHERE id = #{userId}
     </update>
 
 
