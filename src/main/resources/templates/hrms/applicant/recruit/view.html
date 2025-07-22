@@ -19,6 +19,20 @@
 	<script src="/js/csrf-setup.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 	<script src="/js/applicant/common.js"></script>
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		const kakaoApiKey = /*[[${kakaoApiKey}]]*/ "";
+		const script = document.createElement("script");
+		script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoApiKey}&libraries=services&autoload=false`;
+		script.onload = function () {
+			kakao.maps.load(function () {
+				initWorkplaceMap();
+			});
+		};
+		document.head.appendChild(script);
+		/*]]>*/
+	</script>
 	<script src="/js/applicant/recruit/recruit_view.js"></script>
 </head>
 <body>
