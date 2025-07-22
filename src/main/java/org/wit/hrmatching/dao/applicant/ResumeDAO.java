@@ -93,4 +93,8 @@ public class ResumeDAO {
 	public void clearPrimaryResume(long userId) {
 		resumeMapper.clearPrimaryResume(userId);
 	}
+
+	public int countCompletedResumes(long userId) {
+		return resumeMapper.countCompletedResumes(userId);
+	}
 }

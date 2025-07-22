@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.wit.hrmatching.dto.applicant.ApplicantProfileDTO;
 import org.wit.hrmatching.dto.applicant.ApplicantProfileUpdateRequestDTO;
+import org.wit.hrmatching.dto.applicant.DashboardDTO;
 import org.wit.hrmatching.service.applicant.ApplicantProfileService;
 import org.wit.hrmatching.vo.user.CustomUserDetails;
 
@@ -18,7 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/profile")
+@RequestMapping("/api/profile")
 public class ApplicantProfileRestController {
 
 	private final ApplicantProfileService applicantProfileService;
@@ -76,5 +77,14 @@ public class ApplicantProfileRestController {
 			System.out.println("파일 저장 실패: " + e.getMessage());
 			return ResponseEntity.internalServerError().body("파일 저장 중 오류가 발생했습니다.");
 		}
+	}
+
+	@GetMapping("/dashboard")
+	public ResponseEntity<?> getMainProfile(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+		long userId = userDetails.getId();
+		DashboardDTO dashboard = applicantProfileService.getDashboard(userId);
+
+		return ResponseEntity.ok(dashboard);
 	}
 }

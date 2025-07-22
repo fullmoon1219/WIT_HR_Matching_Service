@@ -23,8 +23,8 @@ public class RecruitService {
 
 	private final RecruitDAO recruitDAO;
 
-	public JobPostVO viewRecruit(long jobPostId) {
-		return recruitDAO.viewRecruit(jobPostId);
+	public JobPostVO viewRecruit(long jobPostId, boolean isAdmin) {
+		return recruitDAO.viewRecruit(jobPostId, isAdmin);
 	}
 
 	public EmployerProfilesVO viewEmployerProfile(long employerUserId) {
@@ -35,9 +35,9 @@ public class RecruitService {
 		recruitDAO.increaseViewCount(jobPostId);
 	}
 
-	public Map<String, Object> getJobPostSummary(long jobPostId) {
+	public Map<String, Object> getJobPostSummary(long jobPostId, boolean isAdmin) {
 
-		JobPostVO jobPost = recruitDAO.viewRecruit(jobPostId);
+		JobPostVO jobPost = recruitDAO.viewRecruit(jobPostId, isAdmin);
 		EmployerProfilesVO employer = recruitDAO.viewEmployerProfile(jobPost.getUserId());
 
 		if (jobPost == null) {

@@ -96,4 +96,32 @@
         group by a.id, jp.id, ep.company_name, r.id
     </select>
 
+    <select id="selectRecentApplicationsForDashboard" resultType="ApplicationDetailVO">
+        select
+            a.id as id,
+            a.applied_at as appliedAt,
+            a.status as status,
+            a.updated_at as updatedAt,
+            jp.id as jobPostId,
+            jp.title as jobPostTitle,
+            jp.location as jobPostLocation,
+            jp.job_category as jobPostJobCategory,
+            jp.deadline as jobPostDeadline,
+            jp.deleted_at as jobPostDeletedAt,
+            ep.company_name as employerCompanyName,
+            r.id as resumeId,
+            r.title as resumeTitle,
+            r.deleted_at as resumeDeletedAt,
+            MIN(av.viewed_at) as viewedAt
+        from applications a
+            inner join job_posts jp on a.job_post_id = jp.id
+            left join employer_profiles ep on jp.user_id = ep.user_id
+            left join resumes r on a.resume_id = r.id
+            left join application_views av on a.id = av.application_id
+        where a.user_id = #{userId}
+        group by a.id
+        order by a.applied_at desc
+        limit 3
+    </select>
+
 </mapper>

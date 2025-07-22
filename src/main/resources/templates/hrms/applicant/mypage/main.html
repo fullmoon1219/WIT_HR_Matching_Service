@@ -14,28 +14,28 @@
         <div class="mypage-summary">
             <div class="userprofile-info">
                 <div class="userprofile-profile-img">
-                    <img src="/images/users/user_big_profile.png" alt="기본 프로필 이미지">
+                    <img id="profile-image" src="/images/users/user_big_profile.png" alt="기본 프로필 이미지">
 <!--                    <button class="userprofile-change-photo">사진변경</button>-->
                 </div>
                 <div class="userprofile-name">
-                    <strong>김지원님</strong>
-                    <p>(여, 25세)</p>
+                    <strong></strong>
+                    <p></p>
                 </div>
             </div>
 
             <div class="userprofile-summary-panel">
                 <div class="userprofile-stats">
                     <div class="userprofile-stat">
-                        <div class="userprofile-stat-value">0</div>
-                        <div class="userprofile-stat-label">진행 중인 지원</div>
+                        <div class="userprofile-stat-value" id="applicationCount">0</div>
+                        <div class="userprofile-stat-label" id="application-stat">진행 중인 지원</div>
                     </div>
                     <div class="userprofile-stat">
-                        <div class="userprofile-stat-value">0</div>
-                        <div class="userprofile-stat-label">작성 완료 이력서</div>
+                        <div class="userprofile-stat-value" id="resumeCount">0</div>
+                        <div class="userprofile-stat-label" id="resume-stat">작성 완료 이력서</div>
                     </div>
                     <div class="userprofile-stat">
-                        <div class="userprofile-stat-value">0</div>
-                        <div class="userprofile-stat-label">스크랩한 공고</div>
+                        <div class="userprofile-stat-value" id="bookmarkCount">0</div>
+                        <div class="userprofile-stat-label" id="bookmark-stat">스크랩한 공고</div>
                     </div>
                 </div>
             </div>
@@ -45,33 +45,35 @@
             <a href="/applicant/resume/list" class="resume-type-card">
                 <img src="/images/users/resume-paper.png" class="resume-icon" alt="이력서 아이콘">
                 <h4 class="resume-title">새 이력서 작성하기</h4>
-                <p class="resume-desc">첫 이력서를 완성하고 구직 활동을 시작해보세요!</p>
-                <!--
-                <h4 class="resume-title">내 이력서 관리</h4>
-                <p class="resume-desc">총 3개의 이력서가 있습니다. 관리하거나 새 이력서를 작성하세요.</p>
-                -->
-
+                <p class="resume-desc">첫 이력서를 완성하고<br>구직 활동을 시작해보세요!</p>
             </a>
 
             <div class="job-recommend-card">
                 <div class="recommend-box">
                     <div class="recommend-header">
                         <h3>지원 현황</h3>
-                        <button class="more-btn">더보기 +</button>
                     </div>
-                    <table class="recommend-table">
-                        <thead>
-                        <tr>
-                            <th>공고명</th>
-                            <th>기업</th>
-                            <th>근무지</th>
-                            <th>마감일</th>
-                            <th>상태</th>
-                        </tr>
-                        </thead>
-                    </table>
+                    <div class="recommend-list">
+                        <div class="recommend-list-header">
+                            <div class="cell">공고명</div>
+                            <div class="cell">기업</div>
+                            <div class="cell">근무지</div>
+                            <div class="cell">마감일</div>
+                            <div class="cell">상태</div>
+                        </div>
+                        <div id="applicationListBody" class="recommend-list-body">
+                        </div>
+                    </div>
                     <div class="no-data">
                         현재 지원한 공고가 없습니다.
+                    </div>
+                    <div class="more-btn-container">
+                        <button class="more-btn">
+                            <span>더보기</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -103,4 +105,5 @@
     </section>
 </div>
 
-
+<script src="/js/applicant/common.js"></script>
+<script src="/js/applicant/mypage/main.js"></script>

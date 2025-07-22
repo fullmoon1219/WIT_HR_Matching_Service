@@ -20,4 +20,6 @@ public interface ApplicationMapper {
 
 	@Select("select user_id FROM applications where id = #{applicationId}")
 	Long findUserIdByApplicationId(long applicationId);
+
+	List<ApplicationDetailVO> selectRecentApplicationsForDashboard(@Param("userId") long userId);
 }

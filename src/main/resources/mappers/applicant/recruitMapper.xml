@@ -10,7 +10,10 @@
                job_category as jobCategory, workplace_address as workplaceAddress,
                experience_type as experienceType, experience_years as experienceYears
         from job_posts
-        where id=#{jobPostId} and deleted_at is null
+        where id=#{jobPostId}
+        <if test="isAdmin == false">
+            and deleted_at is null
+        </if>
     </select>
 
     <select id="selectEmployerProfile" resultType="EmployerProfilesVO">

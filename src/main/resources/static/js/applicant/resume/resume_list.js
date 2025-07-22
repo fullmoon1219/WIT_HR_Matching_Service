@@ -33,7 +33,7 @@ function loadResumes() {
             } else if (xhr.status === 404) {
                 location.href = '/error/not-found';
             } else {
-                location.href = '/error/db-access-denied';
+                alert('이력서 목록을 불러오기에 실패했습니다. 나중에 다시 시도해주세요.');
                 console.error("이력서 로딩 중 오류 발생:", xhr);
             }
         }
@@ -89,8 +89,14 @@ function loadDraftResumes() {
             });
         },
         error: function (xhr) {
-            console.log('임시 저장 이력서 로딩 중 오류: ', xhr);
-            location.href = '/error/db-access-denied';
+            if (xhr.status === 403) {
+                location.href = '/error/access-denied';
+            } else if (xhr.status === 404) {
+                location.href = '/error/not-found';
+            } else {
+                alert('이력서 목록을 불러오기에 실패했습니다. 나중에 다시 시도해주세요.');
+                console.error("이력서 로딩 중 오류 발생:", xhr);
+            }
         }
     });
 }

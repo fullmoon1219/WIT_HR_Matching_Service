@@ -17,8 +17,8 @@ public class RecruitDAO {
 
 	private final RecruitMapper recruitMapper;
 
-	public JobPostVO viewRecruit(long jobPostId) {
-		return recruitMapper.selectJobPost(jobPostId);
+	public JobPostVO viewRecruit(long jobPostId, boolean isAdmin) {
+		return recruitMapper.selectJobPost(jobPostId, isAdmin);
 	}
 
 	public EmployerProfilesVO viewEmployerProfile(long employerUserId) {

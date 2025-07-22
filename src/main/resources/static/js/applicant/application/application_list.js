@@ -88,17 +88,27 @@ $(document).ready(function() {
 				modalContentHtml += '<hr />';
 
 				// 본문 1: 지원 정보
-				modalContentHtml += '<div id="resumeInfo" class="modal-link-section" data-resume-id="' + resume.resumeId + '">';
-				modalContentHtml += '<h4>[내가 제출한 정보]</h4>';
-				modalContentHtml += '<p><strong>제출 이력서:</strong> ' + resume.resumeTitle + '</p>';
-				modalContentHtml += '<p><strong>지원 일시:</strong> ' + resume.appliedAt + '</p>';
-				modalContentHtml += '<p><em>(클릭 시 제출한 이력서를 확인합니다)</em></p>';
-				modalContentHtml += '</div>';
-				modalContentHtml += '<hr />';
+				if (resume.resumeDeletedAt) {
+					modalContentHtml += '<div class="resume-info-deleted">';
+					modalContentHtml += '<h4>[내가 제출한 이력서]</h4>';
+					modalContentHtml += '<p><strong>제출 이력서:</strong> ' + resume.resumeTitle + '</p>';
+					modalContentHtml += '<p><strong>지원 일시:</strong> ' + resume.appliedAt + '</p>';
+					modalContentHtml += '<p><em>삭제된 이력서입니다.</em></p>';
+					modalContentHtml += '</div>';
+					modalContentHtml += '<hr />';
+				} else {
+					modalContentHtml += '<div id="resumeInfo" class="modal-link-section" data-resume-id="' + resume.resumeId + '">';
+					modalContentHtml += '<h4>[내가 제출한 이력서]</h4>';
+					modalContentHtml += '<p><strong>제출 이력서:</strong> ' + resume.resumeTitle + '</p>';
+					modalContentHtml += '<p><strong>지원 일시:</strong> ' + resume.appliedAt + '</p>';
+					modalContentHtml += '<p><em>(클릭 시 제출한 이력서를 확인합니다)</em></p>';
+					modalContentHtml += '</div>';
+					modalContentHtml += '<hr />';
+				}
 
 				// 본문 2: 공고 정보
 				if (resume.jobPostDeletedAt) {
-					modalContentHtml += '<div id="jobPostInfo">';
+					modalContentHtml += '<div class="job-info-deleted">';
 					modalContentHtml += '<h4>[지원한 기업 정보]</h4>';
 					modalContentHtml += '<p><strong>지원한 기업: </strong>' + resume.employerCompanyName + '</p>';
 					modalContentHtml += '<p>이 공고는 마감되었거나, 더 이상 확인할 수 없습니다.</p>';
@@ -150,6 +160,16 @@ $(document).ready(function() {
 				modalContentHtml += '</div>';
 
 				$('#application-modal').html(modalContentHtml);
+			}, error: function (xhr) {
+
+				if (xhr.status === 403) {
+					location.href = '/error/access-denied';
+				} else if (xhr.status === 404) {
+					location.href = '/error/not-found';
+				} else {
+					alert('데이터를 불러오기에 실패했습니다. 나중에 다시 시도해주세요.');
+					console.error(xhr);
+				}
 			}
 		});
 	});
@@ -163,7 +183,7 @@ $(document).ready(function() {
 	// 모달 내: 공고 보기 클릭
 	$('#application-modal').on('click', '#jobPostInfo', function() {
 		const jobPostId = $(this).data('job-post-id');
-		if (jobPostId) window.open(`/applicant/recruit/view/${jobPostId}`, '_blank');
+		if (jobPostId) window.open(`/recruit/view/${jobPostId}`, '_blank');
 	});
 });
 
@@ -206,6 +226,17 @@ function loadApplicationList(newCriteria = {}) {
 			}
 			$('#count-in-progress').text(response.countInProgress);
 			$('#count-final').text(response.countFinal);
+		},
+		error: function (xhr) {
+
+			if (xhr.status === 403) {
+				location.href = '/error/access-denied';
+			} else if (xhr.status === 404) {
+				location.href = '/error/not-found';
+			} else {
+				alert('지원내역을 불러오기에 실패했습니다. 나중에 다시 시도해주세요.');
+				console.error(xhr);
+			}
 		}
 	});
 }
