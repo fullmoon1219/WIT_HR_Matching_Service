@@ -1,0 +1,96 @@
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+        <link rel="stylesheet" href="/css/user/resume.css">
+
+    </th:block>
+
+    <section layout:fragment="content">
+        <div class="profile-section">
+            <div class="profile-table-container">
+                <div class="table-header">
+                    <h3 class="table-title">개인 정보</h3>
+
+                    <div class="action-buttons" id="editControls">
+                        <input type="password" id="confirmPassword" class="inline-input password-input" placeholder="비밀번호 입력" style="display: none;">
+                        <button id="editButton" class="edit-button">개인 정보 수정</button>
+                        <button id="cancelButton" class="cancel-button" style="display: none;">취소</button>
+                        <button id="password-edit-button" class="password-edit-button">비밀번호변경</button>
+                        <button id="user-delete-button" onclick="location.href='/users/delete'" class="user-delete-button">회원탈퇴</button>
+                    </div>
+                </div>
+
+                <table class="profile-merged-table">
+                    <tr>
+                        <td rowspan="5" class="profile-image-cell">
+                            <form id="imageUploadForm" enctype="multipart/form-data">
+                                <img id="profileImagePreview" src="https://via.placeholder.com/150" alt="개인 프로필 이미지" class="profile-image-preview" />
+                                <input type="file" id="profileImageInput" name="profileImage" accept="image/*" hidden>
+                                <button type="button" id="uploadImageButton" class="upload-button">사진 등록</button>
+                            </form>
+                        </td>
+                        <th>이름</th>
+                        <td>WIT</td>
+                        <th>나이</th>
+                        <td>홍길동</td>
+                    </tr>
+                    <tr>
+                        <th>생년월일</th>
+                        <td>1980-01-01</td>
+                        <th>포트폴리오</th>
+                        <td><a href="https://www.wit.co.kr" target="_blank">www.wit.co.kr</a></td>
+                    </tr>
+                    <tr>
+                        <th>전화번호</th>
+                        <td>02-1234-5678</td>
+                        <th>이메일</th>
+                        <td>test@wit.co.kr</td>
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td>서울시 강남구 테헤란로 123</td>
+                        <th>자기소개</th>
+                        <td>열심히 일하겠습니다.</td>
+                    </tr>
+                    <tr>
+                        <th>경력</th>
+                        <td>5년</td>
+                        <th>희망 근무 형태</th>
+                        <td>정규직</td>
+                    </tr>
+                </table>
+
+                <h3 class="table-title">시스템 정보</h3>
+                <table class="profile-merged-table">
+                    <tr>
+                        <th>가입일</th>
+                        <th>마지막 수정일</th>
+                        <th>로그인 방식</th>
+                        <th>이메일 인증</th>
+                        <th>경고 횟수</th>
+                    </tr>
+                    <tr>
+                        <td>2024-12-01</td>
+                        <td>2025-06-27 13:45</td>
+                        <td><i class="fas fa-envelope"></i> 이메일</td>
+                        <td>완료</td>
+                        <td>0회</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="resume-list">
+                <h3>내 이력서 목록</h3>
+                <ul class="resume-items" id="completedResumeList">
+                </ul>
+            </div>
+
+
+        </div>
+
+
+    </section>
+</div>
+
+<script src="/js/applicant/resume/resume_list.js"></script>
