@@ -3,137 +3,94 @@
     <th:block layout:fragment="styles">
         <link rel="stylesheet" href="/css/employer/profile.css">
         <link rel="stylesheet" href="/css/user/resume.css">
+
     </th:block>
 
     <section layout:fragment="content">
-        <div class="resume-container">
-            <!-- 좌측 입력 영역 -->
-            <div class="resume-left">
+        <div class="profile-section">
+            <div class="profile-table-container">
+                <div class="table-header">
+                    <h3 class="table-title">개인 정보</h3>
 
-                <!-- 기본정보 -->
-                <section class="resume-section basic-info">
-                    <h2>기본정보 <span class="required">*</span></h2>
-                    <div class="basic-info-box">
-                        <div class="photo-box">
-                            <img src="/images/users/user_big_profile.png" alt="프로필 사진" class="profile-img">
-                            <button class="photo-upload-btn">사진등록</button>
-                        </div>
-
-                        <div class="info-fields">
-                            <div class="info-row"><label>이름</label><div class="info-value">테스트2 (여, 25세)</div></div>
-                            <div class="info-row"><label>이메일</label><div class="info-value">def@naver.com</div></div>
-                            <div class="info-row"><label>연락처</label><div class="info-value">010-1234-5678</div></div>
-                            <div class="info-row"><label>주소</label><div class="info-value">서울</div></div>
-                            <div class="info-row"><label>포트폴리오</label><a href="https://myportfolio.example.com" target="_blank">myportfolio.example.com</a></div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 요약정보 -->
-                <div class="resume-summary">
-                    <div class="summary-row">
-                        <div class="summary-label">자기소개</div>
-                        <div class="summary-value">끊임없이 성장하는 백엔드 개발자입니다.</div>
-                    </div>
-                    <div class="summary-row">
-                        <div class="summary-label">총 경력</div>
-                        <div class="summary-value">0년</div>
-                    </div>
-                    <div class="summary-row">
-                        <div class="summary-label">희망 근무 형태</div>
-                        <div class="summary-value">정규직</div>
+                    <div class="action-buttons" id="editControls">
+                        <input type="password" id="confirmPassword" class="inline-input password-input" placeholder="비밀번호 입력" style="display: none;">
+                        <button id="editButton" class="edit-button">개인 정보 수정</button>
+                        <button id="cancelButton" class="cancel-button" style="display: none;">취소</button>
+                        <button id="password-edit-button" class="password-edit-button">비밀번호변경</button>
+                        <button id="user-delete-button" onclick="location.href='/users/delete'" class="user-delete-button">회원탈퇴</button>
                     </div>
                 </div>
 
-                <!-- 상세 입력 -->
-                <section class="resume-section">
-                    <h2>이력서 상세 내용</h2>
-                    <div class="field-row"><label>이력서 제목</label><input type="text" placeholder="제목을 입력하세요."></div>
-                    <div class="field-row"><label>학력</label><input type="text" placeholder="학력을 입력하세요."></div>
-                    <div class="field-row"><label>경력</label><input type="text" placeholder="경력을 입력하세요."></div>
+                <table class="profile-merged-table">
+                    <tr>
+                        <td rowspan="5" class="profile-image-cell">
+                            <form id="imageUploadForm" enctype="multipart/form-data">
+                                <img id="profileImagePreview" src="https://via.placeholder.com/150" alt="개인 프로필 이미지" class="profile-image-preview" />
+                                <input type="file" id="profileImageInput" name="profileImage" accept="image/*" hidden>
+                                <button type="button" id="uploadImageButton" class="upload-button">사진 등록</button>
+                            </form>
+                        </td>
+                        <th>이름</th>
+                        <td>WIT</td>
+                        <th>나이</th>
+                        <td>홍길동</td>
+                    </tr>
+                    <tr>
+                        <th>생년월일</th>
+                        <td>1980-01-01</td>
+                        <th>포트폴리오</th>
+                        <td><a href="https://www.wit.co.kr" target="_blank">www.wit.co.kr</a></td>
+                    </tr>
+                    <tr>
+                        <th>전화번호</th>
+                        <td>02-1234-5678</td>
+                        <th>이메일</th>
+                        <td>test@wit.co.kr</td>
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td>서울시 강남구 테헤란로 123</td>
+                        <th>자기소개</th>
+                        <td>열심히 일하겠습니다.</td>
+                    </tr>
+                    <tr>
+                        <th>경력</th>
+                        <td>5년</td>
+                        <th>희망 근무 형태</th>
+                        <td>정규직</td>
+                    </tr>
+                </table>
 
-                    <div>
-                        <label>기술 스택 (중복 선택 가능)</label>
-                        <div id="stack-selection-area" class="selection-area">
-                            <button type="button" class="select-btn" data-value="2">Java</button>
-                            <button type="button" class="select-btn" data-value="5">Python</button>
-                            <button type="button" class="select-btn" data-value="7">Kotlin</button>
-                            <button type="button" class="select-btn" data-value="6">JavaScript</button>
-                            <button type="button" class="select-btn" data-value="3">C</button>
-                            <button type="button" class="select-btn" data-value="4">C++</button>
-                            <button type="button" class="select-btn" data-value="8">SpringBoot</button>
-                            <button type="button" class="select-btn" data-value="9">Node.js</button>
-                            <button type="button" class="select-btn" data-value="10">React</button>
-                            <button type="button" class="select-btn" data-value="11">Vue.js</button>
-                            <button type="button" class="select-btn" data-value="16">JPA</button>
-                            <button type="button" class="select-btn" data-value="15">MyBatis</button>
-                            <button type="button" class="select-btn" data-value="12">MySQL</button>
-                            <button type="button" class="select-btn" data-value="13">MariaDB</button>
-                            <button type="button" class="select-btn" data-value="14">Oracle</button>
-                            <button type="button" class="select-btn" data-value="22">AWS</button>
-                            <button type="button" class="select-btn" data-value="19">Docker</button>
-                            <button type="button" class="select-btn" data-value="20">Jenkins</button>
-                            <button type="button" class="select-btn" data-value="23">NginX</button>
-                            <button type="button" class="select-btn" data-value="21">Git</button>
-                            <button type="button" class="select-btn" data-value="17">Maven</button>
-                            <button type="button" class="select-btn" data-value="18">Gradle</button>
-                            <button type="button" class="select-btn" data-value="1">Other</button>
-                        </div>
-                        <input type="hidden" name="skills" id="skills" />
-                        <div class="error" id="error-skills"></div>
-                    </div>
-
-                    <div>
-                    <label>선호 지역</label>
-                    <div id="location-selection-area" class="selection-area">
-                        <button type="button" class="select-btn" data-value="서울">서울</button>
-                        <button type="button" class="select-btn" data-value="경기">경기</button>
-                        <button type="button" class="select-btn" data-value="인천">인천</button>
-                        <button type="button" class="select-btn" data-value="강원">강원</button>
-                        <button type="button" class="select-btn" data-value="대전">대전</button>
-                        <button type="button" class="select-btn" data-value="세종">세종</button>
-                        <button type="button" class="select-btn" data-value="충남">충남</button>
-                        <button type="button" class="select-btn" data-value="충북">충북</button>
-                        <button type="button" class="select-btn" data-value="광주">광주</button>
-                        <button type="button" class="select-btn" data-value="전남">전남</button>
-                        <button type="button" class="select-btn" data-value="전북">전북</button>
-                        <button type="button" class="select-btn" data-value="부산">부산</button>
-                        <button type="button" class="select-btn" data-value="대구">대구</button>
-                        <button type="button" class="select-btn" data-value="울산">울산</button>
-                        <button type="button" class="select-btn" data-value="경남">경남</button>
-                        <button type="button" class="select-btn" data-value="경북">경북</button>
-                        <button type="button" class="select-btn" data-value="제주">제주</button>
-                    </div>
-                    <input type="hidden" name="preferredLocation" id="preferredLocation" />
-                    <div class="error" id="error-preferredLocation"></div>
-                </div>
-
-                    <div class="field-row"><label>희망 연봉</label><input type="text" placeholder="만원"></div>
-                    <div class="field-row"><label>희망 직무</label><input type="text" placeholder="희망 직무"></div>
-                    <div class="field-row"><label>지원 동기</label><input type="text" placeholder="지원 동기"></div>
-                    <div class="field-row"><label>핵심 역량</label><input type="text" placeholder="핵심 역량"></div>
-                </section>
+                <h3 class="table-title">시스템 정보</h3>
+                <table class="profile-merged-table">
+                    <tr>
+                        <th>가입일</th>
+                        <th>마지막 수정일</th>
+                        <th>로그인 방식</th>
+                        <th>이메일 인증</th>
+                        <th>경고 횟수</th>
+                    </tr>
+                    <tr>
+                        <td>2024-12-01</td>
+                        <td>2025-06-27 13:45</td>
+                        <td><i class="fas fa-envelope"></i> 이메일</td>
+                        <td>완료</td>
+                        <td>0회</td>
+                    </tr>
+                </table>
             </div>
 
-            <!-- 우측 사이드바 -->
-            <aside class="resume-sidebar">
-                <button class="btn-save">이력서 저장</button>
-                <button class="btn-outline">임시저장</button>
-                <button class="btn-outline">취소</button>
-            </aside>
+            <div class="resume-list">
+                <h3>내 이력서 목록</h3>
+                <ul class="resume-items" id="completedResumeList">
+                </ul>
+            </div>
+
+
         </div>
+
+
     </section>
 </div>
 
-<script>
-    // 기술 스택, 지역 다중 선택 active 처리
-    ['#stack-selection-area', '#location-selection-area'].forEach(selector => {
-        document.querySelectorAll(selector).forEach(group => {
-            group.addEventListener('click', e => {
-                if (e.target.matches('.select-btn')) {
-                    e.target.classList.toggle('active');
-                }
-            });
-        });
-    });
-</script>
+<script src="/js/applicant/resume/resume_list.js"></script>

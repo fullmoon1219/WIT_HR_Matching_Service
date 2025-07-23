@@ -100,7 +100,7 @@ function renderComments(comments) {
             return `
                 <div class="reply" data-id="${child.id}" style="${j < MAX_VISIBLE ? '' : 'display:none'}" data-index="${j}">
                     <div class="comment-with-profile">
-                        <img class="comment-profile" src="/images/users/user_small_profile.png">
+                        <img class="comment-profile" src="${child.profileImage ? '/uploads/users/profile/' + child.profileImage : '/images/users/user_small_profile.png'}">
                         <div class="comment-body">
                             <div class="comment-header">
                                 <strong>${child.writerName}</strong> <span>(${child.email})</span>
@@ -137,7 +137,7 @@ function renderComments(comments) {
         const commentHtml = `
             <div class="comment" data-id="${comment.id}" style="${i < MAX_VISIBLE ? '' : 'display:none'}" data-index="${i}">
                 <div class="comment-with-profile">
-                    <img class="comment-profile" src="/images/users/user_small_profile.png">
+                    <img class="comment-profile" src="${comment.profileImage ? '/uploads/users/profile/' + comment.profileImage : '/images/users/user_small_profile.png'}">
                     <div class="comment-body">
                         <div class="comment-header">
                             <strong>${comment.writerName}</strong> <span>(${comment.email})</span>

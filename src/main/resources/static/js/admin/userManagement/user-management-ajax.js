@@ -140,8 +140,10 @@ function renderUserDetail(user) {
                 <tbody>
                 <tr>
                     <th rowspan="7">
-                        <img src="${user.profileImage || '/images/users/user_big_profile.png'}" alt="프로필 이미지"
-                            style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                        <img src="${user.profileImage ? '/uploads/users/profile/' + user.profileImage : '/images/users/user_big_profile.png'}"
+                             alt="프로필 이미지"
+                             style="width: 160px; height: 160px; border-radius: 50%; object-fit: cover;">
+
 
                     </th>
                     <td class="label">이름</td>

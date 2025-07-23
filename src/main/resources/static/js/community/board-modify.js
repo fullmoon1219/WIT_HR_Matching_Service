@@ -12,6 +12,18 @@ $(document).ready(function () {
         previewStyle: 'vertical'
     });
 
+
+    $(document).on("dragstart", ".toastui-editor-contents img", function (e) {
+        e.preventDefault();
+    });
+
+    $(document).on("click", ".toastui-editor-contents img", function () {
+        if (confirm("이미지를 삭제하시겠습니까?")) {
+            this.remove();
+        }
+    });
+
+
     const postId = $("#postId").val();  // 수정 시 사용
     const boardCode = $("#boardCode").val(); // 게시판 코드 (숨겨진 필드)
     const $select = $("#board");

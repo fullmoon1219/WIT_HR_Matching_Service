@@ -7,6 +7,17 @@ $(document).ready(function () {
     const $select = $("#board");
     const $desc = $("#board-description");
 
+    $(document).on("dragstart", ".toastui-editor-contents img", function (e) {
+        e.preventDefault();
+    });
+
+    $(document).on("click", ".toastui-editor-contents img", function () {
+        if (confirm("이미지를 삭제하시겠습니까?")) {
+            this.remove();
+        }
+    });
+
+
     // ✅ 초기 게시판 설명 표시
     const initialId = $select.val();
     if (boardMap[initialId]) {

@@ -176,3 +176,10 @@
 .close-button:hover {
     background-color: #5a6268;
 }
+
+.view-value.description img {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin: 10px 0;
+}

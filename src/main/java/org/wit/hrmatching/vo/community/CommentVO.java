@@ -19,6 +19,7 @@ public class CommentVO {
     private int likeCount;
     private boolean isDeleted;
     private LocalDateTime createdAt;
+    private String profileImage;
 
     private String writerName;
     private String email;

@@ -1,9 +1,23 @@
-// -------- 기술 스택 선택 기능 시작 --------
-const selectedStacks = new Set();
+// /js/employer/post-write.js
+
+var editor;
+const uploadedTempImages = new Set();
+let isClosing = false;
 
 $(document).ready(function () {
-    let isClosing = false;
+    // ✅ 기술 스택 선택
+    const selectedStacks = new Set();
 
+    // 에디터 내부 이미지 복사 방지 (dragstart 이벤트 차단)
+    $(document).on("dragstart", ".toastui-editor-contents img", function (e) {
+        e.preventDefault();
+    });
+
+    $(document).on("click", ".toastui-editor-contents img", function () {
+        if (confirm("이미지를 삭제하시겠습니까?")) {
+            this.remove();
+        }
+    });
 
 
     $(document).on('click', '.stack-tag', function () {
@@ -20,13 +34,61 @@ $(document).ready(function () {
         $('#techStacksInput').val(Array.from(selectedStacks).join(','));
     });
 
+    // ✅ Toast UI Editor 초기화
+    editor = new toastui.Editor({
+        el: document.querySelector("#editor"),
+        height: "400px",
+        initialEditType: "wysiwyg",
+        previewStyle: "vertical",
+        hooks: {
+            async addImageBlobHook(blob, callback) {
+                const formData = new FormData();
+                formData.append("image", blob);
+
+                try {
+                    const response = await fetch("/api/community/image-upload", {
+                        method: "POST",
+                        body: formData
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        uploadedTempImages.add(result.url);
+                        callback(result.url, "업로드 이미지");
+                    } else {
+                        alert("이미지 업로드 실패: " + result.message);
+                    }
+                } catch (e) {
+                    console.error("이미지 업로드 에러:", e);
+                    alert("이미지 업로드 중 오류가 발생했습니다.");
+                }
+            }
+        }
+    });
+
+    // ✅ 등록 버튼 클릭 시 에디터 내용 반영
+    $("form").on("submit", function () {
+        $("#description").val(editor.getHTML());
+        uploadedTempImages.clear(); // 제출 성공 시 이미지 삭제 대상에서 제거
+    });
+
+    // ✅ 페이지 이탈 시 임시 이미지 삭제
+    $(window).on("beforeunload", function () {
+        if (uploadedTempImages.size > 0) {
+            const payload = JSON.stringify({ images: Array.from(uploadedTempImages) });
+            const blob = new Blob([payload], { type: "application/json" });
+            navigator.sendBeacon("/api/community/delete-temp-images", blob);
+        }
+    });
+
+    // ✅ 취소 버튼 클릭 또는 ESC, 오버레이 더블클릭 시 플로팅바 닫기
     function isFormModified() {
         const inputChanged = $('#floatingSidebarContent')
-            .find('input[type="text"], input[type="date"], textarea')
+            .find('input[type="text"], input[type="date"]')
             .toArray()
             .some(el => el.value.trim() !== (el.defaultValue?.trim?.() || ''));
 
-        if (inputChanged) return true;
+        const textareaChanged = editor.getMarkdown().trim() !== "";
 
         const selectChanged = $('#floatingSidebarContent')
             .find('select')
@@ -42,7 +104,7 @@ $(document).ready(function () {
                 return $(select).val() !== initialValue;
             });
 
-        return selectChanged;
+        return inputChanged || textareaChanged || selectChanged;
     }
 
     function attemptCloseFloatingSidebar(e) {
@@ -61,6 +123,12 @@ $(document).ready(function () {
             }
         }
 
+        if (uploadedTempImages.size > 0) {
+            const payload = JSON.stringify({ images: Array.from(uploadedTempImages) });
+            const blob = new Blob([payload], { type: "application/json" });
+            navigator.sendBeacon("/api/community/delete-temp-images", blob);
+        }
+
         $('#floatingOverlay').removeClass('show');
         $('#floatingSidebar').removeClass('show');
         $('#floatingSidebarContent').empty();
@@ -75,36 +143,4 @@ $(document).ready(function () {
         if (e.key === "Escape") attemptCloseFloatingSidebar(e);
     });
     $(document).on('dblclick', '#floatingOverlay', attemptCloseFloatingSidebar);
-
-    // ✅ Quill 에디터 초기화 → 안전하게 DOM이 준비된 후 실행
-    /*setTimeout(() => {
-        const editorElement = document.querySelector('#quillEditor');
-        if (editorElement) {
-            const quill = new Quill('#quillEditor', {
-                theme: 'snow',
-                placeholder: '상세 설명을 입력하세요...',
-                modules: {
-                    toolbar: [
-                        [{ header: [1, 2, false] }],
-                        ['bold', 'italic', 'underline'],
-                        ['image', 'code-block'],
-                        [{ list: 'ordered' }, { list: 'bullet' }],
-                        ['link']
-                    ],
-                    imageResize: { displaySize: true }
-                }
-            });
-
-            // 기존 값 바인딩
-            const existing = document.getElementById('description');
-            if (existing && existing.value) {
-                quill.root.innerHTML = existing.value;
-            }
-
-            // 전송 시 에디터 내용 저장
-            document.querySelector('form').addEventListener('submit', function () {
-                document.getElementById('description').value = quill.root.innerHTML;
-            });
-        }
-    }, 100);*/
 });

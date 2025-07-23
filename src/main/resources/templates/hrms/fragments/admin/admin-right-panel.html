@@ -6,8 +6,14 @@
     <div class="admin-card admin-profile">
         <div class="profile-top">
             <div class="profile-image">
-                <img th:src="${admin.profileImage ?: '/images/users/user_small_profile.png'}" alt="프로필 이미지"
-                    style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                <img th:if="${admin.profileImage != null}"
+                     th:src="@{'/uploads/users/profile/' + ${admin.profileImage}}"
+                     alt="프로필 이미지"
+                     style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                <img th:if="${admin.profileImage == null}"
+                     th:src="@{/images/users/user_small_profile.png}"
+                     alt="기본 이미지"
+                     style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
             </div>
             <div class="profile-name" th:text="${admin.name}">관리자 이름</div>
             <div class="profile-email" th:text="${admin.email}">admin@example.com</div>

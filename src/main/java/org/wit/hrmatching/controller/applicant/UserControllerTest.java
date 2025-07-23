@@ -27,6 +27,9 @@ public class UserControllerTest {
     public String showApplicationlist() {
         return "/applicant/users/mypage_application_list";
     }
+
+    @GetMapping("/qa")
+    public String showApplicationqa() { return "/applicant/users/mypage_qa"; }
 }
 
 

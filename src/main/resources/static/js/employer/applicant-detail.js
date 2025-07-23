@@ -49,4 +49,25 @@ $(document).ready(function () {
         // 🔄 페이지 전체 새로고침
         location.reload();
     }
+
+    // [🧠 AI 정보 보기] 버튼 클릭 시
+    $(document).on('click', '.ai-info-button', function () {
+        const resumeId = $(this).data('resume-id'); // 또는 실제 ID 동적 바인딩
+        console.log(resumeId);
+        $("#ai-review").text("AI 정보를 불러오는 중입니다...");
+
+        $.ajax({
+            url: "/api/ai/resumes/summary",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ resumeId: resumeId }),
+            success: function (response) {
+                $("#ai-review").text(response.summary);
+            },
+            error: function (xhr) {
+                $("#ai-review").text("요약에 실패했습니다.");
+            }
+        });
+    });
 });
+

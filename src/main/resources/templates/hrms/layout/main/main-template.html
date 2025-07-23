@@ -10,7 +10,6 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/css/main/header.css">
-    <link rel="stylesheet" href="/css/main/menu.css">
     <link rel="stylesheet" href="/css/main/footer.css">
 
     <th:block layout:fragment="styles"></th:block>
@@ -22,7 +21,7 @@
 <div class="main-layout">
 
     <header th:replace="~{fragments/main/user-header :: header}"></header>
-    <nav th:replace="~{fragments/main/user-menu :: menu}"></nav>
+<!--    <nav th:replace="~{fragments/main/user-menu :: menu}"></nav>-->
 
     <section class="main-area" layout:fragment="content"></section>
 

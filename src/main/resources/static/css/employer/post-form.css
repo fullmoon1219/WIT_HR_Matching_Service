@@ -109,3 +109,11 @@
     color: white;
     font-weight: bold;
 }
+
+.toastui-editor-contents img {
+    user-drag: none;
+    -webkit-user-drag: none;
+    pointer-events: auto;
+    width: 60% !important;
+    height: auto !important;
+}
