@@ -30,15 +30,6 @@ public class UserControllerTest {
 
     @GetMapping("/qa")
     public String showApplicationqa() { return "/applicant/users/mypage_qa"; }
-
-    @GetMapping("/ai")
-    public String showApplicationAi() { return "/applicant/users/ai-test"; }
-
-    @GetMapping("/interview")
-    public String showApplicationInterview() { return "/applicant/users/ai-interview"; }
-
-    @GetMapping("/feedback")
-    public String showApplicationFeedback() { return "/applicant/users/ai-feedback"; }
 }
 
 
