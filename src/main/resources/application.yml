@@ -8,9 +8,9 @@ spring:
 
   datasource:
       driver-class-name: 'com.mysql.cj.jdbc.Driver'
-      url: 'jdbc:mysql://fullmoon1219.iptime.org:3306/hrms'
-      username: 'wit'
-      password: '123456'
+      url: 'jdbc:mysql://localhost:3306/DBdump?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true'
+      username: 'root'
+      password: '!123456'
 
   servlet:
     multipart:
@@ -120,8 +120,8 @@ logging:
     org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer: error
     org.springframework.web: warn
     org.springframework.boot.context.config: warn
-    org.wit.hrmatching.mapper: warn
-    org.wit.hrmatching.mapper.admin: warn
-    org.mybatis: warn
+    org.wit.hrmatching.mapper: debug
+    org.wit.hrmatching.mapper.admin: debug
+    org.mybatis: debug
     org.wit.hrmatching.config.auth: warn
 
