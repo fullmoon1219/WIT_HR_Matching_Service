@@ -39,9 +39,10 @@
                             <!--<div class="image-preview-container">-->
                             <!-- 프로필 이미지가 있을 때 -->
                             <img id="profileImagePreview"
-                                 th:src="@{${profileImageUrl}}"
-                                 alt="기업 프로필 이미지"
-                                 class="profile-image-preview" />
+                                 th:src="${profileImageUrl}"
+                                 src="/images/users/user_big_profile.png"
+                            alt="기업 프로필 이미지"
+                            class="profile-image-preview" />
                             <!--</div>-->
                             <input type="file" id="profileImageInput" name="profileImage" accept="image/*" hidden>
                             <button type="button" id="uploadImageButton" class="upload-button">사진 등록</button>
