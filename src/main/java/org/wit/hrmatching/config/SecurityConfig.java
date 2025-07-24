@@ -68,6 +68,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/employer/**").hasAuthority("EMPLOYER")
                         .requestMatchers("/applicant/**").hasAuthority("APPLICANT")
+                        .requestMatchers("/api/profile/**").hasAuthority("APPLICANT")
                         .anyRequest().authenticated()  // 그 외에는 인증 필요
                 )
                 .exceptionHandling(ex -> ex

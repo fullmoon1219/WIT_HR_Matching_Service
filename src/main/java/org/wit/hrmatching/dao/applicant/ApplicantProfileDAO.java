@@ -17,8 +17,12 @@ public class ApplicantProfileDAO {
 		return applicantProfileMapper.selectUserProfile(userId);
 	}
 
-	public void updateUserProfile(ApplicantProfileUpdateRequestDTO applicantProfileUpdateRequestDTO) {
-		applicantProfileMapper.updateUserProfile(applicantProfileUpdateRequestDTO);
+	public void updateUser(ApplicantProfileUpdateRequestDTO applicantProfileUpdateRequestDTO) {
+		applicantProfileMapper.updateUser(applicantProfileUpdateRequestDTO);
+	}
+
+	public void updateApplicantProfile(ApplicantProfileUpdateRequestDTO applicantProfileUpdateRequestDTO) {
+		applicantProfileMapper.updateApplicantProfile(applicantProfileUpdateRequestDTO);
 	}
 
 	public String findPasswordById(long userId) {
@@ -35,5 +39,9 @@ public class ApplicantProfileDAO {
 
 	public String findProfileImageByUserId(long userId) {
 		return applicantProfileMapper.findProfileImageByUserId(userId);
+	}
+
+	public void updatePassword(long userId, String newPassword) {
+		applicantProfileMapper.updatePassword(userId, newPassword);
 	}
 }

@@ -87,4 +87,32 @@ public class ApplicantProfileRestController {
 
 		return ResponseEntity.ok(dashboard);
 	}
+
+	@PostMapping("/verify-password")
+	public ResponseEntity<?> verifyPassword(@AuthenticationPrincipal CustomUserDetails userDetails,
+											@RequestBody Map<String, String> request) {
+		try {
+			String currentPassword = request.get("currentPassword");
+			applicantProfileService.verifyCurrentPassword(userDetails.getId(), currentPassword);
+
+			return ResponseEntity.ok("ok");
+
+		} catch (BadCredentialsException e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+		}
+	}
+
+	@PutMapping("/password")
+	public ResponseEntity<?> changePassword(@AuthenticationPrincipal CustomUserDetails userDetails,
+											@RequestBody Map<String, String> request) {
+		try {
+			String newPassword = request.get("newPassword");
+			applicantProfileService.updateNewPassword(userDetails.getId(), newPassword);
+
+			return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body("비밀번호 변경 중 오류가 발생했습니다.");
+		}
+	}
 }
