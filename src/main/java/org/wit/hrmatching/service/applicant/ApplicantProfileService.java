@@ -94,14 +94,13 @@ public class ApplicantProfileService {
 		fileVO.setUploadPath(uploadPath);
 
 		applicantProfileDAO.insertFile(fileVO);
-		applicantProfileDAO.updateUserProfileImage(webAccessPath, userId);
+		applicantProfileDAO.updateUserProfileImage(storedFileName, userId);
 
 		// 기존 파일 삭제
-		if (oldImagePath != null && !oldImagePath.isEmpty() && oldImagePath.startsWith("/uploads/users/profile/")) {
+		if (oldImagePath != null && !oldImagePath.isEmpty()) {
 
 			String baseDir = fileUploadProperties.getUserProfile();
-			String oldFileName = oldImagePath.substring(oldImagePath.lastIndexOf("/") + 1);
-			File oldFile = new File(baseDir, oldFileName);
+			File oldFile = new File(baseDir, oldImagePath);
 
 			if (oldFile.exists()) {
 				oldFile.delete();
