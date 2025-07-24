@@ -32,19 +32,6 @@
     table-layout: fixed;
 }
 
-/* ✅ 인라인 수정 중인 셀: 파란 배경 강조 */
-td[data-field].editing {
-    background-color: #eaf4ff !important;
-}
-
-/* ✅ 인라인 입력창 기본 스타일 (투명 배경 + 테두리 없음) */
-.inline-input {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    box-shadow: none;
-}
-
 /* ✅ 테이블 셀 공통 스타일 (본문 내용) */
 .profile-merged-table th,
 .profile-merged-table td {
@@ -182,21 +169,6 @@ td[data-field].editing {
     background-color: var(--calm-blue-hover);
 }
 
-
-/* ✅ 지원자 상태 라벨 (합격/열람/미열람 등) */
-.status-label {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 500;
-    color: #fff;
-}
-.status-new     { background-color: #6c757d; }
-.status-read    { background-color: #17a2b8; }
-.status-pass    { background-color: #28a745; }
-.status-fail    { background-color: #dc3545; }
-.status-pending { background-color: #ffc107; }
 
 /* ✅ 공통 모달 팝업 전체 배경 (어두운 투명 배경) */
 .modal {
