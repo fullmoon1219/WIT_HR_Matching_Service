@@ -66,8 +66,8 @@ $(document).ready(function () {
             $tbody.append(`
                 <tr>
                     <td>${inquiry.id}</td>
-                    <td><a href="/request/${inquiry.id}">${inquiry.reasonName || "-"}</a></td>
-                    <td><a href="/request/${inquiry.id}">${inquiry.title}</a></td>
+                    <td><a href="/applicant/qa/${inquiry.id}">${inquiry.reasonName || "-"}</a></td>
+                    <td><a href="/applicant/qa/${inquiry.id}">${inquiry.title}</a></td>
                     <td>${createdDate}</td>
                     <td>${status}</td>
                     <td>${repliedDate}</td>
