@@ -10,13 +10,13 @@
 
 		<div class="resume-container">
 			<div class="resume-left">
-				<!-- 기본정보 -->
-				<section class="resume-section basic-info">
-					<h2>기본정보</h2>
+
+				<section class="resume-section">
+					<!-- 기본정보 -->
+					<h2>프로필</h2>
 					<div class="basic-info-box">
 						<div class="photo-box">
-							<img src="/images/users/user_big_profile.png" alt="프로필 사진" class="profile-img">
-							<button class="photo-upload-btn">사진등록</button>
+							<img src="/images/users/user_big_profile.png" alt="프로필 사진" class="profile-img" id="profile-img-view">
 						</div>
 						<div class="info-fields">
 							<div class="info-row"><label>이름</label><div class="info-value" id="name"></div></div>
@@ -28,23 +28,23 @@
 							<div class="info-row"><label>포트폴리오</label><div class="info-value"><a href="#" id="portfolioUrl" target="_blank"></a></div></div>
 						</div>
 					</div>
-				</section>
 
-				<!-- 요약정보 -->
-				<div class="resume-summary">
-					<div class="summary-row">
-						<div class="summary-label">자기소개</div>
-						<div class="summary-value" id="selfIntro"></div>
+					<!-- 요약정보 -->
+					<div class="profile-summary-details">
+						<div class="summary-row">
+							<div class="summary-label">자기소개</div>
+							<div class="summary-value" id="selfIntro"></div>
+						</div>
+						<div class="summary-row">
+							<div class="summary-label">총 경력</div>
+							<div class="summary-value"><span id="experienceYears"></span>년</div>
+						</div>
+						<div class="summary-row">
+							<div class="summary-label">희망 근무 형태</div>
+							<div class="summary-value" id="jobType"></div>
+						</div>
 					</div>
-					<div class="summary-row">
-						<div class="summary-label">총 경력</div>
-						<div class="summary-value"><span id="experienceYears"></span>년</div>
-					</div>
-					<div class="summary-row">
-						<div class="summary-label">희망 근무 형태</div>
-						<div class="summary-value" id="jobType"></div>
-					</div>
-				</div>
+				</section>
 
 				<!-- 이력서 상세 내용 -->
 				<div class="resume-section">
@@ -99,9 +99,10 @@
 			</div>
 
 			<aside class="resume-sidebar">
-				<button type="button" id="editBtn" class="btn-outline">수정</button>
+				<button type="button" id="editProfileBtn" class="btn-outline"  onclick="location.href='/applicant/profile'">프로필 수정</button>
+				<button type="button" id="editBtn" class="btn-outline">이력서 수정</button>
 				<button type="button" id="deleteBtn" class="btn-outline">삭제</button>
-				<button type="button" class="btn-outline" onclick="location.href='/applicant/resume/list'">목록으로</button>
+				<button type="button" id="listBtn" class="btn-outline" onclick="location.href='/applicant/resume/list'">목록으로</button>
 			</aside>
 		</div>
 

@@ -2,7 +2,7 @@
 
 	<th:block layout:fragment="styles">
 		<link rel="stylesheet" href="/css/employer/profile.css">
-		<link rel="stylesheet" href="/css/user/resume.css">
+		<link rel="stylesheet" href="/css/applicant/resume_register.css">
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 	</th:block>
 
@@ -15,8 +15,7 @@
 					<h2>기본정보</h2>
 					<div class="basic-info-box">
 						<div class="photo-box">
-							<img src="/images/users/user_big_profile.png" alt="프로필 사진" class="profile-img">
-							<button class="photo-upload-btn">사진등록</button>
+							<img src="/images/users/user_big_profile.png" alt="프로필 사진" class="profile-img"  id="profile-img-view">
 						</div>
 						<div class="info-fields">
 							<div class="info-row"><label>이름</label><div class="info-value" id="name"></div></div>
@@ -49,21 +48,14 @@
 						</div>
 
 						<div class="field-row">
-							<label for="education">학력</label>
-							<input type="text" id="education" name="education" placeholder="학력을 입력하세요.">
-							<div class="error" id="error-education"></div>
-						</div>
-
-						<div class="field-row">
-							<label for="experience">경력</label>
-							<input type="text" id="experience" name="experience" placeholder="경력을 입력하세요.">
-							<div class="error" id="error-experience"></div>
+							<label for="desiredPosition">희망 직무</label>
+							<input type="text" id="desiredPosition" name="desiredPosition" placeholder="희망 직무">
+							<div class="error" id="error-desiredPosition"></div>
 						</div>
 
 						<div class="field-row">
 							<label>기술 스택 (중복 선택 가능)</label>
 							<div id="stack-selection-area" class="selection-area">
-								<!-- stack buttons 그대로 유지 -->
 								<button type="button" class="select-btn" data-value="2">Java</button>
 								<button type="button" class="select-btn" data-value="5">Python</button>
 								<button type="button" class="select-btn" data-value="7">Kotlin</button>
@@ -95,7 +87,6 @@
 						<div class="field-row">
 							<label>선호 지역</label>
 							<div id="location-selection-area" class="selection-area">
-								<!-- 지역 버튼 그대로 유지 -->
 								<button type="button" class="select-btn" data-value="서울">서울</button>
 								<button type="button" class="select-btn" data-value="경기">경기</button>
 								<button type="button" class="select-btn" data-value="인천">인천</button>
@@ -125,20 +116,26 @@
 						</div>
 
 						<div class="field-row">
-							<label for="desiredPosition">희망 직무</label>
-							<input type="text" id="desiredPosition" name="desiredPosition" placeholder="희망 직무">
-							<div class="error" id="error-desiredPosition"></div>
+							<label for="education">학력</label>
+							<textarea id="education" name="education" placeholder="최종 학력 및 전공, 졸업 여부 등을 입력해주세요."></textarea>
+							<div class="error" id="error-education"></div>
+						</div>
+
+						<div class="field-row">
+							<label for="experience">경력</label>
+							<textarea id="experience" name="experience" placeholder="경력 기간, 담당한 역할, 사용 기술 등을 자유롭게 작성해주세요."></textarea>
+							<div class="error" id="error-experience"></div>
 						</div>
 
 						<div class="field-row">
 							<label for="motivation">지원 동기</label>
-							<input type="text" id="motivation" name="motivation" placeholder="지원 동기">
+							<textarea id="motivation" name="motivation" placeholder="해당 기업 또는 포지션에 지원하게 된 이유를 구체적으로 작성해주세요."></textarea>
 							<div class="error" id="error-motivation"></div>
 						</div>
 
 						<div class="field-row">
 							<label for="coreCompetency">핵심 역량</label>
-							<input type="text" id="coreCompetency" name="coreCompetency" placeholder="핵심 역량">
+							<textarea id="coreCompetency" name="coreCompetency" placeholder="본인의 강점, 경험, 기술 역량 등을 중심으로 자유롭게 작성해주세요. 보유한 자격증이 있다면 함께 작성해 주세요."></textarea>
 							<div class="error" id="error-coreCompetency"></div>
 						</div>
 					</form>
@@ -149,6 +146,7 @@
 			<aside class="resume-sidebar">
 				<button type="button" id="btnRegister" class="btn-save">수정 완료</button>
 				<button type="button" id="btnDraft" class="btn-outline">임시 저장</button>
+				<button class="btn-outline" type="button" onclick="location.href='/applicant/profile'">프로필 수정</button>
 				<button type="button" class="btn-outline" onclick="location.href='/applicant/resume/list'">취소</button>
 			</aside>
 		</div>
