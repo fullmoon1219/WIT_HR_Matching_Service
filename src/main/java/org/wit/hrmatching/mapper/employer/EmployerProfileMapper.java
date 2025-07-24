@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.wit.hrmatching.vo.user.EmployerProfilesVO;
 import org.wit.hrmatching.vo.application.EmployerRecentApplicantVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.util.List;
 
@@ -19,4 +20,7 @@ public interface EmployerProfileMapper {
     List<EmployerRecentApplicantVO> selectEmployerRecentApplicantList(Long userId);
 
     int updateProfileImage(Long userId, String storedName);
+
+    UserVO selectUserSystemInfo(@Param("userId") Long userId);
+
 }

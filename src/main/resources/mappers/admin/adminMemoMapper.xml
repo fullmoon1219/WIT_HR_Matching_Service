@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.admin.AdminMemoMapper">
+
+    <insert id="insertMemo" parameterType="org.wit.hrmatching.vo.admin.AdminMemoVO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO admin_memo (user_id, content)
+        VALUES (#{userId}, #{content})
+    </insert>
+
+    <delete id="deleteMemo" parameterType="long">
+        DELETE FROM admin_memo
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getAllMemos" resultType="org.wit.hrmatching.vo.admin.AdminMemoVO">
+        SELECT
+            m.id,
+            m.user_id,
+            u.name AS adminName,
+            u.email AS adminEmail,
+            m.content,
+            m.created_at
+        FROM admin_memo m
+                 JOIN users u ON m.user_id = u.id
+        ORDER BY m.created_at DESC
+    </select>
+
+
+</mapper>

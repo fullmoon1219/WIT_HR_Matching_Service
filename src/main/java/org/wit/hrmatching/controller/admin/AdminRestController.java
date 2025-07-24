@@ -136,4 +136,17 @@ public class AdminRestController {
     public Map<String, Integer> getJobPostCategoryDistribution() {
         return adminService.getJobPostCategoryDistribution();
     }
+
+    // 15. 계정 상태 비율
+    @GetMapping("/dashboard/account-status")
+    public ResponseEntity<List<Map<String, Object>>> getAccountStatusRatio() {
+        return ResponseEntity.ok(adminService.getAccountStatusRatio());
+    }
+
+    // 16. 경고 횟수 비율
+    @GetMapping("/dashboard/warning-distribution")
+    public ResponseEntity<List<Map<String, Object>>> getWarningDistribution() {
+        return ResponseEntity.ok(adminService.getWarningDistribution());
+    }
+
 }

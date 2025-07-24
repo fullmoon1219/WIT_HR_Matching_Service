@@ -70,5 +70,11 @@
         WHERE id = #{userId}
     </update>
 
+    <select id="selectUserSystemInfo" resultType="UserVO">
+        SELECT id, login_type, email_verified, warning_count, create_at, updated_at
+
+        FROM users
+        WHERE id = #{userId}
+    </select>
 
 </mapper>

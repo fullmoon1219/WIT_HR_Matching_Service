@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.dto.admin.AdminDashboardStatsDTO;
 import org.wit.hrmatching.mapper.admin.AdminMapper;
+import org.wit.hrmatching.mapper.admin.AdminMemoMapper;
+import org.wit.hrmatching.vo.admin.AdminMemoVO;
 import org.wit.hrmatching.vo.job.JobPostVO;
 import org.wit.hrmatching.vo.user.UserVO;
 
@@ -19,6 +21,7 @@ import java.util.*;
 public class AdminService {
 
     private final AdminMapper adminMapper;
+    private final AdminMemoMapper adminMemoMapper;
 
     private Map<String, Object> getDateRangeParams(int days) {
         Map<String, Object> params = new LinkedHashMap<>();
@@ -144,6 +147,25 @@ public class AdminService {
         return new PageImpl<>(users, pageable, total);
     }
 
+    public void addMemo(AdminMemoVO memo) {
+        adminMemoMapper.insertMemo(memo);
+    }
+
+    public void removeMemo(Long id) {
+        adminMemoMapper.deleteMemo(id);
+    }
+
+    public List<AdminMemoVO> listMemos() {
+        return adminMemoMapper.getAllMemos();
+    }
+
+    public List<Map<String, Object>> getAccountStatusRatio() {
+        return adminMapper.getAccountStatusRatio();
+    }
+
+    public List<Map<String, Object>> getWarningDistribution() {
+        return adminMapper.getWarningDistribution();
+    }
 
 
 }
