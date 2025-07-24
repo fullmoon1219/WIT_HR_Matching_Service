@@ -9,6 +9,7 @@
     padding-left: 0;
     color: #555;
     font-size: 14px;
+    margin-bottom: 40px;
 }
 
 .guide-text li {
@@ -16,38 +17,46 @@
 }
 
 .notice-button {
-    background-color: #007bff;
-    border-radius: 8px;
-    padding: 20px;
+    background-color: #5D9CEC;
+    border-radius: 10px;
+    padding: 24px;
     cursor: pointer;
-    text-align: left;
+    text-align: center;
     margin-bottom: 32px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.notice-button:hover {
+    background-color: #4A89DC;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 .notice-button strong {
-    color: #fff;
-    font-size: 16px;
+    color: #ffffff;
+    font-size: 17px;
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 .notice-button p {
-    color: #e6e6e6;
+    color: #eaf2ff;
     margin: 0;
     font-size: 14px;
 }
 
 .resume-list {
     background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px 24px;
     margin-bottom: 24px;
 }
 
 .resume-list h3 {
     font-size: 18px;
-    margin-bottom: 12px;
+    margin-top: 0;
+    margin-bottom: 16px;
 }
 
 .resume-items {
@@ -60,13 +69,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #eee;
-    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 16px 8px;
+    transition: background-color 0.2s;
+}
+
+.resume-items li:hover {
+    background-color: #fcfdff;
+}
+
+.resume-items li:last-child {
+    border-bottom: none;
 }
 
 .resume-main-select {
     flex: 0 0 auto;
-    margin-right: 8px;
+    margin-right: 12px;
 }
 
 
@@ -77,14 +95,22 @@
     gap: 4px;
 }
 
+.resume-info .resume-title-link {
+    text-decoration: none;
+}
+
+.resume-info .resume-title-link:hover .resume-title {
+    color: #4A89DC;
+}
+
 .resume-title {
     font-weight: 500;
-    font-size: 14px;
+    font-size: 15px;
     color: #222;
 }
 
 .resume-date {
-    font-size: 13px;
+    font-size: 12px;
     color: #888;
 }
 
@@ -96,22 +122,85 @@
 
 .btn-small {
     font-size: 13px;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 6px 12px;
+    border-radius: 5px;
     cursor: pointer;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
+    background-color: #f1f3f5;
+    border: 1px solid #dee2e6;
+    color: #333;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-small:hover {
+    background-color: #e9ecef;
+}
+
+.legend {
+    text-align: right;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 12px;
 }
 
 .star-button {
-    font-size: 18px;
+    font-size: 20px;
     background: none;
     border: none;
     cursor: pointer;
-    color: #bbb; /* 빈 별 기본 색상 */
+    color: #ced4da;
     padding: 0;
+    position: relative;
+    transition: color 0.2s, transform 0.2s;
 }
 
 .star-button.selected {
-    color: #ffc107; /* 노란 별 (대표 이력서) */
+    color: #ffc107;
+}
+
+.star-button:not(.selected):hover {
+    color: #ffe066;
+    transform: scale(1.2);
+}
+
+.star-button.selected:hover {
+    color: #fcc419;
+    transform: scale(1.2);
+}
+
+.star-button::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+    background-color: #333;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+}
+
+.empty-list {
+    text-align: center;
+    padding: 40px 0;
+    color: #888;
+    font-size: 15px;
+}
+
+.btn-small[disabled] {
+    background-color: #f8f9fa;
+    color: #adb5bd;
+    border-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+.btn-small[disabled]:hover {
+    background-color: #f8f9fa;
+    border-color: #e9ecef;
 }

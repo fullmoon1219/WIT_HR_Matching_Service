@@ -44,6 +44,9 @@ public interface AdminMapper {
     // 9. 직무별 공고 분포
     List<Map<String, Object>> getJobPostCategoryDistribution();
 
+    List<Map<String, Object>> getAccountStatusRatio();
+    List<Map<String, Object>> getWarningDistribution();
+
     List<UserVO> getPagedUsersWithFilter(@Param("limit") int limit,
                                          @Param("offset") int offset,
                                          @Param("userId") Integer userId,

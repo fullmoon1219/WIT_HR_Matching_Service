@@ -32,7 +32,14 @@
         <div class="card-body">
             <textarea placeholder="운영진 간 공유할 메모를 남겨주세요"></textarea>
             <button class="memo-btn">저장</button>
+            <input type="hidden" id="admin-id" th:value="${admin.id}" />
         </div>
     </div>
 
+    <div class="admin-card memo-card">
+        <div class="card-header">메모 목록</div>
+        <div id="memo-container" class="card-body"></div>
+    </div>
+
 </div>
+
