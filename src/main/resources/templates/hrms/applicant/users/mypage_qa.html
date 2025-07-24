@@ -7,46 +7,36 @@
 
     <section layout:fragment="content">
         <div class="board-container">
-            <button class="btn delete-btn-top-right">삭제</button>
-            <div class="section-title">Q. 문의할 내용 제목</div>
+            <!-- 문의 제목 -->
+            <div class="section-title">Q. </div>
 
+            <!-- 문의 기본 정보 -->
             <table class="info-table">
-                <tr>
-                    <th>이름</th>
-                    <td>이름(아이디)</td>
-                    <th>등록일</th>
-                    <td>20nn/0n/0n</td>
-                </tr>
-                <tr>
-                    <th>답변여부</th>
-                    <td colspan="3">완료</td>
-                </tr>
+                <!-- JS에서 동적으로 채워짐 -->
             </table>
 
-            <div>
-                <div class="content-text">
-                    문의게시판 예시입니다
-
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet eos eum placeat repudiandae voluptatem. Accusantium ad autem deserunt, non nostrum quas quasi rem sapiente tenetur voluptates. Ea numquam pariatur perspiciatis?
-
-                </div>
+            <!-- 문의 내용 -->
+            <div class="content-text">
+                <!-- JS에서 동적으로 채워짐 -->
             </div>
 
+            <!-- 답변 영역 -->
             <div class="qa-section">
                 <div class="qa-label">A. 답변내용</div>
                 <div class="qa-content">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda natus odio porro, recusandae sequi totam. Architecto blanditiis deserunt eaque maiores nesciunt, nobis obcaecati pariatur perferendis provident quidem, rem sapiente temporibus!
+                    <!-- JS에서 동적으로 채워짐 -->
                 </div>
-                <div class="reply-time">답변시간: 2010/02/04 08:27:08</div>
+                <div class="reply-time">
+                    <!-- JS에서 동적으로 채워짐 -->
+                </div>
             </div>
-
         </div>
 
         <div class="return-wrapper">
-            <a href="/list" class="return-btn">목록으로 돌아가기</a>
+            <a href="/support/inquiries" class="return-btn">목록으로 돌아가기</a>
         </div>
-
     </section>
 </div>
 
 
+<script src="/js/support/inquiry-answer.js"></script>

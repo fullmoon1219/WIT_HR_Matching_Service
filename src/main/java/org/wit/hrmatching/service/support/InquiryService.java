@@ -92,4 +92,7 @@ public class InquiryService {
                 .build();
     }
 
+    public InquiryVO getInquiryById(Long id) {
+        return inquiriesMapper.getInquiryById(id);
+    }
 }

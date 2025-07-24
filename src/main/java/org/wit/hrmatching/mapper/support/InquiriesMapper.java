@@ -48,4 +48,5 @@ public interface InquiriesMapper {
 
     long countInquiriesByUserId(@Param("userId") Long userId);
 
+    InquiryVO getInquiryById(Long id);
 }
