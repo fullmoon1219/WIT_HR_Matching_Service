@@ -19,6 +19,8 @@
 	<script src="/js/csrf-setup.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 	<script src="/js/applicant/common.js"></script>
+	<script src="/js/csrf-setup.js"></script>
+
 
 	<script th:inline="javascript">
 		/*<![CDATA[*/
@@ -123,6 +125,19 @@
 				<div class="location-address" id="workplaceAddress">근무지 주소</div>
 				<div class="map-container" id="map"></div>
 			</div>
+		</div>
+
+
+		<div class="report-button-wrapper">
+		<!-- ✅ 신고하기 버튼 -->
+		<form action="/support/report" method="post" class="report-form">
+			<input type="hidden" name="type" value="JOB_POST">
+			<input type="hidden" name="targetId" value="공고ID입력">
+			<input type="hidden" name="reportedUserId" value="공고작성자ID"/>
+			<button type="submit" class="btn-report" title="신고하기">
+				🚨 신고하기
+			</button>
+		</form>
 		</div>
 
 	</div>

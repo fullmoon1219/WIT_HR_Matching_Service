@@ -2,7 +2,6 @@ body {
     font-family: 'Noto Sans KR', sans-serif;
     background-color: #f5f6f8;
     margin: 0;
-    padding: 20px;
 }
 
 .recruit-wrapper {
@@ -154,4 +153,33 @@ h3 {
     width: 100%;
     height: 300px; /* height 꼭 지정해야 함 */
 }
+
+/* ✅ 신고 버튼 영역 전체를 오른쪽 하단 정렬 */
+.report-button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 40px;
+    padding: 0 12px;
+}
+
+/* ✅ 신고 버튼 자체 스타일 */
+.report-form {
+    display: inline-block;
+}
+
+.btn-report {
+    background-color: #ff4d4f;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-report:hover {
+    background-color: #d9363e;
+}
+
 

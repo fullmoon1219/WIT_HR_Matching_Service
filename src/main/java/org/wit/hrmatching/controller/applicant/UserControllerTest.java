@@ -13,11 +13,6 @@ public class UserControllerTest {
         return "/applicant/users/mypage";       // 💡 반환할 뷰 이름
     }
 
-    @GetMapping("/request")
-    public String showApplicationHistory() {
-        return "/applicant/users/mypage_request";
-    }
-
     @GetMapping("/resume")
     public String showApplicationResume() {
         return "/applicant/users/mypage_application_resume";
@@ -28,8 +23,6 @@ public class UserControllerTest {
         return "/applicant/users/mypage_application_list";
     }
 
-    @GetMapping("/qa")
-    public String showApplicationqa() { return "/applicant/users/mypage_qa"; }
 }
 
 
