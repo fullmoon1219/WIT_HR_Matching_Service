@@ -1,6 +1,7 @@
 package org.wit.hrmatching.controller.users;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -44,4 +45,12 @@ public class InquiryRestController {
         return inquiryService.getPagedInquiriesByUserId(userDetails.getId(), page, size);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<InquiryVO> getInquiryDetail(@PathVariable Long id) {
+        InquiryVO inquiry = inquiryService.getInquiryById(id);
+        if (inquiry == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(inquiry);
+    }
 }

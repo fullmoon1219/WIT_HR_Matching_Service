@@ -185,19 +185,20 @@ $(document).ready(function () {
             .then(data => {
                 if (data.success) {
                     const timestamp = new Date().getTime();
-                    const $newImage = $('<img>', {
+                    const newImage = $('<img>', {
                         id: 'profileImagePreview',
                         src: data.imageUrl + '?t=' + timestamp,
                         alt: '기업 프로필 이미지',
                         class: 'profile-image-preview'
                     });
-
-                    $('#profileImagePreview').replaceWith($newImage);
+                    $('#profileImagePreview').replaceWith(newImage);
                     alert("이미지 업로드가 완료되었습니다!");
+                    location.reload(true); // ✅ 새로고침
                 } else {
                     alert("업로드 실패: " + data.message);
                 }
             })
+
             .catch(err => {
                 console.error(err);
                 alert("이미지 업로드 중 오류가 발생했습니다.");

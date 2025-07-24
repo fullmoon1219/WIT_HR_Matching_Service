@@ -193,7 +193,7 @@ function populateProfileData(data) {
 	const resumeId = data.primaryResumeId;
 
 	if (data.profileImage) {
-		$('#profileImagePreview').attr('src', data.profileImage);
+		$('#profileImagePreview').attr('src', '/uploads/users/profile/' + data.profileImage);
 	} else {
 		$('#profileImagePreview').attr('src', '/images/users/user_big_profile.png');
 	}

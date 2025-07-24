@@ -1,0 +1,62 @@
+<div layout:decorate="~{layout/main/main-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/main/main.css}">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+        <link rel="stylesheet" href="/css/user/ai-test.css">
+    </th:block>
+
+    <section layout:fragment="content">
+        <section class="resume-management">
+            <h2>AI 모의면접</h2>
+
+            <section class="hero">
+                <div class="hero-text">
+                    <h1><span class="highlight">AI 모의면접</span>으로 준비하세요</h1>
+                    <p>AI가 주도하는 실전 모의면접, 지금 바로 연습하고 자신감을 키워보세요.</p>
+                    <div class="buttons">
+                        <button class="primary-btn">모의면접 시작하기</button>
+                        <a href="/applicant/resume/list" class="secondary-link">이력서 작성하기 →</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="/images/ai-test.png" alt="AI Interview" />
+                </div>
+                <div class="scroll-down-indicator">
+                    <span class="scroll-text">이력서 선택하기</span>
+                    <span class="arrow-icon">↓</span>
+                </div>
+            </section>
+
+            <ul class="guide-text">
+                <li>AI 모의면접은 <b>작성 완료한 이력서</b>를 기반으로 진행됩니다.</li>
+                <li>대표 이력서가 아니여도 AI 모의면접을 진행할 수 있습니다.</li>
+                <li>AI는 선택한 이력서를 분석하여 <b>랜덤으로 5개의 질문</b>을 출제하며, 작성한 답변에 대해 피드백을 제공합니다.</li>
+                <li>모의면접은 저장된 이력서 내용을 기준으로 진행되며, 원본 이력서를 변경해도 이전 모의면접 결과에는 영향을 주지 않습니다.</li>
+                <li>이력서를 선택하지 않으면 자동으로 <b>대표 이력서</b>가 선택됩니다.</li>
+                <li>대표 이력서로 지정된 이력서는 수정 및 삭제가 제한됩니다.</li>
+            </ul>
+
+            <div id="resumeListSection" class="resume-list">
+                <h3>내 이력서 목록</h3>
+                <ul class="resume-items" id="completedResumeList">
+                    <!-- 리스트가 JS에서 채워짐 -->
+                </ul>
+            </div>
+
+        </section>
+    </section>
+
+</div>
+
+<script src="/js/applicant/common.js"></script>
+<script src="/js/interview/interview-list.js"></script>
+<script src="/js/main/header.js"></script>
+<script>
+    document.querySelector('.scroll-down-indicator').addEventListener('click', function () {
+        const target = document.getElementById('resumeListSection');
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+</script>

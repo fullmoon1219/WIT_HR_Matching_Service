@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.wit.hrmatching.controller.ai.InterviewController;
 import org.wit.hrmatching.controller.community.CommunityController;
 import org.wit.hrmatching.controller.community.CommunityRestController;
 import org.wit.hrmatching.controller.employer.*;
@@ -13,7 +14,10 @@ import org.wit.hrmatching.vo.user.CustomUserDetails;
 import org.wit.hrmatching.vo.user.UserVO;
 
 //@ControllerAdvice(basePackages = "org.wit.hrmatching.controller.admin")
-@ControllerAdvice(assignableTypes = {CommunityController.class, CommunityRestController.class, SupportController.class, JobPostController.class, EmpApplicationController.class, EmployerProfileController.class, EmployerProfileController.class, PublicResumesController.class},
+@ControllerAdvice(assignableTypes = {CommunityController.class, CommunityRestController.class, SupportController.class, JobPostController.class,
+        EmpApplicationController.class, EmployerProfileController.class, EmployerProfileController.class, PublicResumesController.class,
+        InterviewController.class},
+
         basePackages = {"org.wit.hrmatching.controller.applicant", "org.wit.hrmatching.controller.common"})
 @RequiredArgsConstructor
 public class UserGlobalModelAttributeAdvice {

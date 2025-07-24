@@ -19,4 +19,16 @@
     <select id="countInquiriesByUserId" resultType="long">
         SELECT COUNT(*) FROM inquiries WHERE user_id = #{userId}
     </select>
+
+    <select id="getInquiryById" resultType="org.wit.hrmatching.vo.support.InquiryVO">
+        SELECT
+            i.*,
+            u.name,
+            u.email,
+            r.name AS reason_name
+        FROM inquiries i
+                 LEFT JOIN users u ON i.user_id = u.id
+                 LEFT JOIN inquiry_reasons r ON i.reason_id = r.id
+        WHERE i.id = #{id}
+    </select>
 </mapper>
