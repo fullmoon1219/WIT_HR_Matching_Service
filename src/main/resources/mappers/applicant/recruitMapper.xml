@@ -8,7 +8,7 @@
                location, deadline, create_at as createAt, view_count as viewCount,
                bookmark_count as bookmarkCount, employment_type as employmentType,
                job_category as jobCategory, workplace_address as workplaceAddress,
-               experience_type as experienceType, experience_years as experienceYears
+               experience_type as experienceType, experience_years as experienceYears, id
         from job_posts
         where id=#{jobPostId}
         <if test="isAdmin == false">
@@ -18,7 +18,7 @@
 
     <select id="selectEmployerProfile" resultType="EmployerProfilesVO">
         select company_name as companyName, address, phone_number as phoneNumber, homepage_url as homepageUrl,
-               industry, company_size as companySize, email
+               industry, company_size as companySize, email, user_id as userId
         from employer_profiles
         where user_id=#{employerUserId}
     </select>
