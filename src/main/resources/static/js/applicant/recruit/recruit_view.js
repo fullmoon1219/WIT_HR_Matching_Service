@@ -57,6 +57,9 @@ $(document).ready(function () {
 		$('#companySize').text(employer.companySize);
 		$('#employerEmail').text(employer.email);
 
+		$('#reportTargetId').val(jobPost.id);
+		$('#reportUserId').val(jobPost.userId);
+
 		if (jobPost.requiredSkills) {
 			const skillNames = jobPost.requiredSkills.split(',')
 				.map(id => skillMap[id.trim()] || id.trim())

@@ -29,7 +29,8 @@ $(document).ready(function () {
             data: JSON.stringify(data),
             success: function (res) {
                 alert(res);  // "신고가 등록되었습니다."
-                location.href = '/support/report';
+                const targetId = data.targetId;
+                location.href = '/recruit/view/' + targetId;
             },
             error: function (xhr) {
                 const message = xhr.responseText || '신고 등록에 실패했습니다.';

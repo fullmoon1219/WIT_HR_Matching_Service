@@ -129,15 +129,15 @@
 
 
 		<div class="report-button-wrapper">
-		<!-- ✅ 신고하기 버튼 -->
-		<form action="/support/report" method="post" class="report-form">
-			<input type="hidden" name="type" value="JOB_POST">
-			<input type="hidden" name="targetId" value="공고ID입력">
-			<input type="hidden" name="reportedUserId" value="공고작성자ID"/>
-			<button type="submit" class="btn-report" title="신고하기">
-				🚨 신고하기
-			</button>
-		</form>
+			<form action="/support/report" method="post" class="report-form">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				<input type="hidden" name="type" value="JOB_POST">
+				<input type="hidden" name="targetId" id="reportTargetId">
+				<input type="hidden" name="reportedUserId" id="reportUserId">
+				<button type="submit" class="btn-report" title="신고하기">
+					🚨 신고하기
+				</button>
+			</form>
 		</div>
 
 	</div>
