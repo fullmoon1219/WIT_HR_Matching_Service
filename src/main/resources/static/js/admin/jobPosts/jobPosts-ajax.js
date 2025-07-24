@@ -21,13 +21,14 @@ function loadJobPosts(page = 1, filters = currentFilters) {
         data: {
             keyword: keyword,
             isClosed: statusParam,
-            isDeleted: deletedParam
+            isDeleted: deletedParam,
+            page: page
         },
         success: function (response) {
             renderTable(response.content);
             renderPagination(
                 response.totalPages,
-                response.number + 1,
+                currentPage,
                 (selectedPage) => {
                     loadJobPosts(selectedPage, currentFilters);
                 }
