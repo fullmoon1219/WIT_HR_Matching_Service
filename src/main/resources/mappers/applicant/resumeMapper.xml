@@ -4,7 +4,7 @@
 <mapper namespace="org.wit.hrmatching.mapper.applicant.ResumeMapper">
     
     <select id="selectUserInfo" resultType="UserVO">
-        select name, email
+        select name, email, profile_image as profileImage
         from users
         where id = #{userId}
     </select>

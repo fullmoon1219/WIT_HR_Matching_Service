@@ -22,6 +22,12 @@ $(document).ready(function () {
 		const userInfo = profileData.userInfo;
 		const profile = profileData.profile;
 
+		if (userInfo.profileImage) {
+			$('#profile-img-view').attr('src', '/uploads/users/profile/' + userInfo.profileImage);
+		} else {
+			$('#profile-img-view').attr('src', '/images/users/user_big_profile.png');
+		}
+
 		$('#name').text(userInfo.name);
 		$('#email').text(userInfo.email);
 
