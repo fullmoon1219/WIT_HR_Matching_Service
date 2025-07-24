@@ -8,14 +8,14 @@ import lombok.Setter;
 public class ApplicantProfileUpdateRequestDTO {
 
 	private String name;
-	private int age;
+	private Integer age;
 	private String address;
 	private String phoneNumber;
 	private String gender;
 	private String portfolioUrl;
 	private String selfIntro;
 	private String jobType;
-	private int experienceYears;
+	private Integer experienceYears;
 
 	private String password;
 	private long userId;

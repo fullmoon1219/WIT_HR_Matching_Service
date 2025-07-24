@@ -12,6 +12,7 @@
             u.profile_image as profileImage,
             u.email_verified as emailVerified,
             u.login_type as loginType,
+            u.warning_count as warningCount,
             ap.age as age,
             ap.address as address,
             ap.phone_number as phoneNumber,
@@ -29,15 +30,17 @@
         where u.id = #{userId}
     </select>
 
-    <update id="updateUserProfile" parameterType="org.wit.hrmatching.dto.applicant.ApplicantProfileUpdateRequestDTO">
+    <update id="updateUser" parameterType="org.wit.hrmatching.dto.applicant.ApplicantProfileUpdateRequestDTO">
         update users
         <set>
             <if test="name != null and name != ''">
                 name = #{name},
             </if>
         </set>
-        where id = #{userId};
+        where id = #{userId}
+    </update>
 
+    <update id="updateApplicantProfile" parameterType="org.wit.hrmatching.dto.applicant.ApplicantProfileUpdateRequestDTO">
         update applicant_profiles
         <set>
             <if test="age != null">
@@ -65,7 +68,7 @@
                 experience_years = #{experienceYears},
             </if>
         </set>
-        where user_id = #{userId};
+        where user_id = #{userId}
     </update>
 
     <insert id="insertFile" parameterType="ApplicantProfileImageVO">
@@ -86,5 +89,11 @@
         FROM users
         WHERE id = #{userId}
     </select>
+
+    <update id="updatePassword">
+        UPDATE users
+        SET password = #{newPassword}
+        WHERE id = #{userId}
+    </update>
 
 </mapper>

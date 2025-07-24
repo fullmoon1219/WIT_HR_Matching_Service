@@ -16,6 +16,16 @@ let appliedFilters = {}; // 현재 적용된 필터를 저장할 객체
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
 
 $(document).ready(function () {
+
+	const urlParams = new URLSearchParams(window.location.search);
+	const sortParam = urlParams.get('sortOrder');
+	const validSortOrders = ['latest', 'oldest', 'deadline', 'views', 'scraps'];
+
+	if (sortParam && validSortOrders.includes(sortParam)) {
+		currentFilters.sortOrder = sortParam;
+		$('#sort-order-select').val(sortParam);
+	}
+
 	$('.filter-dropdown').hide();
 
 	loadRecruitList(currentFilters);

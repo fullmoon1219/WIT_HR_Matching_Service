@@ -19,6 +19,7 @@ public class ApplicantProfileDTO {
 	private String profileImage;
 	private boolean emailVerified;
 	private String loginType;
+	private int warningCount;
 
 	private int age;
 	private String gender;
