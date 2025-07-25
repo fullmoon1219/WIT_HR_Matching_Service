@@ -1,11 +1,17 @@
 package org.wit.hrmatching.service.applicant;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.wit.hrmatching.dao.applicant.ResumeDAO;
-import org.wit.hrmatching.vo.ApplicantProfilesVO;
-import org.wit.hrmatching.vo.ResumeVO;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.exception.IncompleteProfileException;
+import org.wit.hrmatching.exception.ResumeNotFoundException;
+import org.wit.hrmatching.vo.user.ApplicantProfilesVO;
+import org.wit.hrmatching.vo.resume.ResumeVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,14 +38,6 @@ public class ResumeService {
 
 	public boolean registerResume(ResumeVO resumeVO) {
 		return resumeDAO.registerResume(resumeVO);
-	}
-
-	public ResumeVO getPublicResume(long userId) {
-		return resumeDAO.getPublicResume(userId);
-	}
-
-	public List<ResumeVO> getResumeList(long userId) {
-		return resumeDAO.getResumeList(userId);
 	}
 
 	public List<ResumeVO> getCompletedResumeList(Long userId) {
@@ -71,12 +69,16 @@ public class ResumeService {
 		return resumeDAO.updatePrivateResume(resumeId);
 	}
 
-	public boolean setResumeAsPublic(long resumeId, long userId) {
+	@Transactional
+	public void setResumeAsPublic(long resumeId, long userId) {
+
+		if (!confirmProfile(userId)) {
+			throw new IncompleteProfileException("개인정보 입력이 완료되지 않았습니다.");
+		}
 
 		resumeDAO.resetPublicResume(userId);
 		resumeDAO.updatePrimaryResume(resumeId, userId);
-
-		return resumeDAO.updatePublicResume(resumeId);
+		resumeDAO.updatePublicResume(resumeId);
 	}
 
 	public boolean confirmProfile(long userId) {
@@ -108,11 +110,48 @@ public class ResumeService {
 		return resumeDAO.findOwnerIdByResumeId(resumeId);
 	}
 
-	public boolean editResume(ResumeVO resumeVO) {
-		return resumeDAO.editResume(resumeVO);
+	@Transactional
+	public void editResume(ResumeVO resumeVO) {
+
+		ResumeVO existingResume = resumeDAO.getResume(resumeVO.getId());
+
+		if (existingResume == null) {
+			throw new ResumeNotFoundException("수정할 이력서를 찾을 수 없습니다.");
+		}
+
+		boolean updateSuccess = resumeDAO.editResume(resumeVO);
+
+		if (!updateSuccess) {
+			throw new RuntimeException("이력서 수정 중 데이터베이스 오류가 발생했습니다.");
+		}
 	}
 
 	public boolean deleteResume(long resumeId) {
 		return resumeDAO.deleteResume(resumeId);
 	}
+
+	public JsonNode getResumeJsonById(Long resumeId) {
+		ResumeVO resume = getResume(resumeId);
+		if (resume == null) {
+			throw new ResumeNotFoundException("해당 이력서를 찾을 수 없습니다.");
+		}
+
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode content = mapper.createObjectNode();
+
+		content.put("education", resume.getEducation());
+		content.put("experience", resume.getExperience());
+		content.put("skills", resume.getSkills());
+		content.put("preferredLocation", resume.getPreferredLocation());
+		content.put("salaryExpectation", resume.getSalaryExpectation());
+		content.put("desiredPosition", resume.getDesiredPosition());
+		content.put("coreCompetency", resume.getCoreCompetency());
+		content.put("motivation", resume.getMotivation());
+
+		ObjectNode root = mapper.createObjectNode();
+		root.set("content", mapper.createArrayNode().add(content));
+
+		return root;
+	}
+
 }

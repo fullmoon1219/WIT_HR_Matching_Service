@@ -7,8 +7,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.dto.applicant.BookmarkDTO;
 import org.wit.hrmatching.service.applicant.BookmarkService;
-import org.wit.hrmatching.vo.BookmarkListVO;
-import org.wit.hrmatching.vo.CustomUserDetails;
+import org.wit.hrmatching.vo.bookmark.BookmarkListVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
 import org.wit.hrmatching.vo.applicantPaging.PageResponseVO;
 import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
 

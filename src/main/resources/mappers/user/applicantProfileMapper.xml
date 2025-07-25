@@ -4,7 +4,7 @@
 <mapper namespace="org.wit.hrmatching.mapper.ProfileMapper">
 
     <!-- 유저 ID로 지원자 프로필 정보 조회 -->
-    <select id="applicantFindByUserId" resultType="org.wit.hrmatching.vo.ApplicantProfilesVO">
+    <select id="applicantFindByUserId" resultType="org.wit.hrmatching.vo.user.ApplicantProfilesVO">
         SELECT
         user_id,
         age,
@@ -23,7 +23,7 @@
     </select>
 
     <!-- 지원자 프로필 삽입 -->
-    <insert id="insertApplicantProfile" parameterType="org.wit.hrmatching.vo.ApplicantProfilesVO">
+    <insert id="insertApplicantProfile" parameterType="org.wit.hrmatching.vo.user.ApplicantProfilesVO">
         INSERT INTO applicant_profiles (user_id, age, address, phone_number, gender, portfolio_url,
                                         self_intro, job_type, experience_years, primary_resume_id)
         VALUES (#{userId}, #{age}, #{address}, #{phoneNumber}, #{gender}, #{portfolioUrl},

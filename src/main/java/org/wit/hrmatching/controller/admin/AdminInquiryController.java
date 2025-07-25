@@ -1,9 +1,12 @@
 package org.wit.hrmatching.controller.admin;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.wit.hrmatching.service.support.InquiryReasonService;
 import org.wit.hrmatching.service.support.InquiryService;
-import org.wit.hrmatching.vo.InquiryVO;
+import org.wit.hrmatching.vo.support.InquiryReasonVO;
+import org.wit.hrmatching.vo.support.InquiryVO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,10 +14,17 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/inquiries")
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequiredArgsConstructor
 public class AdminInquiryController {
 
     private final InquiryService inquiryService;
+    private final InquiryReasonService reasonService;
+
+    @GetMapping("/reasons")
+    public List<InquiryReasonVO> getAll() {
+        return reasonService.getAllReasons();
+    }
 
     // 통계 API
     @GetMapping("/stats")
@@ -26,15 +36,21 @@ public class AdminInquiryController {
         return map;
     }
 
+    @GetMapping("/stats-by-reason")
+    public List<Map<String, Object>> getReasonStats() {
+        return inquiryService.getInquiryCountByReason();
+    }
+
     // 목록 API
     @GetMapping
     public Map<String, Object> getInquiries(@RequestParam(defaultValue = "1") int page,
                                             @RequestParam(defaultValue = "10") int size,
                                             @RequestParam(required = false) String status,
-                                            @RequestParam(required = false) String keyword) {
+                                            @RequestParam(required = false) String keyword,
+                                            @RequestParam(required = false) Long reasonId) {
 
-        List<InquiryVO> list = inquiryService.getPagedInquiries(status, keyword, page, size);
-        int totalCount = inquiryService.getTotalFilteredCount(status, keyword);
+        List<InquiryVO> list = inquiryService.getPagedInquiries(status, keyword, reasonId, page, size);
+        int totalCount = inquiryService.getTotalFilteredCount(status, keyword, reasonId);
 
         Map<String, Object> result = new HashMap<>();
         result.put("content", list);
@@ -43,14 +59,24 @@ public class AdminInquiryController {
         return result;
     }
 
+
     // 상태 변경 API
     @PatchMapping("/status")
     public void updateStatus(@RequestBody Map<String, Object> body) {
-        List<Integer> idList = (List<Integer>) body.get("inquiryIds");
-        List<Long> ids = idList.stream().map(Long::valueOf).toList();
+        Object inquiryIdsObj = body.get("inquiryIds");
+        if (!(inquiryIdsObj instanceof List<?> list)) {
+            throw new IllegalArgumentException("inquiryIds는 리스트여야 합니다.");
+        }
+
+        List<Long> ids = list.stream()
+                .filter(i -> i instanceof Number)
+                .map(i -> ((Number) i).longValue())
+                .toList();
+
         String status = (String) body.get("status");
         inquiryService.updateStatus(ids, status);
     }
+
 
     // 일괄 삭제 API
     @DeleteMapping

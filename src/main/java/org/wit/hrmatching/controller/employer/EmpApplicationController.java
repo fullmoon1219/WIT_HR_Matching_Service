@@ -9,11 +9,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.wit.hrmatching.service.employer.EmpApplicationService;
 import org.wit.hrmatching.service.employer.JobPostService;
-import org.wit.hrmatching.vo.*;
+import org.wit.hrmatching.service.employer.EmployerProfileService;
+import org.wit.hrmatching.service.employer.TechStackService;
+import org.wit.hrmatching.vo.application.EmpApplicationVO;
+import org.wit.hrmatching.vo.application.EmployerRecentApplicantVO;
+import org.wit.hrmatching.vo.job.JobPostVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
+import org.wit.hrmatching.vo.user.EmployerProfilesVO;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -23,6 +28,8 @@ public class EmpApplicationController {
     private final EmpApplicationService empApplicationService;
 
     private final JobPostService jobPostService;
+    private final EmployerProfileService employerProfileService;
+    private final TechStackService techStackService;
 
     @GetMapping("/list")
     public ModelAndView postApplicant(
@@ -80,10 +87,24 @@ public class EmpApplicationController {
     @GetMapping("/jobpost_detail")
     public ModelAndView showJobPostDetail(@RequestParam("postId") Long postId) {
         JobPostVO jobPostVO = jobPostService.selectJobPostDetail(postId);
+        EmployerProfilesVO eVO = employerProfileService.getEmployerProfile(jobPostVO.getUserId());
+
+        List<String> selectedStackNames = new ArrayList<>();
+        String techStacks = jobPostVO.getRequiredSkills();
+        if (techStacks != null && !techStacks.trim().isEmpty()) {
+            List<Long> stackIds = Arrays.stream(techStacks.split(","))
+                    .map(String::trim)
+                    .map(Long::parseLong)
+                    .collect(Collectors.toList());
+
+            // id 리스트로 name 목록 조회
+            selectedStackNames = techStackService.getStackNamesByIds(stackIds);
+        }
 
         ModelAndView modelAndView = new ModelAndView("employer/empApplication/jobpost_detail"); // 💡 실제 템플릿 경로 맞게 수정
         modelAndView.addObject("jobPost", jobPostVO); // Thymeleaf에서 ${jobPost.xxx}로 접근 가능
-
+        modelAndView.addObject("employerProfile", eVO);
+        modelAndView.addObject("selectedStacks", selectedStackNames);
         return modelAndView;
     }
 

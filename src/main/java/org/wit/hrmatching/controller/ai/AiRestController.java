@@ -1,19 +1,17 @@
 package org.wit.hrmatching.controller.ai;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.wit.hrmatching.config.ai.JsonConverter;
-import org.wit.hrmatching.config.ai.OpenAiResponseParser;
-import org.wit.hrmatching.service.admin.AdminResumeService;
 import org.wit.hrmatching.service.ai.AiService;
-import org.wit.hrmatching.vo.ResumeVO;
+import org.wit.hrmatching.service.applicant.ResumeService;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/ai")
@@ -22,30 +20,41 @@ import org.wit.hrmatching.vo.ResumeVO;
 public class AiRestController {
 
     private final AiService aiService;
-    private final AdminResumeService adminResumeService;
-    private final JsonConverter jsonConverter;
-    private final OpenAiResponseParser openAiResponseParser;
+    private final ResumeService resumeService;
 
-    @GetMapping("/evaluate-resume")
-    public ResponseEntity<JsonNode> evaluateResume(@RequestParam Long id) {
-        Pageable pageable = PageRequest.of(0, 1);
-        Page<ResumeVO> page = adminResumeService.getPagedResumes(pageable, id, null, null, false, null);
-
-        if (page.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(openAiResponseParser.parse("{\"error\": \"해당 이력서를 찾을 수 없습니다.\"}"));
-        }
-
-        ResumeVO resume = page.getContent().get(0);
-
-        JsonNode resumeJson = jsonConverter.wrapWithContentArray(resume);
-
-        String result = aiService.scoreResumeFromJson(resumeJson);
-
-        JsonNode parsedResponse = openAiResponseParser.parse(result);
-
-        return ResponseEntity.ok(parsedResponse);
+    @PostMapping("/resumes/analyze")
+    public ResponseEntity<JsonNode> analyzeResume(@RequestBody Map<String, Long> payload) {
+        Long resumeId = payload.get("resumeId");
+        JsonNode resumeJson = resumeService.getResumeJsonById(resumeId);
+        JsonNode result = aiService.scoreResumeFromJson(resumeJson);
+        return ResponseEntity.ok(result);
     }
 
+    @PostMapping("/resumes/summary")
+    public ResponseEntity<JsonNode> summarizeForCompany(@RequestBody Map<String, Long> payload) {
+        Long resumeId = payload.get("resumeId");
+        JsonNode resumeJson = resumeService.getResumeJsonById(resumeId);
+        String summaryText = aiService.summarizeResumeForRecruiter(resumeJson);
 
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode root = mapper.createObjectNode();
+        root.put("summary", summaryText);
+
+        return ResponseEntity.ok(root);
+    }
+
+    @PostMapping("/interview/questions")
+    public ResponseEntity<List<String>> generateQuestionsFromResume(@RequestBody Map<String, Long> payload) {
+        Long resumeId = payload.get("resumeId");
+        JsonNode resumeJson = resumeService.getResumeJsonById(resumeId);
+        List<String> questions = aiService.generateInterviewQuestions(resumeJson);
+        return ResponseEntity.ok(questions);
+    }
+
+    @PostMapping("/interview/evaluate")
+    public String evaluateAnswer(@RequestBody Map<String, String> payload) {
+        String question = payload.get("question");
+        String answer = payload.get("answer");
+        return aiService.evaluateInterviewAnswer(question, answer);
+    }
 }

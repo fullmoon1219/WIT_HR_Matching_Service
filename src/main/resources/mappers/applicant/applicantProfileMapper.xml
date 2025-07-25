@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.applicant.ApplicantProfileMapper">
+
+    <select id="selectUserProfile" resultType="org.wit.hrmatching.dto.applicant.ApplicantProfileDTO">
+        select
+            u.email as email,
+            u.name as name,
+            u.create_at as createAt,
+            u.last_login as lastLogin,
+            u.profile_image as profileImage,
+            u.email_verified as emailVerified,
+            u.login_type as loginType,
+            u.warning_count as warningCount,
+            ap.age as age,
+            ap.address as address,
+            ap.phone_number as phoneNumber,
+            ap.gender as gender,
+            ap.portfolio_url as portfolioUrl,
+            ap.self_intro as selfIntro,
+            ap.job_type as jobType,
+            ap.experience_years as experienceYears,
+            ap.primary_resume_id as primaryResumeId,
+            r.title as resumeTitle,
+            r.updated_at as resumeUpdatedAt
+        from users u
+        inner join applicant_profiles ap on u.id = ap.user_id
+        left join resumes r on ap.primary_resume_id = r.id
+        where u.id = #{userId}
+    </select>
+
+    <update id="updateUser" parameterType="org.wit.hrmatching.dto.applicant.ApplicantProfileUpdateRequestDTO">
+        update users
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+        </set>
+        where id = #{userId}
+    </update>
+
+    <update id="updateApplicantProfile" parameterType="org.wit.hrmatching.dto.applicant.ApplicantProfileUpdateRequestDTO">
+        update applicant_profiles
+        <set>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="phoneNumber != null and phoneNumber != ''">
+                phone_number = #{phoneNumber},
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender},
+            </if>
+            <if test="portfolioUrl != null and portfolioUrl != ''">
+                portfolio_url = #{portfolioUrl},
+            </if>
+            <if test="selfIntro != null and selfIntro != ''">
+                self_intro = #{selfIntro},
+            </if>
+            <if test="jobType != null and jobType != ''">
+                job_type = #{jobType},
+            </if>
+            <if test="experienceYears != null">
+                experience_years = #{experienceYears},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <insert id="insertFile" parameterType="ApplicantProfileImageVO">
+        INSERT INTO files
+        (user_id, related_type, related_id, original_name, stored_name, file_size, upload_path)
+        VALUES
+            (#{userId}, #{relatedType}, #{relatedId}, #{originalName}, #{storedName}, #{fileSize}, #{uploadPath})
+    </insert>
+
+    <update id="updateUserProfileImage">
+        UPDATE users
+        SET profile_image = #{profileImage}
+        WHERE id = #{userId}
+    </update>
+
+    <select id="findProfileImageByUserId" parameterType="long" resultType="string">
+        SELECT profile_image
+        FROM users
+        WHERE id = #{userId}
+    </select>
+
+    <update id="updatePassword">
+        UPDATE users
+        SET password = #{newPassword}
+        WHERE id = #{userId}
+    </update>
+
+</mapper>

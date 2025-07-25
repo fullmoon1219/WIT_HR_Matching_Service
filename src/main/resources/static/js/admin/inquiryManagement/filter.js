@@ -2,7 +2,8 @@
 
 const currentFilters = {
     status: '',
-    keyword: ''
+    keyword: '',
+    reasonId: ''
 };
 
 // ▼ 클릭 시 필터 팝업 열기
@@ -26,11 +27,20 @@ $(document).on('click', '.filter-popup button', function () {
     if (value === '') {
         $selected.hide().text('');
     } else {
+        let classValue = '';
+
+        if (type === 'reasonId') {
+            classValue = `reason-${value}`;
+        } else {
+            classValue = String(value).toLowerCase();
+        }
+
         $selected
-            .attr('class', `filter-selected value ${value.toLowerCase()}`)
+            .attr('class', `filter-selected value ${classValue}`)
             .text(label)
             .show();
     }
+
 
     setTimeout(() => {
         $('.filter-popup').hide();
@@ -84,3 +94,4 @@ $(document).on("click", "#deleteButton", function () {
 $(document).on('click', function () {
     $('.filter-popup').hide();
 });
+

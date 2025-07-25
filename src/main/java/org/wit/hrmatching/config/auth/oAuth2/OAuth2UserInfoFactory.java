@@ -1,6 +1,6 @@
 package org.wit.hrmatching.config.auth.oAuth2;
 
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.util.Map;
 

@@ -13,6 +13,7 @@
             <div class="card"><h3>총 문의</h3><div class="value" id="inquiryCount"></div></div>
             <div class="card"><h3>미답변</h3><div class="value" id="unansweredCount"></div></div>
             <div class="card"><h3>답변 완료</h3><div class="value" id="answeredCount"></div></div>
+
         </div>
 
         <div class="section">
@@ -31,6 +32,7 @@
                 <colgroup>
                     <col style="width: 3%">
                     <col style="width: 5%">
+                    <col style="width: 12%">
                     <col style="width: 20%">
                     <col style="width: 10%">
                     <col style="width: 10%">
@@ -43,6 +45,15 @@
                 <tr>
                     <th><input type="checkbox" id="checkAll"></th>
                     <th>ID</th>
+                    <th class="filter-toggle" data-filter="reasonId" style="position: relative;" id="th-reason">
+                        사유
+                        <span>▼</span>
+                        <div class="filter-selected value reasonId" data-type="reasonId" style="display: none;"></div>
+                        <div class="filter-popup" data-type="reasonId" style="display: none;" id="reasonFilterPopup">
+                            <!-- 여기에 JS로 버튼들 동적으로 삽입 -->
+                        </div>
+                    </th>
+
                     <th>제목</th>
                     <th>이름</th>
                     <th>이메일</th>

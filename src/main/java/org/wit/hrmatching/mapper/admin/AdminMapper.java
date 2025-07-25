@@ -2,12 +2,9 @@ package org.wit.hrmatching.mapper.admin;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.wit.hrmatching.dto.admin.AdminDashboardStatsDTO;
-import org.wit.hrmatching.vo.JobPostVO;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.job.JobPostVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -47,6 +44,9 @@ public interface AdminMapper {
     // 9. 직무별 공고 분포
     List<Map<String, Object>> getJobPostCategoryDistribution();
 
+    List<Map<String, Object>> getAccountStatusRatio();
+    List<Map<String, Object>> getWarningDistribution();
+
     List<UserVO> getPagedUsersWithFilter(@Param("limit") int limit,
                                          @Param("offset") int offset,
                                          @Param("userId") Integer userId,
@@ -54,6 +54,7 @@ public interface AdminMapper {
                                          @Param("status") String status,
                                          @Param("warning") String warning,
                                          @Param("verified") String verified,
+                                         @Param("deleted") Boolean deleted,
                                          @Param("keyword") String keyword);
 
 
@@ -62,5 +63,6 @@ public interface AdminMapper {
                              @Param("status") String status,
                              @Param("warning") String warning,
                              @Param("verified") String verified,
+                             @Param("deleted") Boolean deleted,
                              @Param("keyword") String keyword);
 }

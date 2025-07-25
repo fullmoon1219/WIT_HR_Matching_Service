@@ -1,7 +1,6 @@
+<!-- /templates/hrms/employer/jobpost/jobpost_edit.html -->
+
 <div class="write-container" xmlns:th="http://www.thymeleaf.org">
-
-
-
     <h2 class="write-title">📢 공고 수정</h2>
 
     <form th:action="@{/employer/jobpost_edit}" method="post" th:object="${jobPostVO}">
@@ -21,10 +20,8 @@
         <!-- 상세 설명 에디터 -->
         <div class="form-group">
             <label for="description">상세 설명</label>
-            <!--<div id="quillEditor" style="height: 300px;"></div>-->
-            <textarea id="description" rows="6" th:field="*{description}" required></textarea>
-
-            <!--<input type="hidden" name="description" id="description">-->
+            <div id="editor"></div>
+            <input type="hidden" id="description" name="description" th:value="*{description}" />
         </div>
 
         <div class="form-group">
@@ -40,7 +37,8 @@
                 </div>
             </div>
             <!-- 선택된 기술 스택을 담을 hidden input -->
-            <input type="hidden" name="techStacks" id="techStacksInput" th:value="${jobPostVO.techStacks}">
+            <input type="hidden" name="techStacks" id="techStacksInput"
+                   th:value="${#strings.listJoin(selectedStacks, ',')}">
         </div>
 
         <!-- 급여 + 고용형태 -->

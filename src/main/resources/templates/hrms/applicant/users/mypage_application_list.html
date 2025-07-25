@@ -1,0 +1,100 @@
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+        <link rel="stylesheet" href="/css/user/list.css">
+    </th:block>
+
+    <section layout:fragment="content">
+        <section class="resume-management">
+            <h2>이력서 관리</h2>
+            <ul class="guide-text">
+                <li>이력서는 최대 5개까지 작성하여 관리할 수 있습니다.</li>
+                <li>이력서 수정/삭제해도 이미 지원한 이력서에는 반영되지 않습니다.</li>
+                <li>이력서 공개 시 기업으로부터 채용 제의를 받을 수 있습니다.</li>
+            </ul>
+
+            <div class="notice-button" onclick="location.href='/mypage_application_resume.html'">
+                <strong>이력서 작성 ✍️</strong>
+                <p>언제든 쉽게 이력서 작성이 가능합니다.</p>
+            </div>
+
+            <div class="resume-list">
+                <h3>내 이력서 목록</h3>
+                <ul class="resume-items">
+                    <li>
+                        <div class="resume-main-select">
+                            <button class="star-button selected" title="대표 이력서로 설정">★</button>
+                        </div>
+                        <div class="resume-info">
+                            <div class="resume-title">순서 테스트2</div>
+                            <div class="resume-date">2025-06-26 15:36:40</div>
+                        </div>
+                        <div class="resume-actions-inline">
+                            <button class="btn-small">수정</button>
+                            <button class="btn-small">삭제</button>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="resume-main-select">
+                            <button class="star-button" title="대표 이력서로 설정">☆</button>
+                        </div>
+                        <div class="resume-info">
+                            <div class="resume-title">완성 이력서 test</div>
+                            <div class="resume-date">2025-07-01 11:22:25</div>
+                        </div>
+                        <div class="resume-actions-inline">
+                            <button class="btn-small">수정</button>
+                            <button class="btn-small">삭제</button>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="resume-main-select">
+                            <button class="star-button" title="대표 이력서로 설정">☆</button>
+                        </div>
+                        <div class="resume-info">
+                            <div class="resume-title">완성 이력서 테스트</div>
+                            <div class="resume-date">2025-06-26 16:17:27</div>
+                        </div>
+                        <div class="resume-actions-inline">
+                            <button class="btn-small">수정</button>
+                            <button class="btn-small">삭제</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="resume-list">
+                <h3>임시 저장된 이력서 목록</h3>
+                <ul class="resume-items">
+                    <li>
+                        <div class="resume-info">
+                            <div class="resume-title">임시</div>
+                            <div class="resume-date">2025-06-25 10:15:26</div>
+                        </div>
+                        <div class="resume-actions-inline">
+                            <button class="btn-small">수정</button>
+                            <button class="btn-small">삭제</button>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="resume-info">
+                            <div class="resume-title">임시 저장 테스트</div>
+                            <div class="resume-date">2025-06-24 11:28:57</div>
+                        </div>
+                        <div class="resume-actions-inline">
+                            <button class="btn-small">수정</button>
+                            <button class="btn-small">삭제</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+
+<!--건들지 말기-->
+    </section>
+
+</div>
+
+<script src="/js/user/resume.js"></script>

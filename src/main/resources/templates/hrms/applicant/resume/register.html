@@ -1,197 +1,167 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-	<meta name="_csrf" th:content="${_csrf.token}" />
-	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+	<th:block layout:fragment="styles">
+		<link rel="stylesheet" href="/css/employer/profile.css">
+		<link rel="stylesheet" href="/css/applicant/resume_register.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+	</th:block>
 
-	<title>이력서 등록</title>
+	<section layout:fragment="content">
+		<div class="resume-container">
+			<!-- 좌측 입력 영역 -->
+			<div class="resume-left">
+				<!-- 기본정보 -->
+				<section class="resume-section basic-info">
+					<h2>프로필<span class="required">*</span></h2>
+					<div class="basic-info-box">
+						<div class="photo-box">
+							<img src="/images/users/user_big_profile.png" alt="프로필 사진" class="profile-img"  id="profile-img-view">
+						</div>
+						<div class="info-fields">
+							<div class="info-row"><label>이름</label><div class="info-value" id="name"></div></div>
+							<div class="info-row"><label>나이</label><div class="info-value" id="age"></div></div>
+							<div class="info-row"><label>성별</label><div class="info-value" id="gender"></div></div>
+							<div class="info-row"><label>이메일</label><div class="info-value" id="email"></div></div>
+							<div class="info-row"><label>연락처</label><div class="info-value" id="phoneNumber"></div></div>
+							<div class="info-row"><label>주소</label><div class="info-value" id="address"></div></div>
+							<div class="info-row"><label>포트폴리오</label><a href="#" id="portfolioUrl" target="_blank"></a></div>
+						</div>
+					</div>
+				</section>
 
-	<script src="/js/jquery-3.7.1.min.js"></script>
-	<script src="/js/admin/csrf-setup.js"></script>
+				<!-- 요약정보 -->
+				<div class="resume-summary">
+					<div class="summary-row">
+						<div class="summary-label">자기소개</div>
+						<div class="summary-value" id="selfIntro"></div>
+					</div>
+					<div class="summary-row">
+						<div class="summary-label">총 경력</div>
+						<div class="summary-value"><span id="experienceYears"></span>년</div>
+					</div>
+					<div class="summary-row">
+						<div class="summary-label">희망 근무 형태</div>
+						<div class="summary-value" id="jobType"></div>
+					</div>
+				</div>
 
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+				<!-- 상세 입력 -->
+				<section class="resume-section resume-detail">
+					<h2>이력서 작성</h2>
 
-	<script src="/js/applicant/common.js"></script>
-	<script src="/js/applicant/resume/resume_register.js"></script>
+					<div class="field-row">
+						<label for="title">이력서 제목 <span class="required">*</span></label>
+						<input type="text" id="title" name="title" placeholder="예: 백엔드 개발자 취업을 위한 이력서">
+						<div class="error" id="error-title"></div>
+					</div>
 
-	<style>
-        .selection-area .select-btn.active {
-            background-color: #3366ff;
-            color: white;
-            font-weight: bold;
-            border-color: #3366ff;
-        }
-	</style>
-</head>
-<body>
+					<div class="field-row">
+						<label for="desiredPosition">희망 직무</label>
+						<input type="text" id="desiredPosition" name="desiredPosition" placeholder="예: 백엔드 개발자, 서버 개발자 등">
+						<div class="error" id="error-desiredPosition"></div>
+					</div>
 
-<form id="resumeForm">
+					<div class="field-row">
+						<label>기술 스택 (중복 선택 가능)</label>
+						<div id="stack-selection-area" class="selection-area">
+							<button type="button" class="select-btn" data-value="2">Java</button>
+							<button type="button" class="select-btn" data-value="5">Python</button>
+							<button type="button" class="select-btn" data-value="7">Kotlin</button>
+							<button type="button" class="select-btn" data-value="6">JavaScript</button>
+							<button type="button" class="select-btn" data-value="3">C</button>
+							<button type="button" class="select-btn" data-value="4">C++</button>
+							<button type="button" class="select-btn" data-value="8">SpringBoot</button>
+							<button type="button" class="select-btn" data-value="9">Node.js</button>
+							<button type="button" class="select-btn" data-value="10">React</button>
+							<button type="button" class="select-btn" data-value="11">Vue.js</button>
+							<button type="button" class="select-btn" data-value="16">JPA</button>
+							<button type="button" class="select-btn" data-value="15">MyBatis</button>
+							<button type="button" class="select-btn" data-value="12">MySQL</button>
+							<button type="button" class="select-btn" data-value="13">MariaDB</button>
+							<button type="button" class="select-btn" data-value="14">Oracle</button>
+							<button type="button" class="select-btn" data-value="22">AWS</button>
+							<button type="button" class="select-btn" data-value="19">Docker</button>
+							<button type="button" class="select-btn" data-value="20">Jenkins</button>
+							<button type="button" class="select-btn" data-value="23">NginX</button>
+							<button type="button" class="select-btn" data-value="21">Git</button>
+							<button type="button" class="select-btn" data-value="17">Maven</button>
+							<button type="button" class="select-btn" data-value="18">Gradle</button>
+							<button type="button" class="select-btn" data-value="1">Other</button>
+						</div>
+						<input type="hidden" name="skills" id="skills">
+						<div class="error" id="error-skills"></div>
+					</div>
 
-	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+					<div class="field-row">
+						<label>선호 지역</label>
+						<div id="location-selection-area" class="selection-area">
+							<button type="button" class="select-btn" data-value="서울">서울</button>
+							<button type="button" class="select-btn" data-value="경기">경기</button>
+							<button type="button" class="select-btn" data-value="인천">인천</button>
+							<button type="button" class="select-btn" data-value="강원">강원</button>
+							<button type="button" class="select-btn" data-value="대전">대전</button>
+							<button type="button" class="select-btn" data-value="세종">세종</button>
+							<button type="button" class="select-btn" data-value="충남">충남</button>
+							<button type="button" class="select-btn" data-value="충북">충북</button>
+							<button type="button" class="select-btn" data-value="광주">광주</button>
+							<button type="button" class="select-btn" data-value="전남">전남</button>
+							<button type="button" class="select-btn" data-value="전북">전북</button>
+							<button type="button" class="select-btn" data-value="부산">부산</button>
+							<button type="button" class="select-btn" data-value="대구">대구</button>
+							<button type="button" class="select-btn" data-value="울산">울산</button>
+							<button type="button" class="select-btn" data-value="경남">경남</button>
+							<button type="button" class="select-btn" data-value="경북">경북</button>
+							<button type="button" class="select-btn" data-value="제주">제주</button>
+						</div>
+						<input type="hidden" name="preferredLocation" id="preferredLocation">
+						<div class="error" id="error-preferredLocation"></div>
+					</div>
 
-	<fieldset>
-		<legend>기본 정보</legend>
-		<div>
-			<strong>이름:</strong>
-			<span id="name"></span>
-		</div>
-		<div>
-			<strong>나이:</strong>
-			<span id="age"></span>
-		</div>
-		<div>
-			<strong>성별:</strong>
-			<span id="gender"></span>
-		</div>
-		<div>
-			<strong>이메일:</strong>
-			<span id="email"></span>
-		</div>
-		<div>
-			<strong>연락처:</strong>
-			<span id="phoneNumber"></span>
-		</div>
-		<div>
-			<strong>주소:</strong>
-			<span id="address"></span>
-		</div>
-		<div>
-			<strong>포트폴리오:</strong>
-			<a href="#" id="portfolioUrl" target="_blank"></a>
-		</div>
-	</fieldset>
-	<hr>
+					<div class="field-row">
+						<label for="salaryExpectation">희망 연봉 (숫자만 입력해주세요)</label>
+						<input type="text" id="salaryExpectation" name="salaryExpectation" placeholder="예: 3500 (단위: 만원)">
+						<div class="error" id="error-salaryExpectation"></div>
+					</div>
 
-	<fieldset>
-		<legend>경력 및 희망 직무 요약</legend>
-		<div>
-			<strong>자기소개 (한 줄 요약):</strong>
-			<p id="selfIntro" style="margin-top: 5px;"></p>
-		</div>
-		<div>
-			<strong>총 경력:</strong>
-			<span id="experienceYears"></span> 년
-		</div>
-		<div>
-			<strong>희망 근무 형태:</strong>
-			<span id="jobType"></span>
-		</div>
-	</fieldset>
-	<hr />
+					<div class="field-row">
+						<label for="education">학력</label>
+						<textarea id="education" name="education" placeholder="최종 학력 및 전공, 졸업 여부 등을 입력해주세요."></textarea>
+						<div class="error" id="error-education"></div>
+					</div>
 
-	<fieldset>
-		<legend>이력서 상세 내용</legend>
+					<div class="field-row">
+						<label for="experience">경력</label>
+						<textarea id="experience" name="experience" placeholder="경력 기간, 담당한 역할, 사용 기술 등을 자유롭게 작성해주세요."></textarea>
+						<div class="error" id="error-experience"></div>
+					</div>
 
-		<!-- 컨트롤러에서 유효성 검사 실패했을 때, 에러메세지 출력 -->
-		<div>
-			<label for="title">이력서 제목</label>
-			<input type="text" id="title" name="title" /><br />
-			<div class="error" id="error-title"></div>
-		</div>
+					<div class="field-row">
+						<label for="motivation">지원 동기</label>
+						<textarea id="motivation" name="motivation" placeholder="해당 기업 또는 포지션에 지원하게 된 이유를 구체적으로 작성해주세요."></textarea>
+						<div class="error" id="error-motivation"></div>
+					</div>
 
-		<div>
-			<label for="education">학력</label><br/>
-			<input type="text" id="education" name="education" />
-			<div class="error" id="error-education"></div>
-		</div>
-
-		<div>
-			<label for="experience">경력</label><br/>
-			<input type="text" id="experience" name="experience" />
-			<div class="error" id="error-experience"></div>
-		</div>
-
-		<div>
-			<label>기술 스택 (중복 선택 가능)</label>
-			<div id="stack-selection-area" class="selection-area">
-				<button type="button" class="select-btn" data-value="2">Java</button>
-				<button type="button" class="select-btn" data-value="5">Python</button>
-				<button type="button" class="select-btn" data-value="7">Kotlin</button>
-				<button type="button" class="select-btn" data-value="6">JavaScript</button>
-				<button type="button" class="select-btn" data-value="3">C</button>
-				<button type="button" class="select-btn" data-value="4">C++</button>
-				<button type="button" class="select-btn" data-value="8">SpringBoot</button>
-				<button type="button" class="select-btn" data-value="9">Node.js</button>
-				<button type="button" class="select-btn" data-value="10">React</button>
-				<button type="button" class="select-btn" data-value="11">Vue.js</button>
-				<button type="button" class="select-btn" data-value="16">JPA</button>
-				<button type="button" class="select-btn" data-value="15">MyBatis</button>
-				<button type="button" class="select-btn" data-value="12">MySQL</button>
-				<button type="button" class="select-btn" data-value="13">MariaDB</button>
-				<button type="button" class="select-btn" data-value="14">Oracle</button>
-				<button type="button" class="select-btn" data-value="22">AWS</button>
-				<button type="button" class="select-btn" data-value="19">Docker</button>
-				<button type="button" class="select-btn" data-value="20">Jenkins</button>
-				<button type="button" class="select-btn" data-value="23">NginX</button>
-				<button type="button" class="select-btn" data-value="21">Git</button>
-				<button type="button" class="select-btn" data-value="17">Maven</button>
-				<button type="button" class="select-btn" data-value="18">Gradle</button>
-				<button type="button" class="select-btn" data-value="1">Other</button>
+					<div class="field-row">
+						<label for="coreCompetency">핵심 역량</label>
+						<textarea id="coreCompetency" name="coreCompetency" placeholder="본인의 강점, 경험, 기술 역량 등을 중심으로 자유롭게 작성해주세요. 보유한 자격증이 있다면 함께 작성해 주세요."></textarea>
+						<div class="error" id="error-coreCompetency"></div>
+					</div>
+				</section>
 			</div>
-			<input type="hidden" name="skills" id="skills" />
-			<div class="error" id="error-skills"></div>
+
+			<!-- 우측 버튼 영역 -->
+			<aside class="resume-sidebar">
+				<button class="btn-save" type="button" id="btnRegister">이력서 등록</button>
+				<button class="btn-outline" type="button" id="btnDraft">임시 저장</button>
+				<button class="btn-outline" type="button" onclick="location.href='/applicant/profile'">프로필 수정</button>
+				<button class="btn-outline" type="button" onclick="location.href='/applicant/resume/list'">취소</button>
+			</aside>
 		</div>
+	</section>
+</div>
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script src="/js/csrf-setup.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-		<div>
-			<label>선호 지역</label>
-			<div id="location-selection-area" class="selection-area">
-				<button type="button" class="select-btn" data-value="서울">서울</button>
-				<button type="button" class="select-btn" data-value="경기">경기</button>
-				<button type="button" class="select-btn" data-value="인천">인천</button>
-				<button type="button" class="select-btn" data-value="강원">강원</button>
-				<button type="button" class="select-btn" data-value="대전">대전</button>
-				<button type="button" class="select-btn" data-value="세종">세종</button>
-				<button type="button" class="select-btn" data-value="충남">충남</button>
-				<button type="button" class="select-btn" data-value="충북">충북</button>
-				<button type="button" class="select-btn" data-value="광주">광주</button>
-				<button type="button" class="select-btn" data-value="전남">전남</button>
-				<button type="button" class="select-btn" data-value="전북">전북</button>
-				<button type="button" class="select-btn" data-value="부산">부산</button>
-				<button type="button" class="select-btn" data-value="대구">대구</button>
-				<button type="button" class="select-btn" data-value="울산">울산</button>
-				<button type="button" class="select-btn" data-value="경남">경남</button>
-				<button type="button" class="select-btn" data-value="경북">경북</button>
-				<button type="button" class="select-btn" data-value="제주">제주</button>
-			</div>
-			<input type="hidden" name="preferredLocation" id="preferredLocation" />
-			<div class="error" id="error-preferredLocation"></div>
-		</div>
-
-		<div>
-			<label for="salaryExpectation">희망 연봉</label><br/>
-			<input type="text" id="salaryExpectation" name="salaryExpectation" /> 만원
-			<div class="error" id="error-salaryExpectation"></div>
-		</div>
-
-		<div>
-			<label for="desiredPosition">희망 직무</label><br/>
-			<input type="text" id="desiredPosition" name="desiredPosition" />
-			<div class="error" id="error-desiredPosition"></div>
-		</div>
-
-		<div>
-			<label for="motivation">지원 동기</label><br/>
-			<input type="text" id="motivation" name="motivation" />
-			<div class="error" id="error-motivation"></div>
-		</div>
-
-		<div>
-			<label for="coreCompetency">핵심 역량</label><br/>
-			<input type="text" id="coreCompetency" name="coreCompetency" />
-			<div class="error" id="error-coreCompetency"></div>
-		</div>
-
-	</fieldset>
-
-	<button type="button" id="btnDraft" name="action" value="draft">임시 저장</button>
-	<button type="button" id="btnRegister" name="action" value="register">이력서 등록</button>
-</form>
-
-<button type="button" onclick="location.href='/applicant/resume/list'">취소</button>
-
-
-</body>
-</html>
+<script src="/js/applicant/common.js"></script>
+<script src="/js/applicant/resume/resume_register.js"></script>

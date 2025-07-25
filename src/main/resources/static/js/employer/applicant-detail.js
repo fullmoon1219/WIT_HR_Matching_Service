@@ -49,4 +49,30 @@ $(document).ready(function () {
         // 🔄 페이지 전체 새로고침
         location.reload();
     }
+
+    // [🧠 AI 정보 보기] 버튼 클릭 시
+    $(document).on('click', '.ai-info-button', function () {
+        const resumeId = $(this).data('resume-id');
+        console.log(resumeId);
+
+        $(".ai-info-text").text("이력서를 분석하는 중입니다...").show();
+        $(this).hide();
+
+        $.ajax({
+            url: "/api/ai/resumes/summary",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ resumeId: resumeId }),
+            success: function (response) {
+                $("#ai-review").text(response.summary);
+                $(".ai-info-text").hide(); // 완료 시 텍스트 숨김
+            },
+            error: function (xhr) {
+                $("#ai-review").text("요약에 실패했습니다.");
+                $(".ai-info-text").hide(); // 실패 시도 숨김
+            }
+        });
+    });
+
 });
+

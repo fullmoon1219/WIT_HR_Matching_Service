@@ -13,9 +13,11 @@
 
       <nav class="menu">
         <ul class="sidebar-menu">
-          <li class="menu-item"><a th:href="@{/employer/test/main}">📋 프로필 관리</a></li>
-          <li class="menu-item"><a th:href="@{/employer/test/applicantList}">📋 지원내역 관리</a></li>
-          <li class="menu-item"><a th:href="@{/employer/test/publicResumes}">📋 이력서 확인</a></li>
+          <li class="menu-item"><a th:href="@{/applicant/profile}">📋 프로필 관리</a></li>
+          <li class="menu-item"><a th:href="@{/applicant/applications}">📋 지원 내역</a></li>
+          <li class="menu-item"><a th:href="@{/applicant/resume/list}">📋 이력서 관리</a></li>
+          <li class="menu-item"><a th:href="@{/applicant/bookmarks}">📋 북마크</a></li>
+          <li class="menu-item"><a th:href="@{/users/mypage/request}">❓ 문의</a></li>
         </ul>
       </nav>
     </div>
@@ -23,7 +25,9 @@
     <!-- 하단: 관리자 정보 -->
     <div class="sidebar-footer">
       <div class="user-info" th:if="${userDetails != null}">
-        <img th:src="${userDetails.profileImage ?: '/images/users/user_small_profile.png'}" alt="프로필 이미지">
+        <img th:with="imagePath=${userDetails.profileImage != null ? '/uploads/users/profile/' + userDetails.profileImage : '/images/users/user_small_profile.png'}"
+             th:src="@{${imagePath}}"
+             alt="프로필 이미지">
         <span th:text="${userDetails.name}"></span>
       </div>
       <div class="user-info" th:if="${userDetails == null}">

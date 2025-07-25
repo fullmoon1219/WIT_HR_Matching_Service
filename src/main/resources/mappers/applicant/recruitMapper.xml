@@ -7,14 +7,18 @@
         select user_id as userId, title, description, required_skills as requiredSkills, salary,
                location, deadline, create_at as createAt, view_count as viewCount,
                bookmark_count as bookmarkCount, employment_type as employmentType,
-               job_category as jobCategory
+               job_category as jobCategory, workplace_address as workplaceAddress,
+               experience_type as experienceType, experience_years as experienceYears, id
         from job_posts
-        where id=#{jobPostId} and deleted_at is null
+        where id=#{jobPostId}
+        <if test="isAdmin == false">
+            and deleted_at is null
+        </if>
     </select>
 
     <select id="selectEmployerProfile" resultType="EmployerProfilesVO">
         select company_name as companyName, address, phone_number as phoneNumber, homepage_url as homepageUrl,
-               industry, company_size as companySize
+               industry, company_size as companySize, email, user_id as userId
         from employer_profiles
         where user_id=#{employerUserId}
     </select>
@@ -67,8 +71,11 @@
                 AND (jp.location LIKE CONCAT('%', #{regionKeyword}, '%') OR jp.workplace_address LIKE CONCAT('%', #{regionKeyword}, '%'))
             </if>
 
-            <if test="region != null and region != ''">
-                AND jp.location = #{region}
+            <if test="region != null and !region.isEmpty()">
+                AND jp.location IN
+                <foreach collection="region" item="regionName" open="(" separator="," close=")">
+                    #{regionName}
+                </foreach>
             </if>
             <if test="techStacks != null and !techStacks.isEmpty()">
                 <foreach collection="techStacks" item="stackId" open="AND (" separator=" AND " close=")">
@@ -134,14 +141,33 @@
                 AND (jp.location LIKE CONCAT('%', #{regionKeyword}, '%') OR jp.workplace_address LIKE CONCAT('%', #{regionKeyword}, '%'))
             </if>
 
-            <if test="region != null and region != ''">
-                AND jp.location = #{region}
+            <if test="region != null and !region.isEmpty()">
+                AND jp.location IN
+                <foreach collection="region" item="regionName" open="(" separator="," close=")">
+                    #{regionName}
+                </foreach>
             </if>
 
             <if test="techStacks != null and !techStacks.isEmpty()">
                 <foreach collection="techStacks" item="stackId" open="AND (" separator=" AND " close=")">
                     FIND_IN_SET(#{stackId}, jp.required_skills) > 0
                 </foreach>
+            </if>
+
+            <if test="employmentTypes != null and !employmentTypes.isEmpty()">
+                AND jp.employment_type IN
+                <foreach collection="employmentTypes" item="type" open="(" separator="," close=")">
+                    #{type}
+                </foreach>
+            </if>
+            <if test="experienceTypes != null and !experienceTypes.isEmpty()">
+                AND jp.experience_type IN
+                <foreach collection="experienceTypes" item="type" open="(" separator="," close=")">
+                    #{type}
+                </foreach>
+            </if>
+            <if test="salaryOnly">
+                AND jp.salary REGEXP '^[0-9]'
             </if>
         </where>
     </select>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.wit.hrmatching.mapper.support.ReportMapper">
+
+    <insert id="insertReport" parameterType="org.wit.hrmatching.vo.support.ReportVO">
+        INSERT INTO reports (
+            reporter_user_id,
+            reported_user_id,
+            report_type,
+            target_id,
+            reason,
+            description
+        )
+        VALUES (
+                   #{reporterUserId},
+                   #{reportedUserId},
+                   #{reportType},
+                   #{targetId},
+                   #{reason},
+                   #{description}
+               )
+    </insert>
+
+    <select id="findReportedUserIdByReportId" resultType="long">
+        SELECT reported_user_id FROM reports WHERE id = #{reportId}
+    </select>
+
+    <update id="increaseWarning" parameterType="long">
+        UPDATE users
+        SET warning_count = warning_count + 1
+        WHERE id = #{userId}
+    </update>
+
+    <select id="getWarningCount" resultType="int" parameterType="long">
+        SELECT warning_count FROM users WHERE id = #{userId}
+    </select>
+
+    <update id="suspendUserById" parameterType="long">
+        UPDATE users
+        SET status = 'SUSPENDED'
+        WHERE id = #{userId}
+    </update>
+
+    <update id="updateReportStatus" parameterType="org.wit.hrmatching.vo.support.ReportVO">
+        UPDATE reports
+        SET status = #{status},
+            reviewed_by_admin_id = #{reviewedByAdminId},
+            reviewed_at = #{reviewedAt},
+            action_taken = #{actionTaken}
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="selectJobPostById" resultType="org.wit.hrmatching.dto.support.JobPostDTO">
+        SELECT
+            jp.id,
+            jp.user_id AS userId,
+            jp.title,
+            jp.description,
+            jp.employment_type AS employmentType,
+            jp.location,
+            jp.salary,
+            jp.deadline,
+            jp.job_category AS jobCategory,
+            jp.deleted_at IS NOT NULL AS deleted,
+            jp.create_at AS createdAt,
+            ep.company_name AS companyName
+        FROM job_posts jp
+                 LEFT JOIN employer_profiles ep ON jp.user_id = ep.user_id
+        WHERE jp.id = #{id}
+    </select>
+
+    <select id="selectPostDetailById" resultType="org.wit.hrmatching.dto.support.SupportPostDetailDTO">
+        SELECT
+            p.id,
+            p.user_id AS userId,
+            u.name,
+            p.title,
+            p.content,
+            p.created_at AS createdAt,
+            p.like_count
+        FROM community_post p
+                 JOIN users u ON p.user_id = u.id
+        WHERE p.id = #{id}
+    </select>
+
+    <select id="selectCommentById" resultType="org.wit.hrmatching.dto.support.CommentDTO">
+        SELECT
+            id,
+            post_id AS postId,
+            user_id AS userId,
+            content,
+            created_at AS createdAt,
+            is_deleted AS deleted
+        FROM community_comment
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectReportById" resultType="org.wit.hrmatching.vo.support.ReportVO">
+        SELECT
+            r.*,
+            admin.name AS reviewedByAdminName,
+            admin.email AS reviewedByAdminEmail
+        FROM reports r
+                 LEFT JOIN users admin ON r.reviewed_by_admin_id = admin.id
+        WHERE r.id = #{reportId}
+
+    </select>
+
+</mapper>

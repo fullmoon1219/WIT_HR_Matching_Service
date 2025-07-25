@@ -43,4 +43,36 @@ public class MailService {
             throw new RuntimeException("이메일 전송 실패", e);
         }
     }
+
+    @Async
+    public void sendInquiryAnswerNotification(String toEmail, String userName, Long inquiryId) {
+        String subject = "HR 매칭 서비스 - 문의 답변이 등록되었습니다";
+        String link = "http://localhost:8080/inquiries/" + inquiryId;
+
+        String content = """
+            <h2>안녕하세요, %s 님</h2>
+            <p>문의하신 내용에 대한 답변이 등록되었습니다.</p>
+            <p>아래 링크를 클릭하시면 답변 내용을 확인하실 수 있습니다.</p>
+            <a href="%s">답변 확인하러 가기</a>
+            <br><br>
+            <p>HR 매칭 서비스를 이용해주셔서 감사합니다.</p>
+            """.formatted(userName, link);
+
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(toEmail);
+            helper.setSubject(subject);
+            helper.setText(content, true);
+
+            mailSender.send(message);
+
+            System.out.println("문의 답변 메일 전송 완료: " + toEmail);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException("문의 답변 이메일 전송 실패", e);
+        }
+    }
+
 }

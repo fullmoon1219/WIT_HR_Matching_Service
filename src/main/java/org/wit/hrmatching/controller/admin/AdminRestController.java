@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.wit.hrmatching.dto.admin.AdminDashboardStatsDTO;
 import org.wit.hrmatching.dto.admin.PagedResponseDTO;
 import org.wit.hrmatching.service.admin.AdminService;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,10 +29,20 @@ public class AdminRestController {
                                              @RequestParam(required = false) String status,
                                              @RequestParam(required = false) String warning,
                                              @RequestParam(required = false) String verified,
+                                             @RequestParam(required = false) String deleted,
                                              @RequestParam(required = false) String keyword) {
 
+        Boolean deletedBool = null;
+        if (deleted != null) {
+            if (deleted.equalsIgnoreCase("true") || deleted.equals("1")) {
+                deletedBool = true;
+            } else if (deleted.equalsIgnoreCase("false") || deleted.equals("0")) {
+                deletedBool = false;
+            }
+        }
+
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<UserVO> pageResult = adminService.getPagedUsers(pageable, null, role, status, warning, verified, keyword);
+        Page<UserVO> pageResult = adminService.getPagedUsers(pageable, null, role, status, warning, verified, deletedBool, keyword);
 
         return PagedResponseDTO.<UserVO>builder()
                 .content(pageResult.getContent())
@@ -47,6 +56,7 @@ public class AdminRestController {
                 .empty(pageResult.isEmpty())
                 .build();
     }
+
 
     // 2. 단일 사용자 조회
     @GetMapping("/users/{id}")
@@ -126,4 +136,17 @@ public class AdminRestController {
     public Map<String, Integer> getJobPostCategoryDistribution() {
         return adminService.getJobPostCategoryDistribution();
     }
+
+    // 15. 계정 상태 비율
+    @GetMapping("/dashboard/account-status")
+    public ResponseEntity<List<Map<String, Object>>> getAccountStatusRatio() {
+        return ResponseEntity.ok(adminService.getAccountStatusRatio());
+    }
+
+    // 16. 경고 횟수 비율
+    @GetMapping("/dashboard/warning-distribution")
+    public ResponseEntity<List<Map<String, Object>>> getWarningDistribution() {
+        return ResponseEntity.ok(adminService.getWarningDistribution());
+    }
+
 }

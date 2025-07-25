@@ -25,7 +25,7 @@ function translateEmploymentType(code) {
 	switch (code) {
 		case 'FULLTIME': return '정규직';
 		case 'PARTTIME': return '파트타임';
-		case 'INTERN': return '인턴';
+		case 'INTERNSHIP': return '인턴';
 		case 'FREELANCE': return '프리랜서';
 		default: return '기타';
 	}
@@ -50,6 +50,22 @@ function translateApplicationStatus(status) {
 			return '불합격';
 		default:
 			return '확인중';
+	}
+}
+
+function translateGender(code) {
+	switch (code) {
+		case 'MALE': return '남성';
+		case 'FEMALE': return '여성';
+		default: return '기타';
+	}
+}
+
+function translateGender2(code) {
+	switch (code) {
+		case 'MALE': return '남';
+		case 'FEMALE': return '여';
+		default: return '기타';
 	}
 }
 
@@ -96,13 +112,16 @@ function renderPagination(pagingInfo) {
 
 	let paginationHtml = '';
 
-	// '처음 <<' & '이전 <' 버튼
+	// '처음 <<' 버튼
 	if (pagingInfo.hasPrevBlock) {
-		// 첫 페이지 블록으로 이동
 		paginationHtml += `<a href="#" class="arrow" data-page="1">&lt;&lt;</a>`;
 	}
+
+	// '이전 <' 버튼
 	if (pagingInfo.currentPage > 1) {
 		paginationHtml += `<a href="#" class="arrow" data-page="${pagingInfo.currentPage - 1}">&lt;</a>`;
+	} else {
+		paginationHtml += `<span class="arrow disabled">&lt;</span>`;
 	}
 
 	// 페이지 번호 목록
@@ -114,16 +133,36 @@ function renderPagination(pagingInfo) {
 		}
 	}
 
-	// '다음 >' & '마지막 >>' 버튼
+	// '다음 >' 버튼
 	if (pagingInfo.currentPage < pagingInfo.totalPage) {
 		paginationHtml += `<a href="#" class="arrow" data-page="${pagingInfo.currentPage + 1}">&gt;</a>`;
+	} else {
+		paginationHtml += `<span class="arrow disabled">&gt;</span>`;
 	}
+
+	// '마지막 >>' 버튼
 	if (pagingInfo.hasNextBlock) {
 		paginationHtml += `<a href="#" class="arrow" data-page="${pagingInfo.totalPage}">&gt;&gt;</a>`;
 	}
 
 	paginationContainer.html(paginationHtml);
 
+}
+
+function formatSalary(salary) {
+
+	// 비어있을 경우 빈 문자열 반환
+	if (!salary || String(salary).trim() === '') {
+		return '-';
+	}
+
+	// 숫자 형태인지 확인 후 '만원' 추가
+	if (!isNaN(parseFloat(salary)) && isFinite(salary)) {
+		return `${salary}만원`;
+	}
+
+	// 숫자 형태가 아닌 경우
+	return `${salary}`;
 }
 
 

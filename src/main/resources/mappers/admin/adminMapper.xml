@@ -18,7 +18,7 @@
     </select>
 
     <!-- 최근 가입한 사용자 -->
-    <select id="getRecentUsers" resultType="org.wit.hrmatching.vo.UserVO">
+    <select id="getRecentUsers" resultType="org.wit.hrmatching.vo.user.UserVO">
         SELECT id, email, create_at AS createAt, role, name, login_type AS loginType
         FROM users
         ORDER BY create_at DESC
@@ -26,7 +26,7 @@
     </select>
 
     <!-- 최근 등록된 공고 5건 -->
-    <select id="getRecentJobPosts" resultType="org.wit.hrmatching.vo.JobPostVO">
+    <select id="getRecentJobPosts" resultType="org.wit.hrmatching.vo.job.JobPostVO">
         SELECT
             jp.id,
             jp.title,
@@ -82,8 +82,24 @@
         GROUP BY job_category
     </select>
 
+    <!-- 정지 계정 vs 활성 계정 -->
+    <select id="getAccountStatusRatio" resultType="map">
+        SELECT 'SUSPENDED' AS status, COUNT(*) AS count FROM users WHERE status = 'SUSPENDED'
+        UNION ALL
+        SELECT 'ACTIVE' AS status, COUNT(*) AS count FROM users WHERE status = 'ACTIVE'
+    </select>
+
+    <!-- 경고 횟수 분포 (0 ~ 3회) -->
+    <select id="getWarningDistribution" resultType="map">
+        SELECT warning_count AS warning, COUNT(*) AS count
+        FROM users
+        WHERE warning_count BETWEEN 0 AND 3
+        GROUP BY warning_count
+        ORDER BY warning_count
+    </select>
+
     <!-- 사용자 + 지원자/기업 프로필 함께 조회 -->
-    <resultMap id="UserWithProfilesMap" type="org.wit.hrmatching.vo.UserVO">
+    <resultMap id="UserWithProfilesMap" type="org.wit.hrmatching.vo.user.UserVO">
         <id property="id" column="id"/>
         <result property="email" column="email"/>
         <result property="password" column="password"/>
@@ -99,9 +115,10 @@
         <result property="tokenExpiration" column="token_expiration"/>
         <result property="updatedAt" column="updated_at"/>
         <result property="loginType" column="login_type"/>
+        <result property="deleted" column="is_deleted"/>
 
         <!-- applicantProfile -->
-        <association property="applicantProfile" javaType="org.wit.hrmatching.vo.ApplicantProfilesVO">
+        <association property="applicantProfile" javaType="org.wit.hrmatching.vo.user.ApplicantProfilesVO">
             <result property="userId" column="a_user_id"/>
             <result property="age" column="age"/>
             <result property="address" column="a_address"/>
@@ -115,7 +132,7 @@
         </association>
 
         <!-- employerProfile -->
-        <association property="employerProfile" javaType="org.wit.hrmatching.vo.EmployerProfilesVO">
+        <association property="employerProfile" javaType="org.wit.hrmatching.vo.user.EmployerProfilesVO">
             <result property="userId" column="e_user_id"/>
             <result property="companyName" column="company_name"/>
             <result property="businessNumber" column="business_number"/>
@@ -133,7 +150,7 @@
         u.id, u.email, u.password, u.name, u.role,
         u.create_at, u.status, u.last_login, u.profile_image,
         u.email_verified, u.verification_token, u.token_expiration,
-        u.updated_at, u.login_type, u.warning_count,
+        u.updated_at, u.login_type, u.warning_count, u.is_deleted,
 
         a.user_id AS a_user_id, a.age, a.address AS a_address, a.phone_number AS a_phone_number,
         a.gender, a.portfolio_url, a.self_intro, a.job_type, a.experience_years, a.primary_resume_id,
@@ -165,6 +182,12 @@
                     <otherwise>0</otherwise>
                 </choose>
             </if>
+            <if test="deleted != null">
+                AND u.is_deleted = #{deleted}
+            </if>
+
+
+
 
             <if test="keyword != null and keyword != ''">
                 AND (u.name LIKE CONCAT('%', #{keyword}, '%')
@@ -200,6 +223,12 @@
                     <otherwise>0</otherwise>
                 </choose>
             </if>
+            <if test="deleted != null">
+                AND u.is_deleted = #{deleted}
+            </if>
+
+
+
             <if test="keyword != null and keyword != ''">
                 AND (
                 u.name LIKE CONCAT('%', #{keyword}, '%')
@@ -216,7 +245,7 @@
             u.id, u.email, u.password, u.name, u.role,
             u.create_at, u.status, u.warning_count, u.last_login,
             u.profile_image, u.email_verified, u.verification_token, u.token_expiration,
-            u.updated_at, u.login_type,
+            u.updated_at, u.login_type, u.is_deleted,
 
             a.user_id AS a_user_id, a.age, a.address AS a_address, a.phone_number AS a_phone_number,
             a.gender, a.portfolio_url, a.self_intro, a.job_type, a.experience_years, a.primary_resume_id,

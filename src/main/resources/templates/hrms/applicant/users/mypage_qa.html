@@ -1,0 +1,42 @@
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+        <link rel="stylesheet" href="/css/user/qa.css">
+    </th:block>
+
+    <section layout:fragment="content">
+        <div class="board-container">
+            <!-- 문의 제목 -->
+            <div class="section-title">Q. </div>
+
+            <!-- 문의 기본 정보 -->
+            <table class="info-table">
+                <!-- JS에서 동적으로 채워짐 -->
+            </table>
+
+            <!-- 문의 내용 -->
+            <div class="content-text">
+                <!-- JS에서 동적으로 채워짐 -->
+            </div>
+
+            <!-- 답변 영역 -->
+            <div class="qa-section">
+                <div class="qa-label">A. 답변내용</div>
+                <div class="qa-content">
+                    <!-- JS에서 동적으로 채워짐 -->
+                </div>
+                <div class="reply-time">
+                    <!-- JS에서 동적으로 채워짐 -->
+                </div>
+            </div>
+        </div>
+
+        <div class="return-wrapper">
+            <a href="/applicant/request" class="return-btn">목록으로 돌아가기</a>
+        </div>
+    </section>
+</div>
+
+
+<script src="/js/support/inquiry-answer.js"></script>

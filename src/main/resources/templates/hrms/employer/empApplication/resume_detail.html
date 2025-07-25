@@ -1,4 +1,6 @@
-<!-- /templates/hrms/employer/applicant-detail.html -->
+<!-- /templates/hrms/employer/empApplication/resume-detail.html -->
+
+<link rel="stylesheet" href="/css/employer/applicant_post-detail.css">
 
 <div class="applicant-detail-wrapper">
 
@@ -32,7 +34,13 @@
 
                 <p><strong>이메일:</strong> <span data-field="applicantName" th:text="${resume.email}">test@exam.com</span></p>
                 <p><strong>전화번호:</strong> <span data-field="phoneNumber" th:text="${resume.phoneNumber}">test@exam.com</span></p>
-                <p><strong>성별:</strong> <span data-field="gender" th:text="${resume.gender}">test@exam.com</span></p>
+                <p><strong>성별:</strong>
+                    <span data-field="gender" th:switch="${resume.gender}">
+                    <span th:case="'MALE'">남성</span>
+                    <span th:case="'FEMALE'">여성</span>
+                    <span th:case="*">기타</span>
+                    </span>
+                </p>
                 <p><strong>나이:</strong> <span data-field="age" th:text="${resume.age}">test@exam.com</span></p>
             </div>
         </div>
@@ -51,6 +59,18 @@
                    rel="noopener noreferrer">
                 </a>
             </p>
+        </div>
+    </div>
+
+    <div class="applicant-profile-container">
+        <h3>📍 Ai 분석</h3>
+
+        <div class="review-container">
+            <div class="button-container">
+                <button class="ai-info-button" th:data-resume-id="${resume.id}">🤖AI 요약 내용</button>
+                <p class="ai-info-text">지금 버튼을 누르고 지원자의 요약된 이력서 내용을 확인하세요</p>
+            </div>
+            <div id="ai-review" class="ai-info-result" style="margin-top: 15px;"></div>
         </div>
     </div>
 

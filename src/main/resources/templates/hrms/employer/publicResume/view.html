@@ -1,0 +1,145 @@
+<!-- /templates/hrms/employer/publicResume/view.html -->
+
+<div layout:decorate="~{layout/employer/employer-template}" xmlns:layout="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org">
+
+    <div layout:fragment="content">
+        <!-- ✅ CSS 연결 -->
+        <link rel="stylesheet" th:href="@{/css/employer/resume-search.css}">
+
+        <div class="page-content">
+            <!-- ✅ 배너 영역 -->
+            <div class="top-banner">
+                <img src="/images/test3.png" alt="배너 이미지" class="banner-img">
+                <div class="banner-text1"></div>
+            </div>
+
+
+            <div class="search-container box">
+                <h2>📂 지원자 검색</h2>
+
+                <form id="searchForm" method="POST" th:action="@{/employer/publicResume/view}">
+                    <!-- ✅ CSRF 토큰 추가 -->
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                    <!-- ✅ 조건 1줄 정렬 영역 -->
+                    <div class="filter-row">
+                        <!-- 희망 근무지역 -->
+                        <div class="filter-item">
+                            <label>희망 근무지역</label>
+                            <div class="dropdown large-dropdown">
+                                <button type="button" class="dropdown-toggle" id="locationDropdownBtn">지역 선택</button>
+                                <div class="dropdown-content grid-dropdown" id="locationDropdown" style="display: none;">
+                                    <label><input type="checkbox" name="preferred_location" value="서울"> 서울</label>
+                                    <label><input type="checkbox" name="preferred_location" value="경기"> 경기</label>
+                                    <label><input type="checkbox" name="preferred_location" value="인천"> 인천</label>
+                                    <label><input type="checkbox" name="preferred_location" value="강원"> 강원</label>
+                                    <label><input type="checkbox" name="preferred_location" value="대전"> 대전</label>
+                                    <label><input type="checkbox" name="preferred_location" value="세종"> 세종</label>
+                                    <label><input type="checkbox" name="preferred_location" value="충남"> 충남</label>
+                                    <label><input type="checkbox" name="preferred_location" value="충북"> 충북</label>
+                                    <label><input type="checkbox" name="preferred_location" value="광주"> 광주</label>
+                                    <label><input type="checkbox" name="preferred_location" value="전남"> 전남</label>
+                                    <label><input type="checkbox" name="preferred_location" value="전북"> 전북</label>
+                                    <label><input type="checkbox" name="preferred_location" value="부산"> 부산</label>
+                                    <label><input type="checkbox" name="preferred_location" value="대구"> 대구</label>
+                                    <label><input type="checkbox" name="preferred_location" value="울산"> 울산</label>
+                                    <label><input type="checkbox" name="preferred_location" value="경남"> 경남</label>
+                                    <label><input type="checkbox" name="preferred_location" value="경북"> 경북</label>
+                                    <label><input type="checkbox" name="preferred_location" value="제주"> 제주</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 기술 스택 -->
+                        <div class="filter-item">
+                            <label>기술 스택</label>
+                            <div class="dropdown large-dropdown">
+                                <button type="button" class="dropdown-toggle" id="techDropdownBtn">기술 선택</button>
+                                <div class="dropdown-content grid-dropdown" id="techDropdown" style="display: none;">
+                                    <th:block th:each="stack : ${stackList}">
+                                        <label>
+                                            <input type="checkbox" name="skills"
+                                                   th:value="${stack.id}"
+                                                   th:attr="data-name=${stack.name}" />
+                                            <span th:text="${stack.name}">기술명</span>
+                                        </label>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 희망직무/역량 -->
+                        <div class="filter-item">
+                            <label>희망직무 / 핵심역량</label>
+                            <input type="text" name="keyword" class="keyword-input" placeholder="예: 백엔드, 리딩 등">
+                        </div>
+
+                        <!-- 검색 버튼 -->
+                        <div class="filter-item">
+                            <label>&nbsp;</label>
+                            <button type="submit" class="search-btn">검색</button>
+                        </div>
+                    </div>
+
+                    <!-- ✅ 선택 조건 미리보기 -->
+                    <div class="selected-conditions">
+                        <p class="selected-label">선택 조건</p>
+                        <div class="selected-tags-horizontal">
+                            <!-- 지역 조건 -->
+                            <div class="selected-group">
+                                <p class="selected-sub-label">지역</p>
+                                <div id="selectedLocations" class="tag-container"></div>
+                            </div>
+
+                            <!-- 기술 스택 조건 -->
+                            <div class="selected-group">
+                                <p class="selected-sub-label">기술 스택</p>
+                                <div id="selectedSkills" class="tag-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 검색 결과 영역 -->
+            <div class="box result-container">
+                <h3>🔍 검색 결과</h3>
+
+                <table class="resume-result-table">
+                    <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>이력서 제목</th>
+                        <th>이름</th>
+                        <th>학력</th>
+                        <th>선호지역</th>
+                        <th>기술스택</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 반복 예시 -->
+                    <tr th:each="resume, stat : ${resumes}">
+                        <td th:text="${stat.index + 1}">1</td>
+                        <td th:text="${resume.title}">이력서 제목</td>
+                        <a href="#" class="edit-post-link" th:data-id="${resume.resumeId}" th:text="${resume.title}">이력서 제목</a>
+                        <td th:text="${resume.name}">이름</td>
+                        <td th:text="${resume.education}">학력</td>
+                        <td th:text="${resume.preferredLocation}">선호지역</td>
+                        <td>
+                            <span th:each="skill : ${resume.skillNames}"
+                                  th:text="${skill}"
+                                  class="skill-tag">기술명</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- ✅ JS 연결 -->
+<!--        <script src="/js/jquery-3.7.1.min.js"></script>-->
+        <script th:src="@{/js/employer/resume-view.js}"></script>
+    </div>
+</div>

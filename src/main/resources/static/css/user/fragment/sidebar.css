@@ -1,10 +1,8 @@
-/* /css/user/sidebar.css */
-
 .sidebar {
     width: 220px;
     height: 100vh;
-    background-color: #ffffff;
-    color: black;
+    background-color: #2f3542; /* 어두운 배경 */
+    color: #ffffff;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -27,7 +25,7 @@
 .logo {
     text-align: center;
     padding: 15px 0;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid #57606f;
 }
 
 .logo img {
@@ -50,7 +48,7 @@
     display: block;
     padding: 16px 20px;
     width: 100%;
-    color: black;
+    color: #ffffff;
     text-decoration: none;
     font-size: 15px;
     transition: background-color 0.2s ease;
@@ -58,17 +56,16 @@
 }
 
 .sidebar-menu .menu-item a:hover {
-    background-color: #f8f8f8;
+    background-color: #57606f;
     border-radius: 0;
 }
 
-
 .sidebar-footer {
     padding: 15px 20px;
-    border-top: 1px solid #444;
-    background-color: #f8f8f8;
+    border-top: 1px solid #57606f;
+    background-color: #3b4452;
     font-size: 13px;
-    color: black;
+    color: #ffffff;
 }
 
 .sidebar-footer .user-info {
@@ -83,4 +80,3 @@
     border-radius: 50%;
     object-fit: cover;
 }
-

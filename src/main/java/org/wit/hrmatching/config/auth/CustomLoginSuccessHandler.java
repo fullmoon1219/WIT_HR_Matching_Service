@@ -9,9 +9,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 import org.wit.hrmatching.service.LoginHistoryService;
 import org.wit.hrmatching.service.auth.AuthService;
-import org.wit.hrmatching.vo.CustomUserDetails;
-import org.wit.hrmatching.vo.LoginHistoryVO;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
+import org.wit.hrmatching.vo.user.LoginHistoryVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.io.IOException;
 import java.util.Objects;

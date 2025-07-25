@@ -7,10 +7,21 @@
 
 /* 제목 */
 .view-title {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
-    margin-bottom: 25px;
-    color: #333;
+    color: white;
+    background-image: url('/images/test4.png');
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 50px 30px;
+    margin-bottom: 20px;
+    margin-top: 0;
+    text-align: center;
 }
 
 /* 기본 정보 테이블 */
@@ -163,4 +174,11 @@
 
 .close-button:hover {
     background-color: #5a6268;
+}
+
+.view-value.description img {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin: 10px 0;
 }

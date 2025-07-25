@@ -46,7 +46,6 @@ $(document).ready(function () {
 					}
 				}).showToast();
 
-				$('#manageProfile').show();
 				$('#submitButton').prop('disabled', true);
 				$('#submitButton').after('<p>프로필을 완성하셔야 지원 가능합니다.</p>');
 			}
@@ -56,6 +55,7 @@ $(document).ready(function () {
 			$('#jobPost-location').text(summary.location);
 			$('#jobPost-employmentType').text(translateEmploymentType(summary.employmentType));
 			$('#jobPost-deadline').text(summary.deadline);
+			$('#jobPost-salary').text(formatSalary(summary.salary));
 
 			// 이력서 목록 불러오기
 			loadApplicantResumes();
@@ -71,16 +71,6 @@ $(document).ready(function () {
 				console.error(xhr);
 			}
 		}
-	});
-
-	// 이력서 관리 페이지로 이동
-	$('#manageResumeBtn').on('click', function () {
-		window.open('/applicant/resume/list', '_blank');
-	});
-
-	// 프로필 관리 페이지로 이동
-	$('#manageProfileBtn').on('click', function () {
-		window.open('/applicant/resume/list', '_blank');
 	});
 
 	// 선택한 이력서를 해당 공고에 제출
@@ -138,31 +128,30 @@ $(document).ready(function () {
 			method: 'GET',
 			success: function (resume) {
 
-				let modalContentHtml = '';
+				function createInfoRow(label, value) {
+					if (!value || String(value).trim() === '') {
+						return '';
+					}
+					return `
+                        <div class="info-row">
+                            <div class="info-label">${label}</div>
+                            <div class="info-value">${value}</div>
+                        </div>
+                    `;
+				}
 
-				modalContentHtml += '<h4>학력</h4>';
-				modalContentHtml += '<p>' + (resume.education || '작성된 내용이 없습니다') + '</p>';
+				let modalContentHtml = '<div class="info-container">';
 
-				modalContentHtml += '<h4>경력</h4>';
-				modalContentHtml += '<p>' + (resume.experience || '작성된 내용이 없습니다') + '</p>';
+				modalContentHtml += createInfoRow('학력', resume.education);
+				modalContentHtml += createInfoRow('경력', resume.experience);
+				modalContentHtml += createInfoRow('희망 직무', resume.desiredPosition);
+				modalContentHtml += createInfoRow('기술 스택', resume.skills);
+				modalContentHtml += createInfoRow('선호 지역', resume.preferredLocation);
+				modalContentHtml += createInfoRow('희망 연봉', resume.salaryExpectation);
+				modalContentHtml += createInfoRow('핵심 역량', resume.coreCompetency);
+				modalContentHtml += createInfoRow('지원 동기', resume.motivation);
 
-				modalContentHtml += '<h4>희망 직무</h4>';
-				modalContentHtml += '<p>' + (resume.desiredPosition || '작성된 내용이 없습니다') + '</p>';
-
-				modalContentHtml += '<h4>기술 스택</h4>';
-				modalContentHtml += '<p>' + (resume.skills || '작성된 내용이 없습니다') + '</p>';
-
-				modalContentHtml += '<h4>선호 지역</h4>';
-				modalContentHtml += '<p>' + (resume.preferredLocation || '작성된 내용이 없습니다') + '</p>';
-
-				modalContentHtml += '<h4>희망 연봉</h4>';
-				modalContentHtml += '<p>' + (resume.salaryExpectation || '작성된 내용이 없습니다') + '</p>';
-
-				modalContentHtml += '<h4>핵심 역량</h4>';
-				modalContentHtml += '<p>' + (resume.coreCompetency || '작성된 내용이 없습니다') + '</p>';
-
-				modalContentHtml += '<h4>지원 동기</h4>';
-				modalContentHtml += '<p>' + (resume.motivation || '작성된 내용이 없습니다') + '</p>';
+				modalContentHtml += '</div>';
 
 				$('#resume-modal').html(modalContentHtml);
 			},
@@ -221,10 +210,13 @@ function loadApplicantResumes() {
 
 function makeRow(resume) {
 	return `
-         <tr class="resume-row" data-resume-id="${resume.id}">
-            <td><input type="radio" name="selectedResume" value="${resume.id}"></td>
-            <td>${resume.isPublic ? ' <strong>(대표)</strong>' : ''}<span class="resume-title-text">${resume.title}</span></td>
-            <td>${resume.updatedAt}</td>
-        </tr>
+      <div class="resume-row" data-resume-id="${resume.id}">
+        <div class="resume-left">
+          <input type="radio" name="selectedResume" value="${resume.id}">
+          ${resume.isPublic ? '<span class="resume-represent">(대표)</span>' : ''}
+          <span class="resume-title-text">${resume.title}</span>
+        </div>
+        <div class="resume-updated">${resume.updatedAt}</div>
+      </div>
     `;
 }

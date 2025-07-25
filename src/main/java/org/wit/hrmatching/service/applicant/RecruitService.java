@@ -2,10 +2,15 @@ package org.wit.hrmatching.service.applicant;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.wit.hrmatching.dao.applicant.RecruitDAO;
-import org.wit.hrmatching.vo.*;
+import org.wit.hrmatching.exception.DuplicateApplicationException;
 import org.wit.hrmatching.vo.applicantPaging.PageResponseVO;
 import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
+import org.wit.hrmatching.vo.application.ApplicationsVO;
+import org.wit.hrmatching.vo.job.JobPostVO;
+import org.wit.hrmatching.vo.job.RecruitListVO;
+import org.wit.hrmatching.vo.user.EmployerProfilesVO;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,8 +23,8 @@ public class RecruitService {
 
 	private final RecruitDAO recruitDAO;
 
-	public JobPostVO viewRecruit(long jobPostId) {
-		return recruitDAO.viewRecruit(jobPostId);
+	public JobPostVO viewRecruit(long jobPostId, boolean isAdmin) {
+		return recruitDAO.viewRecruit(jobPostId, isAdmin);
 	}
 
 	public EmployerProfilesVO viewEmployerProfile(long employerUserId) {
@@ -30,9 +35,9 @@ public class RecruitService {
 		recruitDAO.increaseViewCount(jobPostId);
 	}
 
-	public Map<String, Object> getJobPostSummary(long jobPostId) {
+	public Map<String, Object> getJobPostSummary(long jobPostId, boolean isAdmin) {
 
-		JobPostVO jobPost = recruitDAO.viewRecruit(jobPostId);
+		JobPostVO jobPost = recruitDAO.viewRecruit(jobPostId, isAdmin);
 		EmployerProfilesVO employer = recruitDAO.viewEmployerProfile(jobPost.getUserId());
 
 		if (jobPost == null) {
@@ -44,6 +49,7 @@ public class RecruitService {
 		summary.put("location", jobPost.getLocation());
 		summary.put("employmentType", jobPost.getEmploymentType());
 		summary.put("deadline", jobPost.getDeadline());
+		summary.put("salary", jobPost.getSalary());
 
 		if (employer != null) {
 			summary.put("companyName", employer.getCompanyName());
@@ -54,12 +60,13 @@ public class RecruitService {
 		return summary;
 	}
 
-	public int applyApplication(long userId, long jobPostId, long resumeId) {
+	@Transactional
+	public void applyApplication(long userId, long jobPostId, long resumeId) {
 
 		// 중복 지원 시 1, 성공 시 0, db 연결 실패 시 2 반환
 
 		if (recruitDAO.isApplicationExist(userId, jobPostId)) {
-			return 1;
+			throw new DuplicateApplicationException("이미 지원한 공고입니다.");
 		}
 
 		ApplicationsVO application = new ApplicationsVO();
@@ -69,10 +76,8 @@ public class RecruitService {
 
 		boolean result = recruitDAO.insertApplication(application);
 
-		if (result) {
-			return 0;
-		} else {
-			return 2;
+		if (!result) {
+			throw new RuntimeException("지원 처리 중 데이터베이스 오류가 발생했습니다.");
 		}
 	}
 

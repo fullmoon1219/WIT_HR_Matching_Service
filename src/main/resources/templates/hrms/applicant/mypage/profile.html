@@ -1,0 +1,127 @@
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/applicant/profile.css">
+        <link rel="stylesheet" href="/css/user/resume.css">
+
+    </th:block>
+
+    <section layout:fragment="content">
+        <div class="profile-section">
+            <div class="profile-table-container">
+                <div class="table-header">
+                    <h3 class="table-title">개인 정보</h3>
+
+                    <div class="action-buttons" id="editControls">
+                        <input type="password" id="confirmPassword" class="inline-input password-input" placeholder="비밀번호 입력" style="display: none;">
+                        <button id="editButton" class="edit-button">개인 정보 수정</button>
+                        <button id="cancelButton" class="cancel-button" style="display: none;">취소</button>
+                        <button id="password-edit-button" class="password-edit-button">비밀번호변경</button>
+                        <button id="user-delete-button" onclick="location.href='/users/delete'" class="user-delete-button">회원탈퇴</button>
+                    </div>
+                </div>
+
+                <table class="profile-merged-table">
+                    <tr>
+                        <td rowspan="5" class="profile-image-cell">
+                            <form id="imageUploadForm" enctype="multipart/form-data">
+                                <img id="profileImagePreview" src="/images/users/user_big_profile.png" alt="개인 프로필 이미지" class="profile-image-preview" />
+                                <input type="file" id="profileImageInput" name="profileImage" accept="image/*" hidden>
+                                <button type="button" id="uploadImageButton" class="upload-button">사진 등록</button>
+                            </form>
+                        </td>
+                        <th>이름</th>
+                        <td id="name">WIT</td>
+                        <th>나이</th>
+                        <td id="age">홍길동</td>
+                    </tr>
+                    <tr>
+                        <th>성별</th>
+                        <td id="gender"></td>
+                        <th>이메일</th>
+                        <td id="email"></td>
+                    </tr>
+                    <tr>
+                        <th>전화번호</th>
+                        <td id="phoneNumber"></td>
+                        <th>포트폴리오</th>
+                        <td id="portfolioUrl"></td>
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td id="address"></td>
+                        <th>경력</th>
+                        <td id="experienceYears"></td>
+                    </tr>
+                    <tr>
+                        <th>희망 근무 형태</th>
+                        <td id="jobType" colspan="3"></td>
+                    </tr>
+                </table>
+
+                <div class="self-intro-section">
+                    <h3 class="table-subtitle">자기소개</h3>
+                    <div class="self-intro-content" id="selfIntro"></div>
+                </div>
+
+                <h3 class="table-title">시스템 정보</h3>
+                <table class="profile-merged-table">
+                    <tr>
+                        <th>가입일</th>
+                        <th>마지막 접속</th>
+                        <th>로그인 방식</th>
+                        <th>이메일 인증</th>
+                        <th>경고 횟수</th>
+                    </tr>
+                    <tr>
+                        <td id="createAt"></td>
+                        <td id="lastLogin"></td>
+                        <td id="loginType"></td>
+                        <td id="emailVerified"></td>
+                        <td id="warningCount"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="primary-resume-card">
+                <h4>대표 이력서</h4>
+                <div class="card-body">
+                    <div class="info">
+                        <div class="resume-title" id="resumeTitle"></div>
+                        <div class="resume-updated" id="resumeUpdatedAt"></div>
+                    </div>
+                    <a href="#" class="btn-view-resume">이력서 상세보기</a>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div id="passwordModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+
+                <div id="verifyPasswordView">
+                    <h4>비밀번호 변경</h4>
+                    <p>본인 확인을 위해 현재 비밀번호를 입력해주세요.</p>
+                    <input type="password" id="currentPassword" placeholder="현재 비밀번호">
+                    <div class="error-message" id="passwordError"></div>
+                    <button id="btnVerifyPassword">다음</button>
+                </div>
+
+                <div id="updatePasswordView" style="display: none;">
+                    <h4>새 비밀번호 설정</h4>
+                    <p>새로 사용할 비밀번호를 입력해주세요.</p>
+                    <input type="password" id="newPassword" placeholder="새 비밀번호">
+                    <input type="password" id="confirmNewPassword" placeholder="새 비밀번호 확인">
+                    <div class="error-message" id="newPasswordError"></div>
+                    <button id="btnUpdatePassword">비밀번호 변경</button>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+</div>
+
+<script src="/js/applicant/mypage/profile.js"></script>

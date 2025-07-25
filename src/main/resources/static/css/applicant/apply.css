@@ -1,0 +1,373 @@
+/* ===================== 전체 Layout ===================== */
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    margin: 30px;
+}
+
+h4 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+div > span {
+    font-weight: 500;
+}
+
+.apply-content-wrapper {
+    background-color: #fff;
+    padding: 12px 30px 30px 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+
+
+/* ===================== 버튼 여백 ===================== */
+#submitButton {
+    margin-top: 24px; /* 더 넉넉하게 */
+}
+
+
+/* ===================== resume row 스타일 ===================== */
+#resumeListBody {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.resume-row {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    transition: box-shadow 0.2s ease;
+}
+
+.resume-row:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 왼쪽 - radio 버튼과 제목 */
+.resume-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.resume-title-text {
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.resume-title-text:hover {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.resume-represent {
+    color: #28a745;
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+/* 오른쪽 - 마지막 수정일 */
+.resume-updated {
+    font-size: 13px;
+    color: #888;
+}
+
+/* ===================== 버튼 공통 ===================== */
+.submit-button-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+button {
+    padding: 10px 18px;
+    background-color: #4A90E2;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #357ABD;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+
+/* ===================== resume section title spacing ===================== */
+#resumeListBody + #submitButton {
+    margin-top: 20px;
+}
+
+
+/* ===================== 모달 안 텍스트 ===================== */
+#resume-modal {
+    padding: 20px 15px;
+}
+
+.info-container {
+    width: 100%;
+}
+
+.info-row {
+    display: flex;
+    padding: 18px 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    flex: 0 0 120px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.info-value {
+    flex: 1;
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-all;
+    display: flex;
+    align-items: center;
+}
+
+
+/* ===================== 기타 UI ===================== */
+.application-status-message {
+    text-align: center;
+    padding: 50px;
+}
+
+.application-status-message h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+/* ===================== 공고 헤더 스타일 ===================== */
+
+.job-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 14px;
+    color: #555;
+}
+
+.job-meta span {
+    display: inline-block;
+}
+
+/* 페이지 제목 */
+.apply-page-header {
+    text-align: center;
+    padding: 20px 0;
+    margin-bottom: 10px;
+}
+
+.apply-page-header h2 {
+    font-size: 26px;
+    font-weight: 600;
+    color: #444;
+    margin: 0;
+}
+
+/* 채용 정보 카드 전체 */
+.job-summary-card {
+    background-color: #f8f9fb;
+    border-radius: 12px;
+    border: 1px solid #e8ebee;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* 카드 헤더 (공고명 부분) */
+.job-summary-card .card-header {
+    text-align: center;
+    padding: 18px 24px 24px 24px;
+}
+
+.job-summary-card .card-header h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #2a2a2a;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+    margin-bottom: 0;
+}
+
+.job-summary-card .card-header h3::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 45%;
+    height: 1.3px;
+    background-color: #e3e3e3;
+}
+
+/* 카드 본문 (상세 정보 그리드) */
+.job-summary-card .card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 24px;
+    padding: 24px;
+}
+
+.job-summary-item {
+    align-items: baseline;
+    gap: 12px;
+}
+
+.job-summary-label {
+    display: inline-flex;
+    vertical-align: middle;
+    align-items: center;
+    width: 100px;
+    margin-right: 12px;
+    gap: 6px;
+    font-size: 13px;
+    color: #888;
+}
+
+.icon-style {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    flex-shrink: 0;
+}
+
+.job-summary-value {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.job-summary-value.salary {
+    color: #d94450;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+.resume-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 12px;
+}
+
+.action-links {
+    display: flex;
+    gap: 12px;
+}
+
+/* 텍스트 링크 스타일 */
+.action-links a {
+    font-size: 14px;
+    color: #555;
+    text-decoration: none;
+    transition: text-decoration 0.2s;
+}
+
+.action-links a:hover {
+    text-decoration: underline;
+}
+
+.action-links a + a {
+    position: relative;
+    padding-left: 13px;
+}
+
+.action-links a + a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    background-color: #e0e0e0;
+    height: 14px;
+}
+
+/* ===================== 모달창 디자인 ===================== */
+.ui-dialog {
+    border-radius: 8px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
+    padding: 0 !important;
+    background: #ffffff;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    background: #ffffff !important;
+    border: none !important;
+    border-bottom: 1px solid #e9ecef !important;
+    padding: 18px 25px !important;
+    border-radius: 12px 12px 0 0 !important;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+    display: none !important;
+}
+
+.ui-dialog .ui-dialog-title {
+    color: #212529 !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    float: none !important;
+}
+
+/* 모달창 하단 버튼 영역 */
+.ui-dialog .ui-dialog-buttonpane {
+    border-top: 1px solid #e9ecef !important;
+    background: #f8f9fa !important;
+    padding: 12px 25px !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-button {
+    background: #6c757d !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    padding: 10px 20px !important;
+    cursor: pointer;
+    margin: 0;
+    transition: all 0.2s ease-in-out;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-button:hover {
+    background: #5a6268 !important;
+}

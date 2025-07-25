@@ -8,10 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.wit.hrmatching.service.employer.ProfileService;
+import org.wit.hrmatching.service.employer.EmployerProfileService;
 import org.wit.hrmatching.service.employer.TechStackService;
-import org.wit.hrmatching.vo.*;
 import org.wit.hrmatching.service.employer.JobPostService;
+import org.wit.hrmatching.vo.job.JobPostVO;
+import org.wit.hrmatching.vo.job.TechStackVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
+import org.wit.hrmatching.vo.user.EmployerProfilesVO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +27,7 @@ import java.util.stream.Collectors;
 public class JobPostController {
 
     private final JobPostService jobPostService;
-    private final ProfileService profileService;
+    private final EmployerProfileService employerProfileService;
     private final TechStackService techStackService;
 
 //    채용공고 작성하기
@@ -87,11 +90,11 @@ public class JobPostController {
     @RequestMapping("/jobpost_view")
     public ModelAndView selectJobPostview(@RequestParam Long jobPostId) {
         JobPostVO jobPostVO = jobPostService.selectJobPostDetail(jobPostId);
-        EmployerProfilesVO eVO = profileService.getEmployerProfile(jobPostVO.getUserId());
+        EmployerProfilesVO eVO = employerProfileService.getEmployerProfile(jobPostVO.getUserId());
 
         List<String> selectedStackNames = new ArrayList<>();
 
-        String techStacks = jobPostVO.getTechStacks();
+        String techStacks = jobPostVO.getRequiredSkills();
         if (techStacks != null && !techStacks.trim().isEmpty()) {
             List<Long> stackIds = Arrays.stream(techStacks.split(","))
                     .map(String::trim)
@@ -119,9 +122,11 @@ public class JobPostController {
 
         // null 또는 빈 문자열 처리 추가
         List<String> selectedStacks = new ArrayList<>();
-        String stacks = jobPostVO.getTechStacks();
+        String stacks = jobPostVO.getRequiredSkills();
         if (stacks != null && !stacks.trim().isEmpty()) {
-            selectedStacks = Arrays.asList(stacks.split(","));
+            selectedStacks = Arrays.stream(stacks.split(","))
+                    .map(String::trim) // ← 공백 제거!
+                    .collect(Collectors.toList());
         }
 
         ModelAndView modelAndView = new ModelAndView("employer/jobpost/jobpost_edit");

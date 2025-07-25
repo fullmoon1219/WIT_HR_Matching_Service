@@ -8,9 +8,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.wit.hrmatching.exception.IncompleteProfileException;
+import org.wit.hrmatching.exception.ResumeNotFoundException;
 import org.wit.hrmatching.service.applicant.ResumeService;
-import org.wit.hrmatching.vo.CustomUserDetails;
-import org.wit.hrmatching.vo.ResumeVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
+import org.wit.hrmatching.vo.resume.ResumeVO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +24,6 @@ import java.util.Map;
 public class ResumeRestController {
 
 	private final ResumeService resumeService;
-
-	// TODO: 구직자 정보(사진 포함) 추가 → 구직자 메인페이지 로직 완료 후 반영 (작성 화면용)
 
 	@GetMapping
 	public ResponseEntity<Map<String, Object>> getUserProfile(@AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -102,15 +102,14 @@ public class ResumeRestController {
 	public ResponseEntity<?> setResumePublic(@PathVariable Long resumeId,
 											 @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-		if (!resumeService.confirmProfile(userDetails.getId())) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN)
-					.body(Map.of("message", "개인정보 입력이 완료되지 않았습니다."));
+		try {
+			resumeService.setResumeAsPublic(resumeId, userDetails.getId());
+			return ResponseEntity.ok().build();
+
+		} catch (IncompleteProfileException e) {
+			// 프로필 미완성 예외
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("message", e.getMessage()));
 		}
-
-		boolean result = resumeService.setResumeAsPublic(resumeId, userDetails.getId());
-
-		return result ? ResponseEntity.ok().build()
-				: ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 	// 이력서 상세보기 (수정 시 기존 이력서 데이터도 전달)
@@ -140,12 +139,18 @@ public class ResumeRestController {
 					"errors", bindingResult.getAllErrors()));
 		}
 
-		boolean result = resumeService.editResume(resumeVO);
+		try {
+			resumeService.editResume(resumeVO);
+			return ResponseEntity.ok(Map.of("success", true, "id", resumeVO.getId()));
 
-		return result
-				? ResponseEntity.ok(Map.of("success", true, "id", resumeVO.getId()))
-				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(Map.of("success", false, "message", "DB 수정 실패"));
+		} catch (ResumeNotFoundException e) {
+			// 서비스에서 '이력서 없음 예외'가 발생
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+
+		} catch (RuntimeException e) {
+			// 그 외 다른 예외가 발생
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
 	}
 
 	// 이력서 수정 (임시 저장)
@@ -156,12 +161,16 @@ public class ResumeRestController {
 
 		resumeVO.setId(resumeId);
 
-		boolean result = resumeService.editResume(resumeVO);
+		try {
+			resumeService.editResume(resumeVO);
+			return ResponseEntity.ok(Map.of("success", true));
 
-		return result
-				? ResponseEntity.ok(Map.of("success", true))
-				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(Map.of("success", false, "message", "DB 저장 실패"));
+		} catch (ResumeNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
 	}
 
 	// 이력서 삭제 (소프트 삭제)

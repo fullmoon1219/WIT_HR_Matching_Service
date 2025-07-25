@@ -6,34 +6,50 @@
     <meta charset="UTF-8">
     <title>회원 탈퇴</title>
 
-    <meta name="_csrf" th:content="${_csrf.token}" />
-    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
+    <link rel="stylesheet" href="/css/account/delete.css">
     <script src="/js/jquery-3.7.1.min.js"></script>
     <script src="/js/auth/delete.js"></script>
-
 </head>
 <body>
-<h2>회원 탈퇴 확인</h2>
 
-<form id="deleteForm">
-    <div th:if="${isSocialUser}">
-        <label>
-            <input type="checkbox" name="confirmDelete" id="confirmDelete" required>
-            탈퇴에 동의합니다.
-        </label>
+<div class="delete-container">
+    <div class="logo">
+        <a th:href="@{/}">
+            <img th:src="@{/images/logo_no_background.png}" alt="Novi 로고">
+        </a>
     </div>
 
-    <div th:if="${!isSocialUser}">
-        <label>비밀번호 확인:
-            <input type="password" name="password" id="password" required/>
-        </label>
-    </div>
-    <br>
-    <button type="submit">탈퇴하기</button>
-</form>
+    <h2>회원 탈퇴 확인</h2>
+    <p class="description">
+        회원 탈퇴 시, 모든 정보는 즉시 삭제되며 복구할 수 없습니다.<br>
+        작성하신 게시글 및 댓글은 탈퇴 이후에도 일부 남아있을 수 있습니다.<br>
+        탈퇴 전 다시 한 번 확인해 주세요.
+    </p>
 
-<div id="deleteMessage" style="color:red;"></div>
+    <form id="deleteForm">
+        <div th:if="${isSocialUser}">
+            <label class="checkbox-label">
+                <input type="checkbox" name="confirmDelete" id="confirmDelete" required>
+                탈퇴에 동의합니다.
+            </label>
+        </div>
+
+        <div th:if="${!isSocialUser}" class="form-group">
+            <label for="password">비밀번호 확인</label>
+            <input type="password" name="password" id="password" required placeholder="비밀번호를 입력하세요">
+        </div>
+
+        <div class="button-wrapper">
+            <button type="submit" class="btn delete-btn">탈퇴하기</button>
+            <a th:href="@{/applicant/profile}" class="btn cancel-btn">취소</a>
+        </div>
+
+        <div id="deleteMessage" style="display: none;"></div>
+    </form>
+</div>
 
 </body>
 </html>

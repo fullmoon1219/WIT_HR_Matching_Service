@@ -3,9 +3,9 @@ package org.wit.hrmatching.dao.applicant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.wit.hrmatching.mapper.applicant.ResumeMapper;
-import org.wit.hrmatching.vo.ApplicantProfilesVO;
-import org.wit.hrmatching.vo.ResumeVO;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.user.ApplicantProfilesVO;
+import org.wit.hrmatching.vo.resume.ResumeVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.util.List;
 
@@ -92,5 +92,9 @@ public class ResumeDAO {
 
 	public void clearPrimaryResume(long userId) {
 		resumeMapper.clearPrimaryResume(userId);
+	}
+
+	public int countCompletedResumes(long userId) {
+		return resumeMapper.countCompletedResumes(userId);
 	}
 }

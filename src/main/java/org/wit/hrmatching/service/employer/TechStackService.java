@@ -3,7 +3,7 @@ package org.wit.hrmatching.service.employer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.mapper.employer.TechStackMapper;
-import org.wit.hrmatching.vo.TechStackVO;
+import org.wit.hrmatching.vo.job.TechStackVO;
 
 import java.util.List;
 

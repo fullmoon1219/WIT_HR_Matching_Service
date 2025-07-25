@@ -1,446 +1,79 @@
-/* =====================
-   레이아웃 / 컨테이너
-===================== */
-.resume-container {
-    display: flex;
-    max-width: 1200px;
-    margin: 40px auto;
-    gap: 40px;
-}
-
-.resume-left {
-    flex: 1;
-}
-
-.resume-sidebar {
-    width: 250px;
-    position: sticky;
-    top: 20px;
-}
-
-/* =====================
-   업로드 영역
-===================== */
-.upload-box {
-    background: #f5f5f5;
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.upload-btn {
-    background-color: #facc15;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-}
-
-/* =====================
-   공통 섹션 스타일
-===================== */
-.resume-section {
-    margin-bottom: 40px;
-}
-
-.resume-section h2 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.required {
-    color: red;
-    margin-left: 4px;
-}
-
-.desc {
-    font-size: 13px;
-    color: #777;
-    margin-bottom: 12px;
-}
-
-/* =====================
-   기본정보 영역
-===================== */
-.basic-info-box {
-    display: flex;
-    gap: 30px;
-    border: 1px solid #eee;
-    border-radius: 10px;
-    padding: 20px;
-    background-color: #fafafa;
-    align-items: flex-start;
-}
-
-.photo-box {
-    width: 120px;
-    text-align: center;
-}
-
-.profile-img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    margin-bottom: 8px;
-}
-
-.photo-upload-btn {
-    padding: 4px 10px;
-    font-size: 13px;
-    background-color: #f1f1f1;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.info-fields {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.info-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    font-size: 14px;
-}
-
-.info-row label {
-    width: 80px;
-    font-weight: bold;
-    color: #333;
-}
-
-.info-value {
-    flex-grow: 1;
-}
-
-.btn-auth {
-    padding: 4px 8px;
-    font-size: 12px;
-    background-color: #fef08a;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.blue-label {
-    color: #2b77f6;
-    font-size: 12px;
-    margin-left: auto;
-}
-
-.input-homepage {
-    flex-grow: 1;
-    padding: 6px 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 13px;
-}
-
-/* =====================
-   이력서 제목 입력
-===================== */
-.title-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-/* =====================
-   최종학력 드롭다운
-===================== */
-.select-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 24px;
-}
-
-.select-row label {
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-.select-row select {
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-/* =====================
-   학력 상세 리스트
-===================== */
-.edu-detail-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.edu-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #eee;
-}
-
-.add-btn {
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 4px 10px;
-    font-size: 13px;
-    cursor: pointer;
-}
-
-/* 입력 폼 영역 */
-.edu-form {
-    border: 1px solid #ddd;
-    background: #f9f9f9;
-    padding: 16px;
-    margin-top: 12px;
-    border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.edu-form input,
-.edu-form select,
-.edu-form textarea {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-}
-
-.edu-form textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-
-.select-row {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.input-pair {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-}
-
-.input-pair label {
-    font-weight: bold;
-    font-size: 14px;
-    white-space: nowrap;
-}
-
-.year-input {
-    width: 100px;
-    padding: 6px 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-
-
-/* 저장/취소 버튼 라인 */
-.form-bottom {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 8px;
-}
-
-.edu-cancel-btn,
-.edu-save-btn {
-    padding: 6px 12px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.edu-save-btn {
-    background-color: #ffe600;
-    border-color: #e5c700;
-    font-weight: bold;
-}
-
-/* 숨김 처리 */
-.hidden {
-    display: none;
-}
-
-
-.info-icon {
-    font-style: normal;
-    font-size: 14px;
-    color: #666;
-    margin-right: 6px;
-}
-
-/*희망근무*/
-.resume-section {
-    margin-bottom: 40px;
-}
-
-.resume-section h2 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.required {
-    color: red;
-    margin-left: 4px;
-}
-
-.desc {
-    font-size: 13px;
-    color: #777;
-    margin-bottom: 20px;
-}
-
-.small {
-    font-size: 12px;
-    color: #aaa;
-}
-
-.field-row {
-    margin-bottom: 24px;
-}
-
-.field-row label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 6px;
-}
-
-.input-with-button {
-    display: flex;
-    gap: 8px;
-}
-
-.input-with-button input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.select-btn {
-    padding: 8px 12px;
-    background-color: #f9f9f9;
-    border: 1px solid #999;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.selected-tag {
-    margin-top: 8px;
-    font-size: 14px;
-    color: #2b77f6;
-}
-
-.checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    font-size: 14px;
-}
-
-.radio-button-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.radio-button-group button {
-    padding: 6px 14px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
+.resume-list {
+    max-width: 1400px;
+    margin: 20px auto;
     background-color: #fff;
-    color: #333;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 20px;
 }
 
-.radio-button-group button.active {
-    background-color: #2b77f6;
-    color: white;
-    border-color: #2b77f6;
-}
-
-
-
-/* =====================
-   사이드바 버튼 및 체크리스트
-===================== */
-.btn-save {
-    width: 100%;
-    padding: 12px;
-    background-color: #ffe600;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
+.resume-list h3 {
+    font-size: 18px;
     margin-bottom: 12px;
 }
 
-.btn-outline {
-    width: 100%;
-    padding: 12px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 12px;
-}
-
-.checklist h3 {
-    font-size: 16px;
-    margin-top: 24px;
-}
-
-.checklist ul {
+.resume-items {
     list-style: none;
-    padding-left: 0;
+    margin: 0;
+    padding: 0;
 }
 
-.checklist li {
+.resume-items li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding: 12px 0;
+}
+
+.resume-main-select {
+    flex: 0 0 auto;
+    margin-right: 8px;
+}
+
+
+.resume-info {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.resume-title {
+    font-weight: 500;
     font-size: 14px;
-    margin-bottom: 6px;
+    color: #222;
 }
 
-.check {
-    color: #2196f3;
-    margin-right: 6px;
+.resume-date {
+    font-size: 13px;
+    color: #888;
 }
 
-.cover-letter-textarea {
-    width: 100%;
-    min-height: 250px;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    line-height: 1.6;
-    resize: vertical;
+.resume-actions-inline {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 6px;
+}
+
+.btn-small {
+    font-size: 13px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+}
+
+.star-button {
+    font-size: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #bbb; /* 빈 별 기본 색상 */
+    padding: 0;
+}
+
+.star-button.selected {
+    color: #ffc107; /* 노란 별 (대표 이력서) */
 }

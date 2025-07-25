@@ -19,8 +19,6 @@
           <li class="menu-item"><a th:href="@{/admin/jobPosts}">📢 채용 공고 관리</a></li>
           <li class="menu-item"><a th:href="@{/admin/inquirys}">📨 문의 내역 관리</a></li>
           <li class="menu-item"><a th:href="@{/admin/reports}">🧾 신고 내역 관리</a></li>
-          <li class="menu-item"><a th:href="@{/admin/categories}">🧩 커뮤니티 관리</a></li>
-          <li class="menu-item"><a th:href="@{/admin/settings}">⚙ 시스템 설정</a></li>
         </ul>
       </nav>
     </div>
@@ -28,7 +26,14 @@
     <!-- 하단: 관리자 정보 -->
     <div class="sidebar-footer">
       <div class="user-info">
-        <img th:src="${admin.profileImage ?: '/images/users/user_small_profile.png'}" alt="프로필 이미지">
+        <img th:if="${admin.profileImage != null}"
+             th:src="@{'/uploads/users/profile/' + ${admin.profileImage}}"
+             alt="프로필 이미지"
+             style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
+        <img th:if="${admin.profileImage == null}"
+             th:src="@{/images/users/user_small_profile.png}"
+             alt="기본 이미지"
+             style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
         <span th:text="${admin.name}">관리자</span>
       </div>
     </div>

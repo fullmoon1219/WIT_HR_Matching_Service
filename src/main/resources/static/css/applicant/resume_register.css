@@ -1,0 +1,262 @@
+/* ===== 레이아웃 구성 ===== */
+.resume-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 40px auto;
+    gap: 32px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.resume-left {
+    flex: 1 1 auto;
+    padding: 0 24px;
+}
+
+.resume-sidebar {
+    flex: 0 0 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 12px;
+}
+
+/* ===== 섹션 제목 ===== */
+.resume-section h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 40px 0 24px;
+}
+
+.resume-section h2:first-child {
+    margin-top: 20px;
+}
+
+/* ===== 기본정보 영역 ===== */
+.basic-info-box {
+    display: flex;
+    gap: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #f9f9f9;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.photo-box {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+    border-radius: 50%;
+}
+
+/* ===== 프로필 정보 필드 ===== */
+.info-fields {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.info-row label {
+    width: 80px;
+    font-weight: 500;
+    color: #555;
+    flex-shrink: 0;
+}
+
+.info-value,
+.info-row a {
+    color: #333;
+    word-break: break-word;
+    font-size: 14px;
+}
+
+/* ===== 요약 정보 영역 ===== */
+.resume-summary {
+    margin-top: 16px;
+    border-top: none;
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 48px;
+}
+
+.summary-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    font-size: 14px;
+}
+
+.summary-label {
+    width: 100px;
+    font-weight: 500;
+    color: #555;
+    flex-shrink: 0;
+}
+
+.summary-value {
+    flex: 1;
+    color: #333;
+    word-break: break-word;
+}
+
+/* ===== 입력 필드 영역 ===== */
+.resume-section.resume-detail::before {
+    content: "";
+    display: block;
+    height: 1px;
+    background-color: #e2e8f0;
+    margin-bottom: 32px;
+    margin-top: 16px;
+}
+
+.field-row {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.field-row label {
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 12px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+input[type="text"]:focus {
+    border-color: #4A90E2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
+
+textarea {
+    width: 100%;
+    font-size: 14px;
+    font-family: inherit;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+    line-height: 1.5;
+    box-sizing: border-box;
+    min-height: 120px;
+}
+
+/* ===== 선택 버튼 영역 ===== */
+.selection-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.select-btn {
+    width: 100px;
+    height: 32px;
+    padding: 4px 0;
+    font-size: 13px;
+    text-align: center;
+    background-color: #F1F4F8;
+    border: 1px solid #DEE3EB;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #333;
+}
+
+.select-btn:hover {
+    background-color: #e0ecf9;
+    transform: translateY(-1px);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.select-btn.active {
+    background-color: #5A719C;
+    border-color: #5A719C;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: none;
+    transform: none;
+}
+
+/* ===== 에러 메시지 ===== */
+.error {
+    font-size: 12px;
+    color: #e53e3e;
+    margin-top: 4px;
+}
+
+/* ===== 버튼 영역 (우측) ===== */
+.btn-save {
+    padding: 12px;
+    background-color: #4A90E2;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-save:hover {
+    background-color: #3b78c5;
+}
+
+.btn-outline {
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    font-weight: bold;
+    color: #2d3748;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-outline:hover {
+    background-color: #e2e8f0;
+    color: #1a202c;
+}
+
+/* ===== 필수 표시 (*) ===== */
+.required {
+    display: none;
+}

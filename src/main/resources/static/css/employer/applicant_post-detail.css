@@ -67,3 +67,52 @@
 .cancel-button:hover {
     background-color: #5a6268;
 }
+
+/* AI 정보 보기 버튼 */
+.ai-info-button {
+    background: linear-gradient(135deg, #6a8eff, #8fd3f4);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(106, 142, 255, 0.3);
+}
+
+.ai-info-button:hover {
+    background: linear-gradient(135deg, #4e7bff, #6ecaf5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(106, 142, 255, 0.4);
+}
+
+.ai-info-button:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(106, 142, 255, 0.2);
+}
+
+.ai-info-text {
+    font-family: 'SUIT', 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #444;
+    letter-spacing: -0.3px;
+    margin: 0;
+}
+
+.review-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 수직 방향으로 가운데 정렬 */
+    justify-content: center; /* 수평 가운데 정렬 */
+    padding: 20px 0;
+}
+.button-container {
+    text-align: center;
+}
+.ai-info-result {
+    width: 100%;
+    max-width: 800px;
+}

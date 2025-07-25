@@ -4,21 +4,20 @@
 
     <th:block layout:fragment="styles">
         <link rel="stylesheet" href="/css/community/board-list.css">
-        <link rel="stylesheet" href="/css/community/board-write.css">
-        <link rel="stylesheet" href="/css/community/board-view.css">
     </th:block>
 
     <section layout:fragment="content">
         <div class="board-header">
-            <h2>📋 전체 게시판</h2>
+            <h2 id="boardTitle">📋 전체 게시판</h2>
             <button type="button" class="write-button" th:data-board-code="${boardCode}">글쓰기</button>
         </div>
 
         <table class="board-table">
             <colgroup>
                 <col style="width: 5%">
+                <col style="width: 20%">
+                <col style="width: 35%">
                 <col style="width: 10%">
-                <col style="width: 55%">
                 <col style="width: 10%">
                 <col style="width: 10%">
                 <col style="width: 10%">
@@ -31,40 +30,18 @@
                 <th>작성자</th>
                 <th>작성일</th>
                 <th>조회수</th>
+                <th>좋아요</th>
             </tr>
             </thead>
-            <tbody>
-            <!-- 임시 더미 데이터 -->
-            <tr>
-                <td>5</td>
-                <td>자유</td>
-                <td><a href="#" class="post-link" data-id="5">
-                    <span class="post-title">두 번째 글입니다.</span>
-                    <span class="comment-count">[3]</span>
-                </a></td>
-                <td>홍길동</td>
-                <td>2025-06-25</td>
-                <td>12</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>질문</td>
-                <td><a href="#" class="post-link" data-id="5">
-                    <span class="post-title">첫 번째 글입니다.</span>
-                    <span class="comment-count"></span>
-                </a></td>
-                <td>devuser</td>
-                <td>2025-06-24</td>
-                <td>36</td>
-            </tr>
+            <tbody id="postListBody">
+            <!-- JavaScript로 동적으로 채움 -->
             </tbody>
+
         </table>
 
-        <div class="pagination">
-            <button class="pagination-btn active">1</button>
-            <button class="pagination-btn">2</button>
-            <button class="pagination-btn">3</button>
-        </div>
+        <div id="paginationContainer" class="pagination"></div>
+
     </section>
 </div>
 <script src="/js/community/board-list.js"></script>
+<script src="/js/community/pagination.js"></script>

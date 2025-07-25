@@ -12,7 +12,8 @@
         <select id="selectEmployerProfiles" resultType="EmployerProfilesVO">
             SELECT
                 ep.*,
-                u.name AS ceo_name
+                u.name AS ceo_name,
+                u.profile_image
             FROM employer_profiles ep
                  JOIN users u ON ep.user_id = u.id
             WHERE ep.user_id = #{userId}
@@ -63,5 +64,17 @@
         LIMIT 10;
     </select>
 
+    <update id="updateProfileImage" parameterType="map">
+        UPDATE users
+        SET profile_image = #{storedName}
+        WHERE id = #{userId}
+    </update>
+
+    <select id="selectUserSystemInfo" resultType="UserVO">
+        SELECT id, login_type, email_verified, warning_count, create_at, updated_at
+
+        FROM users
+        WHERE id = #{userId}
+    </select>
 
 </mapper>

@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.mapper.admin.AdminPostMapper;
-import org.wit.hrmatching.vo.JobPostVO;
+import org.wit.hrmatching.vo.job.JobPostVO;
 
 import java.util.HashMap;
 import java.util.List;

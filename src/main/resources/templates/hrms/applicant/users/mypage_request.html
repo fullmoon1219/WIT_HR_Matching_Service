@@ -1,0 +1,56 @@
+<div layout:decorate="~{layout/user/user-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/employer/profile.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        <link rel="stylesheet" href="/css/applicant/request.css">
+    </th:block>
+
+    <section layout:fragment="content">
+
+        <div class="request-container">
+            <div class="request-box">
+                <div class="content-wrapper">
+                    <h2>문의사항</h2>
+                    <div class="request-header">
+                        <span>내 문의 목록</span>
+                        <div>
+                            <select name="sort" id="sort-order">
+                                <option value="latest">답변대기</option>
+                                <option value="oldest">답변완료</option>
+                            </select>
+                            <input type="text" id="searchKeyword" placeholder="검색">
+                            <button id="searchBtn">검색</button>
+                            <button id="resetBtn">초기화</button>
+                        </div>
+                    </div>
+
+                    <table class="request-table">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>문의사유</th>
+                            <th>제목</th>
+                            <th>작성일</th>
+                            <th>상태</th>
+                            <th>답변등록일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="paginationContainer" class="pagination"></div>
+
+                <div class="inquiry-button-wrapper">
+                    <button id="inquiryBtn">문의하기</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="/js/applicant/mypage/inquiries.js"></script>
+<script src="/js/community/pagination.js"></script>

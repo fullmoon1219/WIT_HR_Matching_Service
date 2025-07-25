@@ -1,19 +1,23 @@
-/* /css/employer/profile.css */
-
-.profile-table-container {
-    margin-top: 30px;
-    border: 1px solid #dee2e6;
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 10px;
+/* ✅ 기업 정보·지원자 테이블 외곽 박스 (전체 컨테이너 박스) */
+.profile-table-container,
+.applicant-table-container {
+    max-width: 1400px;              /* 전체 가로폭 제한 */
+    margin: 20px auto;              /* 상하 여백 + 가운데 정렬 */
+    padding: 12px 24px 24px 24px;                  /* 내부 여백 */
+    background-color: #ffffff;      /* 흰 배경 */
+    border-radius: 10px;            /* 모서리 둥글게 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* 은은한 그림자 */
 }
 
-.profile-table-container .table-title {
-    font-size: 18px;
-    margin-bottom: 15px;
+/* ✅ 섹션 제목 (예: 📌 기업 기본 정보 등) */
+.table-title {
+    font-size: 25px;
+    font-weight: 600;
     color: #333;
+    margin-bottom: 10px;
 }
 
+/* ✅ 테이블 기본 틀 구조 */
 .profile-merged-table {
     width: 100%;
     border-collapse: collapse;
@@ -22,10 +26,24 @@
     table-layout: fixed;
 }
 
+/* ✅ 인라인 수정 중인 셀: 파란 배경 강조 */
+td[data-field].editing {
+    background-color: #eaf4ff !important;
+}
+
+/* ✅ 인라인 입력창 기본 스타일 (투명 배경 + 테두리 없음) */
+.inline-input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+/* ✅ 테이블 셀 공통 스타일 (본문 내용) */
 .profile-merged-table th,
 .profile-merged-table td {
     border: 1px solid #dee2e6;
-    padding: 10px 12px;
+    padding: 12px 14px;
     text-align: left;
     vertical-align: middle;
     overflow: hidden;
@@ -33,144 +51,104 @@
     white-space: nowrap;
 }
 
+/* ✅ 테이블 헤더 셀 (굵고 회색 배경) */
 .profile-merged-table th {
-    background-color: #f1f3f5;
+    background-color: #f5f6f7;
     font-weight: 600;
     color: #333;
 }
 
+/* ✅ 테이블 내 링크 스타일 */
 .profile-merged-table a {
     color: #007bff;
     text-decoration: none;
 }
-
 .profile-merged-table a:hover {
     text-decoration: underline;
 }
 
+/* ✅ 프로필 이미지 셀 (왼쪽 이미지 위치) */
 .profile-image-cell {
     width: 120px;
     text-align: center;
     background-color: #fff;
-    border-right: 1px solid #dee2e6;
 }
 
-.profile-image-cell img {
-    width: 80px;
-    height: 80px;
+/* ✅ 프로필 이미지 썸네일 스타일 */
+.profile-image-preview {
+    width: 120px;
+    height: 120px;
     object-fit: cover;
     border-radius: 50%;
     border: 1px solid #ccc;
-}
-
-td[data-field] {
-    height: 38px;
-    vertical-align: middle;
-    padding: 8px 12px;
-    min-width: 140px;
-    max-width: 100%;
-    box-sizing: border-box;
-    position: relative;
-    overflow: hidden;
-}
-
-/* ✅ 수정 중 셀 배경색 (연한 하늘색) */
-td[data-field].editing {
-    background-color: #eaf4ff !important;
-}
-
-td[data-field] input.inline-input {
     display: block;
-    height: 100%;
-    width: 100%;
-    font-size: inherit;
-    font-family: inherit;
-    padding: 0 6px;
-    margin: 0;
-    border: none;
-    background: none;
-    box-sizing: border-box;
-    outline: none;
+    margin: 0 auto 8px;
 }
 
-.inline-input {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
+/* ✅ 이미지 업로드 버튼 */
+.upload-button {
+    padding: 6px 12px;
     font-size: 14px;
+    background-color: #007bff;
+    color: white;
     border: none;
-    background-color: transparent;
-    box-sizing: border-box;
+    border-radius: 6px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
 }
 
-/* 상단 테이블 헤더 + 버튼 정렬 */
+/* ✅ 테이블 상단: 제목 + 수정 버튼 정렬 */
 .table-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 
-.table-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin: 0;
-}
-
-/* 버튼/입력창 정렬 */
+/* ✅ 수정/취소/비번변경/탈퇴 버튼 정렬 */
 .action-buttons {
     display: flex;
     gap: 8px;
     align-items: center;
 }
 
-/* 버튼 공통 스타일 */
+/* ✅ 공통 버튼 스타일 */
 .edit-button,
 .cancel-button,
-.password-edit-button {
+.password-edit-button,
+.user-delete-button {
     height: 32px;
     padding: 0 14px;
     font-size: 14px;
-    line-height: 32px;
-    white-space: nowrap;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
 }
 
+/* ✅ 수정 버튼 (파란색) */
 .edit-button {
     background-color: #007bff;
     color: white;
 }
-
 .edit-button:hover {
     background-color: #0056b3;
 }
 
-.cancel-button {
-    background-color: #dee2e6;
+/* ✅ 취소, 비번변경, 탈퇴 버튼 (회색 계열) */
+.cancel-button,
+.password-edit-button,
+.user-delete-button {
+    background-color: #e2e6ea;
     color: #333;
 }
-
-.cancel-button:hover {
-    background-color: #c1cbd6;
+.cancel-button:hover,
+.password-edit-button:hover,
+.user-delete-button:hover {
+    background-color: #cfd7df;
 }
 
-.password-edit-button {
-    background-color: #dee2e6;
-    color: #333;
-}
-
-.password-edit-button {
-    background-color: #c1cbd6;
-}
-
-/* 비밀번호 입력창 */
+/* ✅ 비밀번호 입력창 (작은 인풋 필드) */
 .password-input {
     height: 32px;
     padding: 6px 10px;
@@ -180,10 +158,25 @@ td[data-field] input.inline-input {
     box-sizing: border-box;
 }
 
-.applicant-table-container {
-    margin-top: 40px;
+/* ✅ 모달 안에 있는 버튼 스타일 통일 (확인, 변경 버튼 포함) */
+.modal-content button {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
+.modal-content button:hover {
+    background-color: #0056b3;
+}
+
+
+/* ✅ 지원자 상태 라벨 (합격/열람/미열람 등) */
 .status-label {
     display: inline-block;
     padding: 4px 8px;
@@ -192,7 +185,13 @@ td[data-field] input.inline-input {
     font-weight: 500;
     color: #fff;
 }
+.status-new     { background-color: #6c757d; }
+.status-read    { background-color: #17a2b8; }
+.status-pass    { background-color: #28a745; }
+.status-fail    { background-color: #dc3545; }
+.status-pending { background-color: #ffc107; }
 
+/* ✅ 공통 모달 팝업 전체 배경 (어두운 투명 배경) */
 .modal {
     position: fixed;
     top: 0; left: 0;
@@ -204,6 +203,7 @@ td[data-field] input.inline-input {
     z-index: 10000;
 }
 
+/* ✅ 모달 내부 컨텐츠 박스 */
 .modal-content {
     background: #fff;
     padding: 20px;
@@ -212,6 +212,7 @@ td[data-field] input.inline-input {
     position: relative;
 }
 
+/* ✅ 모달 input 필드 공통 스타일 */
 .modal-content input {
     width: 100%;
     margin-bottom: 10px;
@@ -219,6 +220,7 @@ td[data-field] input.inline-input {
     box-sizing: border-box;
 }
 
+/* ✅ 모달 닫기 버튼 (우측 상단 X) */
 .close-button {
     position: absolute;
     top: 10px;
@@ -226,10 +228,3 @@ td[data-field] input.inline-input {
     font-size: 18px;
     cursor: pointer;
 }
-
-
-.status-new    { background-color: #6c757d; }  /* 미열람 */
-.status-read   { background-color: #17a2b8; }  /* 열람 */
-.status-pass   { background-color: #28a745; }  /* 합격 */
-.status-fail   { background-color: #dc3545; }  /* 불합격 */
-.status-pending{ background-color: #ffc107; }  /* 대기 */

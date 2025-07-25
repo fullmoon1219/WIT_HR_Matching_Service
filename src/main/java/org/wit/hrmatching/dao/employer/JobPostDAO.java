@@ -3,8 +3,8 @@ package org.wit.hrmatching.dao.employer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.wit.hrmatching.mapper.employer.JobPostMapper;
-import org.wit.hrmatching.vo.ApplicantProfilesVO;
-import org.wit.hrmatching.vo.JobPostVO;
+import org.wit.hrmatching.vo.user.ApplicantProfilesVO;
+import org.wit.hrmatching.vo.job.JobPostVO;
 
 import java.util.List;
 

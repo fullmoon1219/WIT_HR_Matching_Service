@@ -1,7 +1,7 @@
 package org.wit.hrmatching.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.wit.hrmatching.vo.LoginHistoryVO;
+import org.wit.hrmatching.vo.user.LoginHistoryVO;
 
 @Mapper
 public interface LoginHistoryMapper {

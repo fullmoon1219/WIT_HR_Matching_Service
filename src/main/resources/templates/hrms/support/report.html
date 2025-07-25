@@ -1,0 +1,43 @@
+<!-- /templates/hrms/support/report.html -->
+
+<div layout:decorate="~{layout/support/support-template}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" href="/css/support/report.css">
+    </th:block>
+
+    <section layout:fragment="content">
+        <input type="hidden" name="reportType" th:value="${type}"/>
+        <input type="hidden" name="targetId" th:value="${targetId}"/>
+        <input type="hidden" name="reportedUserId" th:value="${reportedUserId}"/>
+
+        <span class="title">
+        <img src="/images/report.png" alt="노비 신고하기 배너">
+        </span>
+        <div class="report-form-container">
+
+            <form id="reportForm">
+                <div class="form-group">
+                    <label>신고 대상</label>
+                    <span th:if="${type != null and targetId != null}"
+                          th:text="${type + ' #' + targetId}"></span>
+                    <span th:unless="${type != null and targetId != null}">TYPE#ID</span>
+                </div>
+
+                <div class="form-group">
+                    <label>신고 제목</label>
+                    <input type="text" name="title" id="title" required>
+                </div>
+
+                <div class="form-group">
+                    <label>신고 내용</label>
+                    <textarea id="content" name="content" rows="6" required></textarea>
+                </div>
+
+                <button type="submit">신고 등록</button>
+            </form>
+        </div>
+    </section>
+</div>
+
+<script src="/js/support/report.js"></script>

@@ -25,55 +25,14 @@ function loadPostStats() {
 
 $(document).on("click", ".post-title", function () {
     const postId = $(this).data("id");
+    if (!postId) {
+        alert("유효하지 않은 공고 ID입니다.");
+        return;
+    }
 
-    $.ajax({
-        url: "/api/admin/posts",
-        method: "GET",
-        data: { id: postId, page: 1, size: 1 },
-        success: function (response) {
-            if (!response.content || response.content.length === 0) {
-                openFloatingSidebar("<p>공고 정보를 찾을 수 없습니다.</p>");
-                return;
-            }
-
-            const r = response.content[0];
-            const deleted = r.deletedAt ? '삭제됨' : '-';
-            const createdAt = r.createAt ? r.createAt.split("T")[0] : '-';
-            const updatedAt = r.updatedAt ? r.updatedAt.split("T")[0] : '-';
-
-            const contentHtml = `
-                <div class="post-detail">
-                    <h2>공고 상세 정보</h2>
-                    <table class="post-detail-table">
-                        <tbody>
-                            <tr><th>공고 ID</th><td>${r.id}</td></tr>
-                            <tr><th>작성자 ID</th><td>${r.userId}</td></tr>
-                            <tr><th>회사명</th><td>${r.companyName || '-'}</td></tr>
-                            <tr><th>제목</th><td>${r.title || '-'}</td></tr>
-                            <tr><th>설명</th><td>${r.description || '-'}</td></tr>
-                            <tr><th>요구 기술</th><td>${r.requiredSkills || '-'}</td></tr>
-                            <tr><th>근무 형태</th><td>${r.employmentType || '-'}</td></tr>
-                            <tr><th>지역</th><td>${r.location || '-'}</td></tr>
-                            <tr><th>연봉</th><td>${r.salary ? r.salary + "만원" : '-'}</td></tr>
-                            <tr><th>마감일</th><td>${r.deadline || '-'}</td></tr>
-                            <tr><th>직무 카테고리</th><td>${r.jobCategory || '-'}</td></tr>
-                            <tr><th>조회수</th><td>${r.viewCount}</td></tr>
-                            <tr><th>북마크 수</th><td>${r.bookmarkCount}</td></tr>
-                            <tr><th>작성일</th><td>${createdAt}</td></tr>
-                            <tr><th>수정일</th><td>${updatedAt}</td></tr>
-                            <tr><th>삭제 여부</th><td style="color: red;">${deleted}</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            `;
-
-            openFloatingSidebar(contentHtml);
-        },
-        error: function () {
-            openFloatingSidebar("<p>공고 상세 정보를 불러오지 못했습니다.</p>");
-        }
-    });
+    window.location.href = `/recruit/view/${postId}`;
 });
+
 
 $(document).on("click", ".post-name", function () {
     const userId = $(this).data("userid");

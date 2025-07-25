@@ -3,7 +3,7 @@ package org.wit.hrmatching.service.applicant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wit.hrmatching.dao.applicant.ApplicationDAO;
-import org.wit.hrmatching.vo.ApplicationDetailVO;
+import org.wit.hrmatching.vo.application.ApplicationDetailVO;
 import org.wit.hrmatching.vo.applicantPaging.PageResponseVO;
 import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
 
@@ -34,5 +34,9 @@ public class ApplicationService {
 
 	public ApplicationDetailVO getApplication(long applicationId) {
 		return applicationDAO.getApplication(applicationId);
+	}
+
+	public Long findOwnerIdByApplicationId(long applicationId) {
+		return applicationDAO.findOwnerIdByApplicationId(applicationId);
 	}
 }

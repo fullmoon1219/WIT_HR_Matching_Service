@@ -11,8 +11,8 @@ import org.wit.hrmatching.dto.login.UserRegisterDTO;
 import org.wit.hrmatching.service.UserService;
 import org.wit.hrmatching.service.auth.AuthService;
 import org.wit.hrmatching.service.auth.oAuth2.CustomOAuth2DisconnectService;
-import org.wit.hrmatching.vo.CustomUserDetails;
-import org.wit.hrmatching.vo.UserVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -108,5 +108,11 @@ public class UserAuthRestController {
 
         boolean exists = userService.emailExists(email);
         return ResponseEntity.ok(Map.of("exists", exists));
+    }
+
+    @PostMapping("/resend-verification")
+    public ResponseEntity<?> resendVerification(@RequestParam String email) {
+        authService.resendVerificationEmail(email);
+        return ResponseEntity.ok("인증 메일이 재전송되었습니다.");
     }
 }

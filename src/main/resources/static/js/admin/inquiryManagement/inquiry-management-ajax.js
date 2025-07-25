@@ -3,7 +3,36 @@
 $(document).ready(function () {
     loadInquiryStats();
     loadInquiryList(1);
+    loadReasonFilters();
 });
+
+function loadReasonFilters() {
+    $.ajax({
+        url: '/api/admin/inquiries/reasons',
+        method: 'GET',
+        success: function (reasons) {
+            const container = $('[data-type="reasonId"]');
+            container.empty();
+
+            container.append(`<button class="default" data-value="">전체</button>`);
+
+            reasons.forEach(reason => {
+                container.append(`
+                    <button class="reason-${reason.id}" data-value="${reason.id}">
+                        ${reason.name}
+                    </button>
+                `);
+            });
+
+            const selectedValue = currentFilters.reasonId;
+            if (selectedValue) {
+                container.find(`button[data-value="${selectedValue}"]`).addClass('selected');
+            }
+        }
+    });
+}
+
+
 
 function loadInquiryStats() {
     $.ajax({
@@ -32,7 +61,8 @@ function loadInquiryList(page = 1, filters = currentFilters) {
     const query = $.param({
         page: page,
         status: filters.status,
-        keyword: filters.keyword
+        keyword: filters.keyword,
+        reasonId: filters.reasonId
     });
 
     $.ajax({
@@ -49,6 +79,7 @@ function loadInquiryList(page = 1, filters = currentFilters) {
                     <tr>
                         <td><input type="checkbox" class="inquiry-checkbox" value="${inquiry.id}"></td>
                         <td>${inquiry.id}</td>
+                        <td>${inquiry.reasonName ?? '-'}</td>
                         <td>${inquiry.title}</td>
                         <td>${inquiry.name}</td>
                         <td>${inquiry.email}</td>

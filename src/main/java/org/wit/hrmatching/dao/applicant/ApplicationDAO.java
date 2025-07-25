@@ -3,7 +3,7 @@ package org.wit.hrmatching.dao.applicant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.wit.hrmatching.mapper.applicant.ApplicationMapper;
-import org.wit.hrmatching.vo.ApplicationDetailVO;
+import org.wit.hrmatching.vo.application.ApplicationDetailVO;
 import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
 
 import java.util.List;
@@ -28,5 +28,13 @@ public class ApplicationDAO {
 
 	public ApplicationDetailVO getApplication(long applicationId) {
 		return applicationMapper.selectApplication(applicationId);
+	}
+
+	public Long findOwnerIdByApplicationId(long applicationId) {
+		return applicationMapper.findUserIdByApplicationId(applicationId);
+	}
+
+	public List<ApplicationDetailVO> getRecentApplicationsForDashboard(long userId) {
+		return applicationMapper.selectRecentApplicationsForDashboard(userId);
 	}
 }

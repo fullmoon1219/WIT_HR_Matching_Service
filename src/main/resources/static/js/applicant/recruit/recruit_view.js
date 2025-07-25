@@ -3,70 +3,139 @@
 $(document).ready(function () {
 
 	const jobPostId = getIdFromUrl();
+	let userInfo = null;
 
-	$.ajax({
+	const recruitAjax = $.ajax({
 		url: `/api/recruit/${jobPostId}`,
-		method: 'GET',
-		success: function (data) {
+		method: 'GET'
+	});
 
-			const jobPost = data.jobPost;
-			const employer = data.employer;
-			const isApplied = data.isApplied;
-			const isBookmarked = data.isBookmarked;
+	const techStackAjax = $.ajax({
+		url: '/api/tech-stacks',
+		method: 'GET'
+	});
 
-			$('#title').text(jobPost.title);
-			$('#description').text(jobPost.description);
-			$('#requiredSkills').text(jobPost.requiredSkills);
-			$('#employmentType').text(translateEmploymentType(jobPost.employmentType));
-			$('#jobCategory').text(jobPost.jobCategory);
-			$('#salary').text(jobPost.salary);
-			$('#location').text(jobPost.location);
-			$('#deadline').text(jobPost.deadline);
-			$('#createAt').text(jobPost.createAt);
-			$('#viewCount').text(jobPost.viewCount);
-			$('#bookmarkCount').text(jobPost.bookmarkCount);
+	$.when(recruitAjax, techStackAjax).done(function(recruitResponse, techStackResponse) {
 
-			$('#companyName').text(employer.companyName);
-			$('#address').text(employer.address);
-			$('#phoneNumber').text(employer.phoneNumber);
-			$('#homepageUrl').text(employer.homepageUrl);
-			$('#industry').text(employer.industry);
-			$('#companySize').text(employer.companySize);
+		const data = recruitResponse[0];
+		const techStacks = techStackResponse[0];
 
-			if (isApplied === true) {
+		const jobPost = data.jobPost;
+		const employer = data.employer;
+		const isApplied = data.isApplied;
+		const isBookmarked = data.isBookmarked;
+		userInfo = data.userInfo;
 
-				$('#applyBtn')
-					.prop('disabled', true)     // 버튼 비활성
-					.text('지원 완료')            		// 버튼 내용 수정
-					.addClass('applied-style');		// 지원 완료 상태에서 스타일 적용을 위한 클래스
-			}
+		const skillMap = {};
+		if (techStacks) {
+			techStacks.forEach(stack => {
+				skillMap[stack.id] = stack.name;
+			});
+		}
 
-			if (isBookmarked === true) {
+		let type = translateExperienceType(jobPost.experienceType);
+		let years = jobPost.experienceYears;
 
-				// 스크랩 부분 버튼에서 이모지는 디자인 시 바꿔야함(현재 임시)
-				$('#scrapBtn')
-					.addClass('active')
-					.html('&#9733; 스크랩 완료');
-			}
+		function fallbackText(value, fallback = '-') {
+			return value ? value : fallback;
+		}
 
-		},
-		error: function (xhr) {
-			if (xhr.status === 403) {
-				location.href = '/error/access-denied';
-			} else if (xhr.status === 404) {
-				location.href = '/error/not-found';
-			} else {
-				location.href = '/error/db-access-denied';
-				console.error(xhr);
-			}
+		// 화면 표시 로직
+		$('#title').text(fallbackText(jobPost.title));
+		$('#description').html(jobPost.description ? jobPost.description : '상세 정보가 없습니다');
+		$('#employmentType').text(fallbackText(translateEmploymentType(jobPost.employmentType)));
+		$('#jobCategory').text(fallbackText(jobPost.jobCategory));
+		$('#salary').text(fallbackText(jobPost.salary));
+		$('#location').text(fallbackText(jobPost.location));
+		$('#deadline').text(fallbackText(jobPost.deadline));
+		$('#createAt').text(fallbackText(jobPost.createAt));
+		$('#viewCount').text(fallbackText(jobPost.viewCount));
+		$('#bookmarkCount').text(fallbackText(jobPost.bookmarkCount));
+
+		let experienceText = type;
+		if (type !== "신입" && years && years > 0) {
+			experienceText += ` (${years}년)`;
+		}
+		$('#experience').text(fallbackText(experienceText));
+
+		$('#workplaceAddress').text(fallbackText(jobPost.workplaceAddress));
+
+		$('#headerCompanyName').text(fallbackText(employer.companyName));
+		$('#companyName').text(fallbackText(employer.companyName));
+		$('#address').text(fallbackText(employer.address));
+		$('#phoneNumber').text(fallbackText(employer.phoneNumber));
+		$('#homepageUrl').text(fallbackText(employer.homepageUrl));
+		$('#industry').text(fallbackText(employer.industry));
+		$('#companySize').text(fallbackText(employer.companySize));
+		$('#employerEmail').text(fallbackText(employer.email));
+
+		$('#reportTargetId').val(jobPost.id);
+		$('#reportUserId').val(jobPost.userId);
+
+		if (jobPost.requiredSkills) {
+			const skillNames = jobPost.requiredSkills.split(',')
+				.map(id => skillMap[id.trim()] || id.trim())
+				.join(', ');
+			$('#requiredSkills').text(skillNames);
+		} else {
+			$('#requiredSkills').text('-');
+		}
+
+		if (isApplied === true) {
+			$('#applyBtn')
+				.prop('disabled', true)     // 버튼 비활성
+				.text('지원 완료')            		// 버튼 내용 수정
+				.addClass('applied-style');		// 지원 완료 상태에서 스타일 적용을 위한 클래스
+		}
+
+		if (isBookmarked === true) {
+			// 스크랩 부분 버튼에서 이모지는 디자인 시 바꿔야함(현재 임시)
+			$('#scrapBtn')
+				.addClass('active')
+				.html('&#9733; 스크랩 완료');
+		}
+
+	}).fail(function (xhr) {
+		if (xhr.status === 403) {
+			location.href = '/error/access-denied';
+		} else if (xhr.status === 404) {
+			location.href = '/error/not-found';
+		} else {
+			alert('공고 정보를 불러오기에 실패했습니다. 나중에 다시 시도해주세요.');
+			console.error(xhr);
 		}
 	});
 
 	$('#applyBtn').on('click', function () {
+
+		// 사용자 권환 확인 후 안내
+		if (!userInfo || !userInfo.isLoggedIn) {
+			if (confirm('로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?')) {
+				window.open('/users/login', '_blank');
+			}
+			return;
+		}
+		if (userInfo.role !== 'APPLICANT') {
+			alert('개인 회원만 사용할 수 있는 기능입니다.');
+			return;
+		}
+
 		location.href = `/applicant/applications/apply/${jobPostId}`;
 	});
 
 	$('#scrapBtn').on('click', function () {
+
+		// 사용자 권환 확인 후 안내
+		if (!userInfo || !userInfo.isLoggedIn) {
+			if (confirm('로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?')) {
+				window.open('/users/login', '_blank');
+			}
+			return;
+		}
+		if (userInfo.role !== 'APPLICANT') {
+			alert('개인 회원만 사용할 수 있는 기능입니다.');
+			return;
+		}
 
 		const button = $(this);
 		let method = '';
@@ -113,7 +182,9 @@ $(document).ready(function () {
 			},
 			error: function (xhr) {
 				if (xhr.status === 403) {
-					location.href = '/error/access-denied';
+					if (confirm('로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?')) {
+						window.open('/users/login', '_blank');
+					}
 				} else if (xhr.status === 404) {
 					location.href = '/error/not-found';
 				} else {
@@ -124,3 +195,29 @@ $(document).ready(function () {
 		});
 	});
 });
+
+function initWorkplaceMap() {
+	const address = document.getElementById('workplaceAddress')?.textContent?.trim();
+	if (!window.kakao || !kakao.maps || !address) return;
+
+	const mapContainer = document.getElementById('map');
+	if (!mapContainer) return;
+
+	const mapOption = {
+		center: new kakao.maps.LatLng(37.5665, 126.9780), // 서울 기본 위치
+		level: 3
+	};
+
+	const map = new kakao.maps.Map(mapContainer, mapOption);
+	const geocoder = new kakao.maps.services.Geocoder();
+
+	geocoder.addressSearch(address, function (result, status) {
+		if (status === kakao.maps.services.Status.OK) {
+			const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+			new kakao.maps.Marker({ map, position: coords });
+			map.setCenter(coords);
+		} else {
+			console.warn("카카오 주소 검색 실패:", status);
+		}
+	});
+}

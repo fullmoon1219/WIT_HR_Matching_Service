@@ -1,12 +1,9 @@
-// /js/employer/profile.js
-
 $(document).ready(function () {
     let isEditing = false;
     const $fields = $('td[data-field]');
     const originalValues = {};
 
     $('#editButton').on('click', function () {
-        //편집 모드
         const $button = $(this);
 
         if (!isEditing) {
@@ -27,14 +24,12 @@ $(document).ready(function () {
             isEditing = true;
 
         } else {
-            // 비밀번호 입력하지 않았을때 return
             const password = $('#confirmPassword').val().trim();
             if (!password) {
                 alert('비밀번호를 입력해주세요.');
                 return;
             }
 
-            //비밀번호 입력했을 때
             const updatedData = {};
             $fields.each(function () {
                 const $td = $(this);
@@ -44,17 +39,14 @@ $(document).ready(function () {
             });
             updatedData.password = password;
 
-
-            // 서버로 수정 요청
             $.ajax({
                 type: 'POST',
                 url: '/employer/profile/edit',
                 contentType: 'application/json',
                 data: JSON.stringify(updatedData),
                 success: function () {
-                    alert('기업 정보가 성공적으로 수정되었습니다.');
+                    showFlashMessage('success', '프로필이 성공적으로 업데이트되었습니다.');
 
-                    // 화면에 새 데이터 반영
                     $fields.each(function () {
                         const $td = $(this);
                         const field = $td.data('field');
@@ -75,7 +67,7 @@ $(document).ready(function () {
                 },
                 error: function (xhr) {
                     const message = xhr.responseText || '수정 중 오류가 발생했습니다.';
-                    alert(message);
+                    showFlashMessage('error', message);
                 }
             });
         }
@@ -101,7 +93,6 @@ $(document).ready(function () {
         isEditing = false;
     });
 
-    // ✅ 비밀번호 변경 모달 처리
     $('#password-edit-button').on('click', function () {
         $('#passwordModal').fadeIn();
     });
@@ -141,7 +132,7 @@ $(document).ready(function () {
             alert('새 비밀번호는 6자 이상이어야 합니다.');
             return;
         }
-        console.log(newPassword +"//"+ confirmPassword)
+
         if (newPassword !== confirmPassword) {
             alert('새 비밀번호가 일치하지 않습니다.');
             return;
@@ -169,4 +160,72 @@ $(document).ready(function () {
         $('#step2').hide();
     }
 
+    $('#uploadImageButton').on('click', function () {
+        $('#profileImageInput').click();
+    });
+
+    $('#profileImageInput').on('change', function () {
+        const formData = new FormData();
+        formData.append("profileImage", this.files[0]);
+
+        const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+        fetch("/employer/profile/image-upload", {
+            method: "POST",
+            headers: {
+                [csrfHeader]: csrfToken
+            },
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) throw new Error("이미지 업로드 실패");
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    const timestamp = new Date().getTime();
+                    const newImage = $('<img>', {
+                        id: 'profileImagePreview',
+                        src: data.imageUrl + '?t=' + timestamp,
+                        alt: '기업 프로필 이미지',
+                        class: 'profile-image-preview'
+                    });
+                    $('#profileImagePreview').replaceWith(newImage);
+                    alert("이미지 업로드가 완료되었습니다!");
+                    location.reload(true); // ✅ 새로고침
+                } else {
+                    alert("업로드 실패: " + data.message);
+                }
+            })
+
+            .catch(err => {
+                console.error(err);
+                alert("이미지 업로드 중 오류가 발생했습니다.");
+            });
+    });
+
+    // ✅ 메시지 출력 함수 추가
+    function showFlashMessage(type, message) {
+        const $container = $('.flash-message-container');
+        const $success = $container.find('.alert-success');
+        const $error = $container.find('.alert-danger');
+
+        $success.hide();
+        $error.hide();
+
+        if (type === 'success') {
+            $success.find('p').text(message);
+            $success.show();
+        } else if (type === 'error') {
+            $error.find('p').text(message);
+            $error.show();
+        }
+
+        $container.show();
+
+        setTimeout(() => {
+            $container.fadeOut();
+        }, 3000);
+    }
 });

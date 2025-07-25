@@ -1,0 +1,71 @@
+/* /css/support/inquiry.css */
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.inquiry-form-container {
+    width: 600px;
+    margin: 50px auto;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.title img {
+    width: 1200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+input[type="text"],
+select,
+textarea {
+    box-sizing: border-box;
+    width: 600px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+input[type="text"],
+select {
+    height: 40px;
+}
+
+textarea {
+    resize: none;
+    height: 300px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}

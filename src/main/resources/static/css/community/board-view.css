@@ -37,13 +37,13 @@
 }
 
 .post-title {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 600;
     margin-bottom: 8px;
 }
 
 .post-meta {
-    font-size: 13px;
+    font-size: 14px;
     color: #666;
 }
 
@@ -311,5 +311,95 @@ hr {
 }
 
 .comment-actions a:hover {
+    text-decoration: underline;
+}
+
+.post-content img {
+    max-width: 40%;
+    height: auto;
+    display: block;
+    margin: 10px 0;
+}
+
+.edit-btn,
+.delete-btn {
+    display: none;
+}
+
+.heart-icon {
+    cursor: pointer;
+    color: gray;
+    transition: color 0.2s ease;
+}
+
+.heart-icon.liked {
+    color: red;
+}
+
+.reply-toggle {
+    color: #007bff;
+    cursor: pointer;
+    margin-left: 60px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.replies {
+    margin-left: 60px;
+    border-left: 2px solid #eee;
+    padding-left: 10px;
+}
+
+.comments-show-more,
+.replies-show-more {
+    cursor: pointer;
+    color: #007bff;
+    font-size: 14px;
+    margin: 10px 0 10px 60px;
+}
+
+a.like-button {
+    color: gray !important;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+a.like-button.liked {
+    color: red !important;
+}
+
+.deleted {
+    color: #999;
+    font-style: italic;
+}
+
+a.report-button {
+    color: gray !important;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    margin-left: 6px;
+}
+
+a.report-button:hover {
+    color: red !important;
+}
+
+/* 신고 버튼 스타일 (like-button과 통일) */
+.report-button {
+    background: none;
+    border: none;
+    color: gray !important;
+    font-size: 12px;
+    margin-left: 8px;
+    cursor: pointer;
+    padding: 0;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.report-button:hover {
+    color: red !important;
     text-decoration: underline;
 }

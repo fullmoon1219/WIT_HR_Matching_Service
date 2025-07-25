@@ -7,12 +7,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.wit.hrmatching.exception.DuplicateApplicationException;
 import org.wit.hrmatching.service.applicant.BookmarkService;
 import org.wit.hrmatching.service.applicant.RecruitService;
 import org.wit.hrmatching.service.applicant.ResumeService;
-import org.wit.hrmatching.vo.*;
 import org.wit.hrmatching.vo.applicantPaging.PageResponseVO;
 import org.wit.hrmatching.vo.applicantPaging.SearchCriteria;
+import org.wit.hrmatching.vo.application.ApplicationsVO;
+import org.wit.hrmatching.vo.job.JobPostVO;
+import org.wit.hrmatching.vo.job.RecruitListVO;
+import org.wit.hrmatching.vo.user.CustomUserDetails;
+import org.wit.hrmatching.vo.user.EmployerProfilesVO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +46,13 @@ public class RecruitRestController {
 			session.setAttribute(key, now);
 		}
 
-		JobPostVO jobPost = recruitService.viewRecruit(jobPostId);
+		boolean isAdmin = false;
+		if (userDetails != null && userDetails.getAuthorities().stream()
+				.anyMatch(auth -> auth.getAuthority().equals("ADMIN"))) {
+			isAdmin = true;
+		}
+
+		JobPostVO jobPost = recruitService.viewRecruit(jobPostId, isAdmin);
 		if (jobPost == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -69,6 +80,18 @@ public class RecruitRestController {
 			response.put("employer", new EmployerProfilesVO());
 		}
 
+		Map<String, Object> userInfo = new HashMap<>();
+		if (userDetails != null) {
+			// 사용자가 로그인한 경우
+			userInfo.put("isLoggedIn", true);
+			userInfo.put("role", userDetails.getAuthorities().iterator().next().getAuthority());
+		} else {
+			// 사용자가 로그인하지 않은 경우
+			userInfo.put("isLoggedIn", false);
+			userInfo.put("role", null);
+		}
+		response.put("userInfo", userInfo);
+
 		return ResponseEntity.ok(response);
 	}
 
@@ -76,7 +99,13 @@ public class RecruitRestController {
 	public ResponseEntity<Map<String, Object>> getJobPostSummary(@PathVariable long jobPostId,
 																 @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-		Map<String, Object> summary = recruitService.getJobPostSummary(jobPostId);
+		boolean isAdmin = false;
+		if (userDetails != null && userDetails.getAuthorities().stream()
+				.anyMatch(auth -> auth.getAuthority().equals("ADMIN"))) {
+			isAdmin = true;
+		}
+
+		Map<String, Object> summary = recruitService.getJobPostSummary(jobPostId, isAdmin);
 		if (summary == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -106,14 +135,17 @@ public class RecruitRestController {
 		long userId = userDetails.getId();
 		long resumeId = application.getResumeId();
 
-		int result = recruitService.applyApplication(userId, jobPostId, resumeId);
-
-		if (result == 0) {
+		try {
+			recruitService.applyApplication(userId, jobPostId, resumeId);
 			return ResponseEntity.ok().build();
-		} else if (result == 1) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+		} catch (DuplicateApplicationException e) {
+			// 서비스에서 '중복 지원 예외'가 발생
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+
+		} catch (RuntimeException e) {
+			// 그 외 다른 예외(DB 오류 등)가 발생
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 	}
 
