@@ -68,6 +68,7 @@ $(document).ready(function () {
 		$('#desiredPosition').text(resumeData.desiredPosition);
 		$('#motivation').text(resumeData.motivation);
 		$('#createAt').text(resumeData.createAt);
+		$("#resumeId").attr("data-resume-id", resumeData.id);
 
 		if (resumeData.skills) {
 			const skillNames = resumeData.skills.split(',')
@@ -132,4 +133,52 @@ $(document).ready(function () {
 			});
 		}
 	})
+
+	$(document).on('click', '.ai-info-button', function () {
+		const resumeId = $(this).data('resume-id');
+
+		// 상태 출력 및 버튼 숨김
+		$(".ai-info-text").text("이력서를 분석하는 중입니다...").show();
+		$(this).hide();
+
+		$.ajax({
+			url: "/api/ai/resumes/analyze",
+			method: "POST",
+			contentType: "application/json",
+			data: JSON.stringify({ resumeId: resumeId }),
+			success: function (response) {
+				console.log("AI 분석 결과:", response);
+
+				// 각 항목 추출
+				const score = response.score ?? 'N/A';
+				const strengths = response.strengths || '강점 없음';
+				const weaknesses = Array.isArray(response.weaknesses)
+					? response.weaknesses.map((w, i) => `<li>${i + 1}. ${w}</li>`).join('')
+					: '<li>보완점 없음</li>';
+				const comment = response.comment || '분석 코멘트가 없습니다.';
+
+				// HTML 구성
+				const resultHtml = `
+                <div class="ai-review-result">
+                    <p><strong>💯 종합 점수:</strong> ${score}점</p>
+                    <p><strong>💪 강점:</strong> ${strengths}</p>
+                    <p><strong>🛠 보완점:</strong></p>
+                    <ul>${weaknesses}</ul>
+                    <p><strong>📝 총평:</strong> ${comment}</p>
+                </div>
+            `;
+
+				// 결과 출력
+				$("#ai-review").html(resultHtml);
+				$(".ai-info-text").hide();
+			},
+			error: function (xhr) {
+				$("#ai-review").text("AI 분석에 실패했습니다.");
+				$(".ai-info-text").hide();
+			}
+		});
+	});
+
+
+
 });
