@@ -13,7 +13,7 @@ public class SearchCriteria {
 	private String keyword;       			// 검색어
 	private String regionKeyword;			// 지역 전용 검색어
 	private List<String> status;  			// 지원 상태 필터링 (예: 'APPLIED', 'ACCEPTED')
-	private String region;          		// 지역 필터
+	private List<String> region;          	// 지역 필터
 	private List<String> techStacks;    	// 기술 스택 필터 (다중 선택)
 	private String sortOrder;     			// 정렬 순서 (예: 'latest', 'deadline')
 	private List<String> employmentTypes;	// 고용 형태 필터 (다중 선택)
