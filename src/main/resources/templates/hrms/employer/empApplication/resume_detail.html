@@ -63,13 +63,15 @@
     </div>
 
     <div class="applicant-profile-container">
-        <div class="ai-info-header">
-            <p class="ai-info-text">지금 버튼을 누르고 지원자의 AI 정보를 확인하세요</p>
-            <button class="ai-info-button" th:data-resume-id="${resume.id}">🤖AI 정보 보기</button>
-        </div>
+        <h3>📍 Ai 분석</h3>
 
-        <!-- 결과 출력 영역 -->
-        <div id="ai-review" class="ai-info-result" style="margin-top: 15px;"></div>
+        <div class="review-container">
+            <div class="button-container">
+                <button class="ai-info-button" th:data-resume-id="${resume.id}">🤖AI 요약 내용</button>
+                <p class="ai-info-text">지금 버튼을 누르고 지원자의 요약된 이력서 내용을 확인하세요</p>
+            </div>
+            <div id="ai-review" class="ai-info-result" style="margin-top: 15px;"></div>
+        </div>
     </div>
 
     <div class="additional-info-section">
