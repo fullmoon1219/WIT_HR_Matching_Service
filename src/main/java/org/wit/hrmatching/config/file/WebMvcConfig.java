@@ -19,7 +19,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/uploads/posts/**")
                 .addResourceLocations("file:///" + postImageDir);
 
-        // ✅ 프로필 이미지 추가
         registry.addResourceHandler("/uploads/users/profile/**")
                 .addResourceLocations("file:///" + userProfileImgDir);
     }

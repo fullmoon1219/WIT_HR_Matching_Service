@@ -94,14 +94,31 @@
     background-color: #fff;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
+    transition: all 0.2s ease-in-out;
 }
 
 /* hover 효과 */
 #searchBtn:hover, #resetBtn:hover {
-    background-color: #007bff;
+    background-color: #4A90E2;
     color: #fff;
-    border-color: #007bff;
+    border-color: #4A90E2;
+}
+
+.recommend-table .delete-bookmark-btn {
+    padding: 5px 12px;
+    border: 1px solid #ced4da;
+    background-color: #ffffff;
+    color: #495057;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.recommend-table .delete-bookmark-btn:hover {
+    background-color: #f1f3f5;
+    border-color: #adb5bd;
 }
 
 /* ---------------- 페이징 디자인 ---------------- */

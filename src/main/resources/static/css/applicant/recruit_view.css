@@ -1,23 +1,35 @@
+/* === 전체 페이지 기본 설정 === */
 body {
     font-family: 'Noto Sans KR', sans-serif;
     background-color: #f5f6f8;
     margin: 0;
+    font-size: 15px;
+    color: #222;
+    line-height: 1.5;
 }
 
+.recruit-wrapper p,
+.recruit-wrapper span,
+.recruit-wrapper label,
+.recruit-wrapper div {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+
+/* === 메인 컨테이너 박스 설정 === */
 .recruit-wrapper {
     background-color: #fff;
     border-radius: 8px;
-    padding: 24px;
+    padding: 40px 36px 24px;
     box-sizing: border-box;
     max-width: 1000px;
     margin: 0 auto;
 }
 
-.section-block {
-    padding: 20px 0;
-    border-bottom: 1px solid #ddd;
-}
 
+/* === 공고 제목 및 버튼 영역 설정 === */
 .recruit-title-section {
     display: flex;
     justify-content: space-between;
@@ -32,6 +44,7 @@ body {
     margin-bottom: 4px;
 }
 
+.recruit-wrapper h2,
 h2 {
     font-size: 24px;
     font-weight: 700;
@@ -44,8 +57,10 @@ h2 {
     gap: 8px;
 }
 
+
+/* === 기본 버튼 스타일 === */
 .btn-primary {
-    background-color: #007bff;
+    background-color: #4A89DC;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -56,45 +71,131 @@ h2 {
 
 .btn-secondary {
     background-color: #fff;
-    color: #007bff;
-    border: 1px solid #007bff;
+    color: #4A89DC;
+    border: 1px solid #4A89DC;
     border-radius: 4px;
     padding: 8px 16px;
     font-size: 14px;
     cursor: pointer;
 }
 
-h3 {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 0 0 12px 0;
-    color: #333;
+.btn-primary:hover {
+    background-color: #3A73BE;
 }
 
+.btn-secondary:hover {
+    background-color: #4A89DC;
+    color: #fff;
+}
+
+.btn-primary.applied-style {
+    background-color: #ccc;
+    color: #666;
+    cursor: default;
+    pointer-events: none;
+    border: none;
+}
+
+.btn-primary.applied-style:hover {
+    background-color: #ccc;
+    color: #666;
+}
+
+/* 목록 돌아가기용 버튼 (작은 버튼) */
+.btn-secondary-small {
+    background-color: #fff;
+    color: #4A89DC;
+    border: 1px solid #4A89DC;
+    border-radius: 4px;
+    padding: 8px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary-small:hover {
+    background-color: #4A89DC;
+    color: #fff;
+}
+
+.back-button-wrapper {
+    max-width: 1000px;
+    margin: 0 auto 10px auto;
+}
+
+
+/* === 섹션 제목 및 구분 스타일 === */
+.recruit-wrapper h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+    border-left: 4px solid #4A89DC;
+    padding-left: 12px;
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+.section-block {
+    padding: 32px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.section-pair {
+    display: flex;
+    justify-content: space-between;
+    gap: 48px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid #ddd;
+}
+.section-pair .section-block {
+    flex: 1;
+    border-bottom: none;
+}
+
+
+/* === 상세 정보 행 및 항목 스타일 === */
 .job-detail-row {
+    display: grid;
+    gap: 12px 24px;
+    margin-top: 12px;
+}
+
+.job-detail-item {
+    display: flex;
+    align-items: baseline;
+    font-size: 15px;
+    color: #222;
+    line-height: 1.5;
+}
+
+.job-detail-item .label {
+    width: 72px;
+    flex-shrink: 0;
+    color: #999;
+    font-weight: 400;
+    margin-right: 22px;
+}
+
+.job-detail-item .value {
+    color: #222;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.section-block.two-line .job-detail-row {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px 24px;
 }
 
-.job-detail-item {
-    display: flex;
-    flex-direction: column;
-    font-size: 16px;
+.section-block.two-line .job-detail-item .label {
+    width: 100px;
 }
 
-.job-detail-item .label {
-    color: #777;
-    font-size: 15px;
-    margin-bottom: 4px;
-}
 
-.job-detail-item .value {
-    color: #222;
-    font-weight: 500;
-    font-size: 16px;
-}
-
+/* === 상세 설명 영역 === */
 .description-content {
     font-size: 16px;
     color: #333;
@@ -102,6 +203,20 @@ h3 {
     white-space: pre-line;
 }
 
+.description-content img {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    max-width: 100%;
+}
+
+.description-content h3 {
+    border-left: none;
+    padding-left: 0;
+}
+
+
+/* === 🗺️ 지도 위치 영역 === */
 .job-location {
     display: flex;
     flex-direction: column;
@@ -114,47 +229,16 @@ h3 {
     color: #333;
 }
 
-.map-container {
+.map-container,
+#map {
     width: 100%;
-    height: 300px;
+    height: 300px;   /* height 꼭 지정해야 함 */
     border-radius: 8px;
     background-color: #eee;
 }
 
-.back-button-wrapper {
-    max-width: 1000px;
-    margin: 0 auto 10px auto;
-}
 
-.btn-secondary-small {
-    background-color: #fff;
-    color: #007bff;
-    border: 1px solid #007bff;
-    border-radius: 4px;
-    padding: 8px 14px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.btn-secondary-small:hover {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.description-content img {
-    width: 100% !important;
-    height: auto !important;
-    display: block;
-    max-width: 100%;
-}
-
-#map {
-    width: 100%;
-    height: 300px; /* height 꼭 지정해야 함 */
-}
-
-/* ✅ 신고 버튼 영역 전체를 오른쪽 하단 정렬 */
+/* === 신고 버튼 영역 스타일 === */
 .report-button-wrapper {
     display: flex;
     justify-content: flex-end;
@@ -162,7 +246,6 @@ h3 {
     padding: 0 12px;
 }
 
-/* ✅ 신고 버튼 자체 스타일 */
 .report-form {
     display: inline-block;
 }
@@ -181,5 +264,4 @@ h3 {
 .btn-report:hover {
     background-color: #d9363e;
 }
-
 

@@ -87,11 +87,25 @@
                     <th>경고 횟수</th>
                 </tr>
                 <tr>
-                    <td>2024-12-01</td>
-                    <td>2025-06-27 13:45</td>
-                    <td><i class="fas fa-envelope"></i> 이메일</td>
-                    <td>완료</td>
-                    <td>0회</td>
+                    <!-- 날짜 포맷 적용 -->
+                    <td th:text="${#temporals.format(userInfo.createAt, 'yyyy-MM-dd')}">2024-12-01</td>
+                    <td th:text="${#temporals.format(userInfo.updatedAt, 'yyyy-MM-dd HH:mm')}">2025-06-27 13:45</td>
+
+                    <!-- 로그인 방식 -->
+                    <td>
+            <span th:switch="${userInfo.loginType}">
+                <span th:case="'EMAIL'"><i class="fas fa-envelope"></i> 이메일</span>
+                <span th:case="'GOOGLE'"><i class="fab fa-google"></i> 구글</span>
+                <span th:case="'NAVER'"><i class="fab fa-neos"></i> 네이버</span>
+                <span th:case="*"><i class="fas fa-question-circle"></i> 기타</span>
+            </span>
+                    </td>
+
+                    <!-- 이메일 인증 여부 -->
+                    <td th:text="${userInfo.emailVerified} ? '완료' : '미완료'">완료</td>
+
+                    <!-- 경고 횟수 -->
+                    <td th:text="${userInfo.warningCount != null ? userInfo.warningCount + '회' : '0회'}">0회</td>
                 </tr>
             </table>
         </div>
@@ -117,11 +131,10 @@
                     <td th:text="${recentApplicant.email}">이메일</td>
                     <td th:text="${#temporals.format(recentApplicant.appliedAt, 'yyyy-MM-dd')}">지원일자</td>
                     <td>
-                        <span th:text="${recentApplicant.status}"
-                              th:classappend="
-                                ${recentApplicant.status} == '합격' ? 'status-label status-pass' :
-                                (${recentApplicant.status} == '열람' ? 'status-label status-read' :
-                                'status-label status-new')">
+                        <span th:text="${recentApplicant.status}" th:classappend="
+                        ${recentApplicant.status} == 'ACCEPTED' ? 'status-label status-pass' :
+                        (${recentApplicant.status} == 'REJECTED' ? 'status-label status-fail' :
+                        (${recentApplicant.status} == 'APPLIED' ? 'status-label status-new' : ''))">
                         </span>
                     </td>
 

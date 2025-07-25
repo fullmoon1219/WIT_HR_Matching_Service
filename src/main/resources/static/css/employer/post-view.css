@@ -10,8 +10,7 @@
     font-size: 30px;
     font-weight: bold;
     color: white;
-
-    background-image: url('/images/test4.png'); /* 배경 이미지 경로 */
+    background-image: url('/images/test4.png');
     background-size: cover;
     background-position: center;
 

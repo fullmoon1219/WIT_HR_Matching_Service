@@ -25,7 +25,7 @@ function translateEmploymentType(code) {
 	switch (code) {
 		case 'FULLTIME': return '정규직';
 		case 'PARTTIME': return '파트타임';
-		case 'INTERN': return '인턴';
+		case 'INTERNSHIP': return '인턴';
 		case 'FREELANCE': return '프리랜서';
 		default: return '기타';
 	}

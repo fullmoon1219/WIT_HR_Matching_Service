@@ -1,5 +1,5 @@
 let currentFilters = {
-	region: '',
+	region: [],
 	techStacks: [],
 	keyword: '',
 	regionKeyword: '',
@@ -16,10 +16,34 @@ let appliedFilters = {}; // 현재 적용된 필터를 저장할 객체
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
 
 $(document).ready(function () {
+
+	const urlParams = new URLSearchParams(window.location.search);
+
+	const regionParams = urlParams.getAll('region');
+
+	if (regionParams && regionParams.length > 0) {
+
+		currentFilters.region = regionParams;
+		currentFilters.region.forEach(regionName => {
+			$(`#region-options .filter-btn[data-value="${regionName}"]`).addClass('active');
+		});
+	}
+
+	const sortParam = urlParams.get('sortOrder');
+	const validSortOrders = ['latest', 'oldest', 'deadline', 'views', 'scraps'];
+
+	if (sortParam && validSortOrders.includes(sortParam)) {
+		currentFilters.sortOrder = sortParam;
+		$('#sort-order-select').val(sortParam);
+	}
+
 	$('.filter-dropdown').hide();
 
 	loadRecruitList(currentFilters);
 	appliedFilters = deepCopy(currentFilters);
+
+	renderSelectedFilterTags();
+	updateApplyButtonState();
 
 	$('.filter-toggle').on('click', function () {
 
@@ -73,7 +97,7 @@ $(document).ready(function () {
 	$('#reset-filters-btn').on('click', function () {
 
 		currentFilters = {
-			region: '',
+			region: [],
 			techStacks: [],
 			keyword: '',
 			regionKeyword: '',
@@ -103,12 +127,13 @@ $(document).ready(function () {
 		const clickedButton = $(this);
 		const dataValue = $(this).data('value');
 
-		if (clickedButton.hasClass('active')) {
-			clickedButton.removeClass('active');
-			currentFilters.region = '';
+		clickedButton.toggleClass('active');
+
+		if (currentFilters.region.includes(dataValue)) {
+			const index = currentFilters.region.indexOf(dataValue);
+			currentFilters.region.splice(index, 1);
 		} else {
-			clickedButton.addClass('active').siblings().removeClass('active');
-			currentFilters.region = dataValue;
+			currentFilters.region.push(dataValue);
 		}
 
 		currentFilters.page = 1;
@@ -221,8 +246,8 @@ $(document).ready(function () {
 			currentFilters.regionKeyword = '';
 			$('.filter-search[data-type="region"]').val('');
 		} else if (type === 'region') {
-			currentFilters.region = '';
-			$('#region-options .filter-btn.active').removeClass('active');
+			currentFilters.region = currentFilters.region.filter(item => item != value);
+			$(`#region-options .filter-btn[data-value="${value}"]`).removeClass('active');
 		} else if (type === 'techStacks') {
 			currentFilters.techStacks = currentFilters.techStacks.filter(item => item != value);
 			$(`#stack-options .filter-btn[data-value="${value}"]`).removeClass('active');
@@ -382,9 +407,9 @@ function renderSelectedFilterTags() {
 		createTag('regionKeyword', currentFilters.regionKeyword, `지역 검색어: ${currentFilters.regionKeyword}`);
 	}
 	// 지역
-	if (currentFilters.region) {
-		createTag('region', currentFilters.region, `지역: ${currentFilters.region}`);
-	}
+	currentFilters.region.forEach(regionName => {
+		createTag('region', regionName, `지역: ${regionName}`);
+	})
 	// 기술 스택
 	currentFilters.techStacks.forEach(stackId => {
 		const stackName = $(`#stack-options .filter-btn[data-value="${stackId}"]`).text();
@@ -414,7 +439,7 @@ function renderSelectedFilterTags() {
 }
 
 function hasActiveFilters() {
-	return currentFilters.region ||
+	return currentFilters.region.length > 0 ||
 		currentFilters.techStacks.length > 0 ||
 		currentFilters.employmentTypes.length > 0 ||
 		currentFilters.experienceTypes.length > 0 ||

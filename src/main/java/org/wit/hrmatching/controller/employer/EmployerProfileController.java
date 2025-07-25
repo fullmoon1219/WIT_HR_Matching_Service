@@ -1,6 +1,7 @@
 package org.wit.hrmatching.controller.employer;
 
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.wit.hrmatching.vo.application.EmployerRecentApplicantVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.io.File;
 import java.util.HashMap;
@@ -44,6 +46,9 @@ public class EmployerProfileController {
         EmployerProfilesVO profile = employerProfileService.getEmployerProfile(userId);
         List<EmployerRecentApplicantVO> vo = employerProfileService.selectEmployerRecentApplicantList(userId);
 
+        // ✅ 시스템 정보도 조회
+        UserVO userInfo = employerProfileService.getUserSystemInfo(userId);
+
         String imageUrl = (profile.getProfileImage() != null)
                 ? "/uploads/users/profile/" + profile.getProfileImage()
                 : "/images/users/user_small_profile.png";
@@ -51,6 +56,10 @@ public class EmployerProfileController {
         modelAndView.addObject("profile", profile);
         modelAndView.addObject("recentApplicantList", vo);
         modelAndView.addObject("profileImageUrl", imageUrl);
+
+        // ✅ 시스템 정보 전달
+        modelAndView.addObject("userInfo", userInfo);
+
 
         return modelAndView;
     }
@@ -147,4 +156,19 @@ public class EmployerProfileController {
 
         return result;
     }
+
+    @GetMapping("/userinfo")
+    @ResponseBody
+    public ResponseEntity<UserVO> getUserSystemInfo(HttpSession session) {
+        UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+
+        if (loginUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        UserVO userInfo = employerProfileService.getUserSystemInfo(loginUser.getId());
+        return ResponseEntity.ok(userInfo);
+    }
+
+
 }

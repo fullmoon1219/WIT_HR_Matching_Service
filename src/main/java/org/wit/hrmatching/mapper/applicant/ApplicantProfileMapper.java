@@ -12,12 +12,15 @@ public interface ApplicantProfileMapper {
 
 	ApplicantProfileDTO selectUserProfile(long userId);
 
-	int updateUserProfile(ApplicantProfileUpdateRequestDTO applicantProfileUpdateRequestDTO);
+	int updateUser(ApplicantProfileUpdateRequestDTO applicantProfileUpdateRequestDTO);
+	int updateApplicantProfile(ApplicantProfileUpdateRequestDTO applicantProfileUpdateRequestDTO);
 
 	@Select("SELECT password FROM users WHERE id = #{userId}")
 	String findPasswordById(@Param("userId") long userId);
 
 	int insertFile(ApplicantProfileImageVO applicantProfileImageVO);
-	int updateUserProfileImage(String profileImage, long userId);
+	int updateUserProfileImage(@Param("profileImage") String profileImage, @Param("userId") long userId);
 	String findProfileImageByUserId(long userId);
+
+	int updatePassword(@Param("userId") long userId, @Param("newPassword") String newPassword);
 }

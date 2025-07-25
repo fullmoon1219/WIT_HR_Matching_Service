@@ -22,6 +22,12 @@ $(document).ready(function () {
 		const userInfo = profileData.userInfo;
 		const profile = profileData.profile;
 
+		if (userInfo.profileImage) {
+			$('#profile-img-view').attr('src', '/uploads/users/profile/' + userInfo.profileImage);
+		} else {
+			$('#profile-img-view').attr('src', '/images/users/user_big_profile.png');
+		}
+
 		$('#name').text(userInfo.name);
 		$('#email').text(userInfo.email);
 
@@ -82,14 +88,14 @@ $(document).ready(function () {
 
 		const resume = {
 			title: $('input[name="title"]').val(),
-			education: $('input[name="education"]').val(),
-			experience: $('input[name="experience"]').val(),
+			education: $('textarea[name="education"]').val(),
+			experience: $('textarea[name="experience"]').val(),
 			skills: $('input[name="skills"]').val(),
 			preferredLocation: $('input[name="preferredLocation"]').val(),
 			salaryExpectation: Number($('input[name="salaryExpectation"]').val()),
 			desiredPosition: $('input[name="desiredPosition"]').val(),
-			motivation: $('input[name="motivation"]').val(),
-			coreCompetency: $('input[name="coreCompetency"]').val(),
+			motivation: $('textarea[name="motivation"]').val(),
+			coreCompetency: $('textarea[name="coreCompetency"]').val(),
 			isCompleted: true // 정식 등록
 		};
 
@@ -157,14 +163,14 @@ $(document).ready(function () {
 
 		const resume = {
 			title: title,
-			education: $('input[name="education"]').val(),
-			experience: $('input[name="experience"]').val(),
+			education: $('textarea[name="education"]').val(),
+			experience: $('textarea[name="experience"]').val(),
 			skills: $('input[name="skills"]').val(),
 			preferredLocation: $('input[name="preferredLocation"]').val(),
 			salaryExpectation: $('input[name="salaryExpectation"]').val(),
 			desiredPosition: $('input[name="desiredPosition"]').val(),
-			motivation: $('input[name="motivation"]').val(),
-			coreCompetency: $('input[name="coreCompetency"]').val(),
+			motivation: $('textarea[name="motivation"]').val(),
+			coreCompetency: $('textarea[name="coreCompetency"]').val(),
 			isCompleted: false // 임시 저장
 		};
 

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.wit.hrmatching.mapper.employer.EmployerProfileMapper;
 import org.wit.hrmatching.vo.user.EmployerProfilesVO;
 import org.wit.hrmatching.vo.application.EmployerRecentApplicantVO;
+import org.wit.hrmatching.vo.user.UserVO;
 
 import java.util.List;
 
@@ -38,6 +39,10 @@ public class EmployerProfileService {
 
     public int updateProfileImage(Long userId, String storedName) {
         return employerProfileMapper.updateProfileImage(userId,storedName);
+    }
+
+    public UserVO getUserSystemInfo(Long userId) {
+        return employerProfileMapper.selectUserSystemInfo(userId);
     }
 
 }

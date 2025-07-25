@@ -31,8 +31,6 @@
         </if>
     </select>
 
-
-
     <!-- 통계 -->
     <select id="getReportStats" resultType="map">
         SELECT

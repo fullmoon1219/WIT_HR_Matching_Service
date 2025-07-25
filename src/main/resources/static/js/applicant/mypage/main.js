@@ -31,7 +31,7 @@ $(document).ready(function () {
 			const profileImage = userProfile.profileImage;
 
 			if (userProfile.profileImage && userProfile.profileImage.trim() !== '') {
-				$('#profile-image').attr('src', profileImage);
+				$('#profile-image').attr('src', '/uploads/users/profile/' + profileImage);
 			}
 
 			$('.userprofile-name strong').text(userProfile.name + '님');

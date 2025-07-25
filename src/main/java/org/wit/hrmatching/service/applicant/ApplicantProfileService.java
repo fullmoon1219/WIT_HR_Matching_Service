@@ -50,7 +50,9 @@ public class ApplicantProfileService {
 		}
 
 		dto.setUserId(userId);
-		applicantProfileDAO.updateUserProfile(dto);
+
+		applicantProfileDAO.updateUser(dto);
+		applicantProfileDAO.updateApplicantProfile(dto);
 	}
 
 	@Transactional
@@ -74,6 +76,8 @@ public class ApplicantProfileService {
 		}
 		String fullPath = uploadPath + storedFileName;
 
+		String webAccessPath = "/uploads/users/profile/" + storedFileName;
+
 		try {
 			multipartFile.transferTo(new File(fullPath));
 		} catch (IOException e) {
@@ -90,17 +94,20 @@ public class ApplicantProfileService {
 		fileVO.setUploadPath(uploadPath);
 
 		applicantProfileDAO.insertFile(fileVO);
-		applicantProfileDAO.updateUserProfileImage(fullPath, userId);
+		applicantProfileDAO.updateUserProfileImage(storedFileName, userId);
 
 		// 기존 파일 삭제
 		if (oldImagePath != null && !oldImagePath.isEmpty()) {
-			File oldFile = new File(oldImagePath);
+
+			String baseDir = fileUploadProperties.getUserProfile();
+			File oldFile = new File(baseDir, oldImagePath);
+
 			if (oldFile.exists()) {
 				oldFile.delete();
 			}
 		}
 
-		return fullPath;
+		return webAccessPath;
 	}
 
 	@Transactional(readOnly = true)
@@ -123,5 +130,22 @@ public class ApplicantProfileService {
 		dashboard.setRecentApplicationList(applicationDAO.getRecentApplicationsForDashboard(userId));
 
 		return dashboard;
+	}
+
+	public void verifyCurrentPassword(long userId, String currentPassword) {
+
+		String encodedPasswordFromDB = applicantProfileDAO.findPasswordById(userId);
+		boolean isMatch = passwordEncoder.matches(currentPassword, encodedPasswordFromDB);
+
+		if (!isMatch) {
+			throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+		}
+	}
+
+	@Transactional
+	public void updateNewPassword(long userId, String newPassword) {
+
+		String encodedNewPassword = passwordEncoder.encode(newPassword);
+		applicantProfileDAO.updatePassword(userId, encodedNewPassword);
 	}
 }

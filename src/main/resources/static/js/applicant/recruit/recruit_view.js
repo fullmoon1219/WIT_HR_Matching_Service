@@ -33,29 +33,44 @@ $(document).ready(function () {
 			});
 		}
 
-		// 화면 표시 로직
-		$('#title').text(jobPost.title);
-		$('#description').html(jobPost.description);
-		$('#employmentType').text(translateEmploymentType(jobPost.employmentType));
-		$('#jobCategory').text(jobPost.jobCategory);
-		$('#salary').text(jobPost.salary);
-		$('#location').text(jobPost.location);
-		$('#deadline').text(jobPost.deadline);
-		$('#createAt').text(jobPost.createAt);
-		$('#viewCount').text(jobPost.viewCount);
-		$('#bookmarkCount').text(jobPost.bookmarkCount);
-		$('#experienceType').text(translateExperienceType(jobPost.experienceType));
-		$('#experienceYears').text(jobPost.experienceYears);
-		$('#workplaceAddress').text(jobPost.workplaceAddress);
+		let type = translateExperienceType(jobPost.experienceType);
+		let years = jobPost.experienceYears;
 
-		$('#headerCompanyName').text(employer.companyName);
-		$('#companyName').text(employer.companyName);
-		$('#address').text(employer.address);
-		$('#phoneNumber').text(employer.phoneNumber);
-		$('#homepageUrl').text(employer.homepageUrl);
-		$('#industry').text(employer.industry);
-		$('#companySize').text(employer.companySize);
-		$('#employerEmail').text(employer.email);
+		function fallbackText(value, fallback = '-') {
+			return value ? value : fallback;
+		}
+
+		// 화면 표시 로직
+		$('#title').text(fallbackText(jobPost.title));
+		$('#description').html(jobPost.description ? jobPost.description : '상세 정보가 없습니다');
+		$('#employmentType').text(fallbackText(translateEmploymentType(jobPost.employmentType)));
+		$('#jobCategory').text(fallbackText(jobPost.jobCategory));
+		$('#salary').text(fallbackText(jobPost.salary));
+		$('#location').text(fallbackText(jobPost.location));
+		$('#deadline').text(fallbackText(jobPost.deadline));
+		$('#createAt').text(fallbackText(jobPost.createAt));
+		$('#viewCount').text(fallbackText(jobPost.viewCount));
+		$('#bookmarkCount').text(fallbackText(jobPost.bookmarkCount));
+
+		let experienceText = type;
+		if (type !== "신입" && years && years > 0) {
+			experienceText += ` (${years}년)`;
+		}
+		$('#experience').text(fallbackText(experienceText));
+
+		$('#workplaceAddress').text(fallbackText(jobPost.workplaceAddress));
+
+		$('#headerCompanyName').text(fallbackText(employer.companyName));
+		$('#companyName').text(fallbackText(employer.companyName));
+		$('#address').text(fallbackText(employer.address));
+		$('#phoneNumber').text(fallbackText(employer.phoneNumber));
+		$('#homepageUrl').text(fallbackText(employer.homepageUrl));
+		$('#industry').text(fallbackText(employer.industry));
+		$('#companySize').text(fallbackText(employer.companySize));
+		$('#employerEmail').text(fallbackText(employer.email));
+
+		$('#reportTargetId').val(jobPost.id);
+		$('#reportUserId').val(jobPost.userId);
 
 		if (jobPost.requiredSkills) {
 			const skillNames = jobPost.requiredSkills.split(',')

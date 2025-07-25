@@ -19,7 +19,6 @@ $(document).on("click", ".report-reason", function () {
                 <h3>제재 조치 선택</h3>
                 <div class="penalty-options">
                   <label><input type="radio" name="action" value="WARNING_1"> 경고 1회</label>
-                  <label><input type="radio" name="action" value="WARNING_2"> 경고 2회</label>
                   <label><input type="radio" name="action" value="SUSPEND"> 계정 정지</label>
                 </div>
               </div>
@@ -66,6 +65,7 @@ $(document).on("click", ".report-reason", function () {
             $.get(`/api/admin/reports/contents/posts/${targetId}`, function (res) {
                 const postHtml = `
                   <tr><th>공고 ID</th><td>${res.id}</td></tr>
+                  <tr><th>사용자 ID</th><td>${res.userId}</td></tr>
                   <tr><th>회사명</th><td>${res.companyName}</td></tr>
                   <tr><th>제목</th><td>${res.title}</td></tr>
                   <tr><th>설명</th><td>${res.description}</td></tr>

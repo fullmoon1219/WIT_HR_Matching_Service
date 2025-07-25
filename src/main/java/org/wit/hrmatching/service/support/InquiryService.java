@@ -56,11 +56,11 @@ public class InquiryService {
         inquiry.setStatus("ANSWERED");
         inquiriesMapper.updateReplyAndStatus(inquiry);
 
-//        mailService.sendInquiryAnswerNotification(
-//                inquiry.getEmail(),
-//                inquiry.getName(),
-//                inquiryId
-//        );
+        mailService.sendInquiryAnswerNotification(
+                inquiry.getEmail(),
+                inquiry.getName(),
+                inquiryId
+        );
     }
 
 

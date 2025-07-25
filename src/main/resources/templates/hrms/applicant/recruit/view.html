@@ -12,7 +12,6 @@
 	<link rel="stylesheet" href="/css/applicant/recruit_view.css">
 	<link rel="stylesheet" href="/css/main/main.css">
 	<link rel="stylesheet" href="/css/main/header.css">
-	<link rel="stylesheet" href="/css/main/menu.css">
 	<link rel="stylesheet" href="/css/main/footer.css">
 
 	<script src="/js/jquery-3.7.1.min.js"></script>
@@ -60,28 +59,56 @@
 			</div>
 		</div>
 
-		<div class="section-block">
-			<h3>근무 조건</h3>
-			<div class="job-detail-row">
-				<div class="job-detail-item">
-					<span class="label">요구 기술</span>
-					<span class="value" id="requiredSkills"></span>
+		<div class="section-pair">
+			<div class="section-block">
+				<h3>근무 조건</h3>
+				<div class="job-detail-row">
+					<div class="job-detail-item">
+						<span class="label">요구 기술</span>
+						<span class="value" id="requiredSkills"></span>
+					</div>
+					<div class="job-detail-item">
+						<span class="label">고용 형태</span>
+						<span class="value" id="employmentType"></span>
+					</div>
+					<div class="job-detail-item">
+						<span class="label">연봉</span>
+						<span class="value" id="salary"></span>
+					</div>
+					<div class="job-detail-item">
+						<span class="label">근무지</span>
+						<span class="value" id="location"></span>
+					</div>
 				</div>
-				<div class="job-detail-item">
-					<span class="label">고용 형태</span>
-					<span class="value" id="employmentType"></span>
-				</div>
-				<div class="job-detail-item">
-					<span class="label">연봉</span>
-					<span class="value" id="salary"></span>
-				</div>
-				<div class="job-detail-item">
-					<span class="label">근무지</span>
-					<span class="value" id="location"></span>
-				</div>
-				<div class="job-detail-item">
-					<span class="label">마감일</span>
-					<span class="value" id="deadline"></span>
+			</div>
+
+			<div class="section-block">
+				<h3>공고 정보</h3>
+				<div class="job-detail-row">
+					<div class="job-detail-item">
+						<span class="label">공고 태그</span>
+						<span class="value" id="jobCategory"></span>
+					</div>
+					<div class="job-detail-item">
+						<span class="label">경력</span>
+						<span class="value" id="experience"></span>
+					</div>
+					<div class="job-detail-item">
+						<span class="label">마감일</span>
+						<span class="value" id="deadline"></span>
+					</div>
+					<div class="job-detail-item">
+						<span class="label">등록일</span>
+						<span class="value" id="createAt"></span>
+					</div>
+					<div class="job-detail-item">
+						<span class="label">조회수</span>
+						<span class="value" id="viewCount"></span>
+					</div>
+					<div class="job-detail-item">
+						<span class="label">스크랩 수</span>
+						<span class="value" id="bookmarkCount"></span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -93,7 +120,7 @@
 			</div>
 		</div>
 
-		<div class="section-block">
+		<div class="section-block two-line">
 			<h3>기업 정보</h3>
 			<div class="job-detail-row">
 				<div class="job-detail-item">
@@ -116,6 +143,14 @@
 					<span class="label">홈페이지</span>
 					<span class="value" id="homepageUrl"></span>
 				</div>
+				<div class="job-detail-item">
+					<span class="label">산업군</span>
+					<span class="value" id="industry"></span>
+				</div>
+				<div class="job-detail-item">
+					<span class="label">기업 규모</span>
+					<span class="value" id="companySize"></span>
+				</div>
 			</div>
 		</div>
 
@@ -129,15 +164,15 @@
 
 
 		<div class="report-button-wrapper">
-		<!-- ✅ 신고하기 버튼 -->
-		<form action="/support/report" method="post" class="report-form">
-			<input type="hidden" name="type" value="JOB_POST">
-			<input type="hidden" name="targetId" value="공고ID입력">
-			<input type="hidden" name="reportedUserId" value="공고작성자ID"/>
-			<button type="submit" class="btn-report" title="신고하기">
-				🚨 신고하기
-			</button>
-		</form>
+			<form action="/support/report" method="post" class="report-form">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				<input type="hidden" name="type" value="JOB_POST">
+				<input type="hidden" name="targetId" id="reportTargetId">
+				<input type="hidden" name="reportedUserId" id="reportUserId">
+				<button type="submit" class="btn-report" title="신고하기">
+					🚨 신고하기
+				</button>
+			</form>
 		</div>
 
 	</div>

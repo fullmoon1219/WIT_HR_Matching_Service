@@ -52,6 +52,27 @@ $(document).ready(function () {
     $.get("/api/admin/dashboard/job-post-category-distribution", function (data) {
         renderBarChart('jobPostCategoryChart', data, '직무별 공고');
     });
+
+    $.get("/api/admin/dashboard/account-status", function (data) {
+        const statusData = {};
+
+        const activeItem = data.find(d => d.status === 'ACTIVE');
+        const suspendedItem = data.find(d => d.status === 'SUSPENDED');
+
+        if (activeItem) statusData['정상 계정'] = activeItem.count;
+        if (suspendedItem) statusData['정지 계정'] = suspendedItem.count;
+
+        renderPieChart('suspendedChart', statusData, '계정 정지 비율');
+    });
+
+    $.get("/api/admin/dashboard/warning-distribution", function (data) {
+        const warningData = {};
+        data.forEach(item => {
+            warningData[`${item.warning}회`] = item.count;
+        });
+        renderPieChart('warningChart', warningData, '경고 횟수 분포');
+    });
+
 });
 
 // 전역에서 모든 차트 인스턴스를 저장
