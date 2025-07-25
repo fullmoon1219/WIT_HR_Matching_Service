@@ -21,15 +21,6 @@ function getIdFromUrl() {
 	return parts[parts.length - 1];
 }
 
-function translateLoginType(code) {
-	switch (code) {
-		case 'EMAIL': return '이메일';
-		case 'GOOGLE': return '구글';
-		case 'NAVER': return '네이버';
-		default: return '기타';
-	}
-}
-
 function translateEmploymentType(code) {
 	switch (code) {
 		case 'FULLTIME': return '정규직';
