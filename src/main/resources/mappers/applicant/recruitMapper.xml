@@ -71,8 +71,11 @@
                 AND (jp.location LIKE CONCAT('%', #{regionKeyword}, '%') OR jp.workplace_address LIKE CONCAT('%', #{regionKeyword}, '%'))
             </if>
 
-            <if test="region != null and region != ''">
-                AND jp.location = #{region}
+            <if test="region != null and !region.isEmpty()">
+                AND jp.location IN
+                <foreach collection="region" item="regionName" open="(" separator="," close=")">
+                    #{regionName}
+                </foreach>
             </if>
             <if test="techStacks != null and !techStacks.isEmpty()">
                 <foreach collection="techStacks" item="stackId" open="AND (" separator=" AND " close=")">
@@ -138,8 +141,11 @@
                 AND (jp.location LIKE CONCAT('%', #{regionKeyword}, '%') OR jp.workplace_address LIKE CONCAT('%', #{regionKeyword}, '%'))
             </if>
 
-            <if test="region != null and region != ''">
-                AND jp.location = #{region}
+            <if test="region != null and !region.isEmpty()">
+                AND jp.location IN
+                <foreach collection="region" item="regionName" open="(" separator="," close=")">
+                    #{regionName}
+                </foreach>
             </if>
 
             <if test="techStacks != null and !techStacks.isEmpty()">
