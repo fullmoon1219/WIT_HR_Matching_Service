@@ -46,7 +46,7 @@ public class AuthService {
         /*
         * 실제 테스트 할 때 메일 전송 켜기.
         */
-        insertUserWithProfile(user, false);
+        insertUserWithProfile(user, true);
     }
 
     public void saveOrUpdate(UserVO user) {

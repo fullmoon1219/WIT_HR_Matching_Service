@@ -22,13 +22,11 @@ public class AdminResumeRestController {
 
     private final AdminResumeService adminResumeService;
 
-    // ✅ 통계 조회: /api/admin/resumes/statistics
     @GetMapping("/statistics")
     public Map<String, Integer> getResumesStatistics() {
         return adminResumeService.getResumeStats();
     }
 
-    // ✅ 목록 조회: /api/admin/resumes?page=1&size=10...
     @GetMapping
     public PagedResponseDTO<ResumeVO> getResumes(@RequestParam(required = false) Long id,
                                                  @RequestParam(required = false) Boolean isPublic,
@@ -55,7 +53,6 @@ public class AdminResumeRestController {
                 .build();
     }
 
-    // ✅ 삭제: DELETE /api/admin/resumes (body에 resumeIds 전달)
     @DeleteMapping
     public ResponseEntity<?> deleteResumes(@RequestBody List<Long> resumeIds) {
         adminResumeService.deleteResumes(resumeIds);
