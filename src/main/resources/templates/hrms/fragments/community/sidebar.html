@@ -20,7 +20,7 @@
           <!-- 동적 게시판 출력 -->
           <li class="menu-item" th:each="board : ${communityBoards}">
             <a th:href="@{'/community/' + ${board.code}}">
-              <span th:text="${board.icon}"></span>
+              <span>📋</span>
               <span th:text="${board.name}"></span>
             </a>
           </li>
