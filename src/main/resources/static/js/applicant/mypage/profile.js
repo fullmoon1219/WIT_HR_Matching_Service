@@ -18,6 +18,10 @@ $(document).ready(function () {
 
 			populateProfileData(data);
 
+			if (originalData.loginType !== 'EMAIL') {
+				$('#password-edit-button').hide();
+			}
+
 		},
 		error: function (xhr) {
 
@@ -274,7 +278,9 @@ function switchToEditMode() {
 	// 버튼 상태 변경
 	$('#editButton').text('수정 완료');
 	$('#cancelButton').show();
-	$('#confirmPassword').show();
+	if (originalData.loginType === 'EMAIL') {
+		$('#confirmPassword').show();
+	}
 
 	// 개인 정보 테이블의 텍스트를 입력 필드로 변경
 	$('#name').html(`<input type="text" class="edit-input" id="editName" value="${originalData.name || ''}">`);
@@ -316,14 +322,6 @@ function switchToViewMode() {
 
 function saveProfileChanges() {
 
-	// 비밀번호 입력 확인
-	const password = $('#confirmPassword').val();
-	if (!password) {
-		alert('프로필을 수정하려면 비밀번호를 입력해야 합니다.');
-		$('#confirmPassword').focus();
-		return;
-	}
-
 	const ageValue = parseInt($('#editAge').val(), 10);
 	const experienceYearsValue = parseInt($('#editExperienceYears').val(), 10);
 
@@ -338,8 +336,18 @@ function saveProfileChanges() {
 		experienceYears: isNaN(experienceYearsValue) ? null : experienceYearsValue,
 		jobType: $('#editJobType').val(),
 		selfIntro: $('#editSelfIntro').val(),
-		password: password
 	};
+
+	// 이메일 로그인 시에만 비밀번호 확인
+	if (originalData.loginType === 'EMAIL') {
+		const password = $('#confirmPassword').val();
+		if (!password) {
+			alert('프로필을 수정하려면 비밀번호를 입력해야 합니다.');
+			$('#confirmPassword').focus();
+			return;
+		}
+		updateData.password = password;
+	}
 
 	// 서버에 데이터 전송
 	$.ajax({

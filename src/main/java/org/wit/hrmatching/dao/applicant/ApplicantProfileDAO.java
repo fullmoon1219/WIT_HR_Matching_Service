@@ -44,4 +44,8 @@ public class ApplicantProfileDAO {
 	public void updatePassword(long userId, String newPassword) {
 		applicantProfileMapper.updatePassword(userId, newPassword);
 	}
+
+	public String findLoginType(long userId) {
+		return applicantProfileMapper.findLoginType(userId);
+	}
 }

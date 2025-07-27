@@ -91,6 +91,11 @@ public class ApplicantProfileRestController {
 	@PostMapping("/verify-password")
 	public ResponseEntity<?> verifyPassword(@AuthenticationPrincipal CustomUserDetails userDetails,
 											@RequestBody Map<String, String> request) {
+
+		if (!"EMAIL".equals(userDetails.getLoginType())) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("소셜 로그인 유저는 사용할 수 없는 기능입니다.");
+		}
+
 		try {
 			String currentPassword = request.get("currentPassword");
 			applicantProfileService.verifyCurrentPassword(userDetails.getId(), currentPassword);
@@ -105,6 +110,11 @@ public class ApplicantProfileRestController {
 	@PutMapping("/password")
 	public ResponseEntity<?> changePassword(@AuthenticationPrincipal CustomUserDetails userDetails,
 											@RequestBody Map<String, String> request) {
+
+		if (!"EMAIL".equals(userDetails.getLoginType())) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("소셜 로그인 유저는 사용할 수 없는 기능입니다.");
+		}
+
 		try {
 			String newPassword = request.get("newPassword");
 			applicantProfileService.updateNewPassword(userDetails.getId(), newPassword);

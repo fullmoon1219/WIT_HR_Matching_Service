@@ -41,12 +41,13 @@ public class ApplicantProfileService {
 	@Transactional
 	public void updateUserProfile(long userId, ApplicantProfileUpdateRequestDTO dto) {
 
-		String encodedPasswordFromDB = applicantProfileDAO.findPasswordById(userId);
+		String loginType = applicantProfileDAO.findLoginType(userId);
 
-		boolean isMatch = passwordEncoder.matches(dto.getPassword(), encodedPasswordFromDB);
-
-		if (!isMatch) {
-			throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+		if ("EMAIL".equals(loginType)) {
+			String encodedPasswordFromDB = applicantProfileDAO.findPasswordById(userId);
+			if (dto.getPassword() == null || !passwordEncoder.matches(dto.getPassword(), encodedPasswordFromDB)) {
+				throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+			}
 		}
 
 		dto.setUserId(userId);
