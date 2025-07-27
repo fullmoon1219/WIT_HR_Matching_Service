@@ -3,6 +3,7 @@ package org.wit.hrmatching.service.mail;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -16,10 +17,13 @@ public class MailService {
 
     private final JavaMailSender mailSender;
 
+    @Value("${custom.api.base-url}")
+    private String url;
+
     @Async
     public void sendVerificationMail(String toEmail, String token) {
         String subject = "HR 매칭 서비스 이메일 인증";
-        String verificationLink = "http://localhost:8080/users/verify?token=" + token;
+        String verificationLink = "http://" + url + ":8080/users/verify?token=" + token;
 
         String content = """
                 <h2>이메일 인증을 완료해주세요.</h2>
