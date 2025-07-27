@@ -8,6 +8,7 @@ spring:
 
   datasource:
       driver-class-name: 'com.mysql.cj.jdbc.Driver'
+#      url: 'jdbc:mysql://fullmoon1219.iptime.org:3306/hrms'
       url: 'jdbc:mysql://database-2.cvfqz7x9lywy.us-west-2.rds.amazonaws.com:3306/hrms'
       username: 'wit'
       password: '123456'
@@ -89,7 +90,8 @@ upload:
 
 custom:
   api:
-    base-url: ec2-35-167-38-189.us-west-2.compute.amazonaws.com
+#    base-url: ec2-35-167-38-189.us-west-2.compute.amazonaws.com
+    base-url: localhost
 
 openai:
   api-key: ${OPENAI_API_KEY:}

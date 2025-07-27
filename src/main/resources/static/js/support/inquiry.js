@@ -41,7 +41,7 @@ $(document).ready(function () {
             },
             success: function () {
                 alert("문의가 성공적으로 등록되었습니다.");
-                location.href = "/";
+                location.href = "/applicant/request";
             },
             error: function () {
                 alert("문의 등록에 실패했습니다.");

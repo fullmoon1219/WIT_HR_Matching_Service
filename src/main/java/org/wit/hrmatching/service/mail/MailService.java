@@ -51,7 +51,7 @@ public class MailService {
     @Async
     public void sendInquiryAnswerNotification(String toEmail, String userName, Long inquiryId) {
         String subject = "HR 매칭 서비스 - 문의 답변이 등록되었습니다";
-        String link = "http://localhost:8080/inquiries/" + inquiryId;
+        String link = "http:/" + url + ":8080/applicant/qa/" + inquiryId;
 
         String content = """
             <h2>안녕하세요, %s 님</h2>

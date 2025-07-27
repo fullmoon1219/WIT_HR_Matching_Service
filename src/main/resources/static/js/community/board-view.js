@@ -347,7 +347,11 @@ $(document).on("click", ".reply-link", function (e) {
     const html = `
         <div class="reply-input-box">
             <textarea class="reply-textarea" placeholder="답글을 입력하세요"></textarea>
-            <button class="submit-reply">답글 등록</button>
+            <div class="reply-footer">
+                <div class="reply-actions">
+                </div>
+                <button class="submit-reply">등록</button>
+            </div>
         </div>
     `;
     $(this).closest(".comment-body").append(html);
