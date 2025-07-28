@@ -87,7 +87,7 @@
 - `files`: 첨부파일 관리
 - `admin_memo`: 관리자 메모
 
-> 전체 테이블 및 상세 필드 구조는 `/docs/ERD.md` 참고
+> 전체 테이블 및 상세 필드 구조는 [ERD 문서](/docs/ERD.md)에서 확인할 수 있습니다.
 
 ---
 
@@ -155,7 +155,7 @@ src
 
 ## 🗂️ API 명세
 
-> 일부 예시만 작성, 전체 명세는 `/docs/API.md` 참고
+> 일부 예시만 작성되었습니다. 전체 API 명세는 [API 문서](docs/API.md)를 참고하세요.
 
 ### 회원 API
 
@@ -190,8 +190,6 @@ src
 
 - [ERD 및 테이블 정의](docs/ERD.md)
 - [API 명세서](docs/API.md)
-- [UML & DFD](docs/UML_DFD.md)
-- [WBS.xlsx](WIT_WBS.xlsx)
 
 ---
 
