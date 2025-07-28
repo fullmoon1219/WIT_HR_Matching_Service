@@ -1,8 +1,7 @@
 # 📛 HR Matching Service
-
+![ERD](/docs/images/logo_no_background.png)
 > Spring Boot 기반의 지능형 구인/구직 매칭 플랫폼  
 > 개발 기간: 2025.06.16 ~ 2025.07.27  
-> [🔗 프로젝트 GitHub 링크](https://github.com/fullmoon1219/WIT_HR_Matching_Service.git)
 
 ---
 
