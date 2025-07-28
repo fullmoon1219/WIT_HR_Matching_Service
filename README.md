@@ -122,15 +122,24 @@
 
 ```
 src
-├── controller
-├── service
-├── mapper
-├── vo / dto
-├── security
-├── util
-└── resources
-├── templates (Thymeleaf)
-└── static (css, js, images)
+└── main
+    ├── java
+    │   └── org.wit.hrmatching
+    │       ├── config          # 보안, CORS, OAuth 설정 등
+    │       ├── controller      # REST API 컨트롤러 계층
+    │       ├── dao             # DAO 클래스 (비즈니스 DB 접근)
+    │       ├── dto             # 요청/응답 데이터 전달용 DTO
+    │       ├── enums           # Enum 정의 (역할, 상태 등)
+    │       ├── exception       # 예외 처리 및 핸들러
+    │       ├── mapper          # MyBatis 매퍼 인터페이스
+    │       ├── service         # 서비스 계층 (비즈니스 로직)
+    │       └── vo              # VO 클래스 (DB 테이블 매핑)
+    │
+    └── resources
+        ├── mappers            # MyBatis XML 매퍼
+        ├── static             # 정적 파일 (JS, CSS, 이미지 등)
+        ├── templates.hrms     # Thymeleaf HTML 템플릿
+        └── application.yml    # 프로젝트 설정 파일
 ```
 
 ---
