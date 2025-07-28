@@ -23,4 +23,7 @@ public interface ApplicantProfileMapper {
 	String findProfileImageByUserId(long userId);
 
 	int updatePassword(@Param("userId") long userId, @Param("newPassword") String newPassword);
+
+	@Select("SELECT login_type as loginType FROM users WHERE id = #{userId}")
+	String findLoginType(@Param("userId") long userId);
 }

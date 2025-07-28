@@ -26,7 +26,10 @@
                     <input type="password" id="confirmPassword" class="inline-input password-input" placeholder="비밀번호 입력" style="display: none;">
                     <button id="editButton" class="edit-button">기업 정보 수정</button>
                     <button id="cancelButton" class="cancel-button" style="display: none;">취소</button>
-                    <button id="password-edit-button" class="password-edit-button">비밀번호변경</button>
+<!--                    <button id="password-edit-button" class="password-edit-button">비밀번호변경</button>-->
+                    <th:block th:if="${userInfo != null and userInfo.loginType == 'EMAIL'}">
+                        <button id="password-edit-button" class="password-edit-button">비밀번호 변경</button>
+                    </th:block>
                     <button id="user-delete-button" onclick="location.href='/users/delete'" class="user-delete-button">회원탈퇴</button>
                 </div>
 
