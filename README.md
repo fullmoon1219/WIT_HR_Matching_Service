@@ -33,12 +33,38 @@
 
 ## 👥 팀 구성 및 역할
 
-| 이름 | 역할 | 상세 업무 |
-| --- | --- | --- |
-| 박광수 | 팀장, 프론트, 백엔드 | DB 설계, 로그인/회원가입, 관리자 페이지, 회원 관리 |
-| 김자연 | 백엔드 | 이력서 CRUD, 목록 구현 |
-| 김지영 | 프론트 | 메인화면, 공고 목록, 상세보기, 마이페이지 UI |
-| 오한나 | 백엔드 | 공고 등록/수정/삭제, 기업 회원 프로필 |
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/fullmoon1219">
+        <img src="https://avatars.githubusercontent.com/fullmoon1219" width="100px;" style="border-radius: 10px;" />
+        <br /><b>@fullmoon1219</b>
+      </a>
+      <br />✔️ 팀장 <br /> 프론트 · 백엔드
+    </td>
+    <td align="center">
+      <a href="https://github.com/kkknature">
+        <img src="https://avatars.githubusercontent.com/kkknature" width="100px;" style="border-radius: 10px;" />
+        <br /><b>@kkknature</b>
+      </a>
+      <br />✔️ 백엔드
+    </td>
+    <td align="center">
+      <a href="https://github.com/paht9939">
+        <img src="https://avatars.githubusercontent.com/paht9939" width="100px;" style="border-radius: 10px;" />
+        <br /><b>@paht9939</b>
+      </a>
+      <br />✔️ 프론트
+    </td>
+    <td align="center">
+      <a href="https://github.com/hanna0526">
+        <img src="https://avatars.githubusercontent.com/hanna0526" width="100px;" style="border-radius: 10px;" />
+        <br /><b>@hanna0526</b>
+      </a>
+      <br />✔️ 백엔드
+    </td>
+  </tr>
+</table>
 
 ---
 
