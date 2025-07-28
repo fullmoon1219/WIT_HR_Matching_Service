@@ -90,8 +90,8 @@ upload:
 
 custom:
   api:
-#    base-url: ec2-35-167-38-189.us-west-2.compute.amazonaws.com
-    base-url: localhost
+    base-url: ec2-35-167-38-189.us-west-2.compute.amazonaws.com
+#    base-url: localhost
 
 openai:
   api-key: ${OPENAI_API_KEY:}
