@@ -37,32 +37,36 @@
   <tr>
     <td align="center">
       <a href="https://github.com/fullmoon1219">
-        <img src="https://avatars.githubusercontent.com/fullmoon1219" width="100px;" style="border-radius: 10px;" />
-        <br /><b>@fullmoon1219</b>
+        <img src="https://avatars.githubusercontent.com/fullmoon1219" width="100px" style="border-radius: 10px;" />
       </a>
-      <br />✔️ 팀장 <br /> 프론트 · 백엔드
     </td>
     <td align="center">
       <a href="https://github.com/kkknature">
-        <img src="https://avatars.githubusercontent.com/kkknature" width="100px;" style="border-radius: 10px;" />
-        <br /><b>@kkknature</b>
+        <img src="https://avatars.githubusercontent.com/kkknature" width="100px" style="border-radius: 10px;" />
       </a>
-      <br />✔️ 백엔드
     </td>
     <td align="center">
       <a href="https://github.com/paht9939">
-        <img src="https://avatars.githubusercontent.com/paht9939" width="100px;" style="border-radius: 10px;" />
-        <br /><b>@paht9939</b>
+        <img src="https://avatars.githubusercontent.com/paht9939" width="100px" style="border-radius: 10px;" />
       </a>
-      <br />✔️ 프론트
     </td>
     <td align="center">
       <a href="https://github.com/hanna0526">
-        <img src="https://avatars.githubusercontent.com/hanna0526" width="100px;" style="border-radius: 10px;" />
-        <br /><b>@hanna0526</b>
+        <img src="https://avatars.githubusercontent.com/hanna0526" width="100px" style="border-radius: 10px;" />
       </a>
-      <br />✔️ 백엔드
     </td>
+  </tr>
+  <tr>
+    <td align="center"><b><a href="https://github.com/fullmoon1219">@fullmoon1219</a></b></td>
+    <td align="center"><b><a href="https://github.com/kkknature">@kkknature</a></b></td>
+    <td align="center"><b><a href="https://github.com/paht9939">@paht9939</a></b></td>
+    <td align="center"><b><a href="https://github.com/hanna0526">@hanna0526</a></b></td>
+  </tr>
+  <tr>
+    <td align="center">👑 팀장<br />✔️ 프론트 · 백엔드</td>
+    <td align="center">✔️ 백엔드</td>
+    <td align="center">✔️ 프론트</td>
+    <td align="center">✔️ 백엔드</td>
   </tr>
 </table>
 
